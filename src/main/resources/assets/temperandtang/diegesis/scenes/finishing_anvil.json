@@ -26,20 +26,22 @@
       ],
       "slot": {
         "slot": "weapon",
-        "size": 6
+        "size": 6,
+        "idle_highlight": 0.12
       },
       "tooltip": "temperandtang.scene.weapon"
     },
     {
       "id": "material",
       "pos": [
-        15,
         16,
-        12
+        16,
+        13
       ],
       "slot": {
         "slot": "material",
-        "size": 3
+        "size": 3,
+        "idle_highlight": 0.12
       },
       "tooltip": "temperandtang.scene.material"
     },
@@ -52,34 +54,52 @@
       ],
       "slot": {
         "slot": "hammer",
-        "size": 3
+        "size": 3,
+        "idle_highlight": 0.12
       },
       "tooltip": "temperandtang.scene.hammer"
     },
     {
       "id": "strike",
-      "template": "diegesis:control/button",
       "pos": [
-        8,
-        18,
-        -1
+        14,
+        17,
+        8
       ],
-      "scale": 1,
+      "scale": 0.65,
       "control": {
-        "control": "strike"
+        "control": "strike",
+        "type": "button",
+        "axis": [
+          0,
+          -1,
+          0
+        ],
+        "range": [
+          0,
+          0.3
+        ]
       },
       "tooltip": "temperandtang.scene.strike",
       "collider": {
         "from": [
-          -4,
+          -6,
           0,
           -4
         ],
         "to": [
-          4,
           6,
+          17,
           4
         ]
+      },
+      "rotation": [
+        0,
+        0,
+        50
+      ],
+      "visual": {
+        "model": "temperandtang:diegesis/striking_hammer"
       }
     },
     {
@@ -95,5 +115,13 @@
       },
       "tooltip": "temperandtang.scene.result"
     }
-  ]
+  ],
+  "inventory_drawer": {
+    "side": "bottom",
+    "style": "minimal",
+    "always_open": true,
+    "compact": true,
+    "margin": 8,
+    "carry_size": 3.5
+  }
 }

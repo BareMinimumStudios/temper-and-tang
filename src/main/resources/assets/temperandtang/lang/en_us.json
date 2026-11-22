@@ -22,7 +22,7 @@
   "temperandtang.scene.weapon": "Place a weapon",
   "temperandtang.scene.material": "Place a finishing material",
   "temperandtang.scene.hammer": "Place a smithing hammer",
-  "temperandtang.scene.strike": "Strike \u2014 click or press Space; wait briefly between blows",
+  "temperandtang.scene.strike": "Strike with the hammer \u2014 click or press Space",
   "temperandtang.scene.result": "Take the finished weapon (costs experience)",
   "item.temperandtang.bronze_blend": "Bronze Blend",
   "block.temperandtang.tin_block": "Block of Tin",
@@ -31,7 +31,15 @@
   "temperandtang.station.empty_cursor": "Put the carried item back in your inventory before striking.",
   "temperandtang.station.insert_weapon": "Place one unfinished weapon in the weapon slot.",
   "temperandtang.station.insert_material": "Place a finishing material in the material slot.",
-  "temperandtang.station.insert_hammer": "Place a Smithing Hammer in the hammer slot.",
+  "temperandtang.station.insert_hammer": "Place a Smithing Hammer here (Temper & Tang or Overgeared).",
   "temperandtang.station.take_result": "Finished! Take the weapon above the anvil (%3$s XP levels).",
-  "temperandtang.station.instructions": "Click the red strike button or press Space. Strikes: %1$s / %2$s"
+  "temperandtang.station.instructions": "Click the working hammer or press Space. Strikes: %1$s / %2$s",
+  "temperandtang.station.invalid_weapon": "This finish needs an unfinished weapon with enough remaining durability.",
+  "temperandtang.station.worn_hammer": "Replace the worn hammer: this finish needs %2$s durability.",
+  "temperandtang.station.need_experience": "The weapon is ready. You need %3$s XP levels to take it.",
+  "temperandtang.tooltip.damage": "%s attack damage",
+  "temperandtang.tooltip.speed": "%s attack speed",
+  "temperandtang.tooltip.durability": "%s maximum durability",
+  "temperandtang.tooltip.material": "Use one in a Finishing Anvil with a weapon and hammer.",
+  "temperandtang.tooltip.hammer": "Finishing Anvil tool. Click its working hammer or press Space."
 }

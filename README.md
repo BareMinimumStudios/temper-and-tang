@@ -8,17 +8,18 @@ The first playable implementation is a **Diegesis finishing anvil**: place a wea
 
 - Tin ore generation in new Overworld chunks, raw tin and smelting.
 - Bronze blend: three copper ingots plus one tin ingot makes four blend; smelting each blend produces one bronze ingot.
-- A bronze-repaired sword, material tags, and a reusable smithing hammer.
+- A bronze-repaired sword, common material/tool tags, and a reusable smithing hammer.
+- An animated working hammer, metalworking sounds, readable progress captions and a compact inventory tray. Finishing materials describe their effects in tooltips.
 - Four deliberate finishes: tempered, keen, weighted and lightened. One finish per weapon by default; optional replacement retains the original durability baseline and does not stack modifiers.
 - Enchantments, names, existing attribute entries and other mod data survive finishing.
 - Simply Swords and Simply More weapons work in the finishing station without requiring a separate compatibility mod. Both are optional dependencies.
-- With Overgeared installed, untouched basic Simply Swords iron/gold grid recipes are adapted to native forging. Existing forging/assembly recipes, upgrades and unique recipes are left alone.
+- With Overgeared installed, the bronze sword and untouched basic Simply Swords iron/gold grid recipes are adapted to native forging. Existing forging/assembly recipes, upgrades and unique recipes are left alone.
 
 ## Playing
 
 Install the correct loader JAR, Fzzy Config, Diegesis **beta.17** for your loader, and Fabric Language Kotlin or Kotlin for Forge. See `libraries.toml` for exact development dependency pins. Install Simply Swords, Simply More and Overgeared separately if desired.
 
-Craft the Finishing Anvil, hammer and finishing material. Open the anvil, place a single damageable weapon, material and hammer in its world-space slots, then click the red strike control or press Space six times, waiting between blows. Keep the cursor empty. A caption shows the missing input, current strike count or finished output. Taking a valid result consumes one material, six hammer durability and two experience levels by default. Leaving the station returns its inputs through Diegesis; no ingredients are consumed merely to preview a result.
+Craft the Finishing Anvil, hammer and finishing material. Open the anvil, place a single damageable weapon, material and hammer in its world-space slots, then click the working hammer or press Space six times, waiting between blows. Keep the cursor empty. A caption shows the missing input, current strike count or finished output. Taking a valid result consumes one material, six hammer durability and two experience levels by default. Leaving the station returns its inputs through Diegesis; no ingredients are consumed merely to preview a result.
 
 | Finish | Default benefit | Tradeoff |
 | --- | --- | --- |
@@ -52,4 +53,3 @@ See [design](docs/DESIGN.md), [compatibility](docs/COMPATIBILITY.md), [developme
 ## License
 
 The Bare Minimum License v1.0 applies to this project. See `LICENSE` and `THIRD_PARTY_NOTICES.txt`. External mods retain their own licenses and are not bundled.
-

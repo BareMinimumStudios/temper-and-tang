@@ -1,0 +1,177 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "minecraft:block/iron_block",
+    "head": "minecraft:block/anvil",
+    "handle": "minecraft:block/stripped_oak_log",
+    "grip": "minecraft:block/dark_oak_planks",
+    "face": "minecraft:block/iron_block"
+  },
+  "elements": [
+    {
+      "name": "wooden_handle",
+      "from": [
+        7,
+        0,
+        7
+      ],
+      "to": [
+        9,
+        13,
+        9
+      ],
+      "faces": {
+        "north": {
+          "texture": "#handle"
+        },
+        "south": {
+          "texture": "#handle"
+        },
+        "east": {
+          "texture": "#handle"
+        },
+        "west": {
+          "texture": "#handle"
+        },
+        "up": {
+          "texture": "#handle"
+        },
+        "down": {
+          "texture": "#handle"
+        }
+      }
+    },
+    {
+      "name": "wrapped_grip",
+      "from": [
+        6.6,
+        0,
+        6.6
+      ],
+      "to": [
+        9.4,
+        5,
+        9.4
+      ],
+      "faces": {
+        "north": {
+          "texture": "#grip"
+        },
+        "south": {
+          "texture": "#grip"
+        },
+        "east": {
+          "texture": "#grip"
+        },
+        "west": {
+          "texture": "#grip"
+        },
+        "up": {
+          "texture": "#grip"
+        },
+        "down": {
+          "texture": "#grip"
+        }
+      }
+    },
+    {
+      "name": "forged_head",
+      "from": [
+        3,
+        11,
+        5
+      ],
+      "to": [
+        13,
+        16,
+        11
+      ],
+      "faces": {
+        "north": {
+          "texture": "#head"
+        },
+        "south": {
+          "texture": "#head"
+        },
+        "east": {
+          "texture": "#head"
+        },
+        "west": {
+          "texture": "#head"
+        },
+        "up": {
+          "texture": "#head"
+        },
+        "down": {
+          "texture": "#head"
+        }
+      }
+    },
+    {
+      "name": "left_striking_face",
+      "from": [
+        2.5,
+        10.7,
+        4.7
+      ],
+      "to": [
+        4,
+        16.3,
+        11.3
+      ],
+      "faces": {
+        "north": {
+          "texture": "#face"
+        },
+        "south": {
+          "texture": "#face"
+        },
+        "east": {
+          "texture": "#face"
+        },
+        "west": {
+          "texture": "#face"
+        },
+        "up": {
+          "texture": "#face"
+        },
+        "down": {
+          "texture": "#face"
+        }
+      }
+    },
+    {
+      "name": "right_striking_face",
+      "from": [
+        12,
+        10.7,
+        4.7
+      ],
+      "to": [
+        13.5,
+        16.3,
+        11.3
+      ],
+      "faces": {
+        "north": {
+          "texture": "#face"
+        },
+        "south": {
+          "texture": "#face"
+        },
+        "east": {
+          "texture": "#face"
+        },
+        "west": {
+          "texture": "#face"
+        },
+        "up": {
+          "texture": "#face"
+        },
+        "down": {
+          "texture": "#face"
+        }
+      }
+    }
+  ]
+}

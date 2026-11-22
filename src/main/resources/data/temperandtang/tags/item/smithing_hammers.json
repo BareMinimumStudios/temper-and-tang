@@ -1,6 +1,18 @@
 {
   "replace": false,
   "values": [
-    "temperandtang:smithing_hammer"
+    "temperandtang:smithing_hammer",
+    {
+      "id": "#c:tools/hammers",
+      "required": false
+    },
+    {
+      "id": "overgeared:smithing_hammer",
+      "required": false
+    },
+    {
+      "id": "overgeared:copper_smithing_hammer",
+      "required": false
+    }
   ]
 }
