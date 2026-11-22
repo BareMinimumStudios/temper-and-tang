@@ -13,7 +13,7 @@ def artifacts():
                 m = json.loads(z.read("fabric.mod.json"))
                 assert m["id"] == "temperandtang"
                 assert "diegesis" in m["depends"] and "fzzy_config" in m["depends"]
-                assert m["entrypoints"]["main"]
+                assert m["entrypoints"]["main"] and m["entrypoints"]["client"]
                 loader = "fabric"
             elif "META-INF/neoforge.mods.toml" in files:
                 m = tomllib.loads(z.read("META-INF/neoforge.mods.toml").decode())
@@ -28,6 +28,11 @@ def artifacts():
             assert "assets/temperandtang/diegesis/scenes/finishing_anvil.json" in files
             assert "com/bareminimumstudios/temperandtang/station/FinishingStation.class" in files
             assert "temperandtang.mixins.json" in files
+            assert "com/bareminimumstudios/temperandtang/client/TemperClient.class" in files
+            assert "assets/temperandtang/models/diegesis/striking_hammer.json" in files
+            assert "assets/temperandtang/models/block/finishing_anvil.json" in files
+            assert not any(n.startswith("com/bareminimumstudios/temperandtang/qa/") for n in files)
+            assert "HiddenWindowMixin" not in z.read("temperandtang.mixins.json").decode()
             for n in files:
                 if n.endswith(".json"): json.loads(z.read(n))
             found[loader] = p

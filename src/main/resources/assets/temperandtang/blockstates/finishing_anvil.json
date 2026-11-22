@@ -1,19 +1,19 @@
 {
   "variants": {
     "facing=north": {
-      "model": "minecraft:block/anvil",
+      "model": "temperandtang:block/finishing_anvil",
       "y": 0
     },
     "facing=east": {
-      "model": "minecraft:block/anvil",
+      "model": "temperandtang:block/finishing_anvil",
       "y": 90
     },
     "facing=south": {
-      "model": "minecraft:block/anvil",
+      "model": "temperandtang:block/finishing_anvil",
       "y": 180
     },
     "facing=west": {
-      "model": "minecraft:block/anvil",
+      "model": "temperandtang:block/finishing_anvil",
       "y": 270
     }
   }

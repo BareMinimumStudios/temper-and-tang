@@ -31,6 +31,8 @@ object TemperCommands {
             .then(Commands.literal("verify").executes { context ->
                 try {
                     verify(context.source)
+                    ForgingVerification.verify(context.source)
+                    RecipeVerification.verify(context.source)
                     context.source.sendSuccess({ Component.literal("Temper & Tang verification passed: station, materials, finishes, preservation and non-stacking.") }, false)
                     TemperAndTang.logger.info("TEMPER_VERIFY_PASSED")
                     1

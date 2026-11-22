@@ -13,7 +13,7 @@ object TemperContent {
         "tin_block" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)) },
         "bronze_block" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)) },
         "raw_tin_block" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.RAW_IRON_BLOCK)) },
-        "finishing_anvil" to { AnvilBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANVIL)) },
+        "finishing_anvil" to { FinishingAnvilBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANVIL)) },
     )
     val items: Map<String, () -> Item> = linkedMapOf(
         "raw_tin" to { Item(Item.Properties()) },

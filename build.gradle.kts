@@ -114,4 +114,3 @@ tasks.withType<Jar>().matching { it.name == "fabric1211Jar" || it.name == "neofo
     from(rootProject.file("LICENSE")) { into("META-INF/licenses"); rename { "temperandtang-LICENSE" } }
     from(rootProject.file("THIRD_PARTY_NOTICES.txt")) { into("META-INF/licenses") }
 }
-

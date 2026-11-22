@@ -25,7 +25,7 @@ class TemperConfig : Config(TemperAndTang.id("config")) {
     val integration = ConfigGroup("integration", true)
     var simplySwords = ValidatedBoolean(true)
     var simplyMore = ValidatedBoolean(true)
-    @Translatable.Desc("Route basic Simply Swords iron/gold recipes through Overgeared when installed. Reload datapacks after changing.")
+    @Translatable.Desc("Route the bronze sword and basic Simply Swords iron/gold recipes through Overgeared when installed. Reload datapacks after changing.")
     @ConfigGroup.Pop var overgearedRecipes = ValidatedBoolean(true)
     val finishes = ConfigGroup("finishes", true)
     var temperedDurability = ValidatedDouble(0.15, 1.0, 0.0)

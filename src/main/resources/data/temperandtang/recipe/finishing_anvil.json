@@ -7,7 +7,7 @@
   ],
   "key": {
     "C": {
-      "item": "minecraft:copper_ingot"
+      "tag": "c:ingots/copper"
     },
     "A": {
       "item": "minecraft:anvil"

@@ -16,15 +16,18 @@ object OvergearedRecipes {
                         raw.asJsonObject.getAsJsonArray("values")?.any { !TemperAndTang.modLoaded(it.asString) } == true
                 } == true
         }.toMutableMap()
-        if (!TemperAndTang.modLoaded("overgeared") || !TemperAndTang.config.overgearedRecipes.get() || !TemperAndTang.config.simplySwords.get()) return result
+        if (!TemperAndTang.modLoaded("overgeared") || !TemperAndTang.config.overgearedRecipes.get()) return result
         var changed = 0
         for ((id, element) in result.toMap()) {
-            if (id.namespace != "simplyswords" || !element.isJsonObject) continue
+            val ownBronze = id == TemperAndTang.id("bronze_sword")
+            val simply = id.namespace == "simplyswords" && TemperAndTang.modLoaded("simplyswords") && TemperAndTang.config.simplySwords.get()
+            if ((!ownBronze && !simply) || !element.isJsonObject) continue
             val recipe = element.asJsonObject
             if (recipe.get("type")?.asString != "minecraft:crafting_shaped") continue
             val output = recipe.getAsJsonObject("result") ?: continue
             val item = output.get("id")?.asString ?: continue
-            if (!item.startsWith("simplyswords:iron_") && !item.startsWith("simplyswords:gold_")) continue
+            if (!ownBronze && !item.startsWith("simplyswords:iron_") && !item.startsWith("simplyswords:gold_")) continue
+            if (ownBronze && item != "temperandtang:bronze_sword") continue
             val key = recipe.getAsJsonObject("key") ?: continue
             if (!recipe.has("pattern")) continue
             val forge = JsonObject()
@@ -48,7 +51,7 @@ object OvergearedRecipes {
             result[id] = forge
             changed++
         }
-        TemperAndTang.logger.info("Adapted {} basic Simply Swords recipes to Overgeared", changed)
+        TemperAndTang.logger.info("Adapted {} basic weapon recipes to Overgeared", changed)
         return result
     }
 }
