@@ -10,7 +10,9 @@ Material conventions use `c:` tags on both Fabric and NeoForge 1.21.1:
 
 Alloy/compression/decompression recipes accept shared tags. Owned ore smelting stays scoped to our ore/raw items, so we do not silently replace another mod's smelting recipes. Tags allow cross-mod ingredients; they do not forcibly replace or merge existing inventory stacks. Almost Unified can choose canonical outputs in a modpack.
 
-Weapons use `minecraft:swords` and `c:tools/melee_weapon`. The hammer is in `c:tools`. Mining tags are supplied for all metal blocks and ores. Common tags are additive (`replace: false`); there are no obsolete `forge:` aliases or hard dependency on a tech mod.
+Weapons use `minecraft:swords` and `c:tools/melee_weapon`. The hammer is in `c:tools` and `c:tools/hammers`. Native Overgeared hammers are optional members of `temperandtang:smithing_hammers`. Mining tags are supplied for all metal blocks and ores. Common tags are additive (`replace: false`); there are no obsolete `forge:` aliases or hard dependency on a tech mod.
+
+Crafting also accepts `c:ingots/copper`, `c:nuggets/iron`, `c:rods/wooden`, `c:leathers`, `c:strings`, `c:sands` and `minecraft:coals`. Vanilla fallback members keep these inputs usable on either loader. `temperandtang:tempering_binders` and `temperandtang:honing_abrasives` allow additional clay-like binders and abrasives without replacing recipes.
 
 ## Datapacks: no code required
 

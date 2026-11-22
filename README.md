@@ -19,7 +19,7 @@ The first playable implementation is a **Diegesis finishing anvil**: place a wea
 
 Install the correct loader JAR, Fzzy Config, Diegesis **beta.17** for your loader, and Fabric Language Kotlin or Kotlin for Forge. See `libraries.toml` for exact development dependency pins. Install Simply Swords, Simply More and Overgeared separately if desired.
 
-Craft the Finishing Anvil, hammer and finishing material. Open the anvil, place a single damageable weapon, material and hammer in its world-space slots, then click the working hammer or press Space six times, waiting between blows. Keep the cursor empty. A caption shows the missing input, current strike count or finished output. Taking a valid result consumes one material, six hammer durability and two experience levels by default. Leaving the station returns its inputs through Diegesis; no ingredients are consumed merely to preview a result.
+Craft the Finishing Anvil, hammer and finishing material. Open the anvil, place a single damageable weapon, material and hammer in its world-space slots, then click the working hammer or press Space six times, waiting between blows. Keep the cursor empty. A caption shows the missing input, current strike count or finished output. Temper & Tang and Overgeared smithing hammers are accepted; a hammer needs enough remaining durability for the work. Taking a valid result consumes one material, six hammer durability and two experience levels by default. Leaving the station returns its inputs through Diegesis; no ingredients are consumed merely to preview a result.
 
 | Finish | Default benefit | Tradeoff |
 | --- | --- | --- |
@@ -29,6 +29,10 @@ Craft the Finishing Anvil, hammer and finishing material. Open the anvil, place 
 | Lightened | +5% attack speed | -10% maximum durability |
 
 The config is `config/temperandtang/config.json5`. Server settings govern results. Reload datapacks after changing recipe integration settings. These finishes do not enable Simply Swords implicits or add armor-piercing effects.
+
+The finishing anvil is crafted with a vanilla anvil, two copper ingots and three planks. Craft the finishing materials in the normal grid; their tooltips list the effects. Both coal and charcoal work for tempering compound. Complete Overgeared forging, quenching and polishing as your pack requires before using the finishing station.
+
+![Finishing anvil in a tested survival session](docs/images/finishing-anvil.png)
 
 ## Development
 
@@ -46,7 +50,7 @@ The build creates separate Fabric and NeoForge JARs. Verified files, checksums, 
 
 ## Scope
 
-This is an initial prototype, not the complete heating/shaping/quenching simulation. The first workstation performs finishing; material-driven forging and further Diegesis scenes are next. Current item/block models reference vanilla textures as clearly temporary visuals; no third-party artwork is extracted. Tin appears only in newly generated chunks.
+This is an initial prototype, not the complete heating/shaping/quenching simulation. The first workstation performs finishing; material-driven forging and further Diegesis scenes are next. The workstation and hammer use original model geometry with Minecraft textures. Several material icons and ore textures remain placeholders; no third-party artwork is extracted. Tin appears only in newly generated chunks.
 
 See [design](docs/DESIGN.md), [compatibility](docs/COMPATIBILITY.md), [development](DEVELOPMENT.md) and [release checklist](docs/RELEASING.md), [public API](docs/API.md) and [verification record](docs/VERIFICATION.md).
 

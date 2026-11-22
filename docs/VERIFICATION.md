@@ -21,4 +21,31 @@ An isolated copy of New Test was used for a hidden NeoForge development client w
 
 The exact originally reported no-op could not be reproduced by clicking the old button center in this client fixture. Version 0.1.1 adds a larger explicit hitbox, visible guidance and an alternate input instead of assuming a confirmed root cause. The test copy excluded Diagonal Fences after an unrelated development-only model-loading failure; the installed profile was not changed by that exclusion. Other content and configurations were copied from New Test. The client harness is external to the shipped mod.
 
-Further visual refinement and cancellation, restriction, save/reload and iron/gold progression coverage are in progress.
+Follow-up coverage is recorded under 0.1.2 below.
+
+
+## 0.1.2 packaged prototype
+
+Java 21, Gradle 9.9.2, both loader builds, the common unit tests, resource verification, distributable metadata checks and release staging passed. The verifier checks that client initialization and workshop models are packaged and that temporary client-harness classes are absent.
+
+| Check | Result |
+| --- | --- |
+| Fabric and NeoForge with Overgeared/Simply Swords | 17 crafting, 8 cooking and 31 native forging recipes matched and assembled; item and station diagnostics passed |
+| Both loaders without those optional mods | 18 crafting and 8 cooking recipes matched and assembled; item and station diagnostics passed |
+| Native weapon spread | All 15 iron, 15 gold and the bronze sword recipe matched their native grids and assembled |
+| Actual packaged NeoForge client | Six mouse strikes and six Space presses completed two survival finishes; both outputs were taken through actual mouse picking |
+| Costs | One material, two levels and six hammer wear per completed finish; duplicate output refused |
+| Preservation | Damaged, named, enchanted iron sword and native Expert-quality gold longsword retained their data |
+| Real save/reload | Both named weapons, damage, enchantments, finishes and the gold weapon's Expert quality restored from a saved world |
+| Cancellation | Closing after three strikes returned the named enchanted weapon, foreign data, material and hammer without charging XP or wear |
+| Restrictions | Finished weapons refused repeat work; worn hammers, zero-XP output, click spam and writes to locked progress were checked |
+| XP recovery | A ready result remained obtainable after gaining enough levels, without repeating the work |
+| Tool integration | Native Overgeared hammer acceptance and wear passed the server scenarios |
+| Audio | Client received 12 accepted strike sounds and 2 completion sounds; cancelled work added 3 strikes and rejected work added none |
+| Reload/shutdown | Both integration servers reloaded recipes, re-verified, saved and stopped; client and standalone servers saved and stopped normally |
+
+The final client run loaded the actual NeoForge distribution JAR through a separate temporary harness. It did not compile a second copy of the mod's gameplay code. Its SHA256 was checked against the installed New Test file. An off-screen screenshot was inspected for the final wood/copper anvil, hammer target, captions and layout.
+
+The isolated client copy excluded Diagonal Fences because its model modification failed in the development launcher. This test-only exclusion was not applied to New Test. No live two-player contention test or complete human playthrough of every Overgeared timing minigame was performed. Native recipe matching/assembly and finishing were verified as described above. Further thermal simulation and additional artwork remain future work.
+
+New Test received 0.1.2 after its mods, settings, worlds and gameplay data were backed up and 1,308 files checked. Required dependency JARs matched the tested copies. Existing food unification, workshop progression, settings and worlds were preserved.
