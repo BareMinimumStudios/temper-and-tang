@@ -1,5 +1,7 @@
-# Temper & Tang 0.1.0 — initial prototype
+# Temper & Tang 0.1.1 — workstation input and feedback
 
-Initial Kotlin implementation for Fabric and NeoForge 1.21.1 using Diegesis and Fzzy Config. Adds a physical finishing anvil, four bounded weapon finishes, tin/bronze materials, ore generation and survival recipes. Supports Simply Swords/Simply More finishes and optional basic Simply Swords forging through Overgeared.
+Enlarges the red strike control and uses an explicit hitbox. Adds Space as an alternative strike input, persistent workstation instructions and server-synchronized progress. Both input routes use the same server-side timing, ingredient, weapon and XP checks.
 
-Experimental: full heating/shaping/quenching gameplay and original art are not yet implemented. Visual multiplayer testing is required before a stable release. See the repository verification record for checks actually performed.
+The initial materials, bounded weapon finishes, Simply Swords support and optional Overgeared forging integration remain available. Operator diagnostics include `/temperandtang verify` and `/temperandtang verify_station`; the latter uses temporary fixture items and does not alter a player's inventory or world blocks.
+
+This is a prototype. Full heating/shaping/quenching, original artwork and broader multiplayer playtesting remain future work.

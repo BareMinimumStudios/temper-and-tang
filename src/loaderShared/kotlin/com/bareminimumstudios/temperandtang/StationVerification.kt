@@ -55,8 +55,10 @@ object StationVerification {
         var next = source.level.gameTime
         jobs[source.server] = Job(source) {
             if (source.level.gameTime < next) false else {
-                check(ActionHandler.apply(context, logic, player, StationAction.Press("strike")))
+                val action = if (strikes % 2 == 0) StationAction.Press("strike") else StationAction.Custom("strike", CompoundTag())
+                check(ActionHandler.apply(context, logic, player, action))
                 strikes++
+                check(state.getControl("progress").toInt() == strikes) { "Progress not synchronized" }
                 next = source.level.gameTime + TemperAndTang.config.strikeIntervalTicks.get() + 1
                 if (strikes < required) {
                     check(state.getOutput("result").isEmpty) { "Premature output after $strikes strikes" }
@@ -72,7 +74,7 @@ object StationVerification {
                     check(logic.takeOutput(context, player, "result").isEmpty) { "Duplicate output" }
                     logic.updateOutputs(context)
                     check(state.getOutput("result").isEmpty) { "Stale output" }
-                    TemperAndTang.logger.info("TEMPER_STATION_VERIFY_PASSED: {} paced Diegesis Press actions, output, material, XP, hammer and duplicate prevention", strikes)
+                    TemperAndTang.logger.info("TEMPER_STATION_VERIFY_PASSED: {} paced Diegesis button/keyboard actions, output, material, XP, hammer and duplicate prevention", strikes)
                     true
                 }
             }
@@ -94,3 +96,4 @@ object StationVerification {
     }
     fun stop(server: MinecraftServer) { jobs.remove(server) }
 }
+

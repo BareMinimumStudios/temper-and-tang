@@ -18,7 +18,7 @@ The first playable implementation is a **Diegesis finishing anvil**: place a wea
 
 Install the correct loader JAR, Fzzy Config, Diegesis **beta.17** for your loader, and Fabric Language Kotlin or Kotlin for Forge. See `libraries.toml` for exact development dependency pins. Install Simply Swords, Simply More and Overgeared separately if desired.
 
-Craft the Finishing Anvil, hammer and finishing material. Open the anvil, place a single damageable weapon, material and hammer in its world-space slots, then press the strike control six times, waiting between blows. Taking a valid result consumes one material, six hammer durability and two experience levels by default. Leaving the station returns its inputs through Diegesis; no ingredients are consumed merely to preview a result.
+Craft the Finishing Anvil, hammer and finishing material. Open the anvil, place a single damageable weapon, material and hammer in its world-space slots, then click the red strike control or press Space six times, waiting between blows. Keep the cursor empty. A caption shows the missing input, current strike count or finished output. Taking a valid result consumes one material, six hammer durability and two experience levels by default. Leaving the station returns its inputs through Diegesis; no ingredients are consumed merely to preview a result.
 
 | Finish | Default benefit | Tradeoff |
 | --- | --- | --- |
@@ -52,3 +52,4 @@ See [design](docs/DESIGN.md), [compatibility](docs/COMPATIBILITY.md), [developme
 ## License
 
 The Bare Minimum License v1.0 applies to this project. See `LICENSE` and `THIRD_PARTY_NOTICES.txt`. External mods retain their own licenses and are not bundled.
+

@@ -38,6 +38,7 @@ cloche {
     fabric("fabric:1.21.1") {
         minecraftVersion = "1.21.1"
         loaderVersion = libs.versions.fabric.loader
+        includedClient()
         runs { server(); client() }
         dependencies {
             fabricApi(libs.versions.fabric.api)
@@ -53,6 +54,10 @@ cloche {
                 dependency { modId = "fabric-language-kotlin"; version(libs.versions.fabric.language.kotlin.get()) }
                 dependency { modId = "fzzy_config"; version(libs.versions.fzzy.fabric.get()) }
                 dependency { modId = "diegesis"; version("1.0.0-beta.17") }
+            }
+            entrypoint("client") {
+                adapter.set("kotlin")
+                value.set("com.bareminimumstudios.temperandtang.platform.TemperFabricClient")
             }
             entrypoint("main") {
                 adapter.set("kotlin")
@@ -109,3 +114,4 @@ tasks.withType<Jar>().matching { it.name == "fabric1211Jar" || it.name == "neofo
     from(rootProject.file("LICENSE")) { into("META-INF/licenses"); rename { "temperandtang-LICENSE" } }
     from(rootProject.file("THIRD_PARTY_NOTICES.txt")) { into("META-INF/licenses") }
 }
+

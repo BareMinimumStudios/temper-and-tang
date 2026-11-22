@@ -22,10 +22,16 @@
   "temperandtang.scene.weapon": "Place a weapon",
   "temperandtang.scene.material": "Place a finishing material",
   "temperandtang.scene.hammer": "Place a smithing hammer",
-  "temperandtang.scene.strike": "Strike \u2014 wait briefly between blows",
+  "temperandtang.scene.strike": "Strike \u2014 click or press Space; wait briefly between blows",
   "temperandtang.scene.result": "Take the finished weapon (costs experience)",
   "item.temperandtang.bronze_blend": "Bronze Blend",
   "block.temperandtang.tin_block": "Block of Tin",
   "block.temperandtang.bronze_block": "Block of Bronze",
-  "block.temperandtang.raw_tin_block": "Block of Raw Tin"
+  "block.temperandtang.raw_tin_block": "Block of Raw Tin",
+  "temperandtang.station.empty_cursor": "Put the carried item back in your inventory before striking.",
+  "temperandtang.station.insert_weapon": "Place one unfinished weapon in the weapon slot.",
+  "temperandtang.station.insert_material": "Place a finishing material in the material slot.",
+  "temperandtang.station.insert_hammer": "Place a Smithing Hammer in the hammer slot.",
+  "temperandtang.station.take_result": "Finished! Take the weapon above the anvil (%3$s XP levels).",
+  "temperandtang.station.instructions": "Click the red strike button or press Space. Strikes: %1$s / %2$s"
 }

@@ -11,6 +11,7 @@ import com.pockyl.diegesis.api.state.StationSchema
 import com.pockyl.diegesis.api.station.StationContext
 import com.pockyl.diegesis.api.station.StationLogic
 import net.minecraft.network.chat.Component
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.core.registries.Registries
@@ -30,6 +31,7 @@ object FinishingStation {
                 .slots("material", 1, SlotRules.DEFAULT.accepts { WeaponFinishes.ingredient(it) != null })
                 .slots("hammer", 1, SlotRules.DEFAULT.maxStack(1).accepts { it.isDamageableItem && it.`is`(TagKey.create(Registries.ITEM, TemperAndTang.id("smithing_hammers"))) })
                 .control("strike", ControlSpec.button())
+                .control("progress", ControlSpec.range(0f, 40f, 0f).locked())
                 .output("result").build())
             .exclusive()
             .openWhen { _, _, _ -> TemperAndTang.config.enabled.get() }
@@ -38,7 +40,13 @@ object FinishingStation {
     }
     private class Logic : StationLogic {
         private val progress = WorkProgress()
-        override fun onSlotChanged(station: StationContext, slot: SlotRef) { progress.reset() }
+        override fun onSlotChanged(station: StationContext, slot: SlotRef) {
+            progress.reset()
+            station.state().setControl("progress", 0f)
+        }
+        override fun onCustomAction(station: StationContext, player: Player, action: String, data: CompoundTag) {
+            if (action == "strike") onButton(station, player, "strike")
+        }
         override fun onButton(station: StationContext, player: Player, control: String) {
             if (control != "strike" || !TemperAndTang.config.enabled.get() || station.isClientSide) return
             val state = station.state()
@@ -46,6 +54,7 @@ object FinishingStation {
             if (state.getItem(HAMMER).isEmpty || WeaponFinishes.preview(state.getItem(WEAPON), finish).isEmpty) return
             val config = TemperAndTang.config
             if (!progress.strike(station.level().gameTime, config.strikeIntervalTicks.get(), config.requiredStrikes.get())) return
+            state.setControl("progress", progress.strikes.toFloat())
             station.level().playSound(null, station.pos(), SoundEvents.ANVIL_USE, SoundSource.BLOCKS, 0.4f, 1.0f)
             player.displayClientMessage(Component.translatable("temperandtang.station.progress", progress.strikes, config.requiredStrikes.get()), true)
             updateOutputs(station)
@@ -76,6 +85,7 @@ object FinishingStation {
             state.setItem(MATERIAL, material)
             state.setItem(HAMMER, if (hammer.damageValue >= hammer.maxDamage) ItemStack.EMPTY else hammer)
             progress.reset()
+            state.setControl("progress", 0f)
             return result
         }
     }

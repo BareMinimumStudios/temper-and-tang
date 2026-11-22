@@ -16,6 +16,7 @@ import net.neoforged.bus.api.IEventBus
 import net.neoforged.fml.ModList
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import net.neoforged.neoforge.registries.DeferredRegister
 
@@ -32,6 +33,7 @@ class TemperNeoForge(bus: IEventBus) {
         NeoForge.EVENT_BUS.addListener { event: RegisterCommandsEvent -> TemperCommands.register(event.dispatcher) }
         NeoForge.EVENT_BUS.addListener { event: ServerTickEvent.Post -> StationVerification.tick(event.server) }
         NeoForge.EVENT_BUS.addListener { event: ServerStoppedEvent -> StationVerification.stop(event.server) }
+        bus.addListener { event: FMLClientSetupEvent -> event.enqueueWork { com.bareminimumstudios.temperandtang.client.TemperClient.initialize() } }
         blocks.register(bus)
         items.register(bus)
         bus.addListener { event: FMLCommonSetupEvent -> event.enqueueWork { TemperAndTang.initialize { ModList.get().isLoaded(it) } } }

@@ -13,3 +13,12 @@ Known external log messages: Fabric Simply Swords emits missing entity data-fixe
 Not verified: graphical client rendering, player interaction with Diegesis slot/button placement, multiplayer contention in a live client, long-duration gameplay balance and the complete material heating/shaping progression. Current artwork uses vanilla texture placeholders. These checks establish a server-tested prototype, not a finished release.
 
 All test worlds and downloaded reference dependencies were isolated outside the repository and existing Modrinth profiles. No profile was modified and nothing was published.
+## 0.1.1 workstation input checks
+
+Both dedicated-server targets passed item preservation and the new paced station-action diagnostic, including alternating button and keyboard action paths, synchronized progress, one-material consumption, XP cost, hammer wear and duplicate-output prevention. Both saved and stopped normally.
+
+An isolated copy of New Test was used for a hidden NeoForge development client with a copied world. Automated clicks went through the actual Diegesis FocusScreen, filled the three slots, struck six times, took the finished weapon, and checked the resulting item, consumed material, two-level XP cost and six hammer wear. A second weapon completed the same cycle through six Space-key presses. Both complete routes passed. The caption and enlarged control were inspected from an off-screen screenshot.
+
+The exact originally reported no-op could not be reproduced by clicking the old button center in this client fixture. Version 0.1.1 adds a larger explicit hitbox, visible guidance and an alternate input instead of assuming a confirmed root cause. The test copy excluded Diagonal Fences after an unrelated development-only model-loading failure; the installed profile was not changed by that exclusion. Other content and configurations were copied from New Test. The client harness is external to the shipped mod.
+
+Further visual refinement and cancellation, restriction, save/reload and iron/gold progression coverage are in progress.
