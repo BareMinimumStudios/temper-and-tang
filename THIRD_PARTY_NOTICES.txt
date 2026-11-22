@@ -1,0 +1,12 @@
+Temper & Tang is an independently implemented project under the Bare Minimum License.
+
+Design and compatibility references inspected:
+- Overgeared by phuccom000/stirdrem, MIT, https://github.com/phuccom000/Overgeared
+- Diegesis by Pocky, MIT, https://github.com/Pocky-l/diegesis
+- OvergearedXSimplySwords (NeoForge) by Exers and credited contributors,
+  https://www.curseforge.com/minecraft/mc-mods/overgearedxsimplyswords-1-21-1
+
+These projects are not bundled. No third-party textures, models, sounds or code
+are copied into this initial implementation. Their licenses remain their own.
+Simply Swords is an optional external mod under its own custom license.
+Vanilla Minecraft item texture references resolve from the user's game installation.

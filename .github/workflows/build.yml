@@ -1,0 +1,28 @@
+name: Build and verify
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: gradle/actions/setup-gradle@v4
+      - run: chmod +x gradlew scripts/build.sh
+      - run: scripts/build.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: temper-and-tang-1.21.1
+          path: build/release/
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: verification-reports
+          path: build/reports/

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "temperandtang:raw_tin"
+  },
+  "result": {
+    "id": "temperandtang:tin_ingot"
+  },
+  "experience": 0.7,
+  "cookingtime": 200
+}

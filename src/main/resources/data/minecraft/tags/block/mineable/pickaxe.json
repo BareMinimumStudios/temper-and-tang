@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "temperandtang:tin_ore",
+    "temperandtang:deepslate_tin_ore",
+    "temperandtang:finishing_anvil",
+    "temperandtang:tin_block",
+    "temperandtang:bronze_block",
+    "temperandtang:raw_tin_block"
+  ]
+}

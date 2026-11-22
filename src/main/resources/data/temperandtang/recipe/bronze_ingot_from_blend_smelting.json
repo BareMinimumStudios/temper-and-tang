@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "temperandtang:bronze_blend"
+  },
+  "result": {
+    "id": "temperandtang:bronze_ingot"
+  },
+  "experience": 0.3,
+  "cookingtime": 200
+}

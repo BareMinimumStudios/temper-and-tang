@@ -1,0 +1,87 @@
+{
+  "camera": {
+    "position": [
+      26,
+      32,
+      -18
+    ],
+    "target": [
+      8,
+      15,
+      8
+    ],
+    "fov": 55
+  },
+  "interface": {
+    "inventory_panel": true,
+    "show_counts": true
+  },
+  "nodes": [
+    {
+      "id": "weapon",
+      "pos": [
+        8,
+        17,
+        8
+      ],
+      "slot": {
+        "slot": "weapon",
+        "size": 6
+      },
+      "tooltip": "temperandtang.scene.weapon"
+    },
+    {
+      "id": "material",
+      "pos": [
+        15,
+        16,
+        12
+      ],
+      "slot": {
+        "slot": "material",
+        "size": 3
+      },
+      "tooltip": "temperandtang.scene.material"
+    },
+    {
+      "id": "hammer",
+      "pos": [
+        0,
+        16,
+        12
+      ],
+      "slot": {
+        "slot": "hammer",
+        "size": 3
+      },
+      "tooltip": "temperandtang.scene.hammer"
+    },
+    {
+      "id": "strike",
+      "template": "diegesis:control/button",
+      "pos": [
+        8,
+        16,
+        -1
+      ],
+      "scale": 0.65,
+      "control": {
+        "control": "strike"
+      },
+      "tooltip": "temperandtang.scene.strike"
+    },
+    {
+      "id": "result",
+      "pos": [
+        8,
+        23,
+        14
+      ],
+      "output": {
+        "output": "result",
+        "size": 5
+      },
+      "tooltip": "temperandtang.scene.result"
+    }
+  ]
+}
