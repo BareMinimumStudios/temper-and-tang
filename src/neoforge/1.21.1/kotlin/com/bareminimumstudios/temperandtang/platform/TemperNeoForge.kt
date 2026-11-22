@@ -1,6 +1,9 @@
 package com.bareminimumstudios.temperandtang.platform
 import com.bareminimumstudios.temperandtang.TemperAndTang
 import com.bareminimumstudios.temperandtang.TemperCommands
+import com.bareminimumstudios.temperandtang.StationVerification
+import net.neoforged.neoforge.event.tick.ServerTickEvent
+import net.neoforged.neoforge.event.server.ServerStoppedEvent
 import net.neoforged.neoforge.common.NeoForge
 import net.neoforged.neoforge.event.RegisterCommandsEvent
 import com.bareminimumstudios.temperandtang.content.TemperContent
@@ -27,6 +30,8 @@ class TemperNeoForge(bus: IEventBus) {
         }
         TemperContent.items.forEach { (name, factory) -> items.register(name, java.util.function.Supplier<Item> { factory() }) }
         NeoForge.EVENT_BUS.addListener { event: RegisterCommandsEvent -> TemperCommands.register(event.dispatcher) }
+        NeoForge.EVENT_BUS.addListener { event: ServerTickEvent.Post -> StationVerification.tick(event.server) }
+        NeoForge.EVENT_BUS.addListener { event: ServerStoppedEvent -> StationVerification.stop(event.server) }
         blocks.register(bus)
         items.register(bus)
         bus.addListener { event: FMLCommonSetupEvent -> event.enqueueWork { TemperAndTang.initialize { ModList.get().isLoaded(it) } } }

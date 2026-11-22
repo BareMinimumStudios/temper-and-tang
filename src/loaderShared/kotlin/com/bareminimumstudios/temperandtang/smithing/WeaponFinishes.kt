@@ -35,13 +35,13 @@ object WeaponFinishes {
         val prior = custom.getCompound(ROOT)
         if (prior.contains("finish") && !TemperAndTang.config.allowRefinishing.get()) return ItemStack.EMPTY
         if (prior.getString("finish") == finish.key) return ItemStack.EMPTY
-        val base = if (prior.contains("base_durability")) prior.getInt("base_durability") else input.maxDamage
+        val base = if (prior.contains("base_durability")) prior.getInt("base_durability") else input.getOrDefault(DataComponents.MAX_DAMAGE, input.maxDamage)
         val effect = FinishRules.effect(finish, TemperAndTang.config.balance())
         val maximum = FinishRules.maximumDurability(base, effect)
-        if (input.damageValue >= maximum) return ItemStack.EMPTY
         val result = input.copy()
         val builder = ItemAttributeModifiers.builder()
-        input.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.EMPTY).modifiers().forEach {
+        val attributes = input.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.EMPTY)
+        attributes.modifiers().forEach {
             if (it.modifier().id().namespace != TemperAndTang.MOD_ID)
                 builder.add(it.attribute(), it.modifier(), it.slot())
         }
@@ -49,8 +49,9 @@ object WeaponFinishes {
             AttributeModifier(TemperAndTang.id("finish_damage"), effect.damage, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND)
         if (effect.speed != 0.0) builder.add(Attributes.ATTACK_SPEED,
             AttributeModifier(TemperAndTang.id("finish_speed"), effect.speed, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND)
-        result.set(DataComponents.ATTRIBUTE_MODIFIERS, builder.build())
+        result.set(DataComponents.ATTRIBUTE_MODIFIERS, builder.build().withTooltip(attributes.showInTooltip()))
         result.set(DataComponents.MAX_DAMAGE, maximum)
+        if (input.damageValue >= result.maxDamage) return ItemStack.EMPTY
         val mark = CompoundTag()
         mark.putInt("version", 1)
         mark.putString("finish", finish.key)

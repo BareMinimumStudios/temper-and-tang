@@ -7,10 +7,18 @@ import net.minecraft.resources.ResourceLocation
 /** Preserve patterns and upgrades; only adapt untouched basic iron/gold grid recipes. */
 object OvergearedRecipes {
     fun apply(source: Map<ResourceLocation, JsonElement>): Map<ResourceLocation, JsonElement> {
-        if (!TemperAndTang.modLoaded("overgeared") || !TemperAndTang.config.overgearedRecipes.get() || !TemperAndTang.config.simplySwords.get()) return source
-        val result = source.toMutableMap()
+        // Some upstream NeoForge recipes still use Fabric/legacy Forge conditions.
+        // Honor explicit absent-mod guards, scoped to Simply Swords, before parsing.
+        val result = source.filterNot { (id, element) ->
+            id.namespace == "simplyswords" && element.isJsonObject &&
+                element.asJsonObject.getAsJsonArray("fabric:load_conditions")?.any { raw ->
+                    raw.isJsonObject && raw.asJsonObject.get("condition")?.asString == "fabric:all_mods_loaded" &&
+                        raw.asJsonObject.getAsJsonArray("values")?.any { !TemperAndTang.modLoaded(it.asString) } == true
+                } == true
+        }.toMutableMap()
+        if (!TemperAndTang.modLoaded("overgeared") || !TemperAndTang.config.overgearedRecipes.get() || !TemperAndTang.config.simplySwords.get()) return result
         var changed = 0
-        for ((id, element) in source) {
+        for ((id, element) in result.toMap()) {
             if (id.namespace != "simplyswords" || !element.isJsonObject) continue
             val recipe = element.asJsonObject
             if (recipe.get("type")?.asString != "minecraft:crafting_shaped") continue
@@ -33,6 +41,7 @@ object OvergearedRecipes {
             forge.addProperty("hammering", 4)
             forge.addProperty("has_quality", true)
             forge.addProperty("requires_blueprint", false)
+            forge.add("blueprint", com.google.gson.JsonArray().also { it.add("sword") })
             forge.addProperty("need_quenching", item.startsWith("simplyswords:iron_"))
             for (field in listOf("fabric:load_conditions", "neoforge:conditions"))
                 if (recipe.has(field)) forge.add(field, recipe.get(field).deepCopy())

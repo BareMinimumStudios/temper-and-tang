@@ -1,6 +1,9 @@
 package com.bareminimumstudios.temperandtang.platform
 import com.bareminimumstudios.temperandtang.TemperAndTang
 import com.bareminimumstudios.temperandtang.TemperCommands
+import com.bareminimumstudios.temperandtang.StationVerification
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import com.bareminimumstudios.temperandtang.content.TemperContent
 import net.fabricmc.api.ModInitializer
@@ -30,6 +33,8 @@ object TemperFabric : ModInitializer {
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Decoration.UNDERGROUND_ORES,
             ResourceKey.create(Registries.PLACED_FEATURE, TemperAndTang.id("tin_ore")))
         TemperAndTang.initialize { FabricLoader.getInstance().isModLoaded(it) }
+        ServerTickEvents.END_SERVER_TICK.register(StationVerification::tick)
+        ServerLifecycleEvents.SERVER_STOPPED.register(StationVerification::stop)
         CommandRegistrationCallback.EVENT.register { dispatcher, _, _ -> TemperCommands.register(dispatcher) }
     }
 }

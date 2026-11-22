@@ -47,7 +47,7 @@ The build creates separate Fabric and NeoForge JARs. Verified files, checksums, 
 
 This is an initial prototype, not the complete heating/shaping/quenching simulation. The first workstation performs finishing; material-driven forging and further Diegesis scenes are next. Current item/block models reference vanilla textures as clearly temporary visuals; no third-party artwork is extracted. Tin appears only in newly generated chunks.
 
-See [design](docs/DESIGN.md), [compatibility](docs/COMPATIBILITY.md), [development](DEVELOPMENT.md) and [release checklist](docs/RELEASING.md).
+See [design](docs/DESIGN.md), [compatibility](docs/COMPATIBILITY.md), [development](DEVELOPMENT.md) and [release checklist](docs/RELEASING.md), [public API](docs/API.md) and [verification record](docs/VERIFICATION.md).
 
 ## License
 

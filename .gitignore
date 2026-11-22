@@ -7,3 +7,6 @@ run-*/
 *.iml
 *.log
 .DS_Store
+
+__pycache__/
+*.py[cod]
