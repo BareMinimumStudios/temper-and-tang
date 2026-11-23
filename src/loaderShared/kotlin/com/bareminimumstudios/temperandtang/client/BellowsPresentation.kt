@@ -31,17 +31,30 @@ class BellowsPresentation {
         }
         return b.build()
     }
+    private fun ring(i:Int,j:Int,angle:Float):Vector3f {
+        val u=j/6f;val p=outline[i];val inset=if(j%2==0)1f else .88f
+        val z=7f+(p.second-7f)*(1-u+u*cos(angle))
+        val top=1.25f+(7f-p.second)*sin(angle)
+        return Vector3f(p.first*inset,.65f+(top-.65f)*u,7f+(z-7f)*inset)
+    }
     private fun leather(angle:Float):MeshShape {
         val b=MeshShape.builder()
-        fun ring(i:Int,j:Int):Vector3f {
-            val u=j/6f;val p=outline[i];val inset=if(j%2==0)1f else .88f
-            val z=7f+(p.second-7f)*(1-u+u*cos(angle))
-            val top=1.25f+(7f-p.second)*sin(angle)
-            return Vector3f(p.first*inset,.65f+(top-.65f)*u,7f+(z-7f)*inset)
-        }
         for(i in outline.indices)for(j in 0..5) {
             val next=(i+1)%outline.size
-            quad(b,ring(i,j),ring(next,j),ring(next,j+1),ring(i,j+1))
+            quad(b,ring(i,j,angle),ring(next,j,angle),ring(next,j+1,angle),ring(i,j+1,angle))
+        }
+        return b.build()
+    }
+    private fun welts(angle:Float):MeshShape {
+        val b=MeshShape.builder()
+        fun edge(i:Int,j:Int):Vector3f {
+            val p=ring(i,j,angle)
+            // A tiny outward offset keeps the sewn edge clear of the leather surface.
+            return Vector3f(p.x*1.012f,p.y,7f+(p.z-7f)*1.012f)
+        }
+        for(j in listOf(0,2,4,6))for(i in outline.indices) {
+            val p=edge(i,j);val q=edge((i+1)%outline.size,j)
+            quad(b,Vector3f(p).add(0f,-.065f,0f),Vector3f(q).add(0f,-.065f,0f),Vector3f(q).add(0f,.065f,0f),Vector3f(p).add(0f,.065f,0f))
         }
         return b.build()
     }
@@ -57,6 +70,7 @@ class BellowsPresentation {
         view.node("bellows_lower").ifPresent {it.setShape(lower,wood)}
         view.node("bellows_top").ifPresent {it.setShape(upper,wood);it.rotateTo(angle*180f/PI.toFloat(),0f,0f,0f)}
         view.node("bellows_leather").ifPresent {it.setShape(leather(angle),ResourceLocation.withDefaultNamespace("block/brown_terracotta"))}
+        view.node("bellows_welts").ifPresent {it.setShape(welts(angle),ResourceLocation.withDefaultNamespace("block/dark_oak_planks"))}
         val compression=heating && cos(time*5f)<-.45f
         view.node("fire").ifPresent {it.setEmitRate(if(compression)18f else 6f)}
         gust+=dt

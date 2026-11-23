@@ -1,9 +1,9 @@
-# Temper & Tang 0.3.1
+# Temper & Tang 0.3.2
 
-Physical smithing presentation update for Minecraft 1.21.1 Fabric and NeoForge.
+A workstation detail pass for Minecraft 1.21.1 Fabric and NeoForge.
 
-The same simple hammer appears as an item and at both anvils. Every accepted blow drives a contact pose, an original metallic clang and small hot sparks. Raw ingredients become a billet and then a blade blank before the completed workpiece appears.
+Fitted timber, stave seams, wrought iron bands, pegs and holdfasts give the workstations a more constructed appearance. The hearth gains soot lining and an ash-pan pull. The trough gains band rivets and a drain plug. Bellows lid tacks, handle fittings and leather edge welts move with the existing lid and folds.
 
-The bellows now folds and hinges as it pumps air into the hearth. Tongs grip, lower and retrieve the metal, with steam at immersion. Workstation geometry, texture mapping and timing cursor motion have been refined.
+The simpler hammer, hammer contact, dipping, sparks, clangs, steam and timing behavior are preserved. Recipes, progression, costs and configuration settings are unchanged. Original geometry uses vanilla texture references; Supplementaries was inspected as a construction reference without copying its assets or code.
 
-Existing recipe integration, preservation, progression and configuration remain in place. Requires Diegesis, Fzzy Config and the appropriate Kotlin runtime. Simply Swords and Epic Knights remain optional.
+Requires Diegesis, Fzzy Config and the appropriate Kotlin runtime. Simply Swords and Epic Knights remain optional.

@@ -1,4 +1,13 @@
-# Verification — 0.3.1
+# Verification — 0.3.2
+
+## Workstation detail pass
+
+Version 0.3.2 passed the clean Fabric/NeoForge build, unit, resource and packaged-artifact checks. The hidden packaged NeoForge client completed the full survival workflow with the new block models and animated bellows trim. Six shaping and six finishing contacts passed; rendered contact error remained below 0.000002 pixels. Thirty-one submerged frames passed tong alignment checks. Intermediate stock, timing movement and the bellows mesh checks also passed. Screenshots of all four active workstations were inspected for material mapping, joinery, band continuity, tool clearance and retained interaction placement.
+
+Hashes confirmed that both simpler hammer models and the hammer/tong motion implementation were unchanged. The bellows timing, opening and hinge-angle calculation was compared directly with the saved baseline and remained identical. Only its leather geometry helper was shared with the additional edge welts. The recipe data, gameplay rules and live configuration were not edited by this detail pass.
+
+The 64.2-second demonstration was captured with only the isolated game's picture and sound. The earlier two-loader server and save/reload coverage below applies to the unchanged gameplay implementation; the new graphical detail pass was tested on NeoForge, with Fabric graphical playtesting still outstanding.
+
 
 ## Physical presentation revision
 

@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.2
+
+- Added fitted bench planks, joinery pegs, foot bindings and anvil holdfasts.
+- Recessed the anvil tooling holes while preserving both striking surfaces.
+- Wrapped the finishing stump with continuous iron bands and added fine end-grain checks.
+- Added soot lining, an ash-pan pull, nozzle collar and braced bellows support to the hearth.
+- Added separate trough staves, band rivets and a timber drain plug.
+- Detailed the bellows with lid tacks, handle fittings and leather welts that follow the existing folds.
+- Preserved the simpler hammer, strike/dip motions, timing, sounds, particles, recipes and configuration.
+
+
 ## 0.3.1
 
 - Matched the inventory and animated hammer, with exact workpiece contact, metallic impact sounds and visible sparks on both anvils.

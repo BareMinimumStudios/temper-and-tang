@@ -137,6 +137,10 @@
             ]
           },
           "pickable": false
+        },
+        {
+          "id": "bellows_welts",
+          "pickable": false
         }
       ]
     },
