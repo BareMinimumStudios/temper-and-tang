@@ -8,6 +8,14 @@
     {
       "id": "#c:gems/tin",
       "required": false
+    },
+    {
+      "id": "#c:nuggets/tin",
+      "required": false
+    },
+    {
+      "id": "#c:plates/tin",
+      "required": false
     }
   ]
 }

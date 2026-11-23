@@ -77,6 +77,7 @@ object ThermalClient {
                 view.node("stock").ifPresent {it.setVisible(!ready)}
                 val status=visibleState.data().getString("status")
                 if(action=="heat") {
+                    view.node("additive").ifPresent {it.setGhostItems(listOf(ItemStack(com.bareminimumstudios.temperandtang.content.TemperContent.item("tin_ingot")),ItemStack(net.minecraft.world.item.Items.CHARCOAL)))}
                     view.node("embers").ifPresent {it.setVisible(status in listOf("heating","ready"))}
                     view.node("fire").ifPresent {it.setEmitting(status=="heating")}
                 } else {

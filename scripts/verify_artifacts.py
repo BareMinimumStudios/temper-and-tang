@@ -30,6 +30,18 @@ def artifacts():
             for station in ("charcoal_hearth", "shaping_anvil", "quenching_trough"):
                 assert f"assets/temperandtang/diegesis/scenes/{station}.json" in files
             assert "com/bareminimumstudios/temperandtang/station/ThermalStations.class" in files
+            for name in ("AlloyRecipe", "AlloyRecipes", "HearthProcesses"):
+                assert f"com/bareminimumstudios/temperandtang/smithing/{name}.class" in files
+            assert "com/bareminimumstudios/temperandtang/content/WorkshopCatalog.class" in files
+            for name in ("bronze_alloy", "steel_alloy", "smithing_tongs_from_bronze"):
+                assert f"data/temperandtang/recipe/{name}.json" in files
+            for metal in ("bronze", "steel"):
+                for part in ("pickaxe", "helmet", "spear", "warhammer"):
+                    assert f"assets/temperandtang/models/item/{metal}_{part}.json" in files
+                    assert f"data/temperandtang/recipe/{metal}_{part}.json" in files
+            assert "data/minecraft/tags/item/trimmable_armor.json" in files
+            assert "data/temperandtang/weapon_attributes/steel_spear.json" in files
+
             assert "com/bareminimumstudios/temperandtang/smithing/HotMetalHandling.class" in files
             assert "assets/temperandtang/models/item/smithing_tongs.json" in files
             assert "com/bareminimumstudios/temperandtang/smithing/ShapingRecipe.class" in files

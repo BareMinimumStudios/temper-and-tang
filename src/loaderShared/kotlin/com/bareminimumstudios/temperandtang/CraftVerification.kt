@@ -69,7 +69,7 @@ object CraftVerification {
     fun verify(source:CommandSourceStack) {
         val stacks=mutableListOf(ItemStack(Items.IRON_SWORD),ItemStack(Items.IRON_CHESTPLATE),ItemStack(Items.DIAMOND_HELMET))
         for(id in listOf("simplyswords:iron_longsword","magistuarmory:armet","magistuarmory:steel_bastardsword")) {
-            val item=BuiltInRegistries.ITEM.get(ResourceLocation.parse(id));if(item!=Items.AIR)stacks.add(ItemStack(item))
+            val item=BuiltInRegistries.ITEM.get(ResourceLocation.parse(id));if(item!=Items.AIR && GearSupport.supported(ItemStack(item)))stacks.add(ItemStack(item))
         }
         for(stack in stacks) {
             check(GearSupport.supported(stack)) {"Gear is not supported: "+BuiltInRegistries.ITEM.getKey(stack.item)}
@@ -128,6 +128,43 @@ object CraftVerification {
         check(CraftMaterials.recorded(upgrade)==ForgeMaterial.NETHERITE && CraftTraits.recorded(upgrade)==ForgeTrait.STURDY){"Upgrade lost or retained the wrong material/trait"}
         check(Craftsmanship.root(upgrade).getInt("origin_durability")==Items.NETHERITE_SWORD.defaultInstance.maxDamage) {"Upgrade retained the old material baseline"}
         check(upgrade.maxDamage>=Items.NETHERITE_SWORD.defaultInstance.maxDamage) {"Upgrade lost craftsmanship"}
+        if(TemperAndTang.modLoaded("magistuarmory") && TemperAndTang.config.epicKnights.get()) {
+            val helmet=ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("magistuarmory:armet")))
+            if(GearSupport.supported(helmet)) {
+                helmet.damageValue=3
+                val made=Craftsmanship.apply(CraftTraits.stamp(CraftMaterials.stamp(helmet,ForgeMaterial.STEEL),ForgeTrait.REINFORCED),CraftRoll(CraftGrade.MASTERWORK,1.0,.9,.5,10),"SmithFixture","native-upgrade")
+                val base=WeaponFinishes.preview(made,Finish.TEMPERED)
+                val holder=source.server.recipeManager.byKey(ResourceLocation.parse("magistuarmory:ceremonialarmet")).orElseThrow()
+                val native=holder.value() as net.minecraft.world.item.crafting.SmithingTransformRecipe
+                val input=net.minecraft.world.item.crafting.SmithingRecipeInput(ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("magistuarmory:gilding_template"))),base,ItemStack(Items.GOLD_INGOT))
+                check(native.matches(input,source.level))
+                val gilded=native.assemble(input,source.registryAccess())
+                check(Craftsmanship.root(gilded).getInt("origin_durability")==gilded.item.defaultInstance.maxDamage){"Native gilding used the old armor baseline"}
+                check(CraftMaterials.recorded(gilded)==ForgeMaterial.STEEL && CraftTraits.recorded(gilded)==ForgeTrait.REINFORCED && Craftsmanship.grade(gilded)==CraftGrade.MASTERWORK && gilded.damageValue==3){"Native gilding lost its recorded steel or craftsmanship"}
+                check(Craftsmanship.root(gilded).getString("finish")==Finish.TEMPERED.key)
+                check(CraftMaterials.choose(gilded,emptyList())==ForgeMaterial.STEEL){"Refining an unnamed material lost its provenance"}
+                val plate=BuiltInRegistries.ITEM.get(ResourceLocation.parse("magistuarmory:small_steel_plate"))
+                if(plate!=Items.AIR)check(CraftMaterials.identify(ItemStack(plate))==ForgeMaterial.STEEL){"Small steel plates have no shared material identity"}
+                TemperAndTang.logger.info("TEMPER_NATIVE_GILDING_PASSED: steel material, trait, finish, grade, wear and input provenance retained")
+            }
+        }
+        val external=ItemStack(Items.IRON_SWORD).also {
+            it.set(DataComponents.MAX_DAMAGE,300);it.set(DataComponents.BASE_COLOR,net.minecraft.world.item.DyeColor.RED)
+            it.set(DataComponents.CUSTOM_NAME,Component.literal("Inherited equipment"));it.damageValue=3
+            it.set(DataComponents.CUSTOM_DATA,CustomData.of(CompoundTag().also {data->data.putString("foreign_fixture","preserved");data.putString("authored_priority","old")}))
+        }
+        val old=Craftsmanship.apply(CraftMaterials.stamp(external,ForgeMaterial.IRON),CraftRoll(CraftGrade.MASTERWORK,1.0,.9,.5,10),"SmithFixture","transfer-fixture")
+        val foreignId=ResourceLocation.parse("fixture:portable_damage")
+        old.set(DataComponents.ATTRIBUTE_MODIFIERS,old.get(DataComponents.ATTRIBUTE_MODIFIERS)!!.withModifierAdded(Attributes.ATTACK_DAMAGE,AttributeModifier(foreignId,1.25,AttributeModifier.Operation.ADD_VALUE),net.minecraft.world.entity.EquipmentSlotGroup.MAINHAND))
+        val authored=ItemStack(TemperContent.item("steel_sword")).also {it.set(DataComponents.CUSTOM_DATA,CustomData.of(CompoundTag().also {tag->tag.putString("authored_priority","new")}))}
+        val transferred=GearTransfer.inherit(authored,old)
+        check(transferred.maxDamage==450 && transferred.damageValue==3){"Crafting upgrade baked in old quality or lost external durability"}
+        check(transferred.get(DataComponents.BASE_COLOR)==net.minecraft.world.item.DyeColor.RED && transferred.hoverName.string=="Inherited equipment")
+        check(transferred.get(DataComponents.CUSTOM_DATA)!!.copyTag().getString("authored_priority")=="new" && transferred.get(DataComponents.CUSTOM_DATA)!!.copyTag().getString("foreign_fixture")=="preserved")
+        check(transferred.get(DataComponents.ATTRIBUTE_MODIFIERS)!!.modifiers().count {it.modifier().id()==foreignId}==1)
+        check(transferred.get(DataComponents.ATTRIBUTE_MODIFIERS)!!.modifiers().none {it.modifier().id().namespace=="temperandtang" && it.modifier().id().path.startsWith("craft_")})
+        check(Craftsmanship.grade(transferred)==null){"Crafting upgrade retained a free old quality roll"}
+        TemperAndTang.logger.info("TEMPER_CRAFT_TRANSFER_PASSED: native stats, external durability, affixes, portable metadata and authored component priority")
         val progress=SmithingProgress();val uuid=UUID.randomUUID();progress.award(uuid,30)
         val loaded=SmithingProgress.load(progress.save(CompoundTag(),source.registryAccess()),source.registryAccess())
         check(loaded.xp(uuid)==30L && loaded.level(uuid)==1)
@@ -276,4 +313,110 @@ object CraftVerification {
         }
         source.sendSuccess({Component.literal("Running isolated craftsmanship thermal scenarios...")},false)
     }
+    fun startMetallurgy(source:CommandSourceStack) {
+        val key=source.server to "metallurgy";check(key !in jobs)
+        val level=source.level
+        val fixtures=mutableListOf<Fixture>()
+        fun make()=Fixture(source,"charcoal_hearth").also {fixtures.add(it)}
+        val bronze=TemperContent.item("bronze_ingot");val tin=TemperContent.item("tin_ingot");val steel=TemperContent.item("steel_ingot")
+        val bridgeId=ResourceLocation.fromNamespaceAndPath("magistuarmory","furnace/steel_ingot_blasting")
+        val example=com.google.gson.JsonParser.parseString("""{"type":"minecraft:blasting","ingredient":{"item":"minecraft:iron_ingot"},"result":{"id":"magistuarmory:steel_ingot"},"cookingtime":40,"experience":0.5}""")
+        val original=example.deepCopy()
+        val applied=com.bareminimumstudios.temperandtang.compat.WorkshopRecipes.apply(mapOf(bridgeId to example))
+        check(example==original){"Integration mutated authored source data"}
+        if(TemperAndTang.config.recipeIntegration.get() && TemperAndTang.config.thermalEnabled.get() && TemperAndTang.config.epicKnights.get())check(applied[bridgeId]!!.asJsonObject.get("type").asString=="temperandtang:alloying")
+        val alternative=example.deepCopy().asJsonObject.also {it.add("ingredient",com.google.gson.JsonParser.parseString("""[{"item":"minecraft:iron_ingot"},{"tag":"c:ingots/iron"}]"""))}
+        check(com.bareminimumstudios.temperandtang.compat.WorkshopRecipes.apply(mapOf(bridgeId to alternative))[bridgeId]==alternative){"Alternative ingredient recipe was overwritten"}
+        val custom=example.deepCopy().asJsonObject.also {it.addProperty("cookingtime",800)}
+        check(com.bareminimumstudios.temperandtang.compat.WorkshopRecipes.apply(mapOf(bridgeId to custom))[bridgeId]==custom){"Custom steel recipe was overwritten"}
+        check(bridgeId !in com.bareminimumstudios.temperandtang.compat.WorkshopRecipes.apply(emptyMap())){"Removed steel recipe was recreated"}
+        var nativeSteelUses=0
+        for(holder in level.recipeManager.recipes) {
+            if(holder.id().namespace!="magistuarmory")continue
+            val recipe=holder.value() as? net.minecraft.world.item.crafting.CraftingRecipe?:continue
+            val base=if(recipe is ShapingRecipe)recipe.base else recipe
+            val shaped=base as? net.minecraft.world.item.crafting.ShapedRecipe
+            val width=shaped?.width?:3;val height=shaped?.height?:3
+            var replaced=false
+            val grid=recipe.ingredients.map {ingredient ->
+                when {
+                    ingredient.isEmpty->ItemStack.EMPTY
+                    ingredient.test(ItemStack(steel))->{replaced=true;ItemStack(steel)}
+                    ingredient.test(ItemStack(TemperContent.item("steel_nugget")))->{replaced=true;ItemStack(TemperContent.item("steel_nugget"))}
+                    else->ingredient.items.first().copy()
+                }
+            }.toMutableList()
+            if(!replaced)continue
+            while(grid.size<width*height)grid.add(ItemStack.EMPTY)
+            val input=net.minecraft.world.item.crafting.CraftingInput.of(width,height,grid)
+            check(recipe.matches(input,level) && !recipe.assemble(input,source.registryAccess()).isEmpty){"Native steel recipe rejects common workshop metal: ${holder.id()}"}
+            nativeSteelUses++
+        }
+        if(TemperAndTang.modLoaded("magistuarmory"))check(nativeSteelUses>0)
+        TemperAndTang.logger.info("TEMPER_METALLURGY_COMPAT_PASSED: {} native recipes accept workshop steel/nuggets; removed/custom recipe identities respected",nativeSteelUses)
+        val plans=level.recipeManager.getAllRecipesFor(AlloyRecipes.TYPE)
+        check(plans.any {it.id()==TemperAndTang.id("bronze_alloy")} && plans.any {it.id()==TemperAndTang.id("steel_alloy")})
+        for(holder in plans) {
+            val r=holder.value();val ops=source.registryAccess().createSerializationContext(com.mojang.serialization.JsonOps.INSTANCE)
+            val json=AlloyRecipes.SERIALIZER.codec().codec().encodeStart(ops,r).getOrThrow()
+            val restored=AlloyRecipes.SERIALIZER.codec().codec().parse(ops,json).getOrThrow()
+            check(ItemStack.isSameItemSameComponents(r.result,restored.result) && r.primaryCount==restored.primaryCount)
+            val buffer=net.minecraft.network.RegistryFriendlyByteBuf(io.netty.buffer.Unpooled.buffer(),source.registryAccess())
+            try {
+                AlloyRecipes.SERIALIZER.streamCodec().encode(buffer,r)
+                val decoded=AlloyRecipes.SERIALIZER.streamCodec().decode(buffer)
+                check(decoded.additiveCount==r.additiveCount && decoded.cookingTime==r.cookingTime && ItemStack.isSameItemSameComponents(decoded.result,r.result))
+            } finally {buffer.release()}
+        }
+        val pick=ItemStack(TemperContent.item("bronze_pickaxe"));val steelPick=ItemStack(TemperContent.item("steel_pickaxe"))
+        check(pick.isCorrectToolForDrops(net.minecraft.world.level.block.Blocks.IRON_ORE.defaultBlockState()) && !pick.isCorrectToolForDrops(net.minecraft.world.level.block.Blocks.DIAMOND_ORE.defaultBlockState()))
+        check(steelPick.isCorrectToolForDrops(net.minecraft.world.level.block.Blocks.DIAMOND_ORE.defaultBlockState()) && !steelPick.isCorrectToolForDrops(net.minecraft.world.level.block.Blocks.OBSIDIAN.defaultBlockState()))
+        for(name in com.bareminimumstudios.temperandtang.content.WorkshopCatalog.items.keys) {
+            val gear=ItemStack(TemperContent.item(name));check(GearSupport.supported(gear)) {"Unsupported catalog item $name"}
+            val metal=name.substringBefore('_');check(gear.item.isValidRepairItem(gear,ItemStack(if(metal=="iron")Items.IRON_INGOT else TemperContent.item(metal+"_ingot")))) {"No common-tag repair for $name"}
+        }
+        check(HearthProcesses.alloy(ItemStack(Items.COPPER_INGOT,4),ItemStack(tin,2),level)==null)
+        check(HearthProcesses.alloy(ItemStack(Items.COPPER_INGOT,9),ItemStack(tin,3),level)==null)
+        check(HearthProcesses.alloy(ItemStack(Items.IRON_INGOT,2),ItemStack(Items.COAL),level)==null)
+        check(HearthProcesses.refine(ItemStack(Items.RAW_IRON,9),level)==null)
+        val outcomes=mutableListOf<Triple<Fixture,Item,Int>>()
+        fun run(input:ItemStack,additive:ItemStack,result:Item,count:Int):Fixture {
+            val f=make();f.put(T.STOCK,input);if(!additive.isEmpty)f.put(T.ADDITIVE,additive)
+            f.put(T.FUEL,ItemStack(Items.CHARCOAL,8));val cost=f.state.getControl("fuel_cost").toInt()
+            f.press("heat");repeat(5){f.press("heat")};check(f.state.getItem(T.FUEL).count==8-cost)
+            outcomes.add(Triple(f,result,count));return f
+        }
+        val alloy=run(ItemStack(Items.COPPER_INGOT,6),ItemStack(tin,3),bronze,8)
+        val steelBatch=run(ItemStack(Items.IRON_INGOT,8),ItemStack(Items.COAL,8),steel,8)
+        check(steelBatch.state.getControl("fuel_cost")==2f)
+        run(ItemStack(Items.RAW_IRON,2),ItemStack.EMPTY,Items.IRON_INGOT,2)
+        run(ItemStack(Items.RAW_COPPER,2),ItemStack.EMPTY,Items.COPPER_INGOT,2)
+        run(ItemStack(TemperContent.item("raw_tin"),2),ItemStack.EMPTY,tin,2)
+        run(ItemStack(TemperContent.item("bronze_blend"),4),ItemStack.EMPTY,bronze,4)
+        run(ThermalState.heated(ItemStack(Items.IRON_INGOT),level),ItemStack(Items.CHARCOAL),steel,1)
+        val closed=make();closed.put(T.STOCK,ItemStack(Items.COPPER_INGOT,3));closed.put(T.ADDITIVE,ItemStack(tin));closed.put(T.FUEL,ItemStack(Items.COAL));closed.press("heat");closed.close()
+        check(closed.count(Items.COPPER_INGOT)==3 && closed.count(tin)==1 && closed.count(bronze)==0 && closed.count(Items.COAL)==0)
+        val changed=make();changed.put(T.STOCK,ItemStack(Items.COPPER_INGOT,3));changed.put(T.ADDITIVE,ItemStack(tin));changed.put(T.FUEL,ItemStack(Items.COAL));changed.press("heat");changed.put(T.ADDITIVE,ItemStack(Items.CHARCOAL))
+        val missing=make();missing.put(T.STOCK,ItemStack(Items.COPPER_INGOT,3));missing.put(T.ADDITIVE,ItemStack(tin));missing.press("heat");check(missing.state.getControl("progress")==0f && missing.take().isEmpty)
+        val collected=mutableSetOf<Fixture>();val start=level.gameTime
+        jobs[key]=Job(source,fixtures) {
+            check(level.gameTime-start<3000){"Metallurgy verification timed out"}
+            for((f,item,count) in outcomes)if(f !in collected && !f.state.getOutput("result").isEmpty) {
+                val hot=f.take();check(hot.item==item && hot.count==count && ThermalState.hot(hot,level));check(f.take().isEmpty)
+                val saved=ItemStack.parseOptional(source.registryAccess(),hot.save(source.registryAccess()) as CompoundTag)
+                check(ItemStack.isSameItemSameComponents(saved,hot) && saved.count==count)
+                if(f===alloy)check(f.state.getItem(T.ADDITIVE).count==1 && f.state.getItem(T.ADDITIVE).item==tin)
+                if(f===steelBatch)check(f.state.getItem(T.ADDITIVE).isEmpty && f.state.getItem(T.FUEL).count==6)
+                collected.add(f)
+            }
+            check(changed.state.getItem(T.STOCK).item==Items.COPPER_INGOT && changed.state.getItem(T.STOCK).count==3 && changed.take().isEmpty)
+            check(missing.state.getItem(T.STOCK).count==3 && missing.state.getItem(T.ADDITIVE).count==1 && missing.take().isEmpty)
+            if(collected.size==outcomes.size) {
+                TemperAndTang.logger.info("TEMPER_METALLURGY_PASSED: codecs, native refinement, conserved bronze/steel batches, leftovers, hot input, fuel, cancellation, duplicate refusal, mutation safety, repair tags and mining tiers")
+                true
+            } else false
+        }
+        source.sendSuccess({Component.literal("Running isolated refining and alloying scenarios...")},false)
+    }
+
 }

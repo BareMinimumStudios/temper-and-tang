@@ -17,6 +17,7 @@ import net.minecraft.world.item.Items
 
 object ThermalStations {
     val STOCK = SlotRef.of("stock")
+    val ADDITIVE = SlotRef.of("additive")
     val FUEL = SlotRef.of("fuel")
     val WATER = SlotRef.of("water")
     val HAMMER = SlotRef.of("hammer")
@@ -42,6 +43,7 @@ object ThermalStations {
             .schema(StationSchema.builder()
                 .slots("stock",1,SlotRules.DEFAULT.maxStack(8).accepts(WorkshopPlans::heatable))
                 .slots("fuel",1,SlotRules.DEFAULT.accepts { it.`is`(ItemTags.COALS) })
+                .slots("additive",1,SlotRules.DEFAULT.maxStack(8).accepts {WorkshopPlans.stock(it) || it.`is`(ItemTags.COALS)})
                 .control("heat",ControlSpec.button()).control("progress",ControlSpec.range(0f,100f,0f).locked())
                 .control("fuel_cost",ControlSpec.range(0f,64f,1f).locked()).output("result").build())
             .exclusive().openWhen { _,_,_ -> active() }.logic { Hearth() }.register()
@@ -83,6 +85,9 @@ object ThermalStations {
         private var plan: WorkshopPlans.Heating? = null
         private var input = ItemStack.EMPTY
         private var completed = false
+        private var supplement=ItemStack.EMPTY
+        private var previewSupplement=ItemStack.EMPTY
+        private var committing=false
         private var previewStock = ItemStack.EMPTY
         private var preview: WorkshopPlans.Heating? = null
         private var previewTick = -20L
@@ -91,23 +96,23 @@ object ThermalStations {
             s.state().setControl("progress",0f); s.state().setOutput("result",ItemStack.EMPTY)
         }
         override fun onSlotChanged(s: StationContext, slot: SlotRef) {
-            if (slot == STOCK) {
+            if (!committing && (slot == STOCK || slot == ADDITIVE)) {
                 reset(s)
                 val stamped = ThermalState.normalize(s.state().getItem(STOCK),s.level())
-                s.state().setItem(STOCK,stamped)
+                if(!snapshot(stamped,s.state().getItem(STOCK)))s.state().setItem(STOCK,stamped)
             }
         }
         override fun onCustomAction(s: StationContext, player: Player, action: String, data: CompoundTag) { if (action == "heat") onButton(s,player,action) }
         override fun onButton(s: StationContext, player: Player, control: String) {
             if (s.isClientSide || control != "heat" || !active() || player.isSpectator || start >= 0 || completed) return
             val stock = s.state().getItem(STOCK)
-            if (stock.isEmpty || ThermalState.hot(stock,s.level())) { updateOutputs(s); return }
-            val candidate = WorkshopPlans.heating(stock,s.level()) ?: return
-            val duration = ThermalRules.heatingTicks(candidate.perItem,stock.count)
+            if (stock.isEmpty || ThermalState.hot(stock,s.level()) && s.state().getItem(ADDITIVE).isEmpty) { updateOutputs(s); return }
+            val candidate = WorkshopPlans.heating(stock,s.level(),s.state().getItem(ADDITIVE)) ?: return
+            val duration = HearthProcesses.duration(candidate,stock.count)
             val cost = ThermalRules.coalCost(duration)
             val fuel = s.state().getItem(FUEL)
             if (!fuel.`is`(ItemTags.COALS) || fuel.count < cost) { note(s,"fuel"); return }
-            plan = candidate; input = stock.copy(); start = s.level().gameTime; end = start + duration
+            plan = candidate; input = stock.copy(); supplement=s.state().getItem(ADDITIVE).copy(); start = s.level().gameTime; end = start + duration
             s.state().setItem(FUEL,fuel.copy().also { it.shrink(cost) })
             sound(s,SoundEvents.FIRECHARGE_USE,0.45f,0.85f)
             updateOutputs(s)
@@ -121,11 +126,16 @@ object ThermalStations {
             }
             if (start >= 0) {
                 val candidate = plan
-                if (candidate == null || !snapshot(stock,input) || candidate.nativeRecipe?.let { s.level().recipeManager.byKey(it.id()).orElse(null)?.value() !== it.value() } == true) {
+                if (candidate == null || !snapshot(stock,input) || !snapshot(s.state().getItem(ADDITIVE),supplement) || candidate.nativeRecipe?.let { s.level().recipeManager.byKey(it.id()).orElse(null)?.value() !== it.value() } == true) {
                     reset(s)
                 } else if (s.level().gameTime >= end) {
                     val hot = ThermalState.heated(candidate.output,s.level())
-                    s.state().setItem(STOCK,hot); input = hot.copy(); completed = true; start = -1
+                    committing=true
+                    try {
+                        if(candidate.additiveCost>0)s.state().setItem(ADDITIVE,s.state().getItem(ADDITIVE).copy().also {it.shrink(candidate.additiveCost)})
+                        s.state().setItem(STOCK,hot)
+                    } finally {committing=false}
+                    input = hot.copy(); supplement=s.state().getItem(ADDITIVE).copy(); completed = true; start = -1
                     s.state().setControl("progress",100f)
                     sound(s,SoundEvents.FURNACE_FIRE_CRACKLE,0.5f,1.2f)
                 } else {
@@ -140,13 +150,14 @@ object ThermalStations {
             val ready = active() && completed && snapshot(stock,input) && ThermalState.hot(stock,s.level())
             s.state().setOutput("result",if (ready) stock.copy() else ItemStack.EMPTY)
             val candidate = if (start < 0 && !completed) {
-                if (!snapshot(stock,previewStock) || s.level().gameTime-previewTick >= 20) {
-                    previewStock=stock.copy(); preview=WorkshopPlans.heating(stock,s.level()); previewTick=s.level().gameTime
+                if (!snapshot(stock,previewStock) || !snapshot(s.state().getItem(ADDITIVE),previewSupplement) || s.level().gameTime-previewTick >= 20) {
+                    previewStock=stock.copy(); previewSupplement=s.state().getItem(ADDITIVE).copy(); preview=WorkshopPlans.heating(stock,s.level(),s.state().getItem(ADDITIVE)); previewTick=s.level().gameTime
                 }
                 preview
             } else plan
-            s.state().setControl("fuel_cost",candidate?.let { ThermalRules.coalCost(ThermalRules.heatingTicks(it.perItem,stock.count)).toFloat() } ?: 1f)
-            note(s,when { !active()->"disabled"; ready->"ready"; start>=0->"heating"; stock.isEmpty->"stock"; ThermalState.hot(stock,s.level())->"already_hot"; candidate != null && s.state().getItem(FUEL).count < s.state().getControl("fuel_cost").toInt()->"fuel"; else->"idle" },stock)
+            s.state().setControl("fuel_cost",candidate?.let { ThermalRules.coalCost(HearthProcesses.duration(it,stock.count)).toFloat() } ?: 1f)
+            note(s,when { !active()->"disabled"; ready->"ready"; start>=0->"heating"; stock.isEmpty->"stock"; ThermalState.hot(stock,s.level()) && s.state().getItem(ADDITIVE).isEmpty->"already_hot"; candidate != null && s.state().getItem(FUEL).count < s.state().getControl("fuel_cost").toInt()->"fuel"; candidate==null->"recipe"; else->"idle" },candidate?.output?:stock)
+            val metadata=s.state().data().copy();metadata.putString("process",candidate?.process?:if(!s.state().getItem(ADDITIVE).isEmpty)"alloy"else if(HearthProcesses.refinable(stock))"refine"else"heat");metadata.putInt("yield",candidate?.output?.count?:0);if(metadata!=s.state().data())s.state().setData(metadata)
         }
         override fun takeOutput(s: StationContext, player: Player, output: String): ItemStack {
             val stock = s.state().getItem(STOCK)

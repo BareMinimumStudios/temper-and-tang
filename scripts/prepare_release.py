@@ -5,6 +5,18 @@ from verify_artifacts import ROOT, artifacts
 files = artifacts()
 out = ROOT / "build/release"
 out.mkdir(parents=True, exist_ok=True)
+# Keep the upload directory limited to this version; retain old builds locally.
+current = {source.name for source in files.values()}
+for old in out.glob("TemperAndTang-*.jar"):
+    if old.name in current:
+        continue
+    archive = ROOT / "build/release-history" / old.name
+    archive.parent.mkdir(parents=True, exist_ok=True)
+    if archive.exists():
+        assert archive.read_bytes() == old.read_bytes(), f"Archive collision: {old.name}"
+        old.unlink()
+    else:
+        shutil.move(old, archive)
 manifest = []
 for loader, source in files.items():
     target = out / source.name

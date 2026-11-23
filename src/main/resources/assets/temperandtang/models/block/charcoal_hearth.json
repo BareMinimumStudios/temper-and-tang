@@ -1686,6 +1686,282 @@
           ]
         }
       }
+    },
+    {
+      "name": "alloy_dish_floor",
+      "from": [
+        2.05,
+        3.51,
+        0.9
+      ],
+      "to": [
+        4.95,
+        3.7,
+        2.6
+      ],
+      "faces": {
+        "north": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        },
+        "south": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        },
+        "east": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        },
+        "west": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        },
+        "up": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        },
+        "down": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        }
+      }
+    },
+    {
+      "name": "alloy_dish_left",
+      "from": [
+        2,
+        3.65,
+        0.85
+      ],
+      "to": [
+        2.18,
+        3.95,
+        2.65
+      ],
+      "faces": {
+        "north": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        },
+        "south": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        },
+        "east": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        },
+        "west": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        },
+        "up": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        },
+        "down": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        }
+      }
+    },
+    {
+      "name": "alloy_dish_right",
+      "from": [
+        4.82,
+        3.65,
+        0.85
+      ],
+      "to": [
+        5,
+        3.95,
+        2.65
+      ],
+      "faces": {
+        "north": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        },
+        "south": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        },
+        "east": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        },
+        "west": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        },
+        "up": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        },
+        "down": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        }
+      }
+    },
+    {
+      "name": "alloy_dish_back",
+      "from": [
+        2.18,
+        3.65,
+        2.48
+      ],
+      "to": [
+        4.82,
+        3.95,
+        2.65
+      ],
+      "faces": {
+        "north": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        },
+        "south": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        },
+        "east": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        },
+        "west": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        },
+        "up": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        },
+        "down": {
+          "texture": "#soot",
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        }
+      }
     }
   ]
 }

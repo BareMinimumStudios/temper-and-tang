@@ -33,6 +33,8 @@ class TemperNeoForge(bus: IEventBus) {
         recipeTypes.register("shaping", java.util.function.Supplier { com.bareminimumstudios.temperandtang.smithing.ThermalRecipes.TYPE })
         recipeSerializers.register("shaping", java.util.function.Supplier { com.bareminimumstudios.temperandtang.smithing.ThermalRecipes.SERIALIZER })
         recipeSerializers.register("shaping_shapeless", java.util.function.Supplier { com.bareminimumstudios.temperandtang.smithing.ThermalRecipes.SHAPELESS })
+        recipeTypes.register("alloying",java.util.function.Supplier {com.bareminimumstudios.temperandtang.smithing.AlloyRecipes.TYPE})
+        recipeSerializers.register("alloying",java.util.function.Supplier {com.bareminimumstudios.temperandtang.smithing.AlloyRecipes.SERIALIZER})
         recipeTypes.register(bus)
         recipeSerializers.register(bus)
         TemperContent.blocks.forEach { (name, factory) ->
@@ -48,8 +50,7 @@ class TemperNeoForge(bus: IEventBus) {
         items.register(bus)
         bus.addListener { event: FMLCommonSetupEvent -> event.enqueueWork { TemperAndTang.initialize { ModList.get().isLoaded(it) } } }
         bus.addListener { event: BuildCreativeModeTabContentsEvent ->
-            if (event.tabKey == CreativeModeTabs.INGREDIENTS)
-                (TemperContent.blocks.keys + TemperContent.items.keys).forEach { event.accept(TemperContent.item(it)) }
+            (TemperContent.blocks.keys+TemperContent.items.keys).map(TemperContent::item).filter {com.bareminimumstudios.temperandtang.content.WorkshopCatalog.tab(it)==event.tabKey}.forEach {event.accept(it)}
         }
     }
 }

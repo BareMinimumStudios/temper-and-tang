@@ -1,0 +1,23 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:raw_iron",
+    "minecraft:raw_copper",
+    "minecraft:raw_gold",
+    "minecraft:iron_ore",
+    "minecraft:deepslate_iron_ore",
+    "minecraft:copper_ore",
+    "minecraft:deepslate_copper_ore",
+    "minecraft:gold_ore",
+    "minecraft:deepslate_gold_ore",
+    "minecraft:nether_gold_ore",
+    "temperandtang:raw_tin",
+    "temperandtang:tin_ore",
+    "temperandtang:deepslate_tin_ore",
+    "temperandtang:bronze_blend",
+    {
+      "id": "#c:raw_materials",
+      "required": false
+    }
+  ]
+}

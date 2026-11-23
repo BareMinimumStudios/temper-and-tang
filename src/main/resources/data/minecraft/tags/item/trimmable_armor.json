@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "temperandtang:bronze_helmet",
+    "temperandtang:bronze_chestplate",
+    "temperandtang:bronze_leggings",
+    "temperandtang:bronze_boots",
+    "temperandtang:steel_helmet",
+    "temperandtang:steel_chestplate",
+    "temperandtang:steel_leggings",
+    "temperandtang:steel_boots"
+  ]
+}

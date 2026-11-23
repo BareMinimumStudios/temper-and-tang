@@ -28,7 +28,7 @@ object CraftMaterials {
         val authored=identify(output)
         if(authored!=ForgeMaterial.NEUTRAL)return authored
         return inputs.filter {WorkshopPlans.stock(it)}.groupBy(::identify).filterKeys {it!=ForgeMaterial.NEUTRAL}
-            .maxByOrNull {it.value.sumOf(ItemStack::getCount)}?.key?:ForgeMaterial.NEUTRAL
+            .maxByOrNull {it.value.sumOf(ItemStack::getCount)}?.key?:recorded(output).takeUnless {it==ForgeMaterial.NEUTRAL}?:inputs.filter(GearSupport::supported).singleOrNull()?.let {recorded(it).takeUnless {m->m==ForgeMaterial.NEUTRAL}?:identify(it)}?:ForgeMaterial.NEUTRAL
     }
     fun stamp(input:ItemStack,material:ForgeMaterial):ItemStack {
         val result=input.copy();val all=result.getOrDefault(DataComponents.CUSTOM_DATA,CustomData.EMPTY).copyTag();val root=all.getCompound("temperandtang")

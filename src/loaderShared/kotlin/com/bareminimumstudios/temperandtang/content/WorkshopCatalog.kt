@@ -32,6 +32,12 @@ object WorkshopCatalog {
         9,SoundEvents.ARMOR_EQUIP_IRON,{Ingredient.of(TagKey.create(Registries.ITEM,ResourceLocation.fromNamespaceAndPath("c","ingots/$name")))},
         listOf(ArmorMaterial.Layer(ResourceLocation.withDefaultNamespace(texture))),toughness,0f)
     private fun material(name:String)=BuiltInRegistries.ARMOR_MATERIAL.getHolderOrThrow(ResourceKey.create(Registries.ARMOR_MATERIAL,TemperAndTang.id(name)))
+    fun tab(item:Item)=when(item) {
+        is DiggerItem -> CreativeModeTabs.TOOLS_AND_UTILITIES
+        is SwordItem,is ArmorItem,is ShieldItem -> CreativeModeTabs.COMBAT
+        is BlockItem -> if(item.block is WorkshopBlock)CreativeModeTabs.FUNCTIONAL_BLOCKS else CreativeModeTabs.BUILDING_BLOCKS
+        else -> CreativeModeTabs.INGREDIENTS
+    }
     val items:Map<String,()->Item> = buildMap {
         for((name,tier) in listOf("bronze" to BronzeTier,"steel" to SteelTier)) {
             if(name!="bronze")put("${name}_sword") {SwordItem(tier,Item.Properties().attributes(SwordItem.createAttributes(tier,3,-2.4f)))}

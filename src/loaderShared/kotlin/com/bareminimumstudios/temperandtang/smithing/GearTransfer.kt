@@ -5,14 +5,41 @@ import net.minecraft.world.item.component.CustomData
 
 /** Upgrade patterns retain names, enchantments, wear and foreign data without copying the old material's base stats. */
 object GearTransfer {
+    @Suppress("UNCHECKED_CAST")
     fun inherit(result:ItemStack,base:ItemStack?):ItemStack {
         if(base==null || result.isEmpty)return result
-        base.get(DataComponents.CUSTOM_NAME)?.let {result.set(DataComponents.CUSTOM_NAME,it)}
-        base.get(DataComponents.ENCHANTMENTS)?.let {result.set(DataComponents.ENCHANTMENTS,it)}
-        base.get(DataComponents.REPAIR_COST)?.let {result.set(DataComponents.REPAIR_COST,it)}
+        val authored=result.componentsPatch.entrySet().map {it.key}.toSet()
+        val portable=setOf("custom_name","enchantments","repair_cost","banner_patterns","base_color","dyed_color","trim","lore")
+        for((type,value) in base.componentsPatch.entrySet()) {
+            if(!value.isPresent || type in authored)continue
+            val id=net.minecraft.core.registries.BuiltInRegistries.DATA_COMPONENT_TYPE.getKey(type)?:continue
+            if(id.namespace!in setOf("minecraft",com.bareminimumstudios.temperandtang.TemperAndTang.MOD_ID) || id.namespace=="minecraft" && id.path in portable)
+                result.set(type as net.minecraft.core.component.DataComponentType<Any>,value.get())
+        }
         val foreign=base.getOrDefault(DataComponents.CUSTOM_DATA,CustomData.EMPTY).copyTag();foreign.remove("temperandtang")
-        val own=result.getOrDefault(DataComponents.CUSTOM_DATA,CustomData.EMPTY).copyTag();own.merge(foreign)
-        if(!own.isEmpty)result.set(DataComponents.CUSTOM_DATA,CustomData.of(own))
+        foreign.merge(result.getOrDefault(DataComponents.CUSTOM_DATA,CustomData.EMPTY).copyTag())
+        if(!foreign.isEmpty)result.set(DataComponents.CUSTOM_DATA,CustomData.of(foreign))
+        val raw=Craftsmanship.root(base).let {root->when {
+            root.contains("origin_durability")->root.getInt("origin_durability")
+            root.contains("base_durability")->root.getInt("base_durability")
+            else->base.maxDamage
+        }}
+        // Carry external durability adjustments, never the old item's craftsmanship multiplier.
+        val adjustment=raw.toLong()-base.item.defaultInstance.maxDamage
+        if(adjustment!=0L)result.set(DataComponents.MAX_DAMAGE,(result.maxDamage+adjustment).coerceIn(1,Int.MAX_VALUE.toLong()).toInt())
+        val defaults=base.item.defaultInstance.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS,net.minecraft.world.item.component.ItemAttributeModifiers.EMPTY)
+        val defaultIds=defaults.modifiers().map {it.attribute() to it.modifier().id()}.toSet()
+        val native=result.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS,net.minecraft.world.item.component.ItemAttributeModifiers.EMPTY)
+        val nativeIds=native.modifiers().map {it.attribute() to it.modifier().id()}.toSet()
+        val additions=base.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS,net.minecraft.world.item.component.ItemAttributeModifiers.EMPTY).modifiers().filter {
+            val id=it.modifier().id()
+            (it.attribute() to id) !in defaultIds && (it.attribute() to id) !in nativeIds && !(id.namespace=="temperandtang" && (id.path.startsWith("craft_") || id.path.startsWith("finish_")))
+        }
+        if(additions.isNotEmpty()) {
+            val builder=net.minecraft.world.item.component.ItemAttributeModifiers.builder()
+            (native.modifiers()+additions).forEach {builder.add(it.attribute(),it.modifier(),it.slot())}
+            result.set(DataComponents.ATTRIBUTE_MODIFIERS,builder.build().withTooltip(native.showInTooltip()))
+        }
         result.damageValue=base.damageValue
         return result
     }
@@ -35,7 +62,8 @@ object GearTransfer {
         val oldRaw=if(root.contains("origin_durability"))root.getInt("origin_durability") else root.getInt("base_durability")
         val foreignAdjustment=oldRaw-previous.getOrDefault(DataComponents.MAX_DAMAGE,previous.maxDamage)
         val newRaw=(next.getOrDefault(DataComponents.MAX_DAMAGE,next.maxDamage).toLong()+foreignAdjustment).coerceIn(1,Int.MAX_VALUE.toLong()).toInt()
-        if(root.contains("material"))root.putString("material",CraftMaterials.identify(result).key)
+        val nextMaterial=CraftMaterials.identify(result)
+        if(root.contains("material") && nextMaterial!=ForgeMaterial.NEUTRAL)root.putString("material",nextMaterial.key)
         root.putInt("origin_durability",newRaw);root.putInt("base_durability",newRaw)
         val all=result.getOrDefault(DataComponents.CUSTOM_DATA,CustomData.EMPTY).copyTag();all.put("temperandtang",root);result.set(DataComponents.CUSTOM_DATA,CustomData.of(all))
         return GearStats.rebuild(result)

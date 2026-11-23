@@ -189,6 +189,20 @@
         "scale": 0.75,
         "enabled": false
       }
+    },
+    {
+      "id": "additive",
+      "pos": [
+        3.5,
+        4.5,
+        1.5
+      ],
+      "slot": {
+        "slot": "additive",
+        "size": 2.8,
+        "idle_highlight": 0.12
+      },
+      "tooltip": "temperandtang.thermal.slot.additive"
     }
   ],
   "work_plane": 6

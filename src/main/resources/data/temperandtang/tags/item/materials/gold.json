@@ -8,6 +8,14 @@
     {
       "id": "#c:gems/gold",
       "required": false
+    },
+    {
+      "id": "#c:nuggets/gold",
+      "required": false
+    },
+    {
+      "id": "#c:plates/gold",
+      "required": false
     }
   ]
 }

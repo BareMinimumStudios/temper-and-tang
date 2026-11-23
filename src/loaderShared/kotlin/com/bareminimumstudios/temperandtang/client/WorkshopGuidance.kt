@@ -28,7 +28,8 @@ object WorkshopGuidance {
         val state=view.state();val data=state.data()
         val status=finishStatus?:data.getString("status").ifEmpty {"stock"}
         val input=when(action) {
-            "heat","quench"->state.getItem(ThermalStations.STOCK)
+            "heat"->if(!state.getItem(ThermalStations.STOCK).isEmpty && data.getString("process") in listOf("refine","alloy"))item(data.getString("target"))else state.getItem(ThermalStations.STOCK)
+            "quench"->state.getItem(ThermalStations.STOCK)
             "finish"->state.getItem(FinishingStation.WEAPON)
             else->item(data.getString("target"))
         }
@@ -37,7 +38,7 @@ object WorkshopGuidance {
         val name=if(shown.isEmpty)Component.translatable("temperandtang.guide.choose_stock")else shown.hoverName
         val stage=when(action){"heat"->1;"strike"->2;"quench"->3;else->4}
         val help=expanded[view]==true
-        val header=Component.translatable("temperandtang.short.header",WorkshopText.style(Component.translatable("temperandtang.guide."+action),WorkshopText.STAGE,true),WorkshopText.number(stage),WorkshopText.style(name,WorkshopText.TEXT,true),WorkshopText.style(Component.translatable(if(help)"temperandtang.short.hide" else "temperandtang.short.help"),WorkshopText.STAGE))
+        val header=Component.translatable("temperandtang.short.header",WorkshopText.style(Component.translatable("temperandtang.guide."+if(action=="heat")data.getString("process").ifEmpty {"heat"}else action),WorkshopText.STAGE,true),WorkshopText.number(stage),WorkshopText.style(name,WorkshopText.TEXT,true),WorkshopText.style(Component.translatable(if(help)"temperandtang.short.hide" else "temperandtang.short.help"),WorkshopText.STAGE))
         val paid=action=="finish" && !state.getItem(FinishingStation.FINISHED).isEmpty
         val waiting=action=="finish" && !paid && !state.getOutput("result").isEmpty
         val required=if(action=="finish")TemperAndTang.config.requiredStrikes.get() else if(action=="strike")state.getControl("required").toInt() else 0
@@ -50,7 +51,7 @@ object WorkshopGuidance {
             status=="ready"->Component.translatable("temperandtang.short.ready_"+action)
             action=="quench" && status=="stock"->Component.translatable("temperandtang.short.workpiece")
             action=="finish"->Component.translatable("temperandtang.short.finish_"+status)
-            status=="idle"->Component.translatable("temperandtang.short.start_"+action,key("SPACE"))
+            status=="idle"->Component.translatable("temperandtang.short.start_"+if(action=="heat")data.getString("process").ifEmpty {"heat"}else action,key("SPACE"))
             status=="fuel"->Component.translatable("temperandtang.short.fuel_needed")
             status=="water"->Component.translatable("temperandtang.short.water_needed")
             else->Component.translatable("temperandtang.short."+status)
@@ -62,17 +63,17 @@ object WorkshopGuidance {
         if(!busy) {
             val needs:Component=when(action) {
                 "strike"->if(data.getBoolean("reforging"))Component.translatable("temperandtang.short.reforge_needs")else ingredients((0..8).map {item(data.getString("ghost_$it"))})
-                "heat"->if(stock.isEmpty)Component.translatable("temperandtang.short.fuel_types")else Component.translatable("temperandtang.short.fuel",WorkshopText.number(state.getControl("fuel_cost").toInt()))
+                "heat"->if(data.getString("process")=="alloy" && data.getInt("yield")==0)Component.translatable("temperandtang.short.alloy_help")else if(data.getInt("yield")>0 && data.getString("process")!="heat")Component.translatable("temperandtang.short.hearth_yield",WorkshopText.number(data.getInt("yield")),WorkshopText.number(state.getControl("fuel_cost").toInt()))else if(stock.isEmpty)Component.translatable("temperandtang.short.fuel_types")else Component.translatable("temperandtang.short.fuel",WorkshopText.number(state.getControl("fuel_cost").toInt()))
                 "quench"->Component.translatable("temperandtang.short.water")
                 else->Component.translatable("temperandtang.short.finish_cost",WorkshopText.number(TemperAndTang.config.experienceLevels.get()),state.getItem(FinishingStation.MATERIAL).takeUnless {it.isEmpty}?.hoverName?:Component.translatable("temperandtang.short.treatment"))
             }
-            text.append(Component.literal("\n")).append(WorkshopText.style(Component.translatable("temperandtang.short.needs",needs),WorkshopText.MUTED))
+            text.append(Component.literal("\n")).append(WorkshopText.style(if(action=="heat" && data.getString("process")!="heat")needs else Component.translatable("temperandtang.short.needs",needs),WorkshopText.MUTED))
         }
         if(help) {
             text.append(Component.literal("\n"))
             val extra=if(working)Component.translatable("temperandtang.short.rhythm_help")else when(action) {
                 "strike"->Component.translatable("temperandtang.guide.pattern_keys",key("← / →"),key("TAB"),key("B"),key("R"))
-                "heat"->Component.translatable("temperandtang.short.heat_help")
+                "heat"->Component.translatable("temperandtang.short.heat_help").append("\n").append(Component.translatable("temperandtang.short.alloy_help"))
                 "quench"->Component.translatable("temperandtang.short.quench_help")
                 else->Component.translatable("temperandtang.short.finish_help")
             }

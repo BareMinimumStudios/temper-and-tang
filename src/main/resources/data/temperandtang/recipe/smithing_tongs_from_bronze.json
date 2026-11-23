@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "N N",
+    "I I",
+    " S "
+  ],
+  "key": {
+    "N": {
+      "tag": "c:nuggets/bronze"
+    },
+    "I": {
+      "tag": "c:ingots/bronze"
+    },
+    "S": {
+      "tag": "c:rods/wooden"
+    }
+  },
+  "result": {
+    "id": "temperandtang:smithing_tongs",
+    "count": 1
+  }
+}

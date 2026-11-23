@@ -8,6 +8,14 @@
     {
       "id": "#c:gems/diamond",
       "required": false
+    },
+    {
+      "id": "#c:nuggets/diamond",
+      "required": false
+    },
+    {
+      "id": "#c:plates/diamond",
+      "required": false
     }
   ]
 }

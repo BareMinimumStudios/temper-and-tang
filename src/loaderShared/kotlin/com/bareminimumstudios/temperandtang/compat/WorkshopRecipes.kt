@@ -13,6 +13,20 @@ object WorkshopRecipes {
             element.asJsonObject.getAsJsonArray("fabric:load_conditions")?.any {raw->raw.isJsonObject && raw.asJsonObject.get("condition")?.asString=="fabric:all_mods_loaded" && raw.asJsonObject.getAsJsonArray("values")?.any {!TemperAndTang.modLoaded(it.asString)}==true}==true
         }.toMutableMap()
         if(!TemperAndTang.config.thermalEnabled.get() || !TemperAndTang.config.recipeIntegration.get())return result
+        // Only the unmodified native iron-to-steel shortcut is bridged. Removed or custom recipes remain authored by the pack.
+        if(TemperAndTang.config.epicKnights.get()) {
+            val id=ResourceLocation.fromNamespaceAndPath("magistuarmory","furnace/steel_ingot_blasting")
+            val raw=result[id]?.takeIf {it.isJsonObject}?.asJsonObject
+            val ingredient=raw?.get("ingredient")?.takeIf {it.isJsonObject}?.asJsonObject
+            val output=raw?.get("result")?.takeIf {it.isJsonObject}?.asJsonObject
+            if(raw?.get("type")?.asString=="minecraft:blasting" && (raw.get("cookingtime")?.asInt?:200)==40 && (raw.get("experience")?.asFloat?:0f)==.5f && raw.get("temperandtang:keep_native")?.asBoolean!=true && ingredient?.entrySet()?.size==1 && ingredient?.get("item")?.asString=="minecraft:iron_ingot" && output?.get("id")?.asString=="magistuarmory:steel_ingot" && (output?.get("count")?.asInt?:1)==1) {
+                result[id]=raw.deepCopy().also {r->
+                    r.addProperty("type","temperandtang:alloying");r.remove("ingredient")
+                    r.add("primary",com.google.gson.JsonObject().also {it.addProperty("tag","c:ingots/iron")});r.addProperty("primary_count",1)
+                    r.add("additive",com.google.gson.JsonObject().also {it.addProperty("tag","minecraft:coals")});r.addProperty("additive_count",1);r.addProperty("cookingtime",240)
+                }
+            }
+        }
         var count=0
         for((id,element) in result.toMap()) {
             if(!element.isJsonObject)continue

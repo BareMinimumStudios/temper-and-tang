@@ -26,14 +26,17 @@ object TemperFabric : ModInitializer {
         Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, TemperAndTang.id("shaping_shapeless"), com.bareminimumstudios.temperandtang.smithing.ThermalRecipes.SHAPELESS)
         Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, TemperAndTang.id("shaping"), com.bareminimumstudios.temperandtang.smithing.ThermalRecipes.SERIALIZER)
         com.bareminimumstudios.temperandtang.content.WorkshopCatalog.armorMaterials.forEach { (name,factory) -> Registry.register(BuiltInRegistries.ARMOR_MATERIAL,TemperAndTang.id(name),factory()) }
+        Registry.register(BuiltInRegistries.RECIPE_TYPE,TemperAndTang.id("alloying"),com.bareminimumstudios.temperandtang.smithing.AlloyRecipes.TYPE)
+        Registry.register(BuiltInRegistries.RECIPE_SERIALIZER,TemperAndTang.id("alloying"),com.bareminimumstudios.temperandtang.smithing.AlloyRecipes.SERIALIZER)
         TemperContent.blocks.forEach { (name, factory) ->
             val block = Registry.register(BuiltInRegistries.BLOCK, TemperAndTang.id(name), factory())
             Registry.register(BuiltInRegistries.ITEM, TemperAndTang.id(name), BlockItem(block, Item.Properties()))
         }
         TemperContent.items.forEach { (name, factory) -> Registry.register(BuiltInRegistries.ITEM, TemperAndTang.id(name), factory()) }
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register { entries ->
-            (TemperContent.blocks.keys + TemperContent.items.keys).forEach { entries.accept(TemperContent.item(it)) }
-        }
+        for(tab in listOf(CreativeModeTabs.INGREDIENTS,CreativeModeTabs.TOOLS_AND_UTILITIES,CreativeModeTabs.COMBAT,CreativeModeTabs.FUNCTIONAL_BLOCKS,CreativeModeTabs.BUILDING_BLOCKS))
+            ItemGroupEvents.modifyEntriesEvent(tab).register {entries ->
+                (TemperContent.blocks.keys+TemperContent.items.keys).map(TemperContent::item).filter {com.bareminimumstudios.temperandtang.content.WorkshopCatalog.tab(it)==tab}.forEach {entries.accept(it)}
+            }
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Decoration.UNDERGROUND_ORES,
             ResourceKey.create(Registries.PLACED_FEATURE, TemperAndTang.id("tin_ore")))
         TemperAndTang.initialize { FabricLoader.getInstance().isModLoaded(it) }

@@ -14,9 +14,11 @@ object WorkshopPlans {
     fun stock(stack:ItemStack)=!stack.isEmpty && stack.`is`(STOCK)
     fun metal(stack:ItemStack)=stock(stack) || GearSupport.supported(stack)
     fun basicWeapon(stack:ItemStack)=GearSupport.supported(stack)
-    fun heatable(stack:ItemStack)=stock(stack) || ThermalState.blank(stack) || GearSupport.supported(stack)
-    data class Heating(val output:ItemStack,val perItem:Int,val nativeRecipe:RecipeHolder<*>?=null)
-    fun heating(stack:ItemStack,level:net.minecraft.world.level.Level):Heating? {
+    fun heatable(stack:ItemStack)=HearthProcesses.refinable(stack) || stock(stack) || ThermalState.blank(stack) || GearSupport.supported(stack)
+    data class Heating(val output:ItemStack,val perItem:Int,val nativeRecipe:RecipeHolder<*>?=null,val additiveCost:Int=0,val process:String="heat",val totalTicks:Int=0)
+    fun heating(stack:ItemStack,level:net.minecraft.world.level.Level,additive:ItemStack=ItemStack.EMPTY):Heating? {
+        if(!additive.isEmpty)return HearthProcesses.alloy(stack,additive,level)
+        if(HearthProcesses.refinable(stack))return HearthProcesses.refine(stack,level)
         if(!heatable(stack))return null
         val path=BuiltInRegistries.ITEM.getKey(stack.item).path
         val factor=when {"netherite" in path->2.5;"diamond" in path->2.0;"steel" in path->1.5;else->1.0}

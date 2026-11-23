@@ -1,0 +1,16 @@
+{
+  "type": "temperandtang:alloying",
+  "primary": {
+    "tag": "c:ingots/copper"
+  },
+  "primary_count": 3,
+  "additive": {
+    "tag": "c:ingots/tin"
+  },
+  "additive_count": 1,
+  "result": {
+    "id": "temperandtang:bronze_ingot",
+    "count": 4
+  },
+  "cookingtime": 200
+}

@@ -8,6 +8,14 @@
     {
       "id": "#c:gems/iron",
       "required": false
+    },
+    {
+      "id": "#c:nuggets/iron",
+      "required": false
+    },
+    {
+      "id": "#c:plates/iron",
+      "required": false
     }
   ]
 }

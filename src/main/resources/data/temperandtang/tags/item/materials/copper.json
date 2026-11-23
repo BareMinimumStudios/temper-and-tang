@@ -8,6 +8,14 @@
     {
       "id": "#c:gems/copper",
       "required": false
+    },
+    {
+      "id": "#c:nuggets/copper",
+      "required": false
+    },
+    {
+      "id": "#c:plates/copper",
+      "required": false
     }
   ]
 }
