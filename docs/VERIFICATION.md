@@ -1,4 +1,18 @@
-# Verification — 0.3.0
+# Verification — 0.3.1
+
+## Physical presentation revision
+
+Both loader artifacts passed the clean build, unit tests, resource checks and packaged-artifact checks. Both dedicated servers passed equipment/stat and preservation diagnostics, scored finishing scenarios and the complete thermal scenarios with Simply Swords and Epic Knights present. The isolated recipe catalog contained 344 patterns, including 54 armor patterns.
+
+The packaged NeoForge release completed a hidden real-player survival recording: heated two bronze ingots, shaped a sword with six timed blows, quenched it and applied a six-blow finish. The external test driver checked the rendered hammer's actual striking-face geometry at each sound event: six contacts on each anvil, with maximum error below 0.000002 scene pixels. Scene sparks were present at every impact. The tong jaws remained aligned with the submerged workpiece across 31 checked frames, with maximum error below 0.000002 pixels.
+
+The same run required three intermediate metal models and rejected premature finished-item previews during shaping. It captured the bellows leather mesh and multiple lid poses. More than 100 rendered timing frames were checked for backward movement outside beat resets. The final recording passed after correcting the initial unarmed-beat twitch. Workshop captions remain fully opaque while progress text changes, avoiding repeated fade-in flashes.
+
+The 64-second demonstration includes only the isolated game's video and audio. No desktop or microphone audio was captured. Bellows, contact, intermediate-stock and submerged-tong screenshots were inspected. Model geometry uses original assets and vanilla texture references; impact sounds are original procedural synthesis.
+
+These are local-client checks, not a remote-latency or universal frame-rate guarantee. The earlier save/reload, cancellation, recipe-routing and third-party integration coverage below remains relevant; the presentation update does not change those rules.
+
+## Earlier gameplay coverage
 
 ## Build and mathematical checks
 
