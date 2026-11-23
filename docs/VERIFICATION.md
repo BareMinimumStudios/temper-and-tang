@@ -1,4 +1,10 @@
-# Verification — 0.4.0
+# Verification — 0.4.1
+
+## Shared-track and airflow revision
+
+Version 0.4.1 passed 21 unit tests and resource/artifact validation on both loaders. New checks cover a shared time-to-position scale, exact perfect-band width, and equal quality rolls for equally accurate single and multi-hit work; missed notes lower quality through accuracy. No rarity bonus is added for phrase length.
+
+The hidden NeoForge survival run waited for an actual randomly scheduled double, then completed both strikes 12 ticks apart without modifying the scheduler. Across 218 rendered frames with two notes visible, both markers shared the same path and height. The actual bellows air particles passed 3,180 directional samples with mean X velocity −10.83 scene pixels/second toward the hearth. The nozzle stream and its flame response were visually inspected in captured frames. All twelve hammer contact checks and the full survival route passed. Fabric completed its own hidden survival route with the revised visuals and particle registration.
 
 ## Rhythm revision
 

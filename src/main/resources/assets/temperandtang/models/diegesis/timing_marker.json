@@ -2,8 +2,8 @@
   "parent": "minecraft:block/block",
   "ambientocclusion": false,
   "textures": {
-    "particle": "minecraft:block/gold_block",
-    "gold": "minecraft:block/gold_block"
+    "particle": "minecraft:block/white_concrete",
+    "gold": "minecraft:block/white_concrete"
   },
   "elements": [
     {

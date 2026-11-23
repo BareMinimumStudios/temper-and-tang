@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.1
+
+- Replaced separate phrase lights with incoming gold strike markers on the same timing rail. Every note crosses one fixed green target; upcoming notes keep their spacing as the active strike changes.
+- Made the perfect band match its actual time window on a shared track scale. Added full-bright target and note visuals for readability.
+- Added visible, directed air streaks at the bellows nozzle, timed to compression, plus a brief flame and ember response.
+- Kept quality based on accuracy: doubles and triples do not grant a separate rarity bonus. Missed notes reduce accuracy as before.
+
 ## 0.4.0
 
 - Added compact stage, action and ingredient guidance, with muted color cues, H for optional help and Shift for detailed equipment tooltips.

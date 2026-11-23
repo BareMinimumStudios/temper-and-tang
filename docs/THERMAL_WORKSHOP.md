@@ -78,10 +78,10 @@ Material differences and traits are described in [Materials and workmanship](MAT
 
 ## Rhythm forging
 
-Press Space as the marker meets the green band. Its brightness rises as a beat approaches. The small lights show whether the current phrase needs one, two or three strikes; the current light is highlighted and completed lights dim. Later beats in a phrase stay fixed even when the first strike is early or late. A new phrase receives a fresh lead-in. Randomness changes the rhythm, not the required key.
+Press Space once for each gold strike marker as it crosses the fixed green target. All incoming strikes travel along the same rail. Two markers mean two separate timed presses; three mean three. The green target brightens as the active strike approaches. Later beats in a phrase stay fixed even when the first strike is early or late. A new phrase receives a fresh lead-in. Randomness changes the rhythm, not the required key.
 
 Gold, copper and tin are forgiving. Bronze is a gentler starting material; iron is faster and tighter. Steel is more demanding, and diamond/netherite have the fastest cadence and most frequent multi-hit phrases. The perfect band follows the server's actual scoring window. Waiting before the first strike is free; missed beats after starting reduce accuracy. Pressing repeatedly cannot bypass the strike cooldown.
 
-Each accepted strike drives a physical hammer swing. The exact contact frame triggers its clang, a brief warm surface flash and sparks; perfect strikes produce a brighter spark burst. Timing affects craftsmanship through the existing bounded quality roll, rather than guaranteeing a rarity.
+Each accepted strike drives a physical hammer swing. The exact contact frame triggers its clang, a brief warm surface flash and sparks; perfect strikes produce a brighter spark burst. Timing affects craftsmanship through the existing bounded quality roll, rather than guaranteeing a rarity. A perfect double earns the same quality chance as equally accurate singles; its closer spacing makes accuracy harder to maintain. Missing a beat lowers accuracy and therefore the chance of masterwork.
 
 `materialDifficulty` and `rhythmPhrases` can be disabled independently in the existing Fzzy configuration. These options do not change ingredient costs, equipment preservation, or saved item metadata. The default interface remains short; H opens further guidance and Shift expands equipment details.

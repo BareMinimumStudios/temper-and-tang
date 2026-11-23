@@ -154,7 +154,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "emissive": true
       },
       "pickable": false
     },
@@ -171,7 +172,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "emissive": true
       },
       "pickable": false
     },
@@ -211,51 +213,54 @@
     {
       "id": "rhythm_note_1",
       "pos": [
-        6.5,
+        8,
         8.9,
-        -0.30000000000000004
+        1.2
       ],
       "visual": {
-        "model": "temperandtang:diegesis/rhythm_note",
+        "model": "temperandtang:diegesis/timing_marker",
         "anchor": [
           0,
           0,
           0
-        ]
+        ],
+        "emissive": true
       },
       "pickable": false
     },
     {
       "id": "rhythm_note_2",
       "pos": [
-        8.0,
+        8,
         8.9,
-        -0.30000000000000004
+        1.2
       ],
       "visual": {
-        "model": "temperandtang:diegesis/rhythm_note",
+        "model": "temperandtang:diegesis/timing_marker",
         "anchor": [
           0,
           0,
           0
-        ]
+        ],
+        "emissive": true
       },
       "pickable": false
     },
     {
       "id": "rhythm_note_3",
       "pos": [
-        9.5,
+        8,
         8.9,
-        -0.30000000000000004
+        1.2
       ],
       "visual": {
-        "model": "temperandtang:diegesis/rhythm_note",
+        "model": "temperandtang:diegesis/timing_marker",
         "anchor": [
           0,
           0,
           0
-        ]
+        ],
+        "emissive": true
       },
       "pickable": false
     },

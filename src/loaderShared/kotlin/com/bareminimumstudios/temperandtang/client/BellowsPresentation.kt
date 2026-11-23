@@ -72,11 +72,13 @@ class BellowsPresentation {
         view.node("bellows_leather").ifPresent {it.setShape(leather(angle),ResourceLocation.withDefaultNamespace("block/brown_terracotta"))}
         view.node("bellows_welts").ifPresent {it.setShape(welts(angle),ResourceLocation.withDefaultNamespace("block/dark_oak_planks"))}
         val compression=heating && cos(time*5f)<-.45f
-        view.node("fire").ifPresent {it.setEmitRate(if(compression)18f else 6f)}
+        view.node("fire").ifPresent {it.setEmitRate(if(compression)26f else 6f)}
+        view.node("embers").ifPresent {it.setTint(if(compression)0xFFFFFFFF.toInt()else 0xFFD8B79E.toInt())}
         gust+=dt
-        if(compression && gust>.14f) {
+        if(compression && gust>.065f) {
             gust=0f
-            view.spawnParticles(DiegesisParticles.DUST,Vector3f(13.7f,7.5f,8f),Vector3f(-9f,1f,0f),.25f,3,0x809BAABC.toInt())
+            view.spawnParticles(TemperAndTang.id("bellows_air"),Vector3f(12.5f,7.22f,8f),Vector3f(-11f,2f,0f),.08f,3,0)
+            view.spawnParticles(DiegesisParticles.FLAME,Vector3f(8.5f,7.25f,8f),Vector3f(0f,5f,0f),.8f,3,0)
             view.spawnParticles(TemperAndTang.id("forge_spark"),Vector3f(8f,6.5f,8f),Vector3f(0f,10f,0f),1.2f,2,0xFFFFB85C.toInt())
         }
     }

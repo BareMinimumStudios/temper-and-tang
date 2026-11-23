@@ -15,6 +15,8 @@ object ThermalClient {
     fun initialize() {
         DiegesisClient.registerParticle(TemperAndTang.id("forge_spark"),ParticleStyle.builder(ParticleStyle.frames("spark",8))
             .color(0xFFFFD38A.toInt()).size(.45f,.85f).life(.22f,.42f).gravity(42f).drag(.25f).stretch().emissive().build())
+        DiegesisClient.registerParticle(TemperAndTang.id("bellows_air"),ParticleStyle.builder((0..11).map {ResourceLocation.fromNamespaceAndPath("diegesis","steam_$it")})
+            .color(0xDDE5EFF5.toInt()).size(.7f,1f).life(.42f,.52f).gravity(0f).drag(.05f).stretch().grow(1.15f).fadeIn(.04f).emissive().build())
         for ((name, action) in listOf("charcoal_hearth" to "heat", "shaping_anvil" to "strike", "quenching_trough" to "quench"))
             DiegesisClient.registerBehavior(TemperAndTang.id(name)) { Feedback(action) }
     }
@@ -66,7 +68,7 @@ object ThermalClient {
                 for(key in listOf("previous","next","category","scribe","mode"))view.node(key).ifPresent {it.setVisible(!ready && !working && (key=="mode" || !reforging))}
                 for(key in listOf("timing_rail","timing_band","timing_marker"))view.node(key).ifPresent {it.setVisible(working && !ready)}
                 val perfect=(visibleState.getControl("window").toInt()/2+1).toFloat()
-                view.node("timing_band").ifPresent {it.scaleTo(12f*view.state().getControl("perfect_window").coerceAtLeast(1f)/view.state().getControl("period").coerceAtLeast(1f),0.05f)}
+                view.node("timing_band").ifPresent {it.scaleTo(com.bareminimumstudios.temperandtang.smithing.RhythmTrack.bandWidth(view.state().getControl("perfect_window").coerceAtLeast(1f))/2f,0.05f)}
                 view.node("strike").ifPresent {it.setVisible(!ready)}
                 view.node("gear").ifPresent {it.setGhostItems(listOf(ItemStack(net.minecraft.world.item.Items.IRON_CHESTPLATE)))}
                 view.node("flux").ifPresent {it.setGhostItems(listOf(ItemStack(com.bareminimumstudios.temperandtang.content.TemperContent.item("smithing_flux"))))}

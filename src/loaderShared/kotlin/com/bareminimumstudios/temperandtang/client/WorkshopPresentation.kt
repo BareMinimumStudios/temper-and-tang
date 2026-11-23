@@ -1,6 +1,7 @@
 package com.bareminimumstudios.temperandtang.client
 
 import com.bareminimumstudios.temperandtang.TemperAndTang
+import com.bareminimumstudios.temperandtang.smithing.RhythmTrack
 import com.bareminimumstudios.temperandtang.smithing.WorkshopMotion as Motion
 import com.pockyl.diegesis.api.client.*
 import com.pockyl.diegesis.api.scene.Visual
@@ -25,6 +26,7 @@ class HammerPresentation(private val finishing:Boolean) {
     private var anchor=0f
     private var sinceSync=0f
     private var marker=0f
+    private var noteId=-1
     private var initialized=false
     private var glow=0f
     private var glowScore=0f
@@ -33,13 +35,15 @@ class HammerPresentation(private val finishing:Boolean) {
     private var beatArmed=false
     private fun surface(view:StationView):Float=if(finishing)14.4f else if(view.level().getBlockState(view.pos()).`is`(com.bareminimumstudios.temperandtang.content.TemperContent.block("shaping_anvil")))13.4f else 16.4f
     fun sync(view:StationView) {
-        val shown=view.state().getControl("phase")
-        val remaining=view.state().getControl("target")
-        if(remaining>0f || shown>0f)beatArmed=true
-        val phase=if(shown==0f && remaining>0f).5f-remaining/view.state().getControl("period").coerceAtLeast(1f) else shown
-        if(!initialized || phase<anchor-.2f){marker=phase.coerceIn(0f,1f);initialized=true}
-        anchor=phase;sinceSync=0f
+        val state=view.state()
+        val period=state.getControl("period").coerceAtLeast(1f)
+        val until=state.getControl("target").takeIf {it>0f}?:((.5f-state.getControl("phase"))*period)
+        if(state.getControl("target")>0f || state.getControl("phase")>0f)beatArmed=true
+        val id=state.getControl("progress").toInt()*4+state.getControl("phrase_step").toInt()
+        if(!initialized || id!=noteId || until>anchor+2f){marker=until;initialized=true;noteId=id}
+        anchor=until;sinceSync=0f
     }
+
     fun effect(effect:ResourceLocation,data:CompoundTag) {
         if(effect!=TemperAndTang.id("hammer_strike"))return
         if(pending.size<40)pending.addLast(Strike(data.getFloat("pitch"),data.getBoolean("sparks"),data.getFloat("accuracy")))
@@ -87,12 +91,14 @@ class HammerPresentation(private val finishing:Boolean) {
         pulseTime+=dt
         glow=(glow-dt*5f).coerceAtLeast(0f)
         sinceSync+=dt
-        val predicted=(anchor+sinceSync*20f/view.state().getControl("period").coerceAtLeast(1f)).coerceIn(0f,1f)
-        val advanced=marker+dt*20f/view.state().getControl("period").coerceAtLeast(1f)
-        marker=if(!working || !beatArmed || predicted<=0f)0f else max(marker,advanced+(predicted-advanced)*(1-exp(-dt*8f))).coerceIn(0f,1f)
-        view.node("timing_marker").ifPresent {it.moveTo((marker-.5f)*12f,0f,0f,0f)}
-        for(id in listOf("timing_rail","timing_band","timing_marker"))view.node(id).ifPresent {it.setVisible(working && !ready)}
-        val proximity=(1f-abs(marker-.5f)*6f).coerceIn(0f,1f)
+        val predicted=anchor-sinceSync*20f
+        val advanced=marker-dt*20f
+        marker=if(!working || !beatArmed)anchor else advanced+(predicted-advanced)*(1-exp(-dt*8f))
+        val x=RhythmTrack.position(marker)
+        view.node("timing_marker").ifPresent {it.moveTo(x,0f,0f,0f);it.setVisible(working && !ready && beatArmed && RhythmTrack.visible(x))}
+        for(id in listOf("timing_rail","timing_band"))view.node(id).ifPresent {it.setVisible(working && !ready)}
+        view.node("timing_band").ifPresent {it.moveTo(RhythmTrack.TARGET,0f,0f,0f)}
+        val proximity=(1f-abs(marker)/8f).coerceIn(0f,1f)
         val pulse=.5f+.5f*sin(pulseTime*9f)
         val light=(120+proximity*100+pulse*25).toInt().coerceIn(0,255)
         view.node("timing_band").ifPresent {it.setTint((0xFF000000L or (65L shl 16) or (light.toLong() shl 8) or 95L).toInt())}
@@ -105,10 +111,12 @@ class HammerPresentation(private val finishing:Boolean) {
         }
         val count=state.getControl("phrase_size").toInt().coerceIn(1,3)
         val step=state.getControl("phrase_step").toInt().coerceIn(1,3)
+        val gap=state.getControl("next_gap")
         for(i in 1..3)view.node("rhythm_note_$i").ifPresent {
-            it.setVisible(working && !ready && i<=count)
-            it.setTint(if(i<step)0xFF55765C.toInt()else if(i==step)if(proximity>.65f)0xFFE4FFD3.toInt()else 0xFF9ACD8B.toInt()else 0xFF69766A.toInt())
-            it.scaleTo(if(i==step)1f+.10f*proximity else .82f,0f)
+            val upcoming=RhythmTrack.position(marker+gap*i)
+            it.setVisible(working && !ready && beatArmed && i<=count-step && gap>0f && RhythmTrack.visible(upcoming))
+            it.moveTo(upcoming,0f,0f,0f)
+            it.setTint(0xFFFFC66B.toInt())
         }
         strike?.let {event->
             val before=elapsed;elapsed+=dt*1.35f

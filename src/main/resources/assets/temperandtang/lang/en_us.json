@@ -244,5 +244,5 @@
   "temperandtang.config.materialDifficulty.desc": "Harder metals have faster beats and tighter timing windows.",
   "temperandtang.config.rhythmPhrases": "Rhythm phrases",
   "temperandtang.config.rhythmPhrases.desc": "Occasional double and triple strikes, with visible upcoming notes.",
-  "temperandtang.short.rhythm_help": "Lights show the phrase. One press per beat; harder metals need tighter timing."
+  "temperandtang.short.rhythm_help": "One press for each gold strike as it reaches green. Following strikes use the same track."
 }
