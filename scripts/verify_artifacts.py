@@ -30,6 +30,8 @@ def artifacts():
             for station in ("charcoal_hearth", "shaping_anvil", "quenching_trough"):
                 assert f"assets/temperandtang/diegesis/scenes/{station}.json" in files
             assert "com/bareminimumstudios/temperandtang/station/ThermalStations.class" in files
+            assert "com/bareminimumstudios/temperandtang/smithing/HotMetalHandling.class" in files
+            assert "assets/temperandtang/models/item/smithing_tongs.json" in files
             assert "com/bareminimumstudios/temperandtang/smithing/ShapingRecipe.class" in files
             assert "com/bareminimumstudios/temperandtang/client/ThermalClient.class" in files
             assert "temperandtang.mixins.json" in files

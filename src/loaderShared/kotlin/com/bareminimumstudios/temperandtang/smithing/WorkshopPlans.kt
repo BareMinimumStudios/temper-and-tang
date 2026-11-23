@@ -101,7 +101,7 @@ object WorkshopPlans {
                 if (hits !in 1..40 || ghosts.none(::metal)) continue
                 result.add(Forming(holder.id(), recipe, true, ghosts, hits, cls.getMethod("hasPolishing").invoke(recipe) == true))
             }
-        } else if (!TemperAndTang.modLoaded("overgeared")) {
+        } else if (!TemperAndTang.modLoaded("overgeared") || !TemperAndTang.config.overgearedRecipes.get()) {
             for (holder in level.recipeManager.getAllRecipesFor(ThermalRecipes.TYPE)) {
                 val recipe = holder.value()
                 if (!basicWeapon(recipe.getResultItem(level.registryAccess()))) continue

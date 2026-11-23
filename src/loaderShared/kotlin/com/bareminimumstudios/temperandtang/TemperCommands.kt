@@ -34,6 +34,7 @@ object TemperCommands {
                     verify(context.source)
                     ForgingVerification.verify(context.source)
                     RecipeVerification.verify(context.source)
+                    HotHandlingVerification.verify(context.source)
                     context.source.sendSuccess({ Component.literal("Temper & Tang verification passed: station, materials, finishes, preservation and non-stacking.") }, false)
                     TemperAndTang.logger.info("TEMPER_VERIFY_PASSED")
                     1
@@ -78,7 +79,7 @@ object TemperCommands {
             val swordId = ResourceLocation.fromNamespaceAndPath("simplyswords", "iron_longsword")
             val sword = ItemStack(BuiltInRegistries.ITEM.get(swordId))
             check(WeaponFinishes.accepts(sword)) { "Simply Swords weapon not accepted" }
-            if (TemperAndTang.modLoaded("overgeared")) {
+            if (com.bareminimumstudios.temperandtang.compat.NativeSmithing.loaded()) {
                 @Suppress("UNCHECKED_CAST")
                 val type = BuiltInRegistries.DATA_COMPONENT_TYPE.get(ResourceLocation.fromNamespaceAndPath("overgeared", "forging_quality")) as? DataComponentType<Any>
                 check(type != null) { "Overgeared quality component absent" }

@@ -22,3 +22,8 @@ for name in ("charcoal_hearth", "shaping_anvil", "quenching_trough"):
     if name == "shaping_anvil":
         assert {n["slot"]["slot"] for n in scene["nodes"] if "slot" in n and n["id"].startswith("grid_")} == {f"grid[{i}]" for i in range(9)}
 print("Verified thermal workstation recipes, models and all nine distinct grid bindings.")
+
+assert json.loads((root / "data/c/tags/item/tools/tongs.json").read_text())["values"] == ["temperandtang:smithing_tongs"]
+assert json.loads((root / "data/temperandtang/tags/item/tongs.json").read_text())["values"] == ["#c:tools/tongs"]
+assert (root / "data/temperandtang/recipe/smithing_tongs.json").exists()
+print("Verified owned tongs recipe and additive common tool tags.")

@@ -14,8 +14,8 @@ object TemperContent {
         "bronze_block" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)) },
         "raw_tin_block" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.RAW_IRON_BLOCK)) },
         "charcoal_hearth" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.FURNACE).lightLevel { 0 }.noOcclusion()) },
-"shaping_anvil" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.ANVIL).noOcclusion()) },
-"quenching_trough" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion()) },
+        "shaping_anvil" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.ANVIL).noOcclusion()) },
+        "quenching_trough" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion()) },
         "finishing_anvil" to { FinishingAnvilBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANVIL)) },
     )
     val items: Map<String, () -> Item> = linkedMapOf(
@@ -27,6 +27,7 @@ object TemperContent {
         "bronze_blend" to { Item(Item.Properties()) },
         "bronze_nugget" to { Item(Item.Properties()) },
         "bronze_sword" to { SwordItem(BronzeTier, Item.Properties().attributes(SwordItem.createAttributes(BronzeTier, 3, -2.4f))) },
+        "smithing_tongs" to { SmithingTongsItem(Item.Properties().durability(256).stacksTo(1)) },
         "smithing_hammer" to { SmithingHammerItem(Item.Properties().durability(384).stacksTo(1)) },
         "tempering_compound" to { FinishingMaterialItem(Finish.TEMPERED, Item.Properties()) },
         "honing_compound" to { FinishingMaterialItem(Finish.KEEN, Item.Properties()) },

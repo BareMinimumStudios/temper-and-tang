@@ -16,7 +16,7 @@ object TemperAndTang {
         config = ConfigApi.registerAndLoadConfig(::TemperConfig)
         FinishingStation.register()
         com.bareminimumstudios.temperandtang.station.ThermalStations.register()
-        logger.info("Temper & Tang ready: Diegesis finishing station; Simply Swords={}, Overgeared={}",
+        logger.info("Temper & Tang ready: standalone thermal workshop and finishing; Simply Swords={}, optional Overgeared present={}",
             presence("simplyswords"), presence("overgeared"))
     }
 }

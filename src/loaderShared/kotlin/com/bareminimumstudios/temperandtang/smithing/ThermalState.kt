@@ -22,11 +22,11 @@ object ThermalState {
         stack.set(DataComponents.CUSTOM_DATA, CustomData.of(all))
     }
     fun blank(stack: ItemStack) = !stack.isEmpty && stack.item == TemperContent.item("unquenched_weapon")
-    fun pending(stack: ItemStack): Boolean = blank(stack) || NativeSmithing.hot(stack)
+    fun pending(stack: ItemStack): Boolean = blank(stack) || data(stack).getLong("hot_until") > 0 || NativeSmithing.hot(stack)
     fun hot(stack: ItemStack, level: Level): Boolean {
         if (stack.isEmpty) return false
         val until = data(stack).getLong("hot_until")
-        if (until > 0) return level.gameTime < until && (!NativeSmithing.loaded() || NativeSmithing.hot(stack))
+        if (until > 0) return level.gameTime < until
         return NativeSmithing.hot(stack) && NativeSmithing.heatTime(stack).let { time ->
             time == null || level.gameTime - time < ((NativeSmithing.config("HEATED_ITEM_COOLDOWN_TICKS") as? Number)?.toLong() ?: 1200L)
         }

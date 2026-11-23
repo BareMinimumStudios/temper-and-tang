@@ -37,8 +37,8 @@ class TemperNeoForge(bus: IEventBus) {
         }
         TemperContent.items.forEach { (name, factory) -> items.register(name, java.util.function.Supplier<Item> { factory() }) }
         NeoForge.EVENT_BUS.addListener { event: RegisterCommandsEvent -> TemperCommands.register(event.dispatcher) }
-        NeoForge.EVENT_BUS.addListener { event: ServerTickEvent.Post -> StationVerification.tick(event.server) }
-        NeoForge.EVENT_BUS.addListener { event: ServerStoppedEvent -> StationVerification.stop(event.server) }
+        NeoForge.EVENT_BUS.addListener { event: ServerTickEvent.Post -> com.bareminimumstudios.temperandtang.smithing.HotMetalHandling.tick(event.server); StationVerification.tick(event.server) }
+        NeoForge.EVENT_BUS.addListener { event: ServerStoppedEvent -> StationVerification.stop(event.server); com.bareminimumstudios.temperandtang.smithing.HotMetalHandling.clear() }
         bus.addListener { event: FMLClientSetupEvent -> event.enqueueWork { com.bareminimumstudios.temperandtang.client.TemperClient.initialize(); NeoForge.EVENT_BUS.addListener { tooltip: net.neoforged.neoforge.event.entity.player.ItemTooltipEvent -> com.bareminimumstudios.temperandtang.client.ThermalTooltips.append(tooltip.itemStack,tooltip.toolTip) } } }
         blocks.register(bus)
         items.register(bus)

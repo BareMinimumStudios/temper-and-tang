@@ -16,7 +16,7 @@ object OvergearedRecipes {
                         raw.asJsonObject.getAsJsonArray("values")?.any { !TemperAndTang.modLoaded(it.asString) } == true
                 } == true
         }.toMutableMap()
-        if (!TemperAndTang.modLoaded("overgeared") && TemperAndTang.config.thermalEnabled.get()) {
+        if ((!TemperAndTang.modLoaded("overgeared") || !TemperAndTang.config.overgearedRecipes.get()) && TemperAndTang.config.thermalEnabled.get()) {
             for ((id, element) in result.toMap()) {
                 if (!element.isJsonObject || element.asJsonObject.get("type")?.asString != "minecraft:crafting_shaped") continue
                 val item = element.asJsonObject.getAsJsonObject("result")?.get("id")?.asString ?: continue

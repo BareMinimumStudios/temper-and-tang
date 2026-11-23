@@ -35,8 +35,8 @@ object TemperFabric : ModInitializer {
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Decoration.UNDERGROUND_ORES,
             ResourceKey.create(Registries.PLACED_FEATURE, TemperAndTang.id("tin_ore")))
         TemperAndTang.initialize { FabricLoader.getInstance().isModLoaded(it) }
-        ServerTickEvents.END_SERVER_TICK.register(StationVerification::tick)
-        ServerLifecycleEvents.SERVER_STOPPED.register(StationVerification::stop)
+        ServerTickEvents.END_SERVER_TICK.register { server -> com.bareminimumstudios.temperandtang.smithing.HotMetalHandling.tick(server); StationVerification.tick(server) }
+        ServerLifecycleEvents.SERVER_STOPPED.register { server -> StationVerification.stop(server); com.bareminimumstudios.temperandtang.smithing.HotMetalHandling.clear() }
         CommandRegistrationCallback.EVENT.register { dispatcher, _, _ -> TemperCommands.register(dispatcher) }
     }
 }

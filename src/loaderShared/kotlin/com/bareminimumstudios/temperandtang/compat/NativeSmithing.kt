@@ -14,7 +14,7 @@ object NativeSmithing {
     private var checked = false
     private var supported = false
     fun loaded(): Boolean {
-        if (!TemperAndTang.modLoaded("overgeared")) return false
+        if (!TemperAndTang.config.overgearedRecipes.get() || !TemperAndTang.modLoaded("overgeared")) return false
         if (!checked) {
             supported = runCatching {
                 Class.forName("net.stirdrem.overgeared.AnvilTier").getMethod("stone")
