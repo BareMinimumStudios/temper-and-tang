@@ -63,3 +63,5 @@ The packaged NeoForge distribution ran through the existing isolated modpack/wor
 The external harness, server fixtures and copied world remain outside the distributed mod. New Test's mods, settings, food unification and progression were not changed during this thermal pass. Nothing was pushed or published.
 
 Remaining playtest scope: Fabric graphical interaction, live multiplayer contention/disconnect timing, full-inventory overflow, long-session balancing and broader third-party recipe variants. Stations return session inventory on close rather than persisting unattended block inventories. Overgeared's native cooling and hot-item handling remain authoritative; no blanket rewrite of advanced forging was introduced.
+
+A further hidden packaged-client session reopened the saved copied world and confirmed the cooled bronze weapon still had native Well quality. The tested NeoForge distribution SHA-256 is 59ac4eded1db47912d83f0a3c05c7db25336c94f5a3e751bec045ce1758828c9; the Fabric distribution is 45d12df84280f0e6cbe59907945bef03e1fee2636fa30944358f3eb135931d82. No original profile/world was opened by this session.

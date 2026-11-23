@@ -41,3 +41,11 @@ Without Overgeared, basic iron/gold/bronze shaped weapon recipes move to the sha
 Refined stock uses additive `temperandtang:heatable_stock`, populated by optional common `c:ingots/iron`, `/gold`, `/copper`, `/tin`, `/bronze` tags. Other packs can extend the tag. The thermal wrapper recipe serializer/type is `temperandtang:shaping`, with vanilla shaped-recipe fields; native mode reads `overgeared:forging` instead.
 
 Operators can run `/temperandtang verify`, `/temperandtang verify_station` and `/temperandtang verify_thermal`. The thermal diagnostic uses isolated inventories on real server ticks and takes about a minute with default settings.
+
+## Workstations in the tested client
+
+![Charcoal hearth and bellows](images/charcoal-hearth.png)
+
+![Shaping anvil and working hammer](images/shaping-anvil.png)
+
+![Quenching trough](images/quenching-trough.png)
