@@ -64,8 +64,10 @@ class HammerPresentation(private val finishing:Boolean) {
             val existing=finishing || reforging
             val id=if(existing && !input.isEmpty)BuiltInRegistries.ITEM.getKey(input.item).toString() else if(finishing)cachedItem else state.data().getString("target")
             if(id.isNotEmpty())cachedItem=id
-            val plate=id.contains("helmet") || id.contains("chestplate") || id.contains("leggings") || id.contains("boots") || id.contains("shield")
-            val stage=if(existing)id else when {visibleHits<3->"shaping_billet";plate->"armor_plate";visibleHits<5->"drawn_stock";else->"blade_blank"}
+            val targetItem=ResourceLocation.tryParse(id)?.let {BuiltInRegistries.ITEM.get(it)}?:net.minecraft.world.item.Items.AIR
+            val required=if(finishing)TemperAndTang.config.requiredStrikes.get()else state.getControl("required").toInt().coerceAtLeast(1)
+            val ratio=visibleHits.toFloat()/required
+            val stage=if(existing)id else when {ratio<.35f->"shaping_billet";ratio<.7f->if(WorkpieceForms.plate(targetItem))"armor_plate" else "drawn_stock";else->WorkpieceForms.model(targetItem)}
             val key=(if(existing)"item:" else "stock:")+stage
             if(key!=lastTarget){
                 val visual=if(existing)ResourceLocation.tryParse(id)?.let {Visual.ofItem(BuiltInRegistries.ITEM.get(it))} else Visual.ofModel(TemperAndTang.id("diegesis/"+stage)).asEmissive()

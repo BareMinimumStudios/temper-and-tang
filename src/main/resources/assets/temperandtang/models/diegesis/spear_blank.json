@@ -1,0 +1,217 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "textures": {
+    "metal": "minecraft:block/iron_block",
+    "particle": "minecraft:block/iron_block"
+  },
+  "elements": [
+    {
+      "name": "leaf",
+      "from": [
+        6.5,
+        7.8,
+        3
+      ],
+      "to": [
+        9.5,
+        8.2,
+        10.5
+      ],
+      "faces": {
+        "north": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "south": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "east": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "west": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "up": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "down": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        }
+      }
+    },
+    {
+      "name": "tip",
+      "from": [
+        7.3,
+        7.8,
+        1
+      ],
+      "to": [
+        8.7,
+        8.2,
+        3
+      ],
+      "faces": {
+        "north": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "south": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "east": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "west": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "up": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "down": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        }
+      }
+    },
+    {
+      "name": "socket",
+      "from": [
+        7.1,
+        7.8,
+        10.5
+      ],
+      "to": [
+        8.9,
+        8.2,
+        15
+      ],
+      "faces": {
+        "north": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "south": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "east": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "west": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "up": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "down": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        }
+      }
+    }
+  ]
+}

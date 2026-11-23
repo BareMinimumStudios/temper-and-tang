@@ -164,5 +164,6 @@
   "temperandtang.material.name.copper": "Copper",
   "temperandtang.material.name.tin": "Tin",
   "temperandtang.material.name.diamond": "Diamond",
-  "temperandtang.material.name.netherite": "Netherite"
+  "temperandtang.material.name.netherite": "Netherite",
+  "temperandtang.guide.heat_empty": "Add refined metal. Fuel and heating time are calculated from the batch; keep tongs in hand."
 }

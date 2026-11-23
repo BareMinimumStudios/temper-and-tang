@@ -1,0 +1,286 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "textures": {
+    "metal": "minecraft:block/iron_block",
+    "particle": "minecraft:block/iron_block"
+  },
+  "elements": [
+    {
+      "name": "crown",
+      "from": [
+        4.5,
+        7.8,
+        3.5
+      ],
+      "to": [
+        11.5,
+        8.2,
+        10.5
+      ],
+      "faces": {
+        "north": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "south": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "east": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "west": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "up": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "down": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        }
+      }
+    },
+    {
+      "name": "cheek_left",
+      "from": [
+        3.5,
+        7.8,
+        6
+      ],
+      "to": [
+        4.5,
+        8.2,
+        12
+      ],
+      "faces": {
+        "north": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "south": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "east": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "west": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "up": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "down": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        }
+      }
+    },
+    {
+      "name": "cheek_right",
+      "from": [
+        11.5,
+        7.8,
+        6
+      ],
+      "to": [
+        12.5,
+        8.2,
+        12
+      ],
+      "faces": {
+        "north": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "south": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "east": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "west": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "up": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "down": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        }
+      }
+    },
+    {
+      "name": "brow",
+      "from": [
+        5.5,
+        7.8,
+        10.5
+      ],
+      "to": [
+        10.5,
+        8.2,
+        12.5
+      ],
+      "faces": {
+        "north": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "south": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "east": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "west": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "up": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        },
+        "down": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            2,
+            12,
+            12
+          ]
+        }
+      }
+    }
+  ]
+}

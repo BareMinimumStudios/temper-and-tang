@@ -25,13 +25,15 @@ object WorkshopGuidance {
     fun decorate(view:StationView,action:String,instruction:Component):Component {
         val state=view.state();val status=state.data().getString("status")
         val stage=when(action){"heat"->1;"strike"->2;"quench"->3;else->4}
-        val stock=when(action){"heat","quench"->state.getItem(ThermalStations.STOCK);"finish"->state.getItem(FinishingStation.WEAPON);else->item(state.data().getString("target"))}
-        val name=if(stock.isEmpty)Component.translatable("temperandtang.guide.choose_stock") else stock.hoverName
+        val input=when(action){"heat","quench"->state.getItem(ThermalStations.STOCK);"finish"->state.getItem(FinishingStation.WEAPON);else->item(state.data().getString("target"))}
+        val stock=if(input.isEmpty)state.getOutput("result")else input
+        val shown=if(ThermalState.blank(stock))WorkpieceAppearance.shown(stock)else stock
+        val name=if(stock.isEmpty)Component.translatable("temperandtang.guide.choose_stock") else if(stock.count>1)Component.translatable("temperandtang.guide.quantity",stock.count,shown.hoverName)else shown.hoverName
         val header=Component.translatable("temperandtang.guide.header",Component.translatable("temperandtang.guide."+action),stage,name)
         val requirements:Component=when(action) {
             "heat"->{
                 val ticks=WorkshopPlans.heating(stock,view.level())?.let {ThermalRules.heatingTicks(it.perItem,stock.count)}?:0
-                Component.translatable("temperandtang.guide.heat_needs",state.getControl("fuel_cost").toInt(),(ticks+19)/20)
+                if(stock.isEmpty)Component.translatable("temperandtang.guide.heat_empty")else Component.translatable("temperandtang.guide.heat_needs",state.getControl("fuel_cost").toInt(),(ticks+19)/20)
             }
             "quench"->Component.translatable("temperandtang.guide.quench_needs",(TemperAndTang.config.quenchingTicks.get()+19)/20)
             "finish"->{
