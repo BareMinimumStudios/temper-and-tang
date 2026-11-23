@@ -1,7 +1,6 @@
 package com.bareminimumstudios.temperandtang.station
 
 import com.bareminimumstudios.temperandtang.TemperAndTang
-import com.bareminimumstudios.temperandtang.compat.NativeSmithing
 import com.bareminimumstudios.temperandtang.content.TemperContent
 import com.bareminimumstudios.temperandtang.smithing.*
 import com.pockyl.diegesis.api.Diegesis
@@ -55,7 +54,7 @@ object ThermalStations {
                 .slots("gear",1,SlotRules.DEFAULT.maxStack(1).accepts(GearSupport::supported))
                 .slots("flux",1,SlotRules.DEFAULT.accepts {it.item==TemperContent.item("smithing_flux")})
                 .slots("blueprint",1,SlotRules.DEFAULT.maxStack(1).accepts {Blueprints.blank(it) || Blueprints.filled(it)})
-                .control("scribe",ControlSpec.button()).control("category",ControlSpec.button())
+                .control("scribe",ControlSpec.button()).control("category",ControlSpec.button()).control("mode",ControlSpec.button())
                 .control("accuracy",ControlSpec.range(0f,100f,0f).locked()).control("misses",ControlSpec.range(0f,10000f,0f).locked())
                 .control("target",ControlSpec.range(0f,60f,0f).locked()).control("window",ControlSpec.range(0f,10f,0f).locked())
                 .control("phase",ControlSpec.range(0f,1f,0f).locked()).control("last_score",ControlSpec.range(0f,1f,0f).locked())
@@ -88,7 +87,7 @@ object ThermalStations {
         override fun onSlotChanged(s: StationContext, slot: SlotRef) {
             if (slot == STOCK) {
                 reset(s)
-                val stamped = ThermalState.stampNativeHeat(s.state().getItem(STOCK),s.level())
+                val stamped = ThermalState.normalize(s.state().getItem(STOCK),s.level())
                 s.state().setItem(STOCK,stamped)
             }
         }
@@ -154,6 +153,9 @@ object ThermalStations {
         private var plans=emptyList<WorkshopPlans.Forming>()
         private var index=0
         private var category=0
+        private var reforgeMode=false
+        private var committedTarget=ItemStack.EMPTY
+        private var committedCost=0
         private var work:HammerWork?=null
         private fun stocks(s:StationContext)=(0..8).map {s.state().getItem(grid(it))}
         private fun player(s:StationContext)=s.users().firstOrNull()
@@ -168,12 +170,13 @@ object ThermalStations {
             index=plans.indexOfFirst {it.id==previous}.takeIf {it>=0}?:plans.indexOfFirst {it.id==TemperAndTang.id("bronze_sword")}.takeIf {it>=0}?:0
             reset(s)
         }
-        private fun target(s:StationContext)=if(!s.state().getItem(GEAR).isEmpty)s.state().getItem(GEAR) else plan()?.recipe?.getResultItem(s.level().registryAccess())?:ItemStack.EMPTY
-        private fun required(s:StationContext)=if(!s.state().getItem(GEAR).isEmpty) TemperAndTang.config.shapingStrikes.get()+if(GearSupport.armor(s.state().getItem(GEAR)))2 else 0 else plan()?.required()?:6
+        private fun target(s:StationContext)=if(!s.state().getItem(WORKPIECE).isEmpty && !committedTarget.isEmpty)committedTarget else if(!s.state().getItem(GEAR).isEmpty)s.state().getItem(GEAR) else plan()?.recipe?.getResultItem(s.level().registryAccess())?:ItemStack.EMPTY
+        private fun required(s:StationContext)=if(!s.state().getItem(WORKPIECE).isEmpty && committedCost>0)committedCost else if(!s.state().getItem(GEAR).isEmpty) TemperAndTang.config.shapingStrikes.get()+if(GearSupport.armor(s.state().getItem(GEAR)))2 else 0 else plan()?.required()?:6
         private fun status(s:StationContext):String {
             if(!active())return "disabled"
             if(!s.state().getItem(WORKPIECE).isEmpty)return "ready"
             val gear=s.state().getItem(GEAR)
+            if(reforgeMode && gear.isEmpty)return "insert_gear"
             if(!gear.isEmpty) {
                 if(stocks(s).any {!it.isEmpty})return "clear_pattern"
                 if(!Craftsmanship.canReforge(ThermalState.airCooled(gear,s.level())))return "repair"
@@ -194,16 +197,24 @@ object ThermalStations {
         }
         override fun onOpen(s:StationContext,player:Player) {refresh(s);updateOutputs(s)}
         override fun onSlotChanged(s:StationContext,slot:SlotRef) {
+            if(slot==GEAR && !s.state().getItem(GEAR).isEmpty)reforgeMode=true
             if(slot==BLUEPRINT) {
                 val match=plans.indexOfFirst {it.id.toString()==Blueprints.pattern(s.state().getItem(BLUEPRINT))}
                 if(match>=0) {index=match;category=0}
             }
             if(s.state().getItem(WORKPIECE).isEmpty)reset(s)
         }
-        override fun onCustomAction(s:StationContext,player:Player,action:String,data:CompoundTag) {if(action in setOf("strike","next","previous","scribe","category"))onButton(s,player,action)}
+        override fun onCustomAction(s:StationContext,player:Player,action:String,data:CompoundTag) {if(action in setOf("strike","next","previous","scribe","category","mode"))onButton(s,player,action)}
         override fun onButton(s:StationContext,player:Player,control:String) {
             if(s.isClientSide || !active() || player.isSpectator || !s.state().getItem(WORKPIECE).isEmpty || !player.inventoryMenu.carried.isEmpty)return
             if(plans.isEmpty())refresh(s)
+            if(control=="mode") {
+                if(stocks(s).any {!it.isEmpty} || !s.state().getItem(GEAR).isEmpty) {
+                    player.displayClientMessage(net.minecraft.network.chat.Component.translatable("temperandtang.craft.clear_mode"),true);return
+                }
+                reforgeMode=!reforgeMode;reset(s);updateOutputs(s);return
+            }
+            if(reforgeMode && control in setOf("next","previous","scribe","category"))return
             if(control=="category" || control=="next" || control=="previous") {
                 if(control=="category")category=(category+1)%3
                 if(plans.isNotEmpty()) {
@@ -231,11 +242,12 @@ object ThermalStations {
             if(status(s)!="work")return
             val job=work?:return
             val score=job.strike(s.level().gameTime)?:return
-            SmithingFeedback.strike(s,"strike",score)
+            SmithingFeedback.strike(s,"grid_4",score)
             if(job.ready) {
                 val gear=s.state().getItem(GEAR)
                 val reforging=!gear.isEmpty
                 val hammerCost=required(s)
+                val resultTarget=target(s).copy()
                 val result=if(reforging) {
                     val forged=Craftsmanship.forge(ThermalState.airCooled(gear,s.level()),job.accuracy,player,"reforge:"+BuiltInRegistries.ITEM.getKey(gear.item))
                     if(forged.isEmpty)forged else ThermalState.unquenched(forged,s.level())
@@ -250,6 +262,7 @@ object ThermalStations {
                 }
                 val worn=s.state().getItem(HAMMER).copy().also {it.damageValue+=hammerCost}
                 s.state().setItem(HAMMER,if(worn.damageValue>=worn.maxDamage)ItemStack.EMPTY else worn)
+                committedTarget=resultTarget;committedCost=hammerCost
                 s.state().setItem(WORKPIECE,result)
                 player.server?.let {SmithingProgress.get(it).award(player.uuid,CraftRules.earnedXp(job.accuracy,reforging))}
                 sound(s,SoundEvents.ANVIL_USE,0.6f,1.1f)
@@ -280,11 +293,11 @@ object ThermalStations {
             state.setControl("accuracy",((job?.accuracy?:0.0)*100).toFloat());state.setControl("misses",job?.misses?.toFloat()?:0f)
             state.setControl("target",((job?.target?:s.level().gameTime)-s.level().gameTime).toFloat().coerceIn(0f,60f))
             state.setControl("window",job?.window?.toFloat()?:0f);state.setControl("phase",job?.phase(s.level().gameTime)?:0f)
-            state.setControl("beat",if(job!=null && kotlin.math.abs(s.level().gameTime-job.target)<=job.window/2)1f else 0f)
+            state.setControl("beat",if(job!=null && kotlin.math.abs(s.level().gameTime-job.target)<=job.perfectWindow)1f else 0f)
             state.setControl("last_score",job?.lastScore?.toFloat()?:0f)
-            note(s,status,target,plan()?.ghosts)
+            note(s,status,target,if(!state.getItem(GEAR).isEmpty || !actual.isEmpty)List(9){ItemStack.EMPTY}else plan()?.ghosts)
             val data=state.data().copy();val before=data.copy()
-            data.putInt("category",category);data.putString("pattern_id",plan()?.id.toString());data.putBoolean("reforging",!state.getItem(GEAR).isEmpty)
+            data.putInt("category",category);data.putString("pattern_id",plan()?.id.toString());data.putBoolean("reforging",reforgeMode)
             player(s)?.let {p->p.server?.let {server->val mastery=SmithingProgress.get(server);data.putInt("mastery",mastery.level(p.uuid));data.putLong("mastery_xp",mastery.xp(p.uuid))}}
             if(data!=before)state.setData(data)
         }
@@ -302,7 +315,7 @@ object ThermalStations {
         private var completed = false
         private fun reset(s: StationContext) { start=-1; end=-1; completed=false; s.state().setControl("progress",0f); s.state().setOutput("result",ItemStack.EMPTY) }
         override fun onSlotChanged(s: StationContext, slot: SlotRef) {
-            if (slot == STOCK) { reset(s); s.state().setItem(STOCK,ThermalState.stampNativeHeat(s.state().getItem(STOCK),s.level())) }
+            if (slot == STOCK) { reset(s); s.state().setItem(STOCK,ThermalState.normalize(s.state().getItem(STOCK),s.level())) }
         }
         override fun onCustomAction(s: StationContext, player: Player, action: String, data: CompoundTag) { if (action == "quench") onButton(s,player,action) }
         override fun onButton(s: StationContext, player: Player, control: String) {

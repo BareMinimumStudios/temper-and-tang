@@ -50,7 +50,7 @@ object FinishingStation {
             val job=work?:return
             if(job.ready) {commit(s,player);updateOutputs(s);return}
             val score=job.strike(s.level().gameTime)?:return
-            SmithingFeedback.strike(s,"strike",score)
+            SmithingFeedback.strike(s,"weapon",score)
             if(job.ready)commit(s,player)
             updateOutputs(s)
         }
@@ -87,7 +87,7 @@ object FinishingStation {
             state.setControl("progress",job?.hits?.toFloat()?:0f);state.setControl("accuracy",((job?.accuracy?:0.0)*100).toFloat())
             state.setControl("target",((job?.target?:s.level().gameTime)-s.level().gameTime).toFloat().coerceIn(0f,60f))
             state.setControl("phase",job?.phase(s.level().gameTime)?:0f);state.setControl("last_score",job?.lastScore?.toFloat()?:0f)
-            state.setControl("beat",if(job!=null && kotlin.math.abs(s.level().gameTime-job.target)<=job.window/2)1f else 0f)
+            state.setControl("beat",if(job!=null && kotlin.math.abs(s.level().gameTime-job.target)<=job.perfectWindow)1f else 0f)
         }
         override fun takeOutput(s:StationContext,player:Player,output:String):ItemStack {
             if(s.isClientSide || output!="result" || player.isSpectator || !TemperAndTang.config.enabled.get())return ItemStack.EMPTY

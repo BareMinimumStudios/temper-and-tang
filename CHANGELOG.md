@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.0 — Craftsmanship
+
+- Standalone shaping for supported shaped and shapeless equipment recipes, including metal armor, tools, shields, Simply Swords and Epic Knights.
+- Variable hammer timing with scored accuracy, missed-beat penalties, latency tolerance and server-owned random quality rolls.
+- Six craftsmanship grades, maker and accuracy records, player smithing mastery and reusable advanced blueprints.
+- Heated gear reforging with consumable flux, bounded mastery gains and safeguards against free repair or repeated bonuses.
+- Precision finishing complements craftsmanship; names, enchantments, foreign data and damage survive the workflow and netherite upgrades.
+- Directional workstations, contextual slots, timing gauges, owned tongs animation, water, embers, tiny strike sparks and varied anvil sounds.
+- Removed the legacy external smithing recipe bridge. No Overgeared installation is required.
+
 ## 0.2.1
 
 - Added owned, craftable and iron-repairable Smithing Tongs with additive common tool tags.

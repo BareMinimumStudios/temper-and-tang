@@ -2,15 +2,15 @@
   "camera": {
     "position": [
       28,
-      40,
+      36,
       -24
     ],
     "target": [
       8,
-      16,
+      11,
       8
     ],
-    "fov": 55
+    "fov": 50
   },
   "interface": {
     "inventory_panel": true,
@@ -21,7 +21,7 @@
     "style": "minimal",
     "always_open": true,
     "compact": true,
-    "margin": 8,
+    "margin": 12,
     "carry_size": 3.5
   },
   "nodes": [
@@ -29,13 +29,15 @@
       "id": "grid_0",
       "pos": [
         4,
-        17,
-        4
+        12.4,
+        5
       ],
       "slot": {
         "slot": "grid[0]",
-        "size": 2.7,
-        "idle_highlight": 0.12
+        "size": 2.8,
+        "idle_highlight": 0.12,
+        "counts": "hover",
+        "item_size": 2.4
       },
       "tooltip": "temperandtang.thermal.slot.grid"
     },
@@ -43,13 +45,15 @@
       "id": "grid_1",
       "pos": [
         8,
-        17,
-        4
+        12.4,
+        5
       ],
       "slot": {
         "slot": "grid[1]",
-        "size": 2.7,
-        "idle_highlight": 0.12
+        "size": 2.8,
+        "idle_highlight": 0.12,
+        "counts": "hover",
+        "item_size": 2.4
       },
       "tooltip": "temperandtang.thermal.slot.grid"
     },
@@ -57,13 +61,15 @@
       "id": "grid_2",
       "pos": [
         12,
-        17,
-        4
+        12.4,
+        5
       ],
       "slot": {
         "slot": "grid[2]",
-        "size": 2.7,
-        "idle_highlight": 0.12
+        "size": 2.8,
+        "idle_highlight": 0.12,
+        "counts": "hover",
+        "item_size": 2.4
       },
       "tooltip": "temperandtang.thermal.slot.grid"
     },
@@ -71,13 +77,15 @@
       "id": "grid_3",
       "pos": [
         4,
-        17,
-        8
+        12.4,
+        9
       ],
       "slot": {
         "slot": "grid[3]",
-        "size": 2.7,
-        "idle_highlight": 0.12
+        "size": 2.8,
+        "idle_highlight": 0.12,
+        "counts": "hover",
+        "item_size": 2.4
       },
       "tooltip": "temperandtang.thermal.slot.grid"
     },
@@ -85,13 +93,15 @@
       "id": "grid_4",
       "pos": [
         8,
-        17,
-        8
+        12.4,
+        9
       ],
       "slot": {
         "slot": "grid[4]",
-        "size": 2.7,
-        "idle_highlight": 0.12
+        "size": 2.8,
+        "idle_highlight": 0.12,
+        "counts": "hover",
+        "item_size": 2.4
       },
       "tooltip": "temperandtang.thermal.slot.grid"
     },
@@ -99,13 +109,15 @@
       "id": "grid_5",
       "pos": [
         12,
-        17,
-        8
+        12.4,
+        9
       ],
       "slot": {
         "slot": "grid[5]",
-        "size": 2.7,
-        "idle_highlight": 0.12
+        "size": 2.8,
+        "idle_highlight": 0.12,
+        "counts": "hover",
+        "item_size": 2.4
       },
       "tooltip": "temperandtang.thermal.slot.grid"
     },
@@ -113,13 +125,15 @@
       "id": "grid_6",
       "pos": [
         4,
-        17,
-        12
+        12.4,
+        13
       ],
       "slot": {
         "slot": "grid[6]",
-        "size": 2.7,
-        "idle_highlight": 0.12
+        "size": 2.8,
+        "idle_highlight": 0.12,
+        "counts": "hover",
+        "item_size": 2.4
       },
       "tooltip": "temperandtang.thermal.slot.grid"
     },
@@ -127,13 +141,15 @@
       "id": "grid_7",
       "pos": [
         8,
-        17,
-        12
+        12.4,
+        13
       ],
       "slot": {
         "slot": "grid[7]",
-        "size": 2.7,
-        "idle_highlight": 0.12
+        "size": 2.8,
+        "idle_highlight": 0.12,
+        "counts": "hover",
+        "item_size": 2.4
       },
       "tooltip": "temperandtang.thermal.slot.grid"
     },
@@ -141,36 +157,40 @@
       "id": "grid_8",
       "pos": [
         12,
-        17,
-        12
+        12.4,
+        13
       ],
       "slot": {
         "slot": "grid[8]",
-        "size": 2.7,
-        "idle_highlight": 0.12
+        "size": 2.8,
+        "idle_highlight": 0.12,
+        "counts": "hover",
+        "item_size": 2.4
       },
       "tooltip": "temperandtang.thermal.slot.grid"
     },
     {
       "id": "hammer",
       "pos": [
-        -3,
-        17,
-        10
+        12.5,
+        14.5,
+        13.5
       ],
       "slot": {
         "slot": "hammer",
-        "size": 3,
-        "idle_highlight": 0.12
+        "size": 2.8,
+        "idle_highlight": 0.12,
+        "display": "upright",
+        "counts": "never"
       },
       "tooltip": "temperandtang.thermal.slot.hammer"
     },
     {
       "id": "previous",
       "pos": [
-        -3,
-        17,
-        2
+        1.5,
+        10.6,
+        1.5
       ],
       "visual": {
         "item": "minecraft:paper"
@@ -201,14 +221,14 @@
         ]
       },
       "tooltip": "temperandtang.thermal.action.previous",
-      "scale": 0.25
+      "scale": 0.17
     },
     {
       "id": "next",
       "pos": [
-        19,
-        17,
-        2
+        11.25,
+        10.6,
+        1.5
       ],
       "visual": {
         "item": "minecraft:book"
@@ -239,16 +259,16 @@
         ]
       },
       "tooltip": "temperandtang.thermal.action.next",
-      "scale": 0.25
+      "scale": 0.17
     },
     {
       "id": "strike",
       "pos": [
-        20,
-        17,
-        10
+        23,
+        12.5,
+        5
       ],
-      "scale": 0.65,
+      "scale": 0.4,
       "control": {
         "control": "strike",
         "type": "button",
@@ -278,7 +298,7 @@
       "rotation": [
         0,
         0,
-        50
+        -30
       ],
       "visual": {
         "model": "temperandtang:diegesis/striking_hammer"
@@ -288,12 +308,12 @@
       "id": "result",
       "pos": [
         8,
-        24,
-        19
+        13,
+        9
       ],
       "output": {
         "output": "result",
-        "size": 4
+        "size": 5.4
       },
       "tooltip": "temperandtang.scene.result"
     },
@@ -301,48 +321,45 @@
       "id": "timing_rail",
       "pos": [
         8,
-        17,
-        -7
+        12.6,
+        1.3
       ],
       "visual": {
         "model": "temperandtang:diegesis/timing_rail"
-      },
-      "tooltip": "temperandtang.craft.timing_gauge"
+      }
     },
     {
       "id": "timing_band",
       "pos": [
         8,
-        17,
-        -7
+        12.6,
+        1.3
       ],
       "visual": {
         "model": "temperandtang:diegesis/timing_band"
-      },
-      "tooltip": "temperandtang.craft.timing_gauge"
+      }
     },
     {
       "id": "timing_marker",
       "pos": [
         8,
-        17,
-        -7
+        12.6,
+        1.3
       ],
       "visual": {
         "model": "temperandtang:diegesis/timing_marker"
-      },
-      "tooltip": "temperandtang.craft.timing_gauge"
+      }
     },
     {
       "id": "gear",
       "pos": [
         8,
-        18,
-        -2
+        12.6,
+        9
       ],
       "slot": {
         "slot": "gear",
-        "size": 3.3,
+        "size": 5.4,
         "idle_highlight": 0.12
       },
       "tooltip": "temperandtang.thermal.slot.gear"
@@ -350,13 +367,13 @@
     {
       "id": "flux",
       "pos": [
-        -3,
-        17,
-        -3
+        3,
+        12.5,
+        5
       ],
       "slot": {
         "slot": "flux",
-        "size": 3.3,
+        "size": 2.8,
         "idle_highlight": 0.12
       },
       "tooltip": "temperandtang.thermal.slot.flux"
@@ -364,25 +381,27 @@
     {
       "id": "blueprint",
       "pos": [
-        19,
-        17,
-        -3
+        3.5,
+        14.5,
+        13.5
       ],
       "slot": {
         "slot": "blueprint",
-        "size": 3.3,
-        "idle_highlight": 0.12
+        "size": 2.8,
+        "idle_highlight": 0.12,
+        "display": "upright",
+        "counts": "never"
       },
       "tooltip": "temperandtang.thermal.slot.blueprint"
     },
     {
       "id": "scribe",
       "pos": [
-        24,
-        17,
-        -3
+        14.5,
+        10.6,
+        1.5
       ],
-      "scale": 0.25,
+      "scale": 0.17,
       "visual": {
         "item": "minecraft:feather"
       },
@@ -416,11 +435,11 @@
     {
       "id": "category",
       "pos": [
-        -6,
-        17,
-        2
+        4.75,
+        10.6,
+        1.5
       ],
-      "scale": 0.25,
+      "scale": 0.17,
       "visual": {
         "item": "minecraft:book"
       },
@@ -450,6 +469,44 @@
         ]
       },
       "tooltip": "temperandtang.thermal.action.category"
+    },
+    {
+      "id": "mode",
+      "pos": [
+        8,
+        10.6,
+        1.5
+      ],
+      "scale": 0.17,
+      "visual": {
+        "item": "minecraft:lever"
+      },
+      "control": {
+        "control": "mode",
+        "type": "button",
+        "axis": [
+          0,
+          -1,
+          0
+        ],
+        "range": [
+          0,
+          0.3
+        ]
+      },
+      "collider": {
+        "from": [
+          -8,
+          -2,
+          -8
+        ],
+        "to": [
+          8,
+          8,
+          8
+        ]
+      },
+      "tooltip": "temperandtang.thermal.action.mode"
     }
   ]
 }

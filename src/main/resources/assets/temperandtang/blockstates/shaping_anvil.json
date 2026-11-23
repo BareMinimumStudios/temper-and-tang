@@ -1,7 +1,24 @@
 {
   "variants": {
-    "": {
-      "model": "temperandtang:block/shaping_anvil"
+    "facing=north": {
+      "model": "temperandtang:block/shaping_anvil",
+      "y": 0,
+      "uvlock": true
+    },
+    "facing=east": {
+      "model": "temperandtang:block/shaping_anvil",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south": {
+      "model": "temperandtang:block/shaping_anvil",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west": {
+      "model": "temperandtang:block/shaping_anvil",
+      "y": 270,
+      "uvlock": true
     }
   }
 }

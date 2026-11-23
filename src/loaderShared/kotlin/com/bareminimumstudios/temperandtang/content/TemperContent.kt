@@ -13,10 +13,10 @@ object TemperContent {
         "tin_block" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)) },
         "bronze_block" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)) },
         "raw_tin_block" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.RAW_IRON_BLOCK)) },
-        "charcoal_hearth" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.FURNACE).lightLevel { 0 }.noOcclusion()) },
-        "shaping_anvil" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.ANVIL).noOcclusion()) },
-        "quenching_trough" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion()) },
-        "finishing_anvil" to { FinishingAnvilBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANVIL)) },
+        "charcoal_hearth" to { WorkshopBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FURNACE).lightLevel { 0 }.noOcclusion(),"hearth") },
+        "shaping_anvil" to { WorkshopBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANVIL).noOcclusion(),"forge") },
+        "quenching_trough" to { WorkshopBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion(),"trough") },
+        "finishing_anvil" to { WorkshopBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANVIL).noOcclusion(),"finishing") },
     )
     val items: Map<String, () -> Item> = linkedMapOf(
         "unquenched_weapon" to { Item(Item.Properties().stacksTo(1)) },

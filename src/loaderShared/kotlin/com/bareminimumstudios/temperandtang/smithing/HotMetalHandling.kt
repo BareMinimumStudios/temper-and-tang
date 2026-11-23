@@ -2,7 +2,6 @@ package com.bareminimumstudios.temperandtang.smithing
 
 import com.bareminimumstudios.temperandtang.TemperAndTang
 import com.bareminimumstudios.temperandtang.api.TemperAndTangApi
-import com.bareminimumstudios.temperandtang.compat.NativeSmithing
 import net.minecraft.network.chat.Component
 import net.minecraft.server.MinecraftServer
 import net.minecraft.world.effect.MobEffects
@@ -29,8 +28,7 @@ object HotMetalHandling {
             val until=ThermalState.data(stack).getLong("hot_until")
             if(until<=0) return stack
             if(now>=until) return ThermalState.airCooled(stack,level)
-            // An explicitly enabled legacy bridge keeps its native exposure behavior.
-            if(!(NativeSmithing.loaded() && NativeSmithing.hot(stack))) exposed=true
+            exposed=true
             return stack
         }
         for(i in 0 until player.inventory.containerSize) {

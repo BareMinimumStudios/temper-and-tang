@@ -34,7 +34,7 @@ object ThermalClient {
             animationTime+=deltaSeconds
             val status=view.state().data().getString("status")
             if(action=="heat") view.node("heat").ifPresent { it.moveTo(0f,if(status=="heating") -0.35f*(1f+kotlin.math.sin(animationTime*5f)) else 0f,0f,0.05f) }
-            if(action=="quench") view.node("quench").ifPresent { it.moveTo(0f,if(status=="quenching") -3f else 0f,0f,0.18f) }
+            if(action=="quench") view.node("quench").ifPresent { it.moveTo(if(status=="quenching") -9f else 0f,if(status=="quenching") -1f else 0f,0f,0.18f) }
             if (returnAfter<=0f) return
             returnAfter-=deltaSeconds
             if (returnAfter<=0f) view.node("strike").ifPresent { it.rotateTo(0f,0f,0f,0.14f); it.moveTo(0f,0f,0f,0.14f) }
@@ -46,6 +46,7 @@ object ThermalClient {
                 action=="strike" && keyCode==GLFW.GLFW_KEY_RIGHT -> "next"
                 action=="strike" && keyCode==GLFW.GLFW_KEY_B -> "scribe"
                 action=="strike" && keyCode==GLFW.GLFW_KEY_TAB -> "category"
+                action=="strike" && keyCode==GLFW.GLFW_KEY_R -> "mode"
                 else -> return false
             }
             if (!view.isFocused) return false
@@ -55,6 +56,33 @@ object ThermalClient {
             return true
         }
         private fun refresh(view: StationView) {
+            val visibleState=view.state()
+            val ready=!visibleState.getOutput("result").isEmpty
+            view.node("result").ifPresent {it.setVisible(ready)}
+            if(action=="strike") {
+                val reforging=visibleState.data().getBoolean("reforging")
+                for(i in 0..8)view.node("grid_"+i).ifPresent {it.setVisible(!reforging && !ready)}
+                view.node("gear").ifPresent {it.setVisible(reforging && !ready)}
+                view.node("flux").ifPresent {it.setVisible(reforging)}
+                for(key in listOf("previous","next","category","scribe","blueprint"))view.node(key).ifPresent {it.setVisible(!reforging && !ready)}
+                view.node("mode").ifPresent {it.setVisible(!ready)}
+                view.node("strike").ifPresent {it.setVisible(!ready)}
+                view.node("gear").ifPresent {it.setGhostItems(listOf(ItemStack(net.minecraft.world.item.Items.IRON_CHESTPLATE)))}
+                view.node("flux").ifPresent {it.setGhostItems(listOf(ItemStack(com.bareminimumstudios.temperandtang.content.TemperContent.item("smithing_flux"))))}
+                view.node("blueprint").ifPresent {it.setGhostItems(listOf(ItemStack(com.bareminimumstudios.temperandtang.content.TemperContent.item("blank_blueprint"))))}
+            } else {
+                view.node("stock").ifPresent {it.setVisible(!ready)}
+                val status=visibleState.data().getString("status")
+                if(action=="heat") {
+                    view.node("embers").ifPresent {it.setVisible(status in listOf("heating","ready"))}
+                    view.node("fire").ifPresent {it.setEmitting(status=="heating")}
+                } else {
+                    val water=visibleState.getItem(com.bareminimumstudios.temperandtang.station.ThermalStations.WATER)
+                    view.node("water_surface").ifPresent {it.setVisible(water.`is`(net.minecraft.world.item.Items.WATER_BUCKET) || status in listOf("quenching","ready"))}
+                    view.node("steam").ifPresent {it.setEmitting(status=="quenching")}
+                    view.node("stock").ifPresent {it.moveTo(0f,if(status=="quenching")-1.5f else 0f,0f,0.15f)}
+                }
+            }
             val state=view.state()
             val data=state.data()
             val status=data.getString("status").ifEmpty { "stock" }
@@ -69,6 +97,7 @@ object ThermalClient {
             val captionKey=if(status=="ready") when(action) { "heat"->"heated_ready"; "quench"->"cooled_ready"; else->status } else status
             val caption=Component.translatable("temperandtang.thermal."+captionKey,*args)
             if(action=="strike" && status=="work") caption.append(Component.translatable("temperandtang.craft.live",state.getControl("accuracy").toInt(),data.getInt("mastery"),state.getControl("misses").toInt()))
+            if(action=="strike" && status in listOf("pattern","blueprint"))caption.append(Component.translatable("temperandtang.craft.category_"+data.getInt("category")))
             if(action=="strike" && status=="pattern") caption.append(Component.translatable("temperandtang.craft.pattern_keys",data.getInt("mastery")))
             if (action=="heat" && status in listOf("idle","fuel")) caption.append(Component.literal(" Fuel: "+state.getControl("fuel_cost").toInt()+" coal / charcoal."))
             if (view.isFocused) view.showCaption(caption,0f)

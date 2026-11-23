@@ -170,38 +170,6 @@
     {
       "from": [
         2,
-        5,
-        2
-      ],
-      "to": [
-        14,
-        10,
-        14
-      ],
-      "faces": {
-        "north": {
-          "texture": "#water"
-        },
-        "south": {
-          "texture": "#water"
-        },
-        "east": {
-          "texture": "#water"
-        },
-        "west": {
-          "texture": "#water"
-        },
-        "up": {
-          "texture": "#water"
-        },
-        "down": {
-          "texture": "#water"
-        }
-      }
-    },
-    {
-      "from": [
-        2,
         0,
         2
       ],

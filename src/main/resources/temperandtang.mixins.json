@@ -3,9 +3,13 @@
   "package": "com.bareminimumstudios.temperandtang.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "RecipeManagerMixin"
+    "RecipeManagerMixin",
+    "SmithingUpgradeMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "client": [
+    "WorkpieceRenderMixin"
+  ]
 }

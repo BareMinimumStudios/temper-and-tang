@@ -13,6 +13,9 @@ object TemperAndTangApi {
     @JvmField val FINISHABLE_WEAPONS: TagKey<Item> = TagKey.create(Registries.ITEM, TemperAndTang.id("finishable_weapons"))
     @JvmField val EXCLUDED_WEAPONS: TagKey<Item> = TagKey.create(Registries.ITEM, TemperAndTang.id("excluded_weapons"))
     @JvmField val TONGS: TagKey<Item> = TagKey.create(Registries.ITEM, TemperAndTang.id("tongs"))
+    @JvmField val FORGEABLE_EQUIPMENT=com.bareminimumstudios.temperandtang.smithing.GearSupport.INCLUDED
+    @JvmField val EXCLUDED_EQUIPMENT=com.bareminimumstudios.temperandtang.smithing.GearSupport.EXCLUDED
+    @JvmStatic fun registerEquipmentPredicate(predicate:Predicate<ItemStack>) {registerWeaponPredicate(predicate)}
     private val predicates = CopyOnWriteArrayList<Predicate<ItemStack>>()
     @JvmStatic fun registerWeaponPredicate(predicate: Predicate<ItemStack>) { predicates.add(predicate) }
     fun acceptsCustom(stack: ItemStack): Boolean = predicates.any { it.test(stack) }

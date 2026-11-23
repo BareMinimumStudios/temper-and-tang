@@ -22,13 +22,14 @@ object CraftRules {
     }
     fun level(xp:Long,maxLevel:Int=20)=sqrt(xp.coerceAtLeast(0).toDouble()/25.0).toInt().coerceIn(0,maxLevel.coerceAtLeast(1))
     fun nextLevelXp(level:Int)=25L*(level.coerceAtLeast(0)+1)*(level.coerceAtLeast(0)+1)
-    fun earnedXp(accuracy:Double,reforge:Boolean)=if(reforge) 3 else 10+(accuracy.coerceIn(0.0,1.0)*20).toInt()
+    fun earnedXp(accuracy:Double,reforge:Boolean)=if(reforge) 1+(accuracy.coerceIn(0.0,1.0)*4).toInt() else 10+(accuracy.coerceIn(0.0,1.0)*20).toInt()
 }
 
 /** Random target positions, scored only using server receipt time. Missing a beat hurts quality, never makes a free item. */
 class HammerWork(private val required:Int,private val period:Int,private val baseWindow:Int,private val jitter:Int,private val random:(Int)->Int) {
     var target=0L;private set
     var window=3;private set
+    val perfectWindow get()=(window/2+1).coerceAtMost(window)
     var hits=0;private set
     var misses=0;private set
     var perfect=0;private set
@@ -52,7 +53,7 @@ class HammerWork(private val required:Int,private val period:Int,private val bas
         if(!armed || ready || now<0 || lastHit!=Long.MIN_VALUE && (now<lastHit || now-lastHit<minGap.coerceAtLeast(1)))return null
         tick(now)
         val delta=abs(now-target)
-        val score=when {delta<=window/2L->1.0;delta<=window->0.75;delta<=window*2L->0.40;else->0.10}
+        val score=when {delta<=perfectWindow.toLong()->1.0;delta<=window->0.75;delta<=window*2L->0.40;else->0.10}
         lastHit=now;lastScore=score;hits++;points+=score;if(score==1.0)perfect++
         if(!ready)next(now)
         return score

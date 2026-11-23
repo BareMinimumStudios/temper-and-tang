@@ -2,15 +2,15 @@
   "camera": {
     "position": [
       28,
-      40,
+      36,
       -24
     ],
     "target": [
       8,
-      16,
+      11,
       8
     ],
-    "fov": 55
+    "fov": 50
   },
   "interface": {
     "inventory_panel": true,
@@ -21,7 +21,7 @@
     "style": "minimal",
     "always_open": true,
     "compact": true,
-    "margin": 8,
+    "margin": 12,
     "carry_size": 3.5
   },
   "nodes": [
@@ -29,12 +29,12 @@
       "id": "stock",
       "pos": [
         8,
-        16,
+        7.5,
         8
       ],
       "slot": {
         "slot": "stock",
-        "size": 5,
+        "size": 4,
         "idle_highlight": 0.12
       },
       "tooltip": "temperandtang.thermal.slot.stock"
@@ -42,9 +42,9 @@
     {
       "id": "fuel",
       "pos": [
-        0,
-        16,
-        0
+        8,
+        4.5,
+        1.5
       ],
       "slot": {
         "slot": "fuel",
@@ -56,8 +56,8 @@
     {
       "id": "heat",
       "pos": [
-        18,
         17,
+        6.5,
         8
       ],
       "visual": {
@@ -89,20 +89,58 @@
         ]
       },
       "tooltip": "temperandtang.thermal.action.heat",
-      "scale": 0.55
+      "scale": 0.4,
+      "rotation": [
+        0,
+        -90,
+        0
+      ]
     },
     {
       "id": "result",
       "pos": [
         8,
-        24,
-        19
+        8,
+        8
       ],
       "output": {
         "output": "result",
-        "size": 4
+        "size": 4.5
       },
       "tooltip": "temperandtang.scene.result"
+    },
+    {
+      "id": "embers",
+      "pos": [
+        8,
+        6.1,
+        8
+      ],
+      "visual": {
+        "model": "temperandtang:diegesis/hearth_embers",
+        "emissive": true
+      },
+      "hidden": true
+    },
+    {
+      "id": "fire",
+      "pos": [
+        8,
+        6.5,
+        8
+      ],
+      "emitter": {
+        "particle": "diegesis:flame",
+        "rate": 5,
+        "spread": 2,
+        "velocity": [
+          0,
+          2,
+          0
+        ],
+        "scale": 0.75,
+        "enabled": false
+      }
     }
   ]
 }

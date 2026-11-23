@@ -12,7 +12,7 @@ recipe = json.loads((root / "data/temperandtang/recipe/bronze_ingot.json").read_
 assert [x["tag"] for x in recipe["ingredients"]] == ["c:ingots/copper"] * 3 + ["c:ingots/tin"]
 assert recipe["result"] == {"id": "temperandtang:bronze_blend", "count": 4}
 scene = json.loads((root / "assets/temperandtang/diegesis/scenes/finishing_anvil.json").read_text())
-assert {n["id"] for n in scene["nodes"]} == {"weapon", "material", "hammer", "strike", "result"}
+assert {n["id"] for n in scene["nodes"]} >= {"weapon", "material", "hammer", "strike", "result", "timing_marker"}
 print("Verified additive common tags, tag-based alloy inputs, conserved material counts and station scene bindings.")
 
 for name in ("charcoal_hearth", "shaping_anvil", "quenching_trough"):

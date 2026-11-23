@@ -1,7 +1,24 @@
 {
   "variants": {
-    "": {
-      "model": "temperandtang:block/quenching_trough"
+    "facing=north": {
+      "model": "temperandtang:block/quenching_trough",
+      "y": 0,
+      "uvlock": true
+    },
+    "facing=east": {
+      "model": "temperandtang:block/quenching_trough",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south": {
+      "model": "temperandtang:block/quenching_trough",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=west": {
+      "model": "temperandtang:block/quenching_trough",
+      "y": 270,
+      "uvlock": true
     }
   }
 }

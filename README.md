@@ -20,7 +20,7 @@ The playable prototype uses **Diegesis charcoal heating, rhythmic shaping, water
 
 ## Playing
 
-Install the correct loader JAR, Fzzy Config, Diegesis **beta.17** for your loader, and Fabric Language Kotlin or Kotlin for Forge. See `libraries.toml` for exact development dependency pins. Simply Swords and Simply More are optional weapon integrations. Overgeared is not required; its legacy recipe bridge is disabled by default.
+Install the correct loader JAR, Fzzy Config, Diegesis **beta.17** for your loader, and Fabric Language Kotlin or Kotlin for Forge. See `libraries.toml` for exact development dependency pins. Simply Swords, Simply More and Epic Knights are optional equipment integrations. Overgeared is not required or used. The workshop handles weapons, tools, shields and metal armor with server-owned craftsmanship, mastery and reusable blueprints.
 
 Follow the [thermal workshop guide](docs/THERMAL_WORKSHOP.md) to heat refined stock, shape basic weapons and quench them.
 

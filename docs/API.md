@@ -30,9 +30,13 @@ Recipe integration uses MixinExtras WrapMethod to compose with the normal recipe
 
 ## Thermal recipes and stock
 
-`temperandtang:heatable_stock` accepts common refined ingots by default and can be extended additively. Do not add raw ores to this tag unless intentionally allowing direct reheating of them. The hearth preserves components and uses a native hot-result blasting recipe when one exists.
+`temperandtang:heatable_stock` accepts common refined ingots by default and can be extended additively. Do not add raw ores to this tag unless intentionally allowing direct reheating of them. The hearth preserves components and applies the mod's own timed heat state. It does not invoke another smithing mod's heating or quality mechanics.
 
-`temperandtang:shaping` is a dedicated recipe serializer/type with vanilla shaped recipe fields. It exposes ingredients, remainders and result data, but cannot match ordinary crafting-table recipe-type queries. It is used when Overgeared is absent. With Overgeared installed, supported native `overgeared:forging` recipes supply the workshop's patterns instead. Basic supported result identities are bronze, vanilla iron/gold swords and enabled Simply Swords iron/gold weapons; advanced custom materials/blueprints are intentionally outside this prototype.
+`temperandtang:shaping` and `temperandtang:shaping_shapeless` retain vanilla recipe fields while matching only the dedicated shaping recipe type. Supported original equipment recipes are routed at reload when `recipeIntegration` and thermal shaping are enabled. Original IDs, conditions, ingredients and result components remain authoritative. Removed recipes are not recreated.
+
+`forgeable_equipment` and `excluded_equipment` are additive item tags; exclusions win. Existing weapon inclusion/exclusion tags remain accepted for compatibility. `TemperAndTangApi.FORGEABLE_EQUIPMENT`, `EXCLUDED_EQUIPMENT` and `registerEquipmentPredicate` expose the equipment API. Register deterministic predicates during common setup on both sides.
+
+Craftsmanship schema version 1 lives under `minecraft:custom_data` -> `temperandtang.craftsmanship`. It stores grade, accuracy, effective score, random contribution, maker, mastery and pattern. It also owns a raw durability baseline. Do not write bonuses directly: use station processing so costs, eligibility and normalization remain server-authoritative. Saved world mastery belongs to `temperandtang_smithing`.
 
 Thermal schema version 1 lives under `minecraft:custom_data` â†’ `temperandtang.thermal`, storing a world-tick `hot_until`, stage, and (only for a standalone unquenched workpiece) encoded `weapon`. Treat this as owned persistence data rather than a public modifier API. All completion and consumption must run through the server station; client captions and animations never authorize a result.
 

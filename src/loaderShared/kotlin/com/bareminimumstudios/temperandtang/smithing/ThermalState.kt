@@ -1,7 +1,6 @@
 package com.bareminimumstudios.temperandtang.smithing
 
 import com.bareminimumstudios.temperandtang.TemperAndTang
-import com.bareminimumstudios.temperandtang.compat.NativeSmithing
 import com.bareminimumstudios.temperandtang.content.TemperContent
 import net.minecraft.core.component.DataComponents
 import net.minecraft.nbt.CompoundTag
@@ -22,33 +21,19 @@ object ThermalState {
         stack.set(DataComponents.CUSTOM_DATA, CustomData.of(all))
     }
     fun blank(stack: ItemStack) = !stack.isEmpty && stack.item == TemperContent.item("unquenched_weapon")
-    fun pending(stack: ItemStack): Boolean = blank(stack) || data(stack).getLong("hot_until") > 0 || NativeSmithing.hot(stack)
+    fun pending(stack: ItemStack): Boolean = blank(stack) || data(stack).getLong("hot_until") > 0
     fun hot(stack: ItemStack, level: Level): Boolean {
         if (stack.isEmpty) return false
         val until = data(stack).getLong("hot_until")
         if (until > 0) return level.gameTime < until
-        return NativeSmithing.hot(stack) && NativeSmithing.heatTime(stack).let { time ->
-            time == null || level.gameTime - time < ((NativeSmithing.config("HEATED_ITEM_COOLDOWN_TICKS") as? Number)?.toLong() ?: 1200L)
-        }
+        return false
     }
-    fun heated(stack: ItemStack, level: Level): ItemStack = stack.copy().also { result ->
-        val duration = minOf(TemperAndTang.config.workingHeatTicks.get().toLong(),
-            (NativeSmithing.config("HEATED_ITEM_COOLDOWN_TICKS") as? Number)?.toLong() ?: Long.MAX_VALUE)
-        update(result) { it.putInt("version", 1); it.putLong("hot_until", level.gameTime + duration); it.putString("stage", "hot") }
-        NativeSmithing.heat(result, level.gameTime)
+    fun heated(stack:ItemStack,level:Level):ItemStack=stack.copy().also {result->
+        update(result) {it.putInt("version",1);it.putLong("hot_until",level.gameTime+TemperAndTang.config.workingHeatTicks.get());it.putString("stage","hot")}
     }
-    fun stampNativeHeat(stack: ItemStack, level: Level): ItemStack {
-        if (!NativeSmithing.hot(stack) || data(stack).getLong("hot_until") > 0) return stack
-        val result = stack.copy()
-        val since = NativeSmithing.heatTime(stack) ?: level.gameTime
-        val duration = minOf(TemperAndTang.config.workingHeatTicks.get().toLong(),
-            (NativeSmithing.config("HEATED_ITEM_COOLDOWN_TICKS") as? Number)?.toLong() ?: 1200L)
-        update(result) { it.putLong("hot_until", since + duration); it.putString("stage", "hot") }
-        NativeSmithing.heat(result, since)
-        return result
-    }
+    fun normalize(stack:ItemStack,level:Level):ItemStack=if(data(stack).getLong("hot_until")>0 && !hot(stack,level))airCooled(stack,level) else stack
     fun airCooled(stack: ItemStack, level: Level): ItemStack {
-        val result = NativeSmithing.cooled(stack, level)
+        val result = stack.copy()
         update(result) { it.remove("hot_until"); it.putString("stage", if (blank(result)) "unquenched" else "cold") }
         return result
     }

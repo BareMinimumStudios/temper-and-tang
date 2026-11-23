@@ -2,15 +2,15 @@
   "camera": {
     "position": [
       28,
-      40,
+      36,
       -24
     ],
     "target": [
       8,
-      16,
+      11,
       8
     ],
-    "fov": 55
+    "fov": 50
   },
   "interface": {
     "inventory_panel": true,
@@ -21,7 +21,7 @@
     "style": "minimal",
     "always_open": true,
     "compact": true,
-    "margin": 8,
+    "margin": 12,
     "carry_size": 3.5
   },
   "nodes": [
@@ -29,12 +29,12 @@
       "id": "stock",
       "pos": [
         8,
-        16,
+        9.5,
         8
       ],
       "slot": {
         "slot": "stock",
-        "size": 5,
+        "size": 4.5,
         "idle_highlight": 0.12
       },
       "tooltip": "temperandtang.thermal.slot.stock"
@@ -42,13 +42,13 @@
     {
       "id": "water",
       "pos": [
-        0,
-        16,
-        0
+        3,
+        14.4,
+        3
       ],
       "slot": {
         "slot": "water",
-        "size": 3,
+        "size": 2.8,
         "idle_highlight": 0.12
       },
       "tooltip": "temperandtang.thermal.slot.water"
@@ -56,8 +56,8 @@
     {
       "id": "quench",
       "pos": [
-        18,
         17,
+        9,
         8
       ],
       "visual": {
@@ -89,20 +89,55 @@
         ]
       },
       "tooltip": "temperandtang.thermal.action.quench",
-      "scale": 0.55
+      "scale": 0.38
     },
     {
       "id": "result",
       "pos": [
         8,
-        24,
-        19
+        11,
+        8
       ],
       "output": {
         "output": "result",
-        "size": 4
+        "size": 5
       },
       "tooltip": "temperandtang.scene.result"
+    },
+    {
+      "id": "water_surface",
+      "pos": [
+        8,
+        9,
+        8
+      ],
+      "visual": {
+        "model": "temperandtang:diegesis/trough_water",
+        "translucent": true,
+        "double_sided": true,
+        "tint": "#C03F76E4"
+      },
+      "hidden": true
+    },
+    {
+      "id": "steam",
+      "pos": [
+        8,
+        9,
+        8
+      ],
+      "emitter": {
+        "particle": "diegesis:steam",
+        "rate": 5,
+        "spread": 1.5,
+        "velocity": [
+          0,
+          3,
+          0
+        ],
+        "scale": 0.7,
+        "enabled": false
+      }
     }
   ]
 }

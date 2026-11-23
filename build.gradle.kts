@@ -19,7 +19,7 @@ cloche {
     metadata {
         modId = "temperandtang"
         name = "Temper & Tang"
-        description = "Material-driven medieval smithing, deliberate weapon finishes, and cross-mod forging integration."
+        description = "Standalone medieval blacksmithing, skill-influenced equipment quality, and hands-on forging."
         license = "BML-1.0"
         author("Bare Minimum Studios")
         contributor("pokesmells")

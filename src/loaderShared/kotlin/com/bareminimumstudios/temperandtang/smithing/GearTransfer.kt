@@ -16,4 +16,27 @@ object GearTransfer {
         result.damageValue=base.damageValue
         return result
     }
+    fun rebaseUpgrade(result:ItemStack,base:ItemStack):ItemStack {
+        if(result.isEmpty || !GearSupport.supported(result))return result
+        val root=Craftsmanship.root(result)
+        if(!root.contains("craftsmanship") && !root.contains("finish"))return result
+        val previous=base.item.defaultInstance
+        val next=result.item.defaultInstance
+        val oldDefault=previous.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS,net.minecraft.world.item.component.ItemAttributeModifiers.EMPTY)
+        val defaults=next.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS,net.minecraft.world.item.component.ItemAttributeModifiers.EMPTY)
+        val oldIds=oldDefault.modifiers().map {it.attribute() to it.modifier().id()}.toSet()
+        val inherited=result.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS,net.minecraft.world.item.component.ItemAttributeModifiers.EMPTY)
+        val builder=net.minecraft.world.item.component.ItemAttributeModifiers.builder()
+        defaults.modifiers().forEach {builder.add(it.attribute(),it.modifier(),it.slot())}
+        inherited.modifiers().filterNot {
+            (it.attribute() to it.modifier().id()) in oldIds || it.modifier().id().namespace=="temperandtang" && (it.modifier().id().path.startsWith("craft_") || it.modifier().id().path.startsWith("finish_"))
+        }.forEach {builder.add(it.attribute(),it.modifier(),it.slot())}
+        result.set(DataComponents.ATTRIBUTE_MODIFIERS,builder.build().withTooltip(inherited.showInTooltip()))
+        val oldRaw=if(root.contains("origin_durability"))root.getInt("origin_durability") else root.getInt("base_durability")
+        val foreignAdjustment=oldRaw-previous.getOrDefault(DataComponents.MAX_DAMAGE,previous.maxDamage)
+        val newRaw=(next.getOrDefault(DataComponents.MAX_DAMAGE,next.maxDamage).toLong()+foreignAdjustment).coerceIn(1,Int.MAX_VALUE.toLong()).toInt()
+        root.putInt("origin_durability",newRaw);root.putInt("base_durability",newRaw)
+        val all=result.getOrDefault(DataComponents.CUSTOM_DATA,CustomData.EMPTY).copyTag();all.put("temperandtang",root);result.set(DataComponents.CUSTOM_DATA,CustomData.of(all))
+        return GearStats.rebuild(result)
+    }
 }

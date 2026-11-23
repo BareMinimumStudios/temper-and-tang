@@ -8,6 +8,7 @@ import java.util.UUID
 
 class SmithingProgress : SavedData() {
     private val experience=mutableMapOf<UUID,Long>()
+    internal fun forgetFixture(id:UUID) {experience.remove(id);setDirty()}
     fun xp(id:UUID)=experience[id]?:0L
     fun level(id:UUID)=CraftRules.level(xp(id))
     fun award(id:UUID,amount:Int) { experience[id]=(xp(id)+amount.coerceIn(0,1000)).coerceAtMost(1_000_000_000L);setDirty() }

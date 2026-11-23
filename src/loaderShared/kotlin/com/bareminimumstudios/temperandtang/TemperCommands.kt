@@ -28,7 +28,7 @@ object TemperCommands {
                 val player=context.source.playerOrException
                 val data=com.bareminimumstudios.temperandtang.smithing.SmithingProgress.get(context.source.server)
                 val level=data.level(player.uuid)
-                context.source.sendSuccess({Component.translatable("temperandtang.craft.mastery_status",level,data.xp(player.uuid),com.bareminimumstudios.temperandtang.smithing.CraftRules.nextLevelXp(level))},false)
+                context.source.sendSuccess({if(level>=20) Component.translatable("temperandtang.craft.mastery_max",level,data.xp(player.uuid)) else Component.translatable("temperandtang.craft.mastery_status",level,data.xp(player.uuid),com.bareminimumstudios.temperandtang.smithing.CraftRules.nextLevelXp(level))},false)
                 1
             })
             .then(Commands.literal("verify_thermal").requires {it.hasPermission(2)}.executes { context -> ThermalVerification.start(context.source); 1 })
@@ -39,9 +39,9 @@ object TemperCommands {
             .then(Commands.literal("verify").requires {it.hasPermission(2)}.executes { context ->
                 try {
                     verify(context.source)
-                    ForgingVerification.verify(context.source)
                     RecipeVerification.verify(context.source)
                     HotHandlingVerification.verify(context.source)
+                    CraftVerification.verify(context.source)
                     context.source.sendSuccess({ Component.literal("Temper & Tang verification passed: station, materials, finishes, preservation and non-stacking.") }, false)
                     TemperAndTang.logger.info("TEMPER_VERIFY_PASSED")
                     1
@@ -86,20 +86,7 @@ object TemperCommands {
             val swordId = ResourceLocation.fromNamespaceAndPath("simplyswords", "iron_longsword")
             val sword = ItemStack(BuiltInRegistries.ITEM.get(swordId))
             check(WeaponFinishes.accepts(sword)) { "Simply Swords weapon not accepted" }
-            if (com.bareminimumstudios.temperandtang.compat.NativeSmithing.loaded()) {
-                @Suppress("UNCHECKED_CAST")
-                val type = BuiltInRegistries.DATA_COMPONENT_TYPE.get(ResourceLocation.fromNamespaceAndPath("overgeared", "forging_quality")) as? DataComponentType<Any>
-                check(type != null) { "Overgeared quality component absent" }
-                val quality = Class.forName("net.stirdrem.overgeared.ForgingQuality").enumConstants.first { (it as Enum<*>).name == "EXPERT" }
-                sword.set(type, quality)
-                val raw = sword.getOrDefault(DataComponents.MAX_DAMAGE, sword.maxDamage)
-                val finished = WeaponFinishes.preview(sword, Finish.TEMPERED)
-                check(!finished.isEmpty && finished.get(type) == quality) { "Native forging quality lost" }
-                check(finished.get(DataComponents.MAX_DAMAGE) == FinishRules.maximumDurability(raw, FinishRules.effect(Finish.TEMPERED, TemperAndTang.config.balance()))) { "Native durability multiplier applied twice" }
-                val recipe = source.server.recipeManager.byKey(swordId).orElseThrow()
-                check(BuiltInRegistries.RECIPE_SERIALIZER.getKey(recipe.value().serializer).toString() == "overgeared:forging") { "Basic Simply Swords recipe did not become native forging" }
-                TemperAndTang.logger.info("TEMPER_COMPAT_VERIFY_PASSED: Simply Swords acceptance, Overgeared quality preservation and native forging recipe")
-            }
+            TemperAndTang.logger.info("TEMPER_COMPAT_VERIFY_PASSED: Simply Swords acceptance through standalone equipment support")
         }
     }
 }

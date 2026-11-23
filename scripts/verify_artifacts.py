@@ -34,6 +34,11 @@ def artifacts():
             assert "assets/temperandtang/models/item/smithing_tongs.json" in files
             assert "com/bareminimumstudios/temperandtang/smithing/ShapingRecipe.class" in files
             assert "com/bareminimumstudios/temperandtang/client/ThermalClient.class" in files
+            for name in ("Craftsmanship", "GearStats", "SmithingProgress", "Blueprints", "ForgeRandom"):
+                assert f"com/bareminimumstudios/temperandtang/smithing/{name}.class" in files
+            assert "com/bareminimumstudios/temperandtang/client/WorkpieceAppearance.class" in files
+            assert "com/bareminimumstudios/temperandtang/mixin/WorkpieceRenderMixin.class" in files
+            assert "com/bareminimumstudios/temperandtang/compat/NativeSmithing.class" not in files
             assert "temperandtang.mixins.json" in files
             assert "com/bareminimumstudios/temperandtang/client/TemperClient.class" in files
             assert "assets/temperandtang/models/diegesis/striking_hammer.json" in files

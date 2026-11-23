@@ -11,7 +11,7 @@ import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedInt
 import com.bareminimumstudios.temperandtang.smithing.FinishBalance
 
 @RootConfig
-@Version(1)
+@Version(2)
 @Translatable.Name("Temper & Tang")
 @Translatable.Desc("Medieval smithing and deliberate weapon finishes. Server settings apply to every player.")
 class TemperConfig : Config(TemperAndTang.id("config")) {
@@ -26,8 +26,7 @@ class TemperConfig : Config(TemperAndTang.id("config")) {
     var simplySwords = ValidatedBoolean(true)
     var simplyMore = ValidatedBoolean(true)
     var epicKnights = ValidatedBoolean(true)
-    @Translatable.Desc("Optional legacy Overgeared recipe bridge; standalone shaping is the default. Reload datapacks after changing.")
-    @ConfigGroup.Pop var overgearedRecipes = ValidatedBoolean(false)
+    @ConfigGroup.Pop var recipeIntegration = ValidatedBoolean(true)
     val thermal = ConfigGroup("thermal", true)
     var thermalEnabled = ValidatedBoolean(true)
     var heatingTicks = ValidatedInt(100, 1200, 20)

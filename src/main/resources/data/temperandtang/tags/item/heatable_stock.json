@@ -90,6 +90,26 @@
       "required": false
     },
     "minecraft:diamond",
-    "minecraft:netherite_ingot"
+    "minecraft:netherite_ingot",
+    {
+      "id": "#magistuarmory:small_plates/steel",
+      "required": false
+    },
+    {
+      "id": "#magistuarmory:chains/steel",
+      "required": false
+    },
+    {
+      "id": "#magistuarmory:chainmails/steel",
+      "required": false
+    },
+    {
+      "id": "#magistuarmory:rings/steel",
+      "required": false
+    },
+    {
+      "id": "#magistuarmory:lamellar_rows/steel",
+      "required": false
+    }
   ]
 }

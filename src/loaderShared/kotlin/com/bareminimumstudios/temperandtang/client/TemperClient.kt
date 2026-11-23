@@ -72,6 +72,10 @@ object TemperClient {
         private fun refresh(view: StationView) {
             if (!view.isFocused) return
             val state = view.state()
+            val ready=!state.getOutput("result").isEmpty
+            view.node("weapon").ifPresent {it.setVisible(!ready)}
+            view.node("result").ifPresent {it.setVisible(ready)}
+            view.node("strike").ifPresent {it.setVisible(!ready)}
             val finish = WeaponFinishes.ingredient(state.getItem(FinishingStation.MATERIAL))
             val key = when {
                 !state.getOutput("result").isEmpty && state.getItem(FinishingStation.WEAPON).isEmpty -> "take_result"

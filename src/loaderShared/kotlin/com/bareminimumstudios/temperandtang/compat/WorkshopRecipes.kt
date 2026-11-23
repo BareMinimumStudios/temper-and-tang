@@ -7,12 +7,12 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.ItemStack
 
 /** Standalone recipe routing; item identities, authored patterns and load conditions remain with their owners. */
-object OvergearedRecipes {
+object WorkshopRecipes {
     fun apply(source:Map<ResourceLocation,JsonElement>):Map<ResourceLocation,JsonElement> {
         val result=source.filterNot {(id,element)-> id.namespace=="simplyswords" && element.isJsonObject &&
             element.asJsonObject.getAsJsonArray("fabric:load_conditions")?.any {raw->raw.isJsonObject && raw.asJsonObject.get("condition")?.asString=="fabric:all_mods_loaded" && raw.asJsonObject.getAsJsonArray("values")?.any {!TemperAndTang.modLoaded(it.asString)}==true}==true
         }.toMutableMap()
-        if(!TemperAndTang.config.thermalEnabled.get())return result
+        if(!TemperAndTang.config.thermalEnabled.get() || !TemperAndTang.config.recipeIntegration.get())return result
         var count=0
         for((id,element) in result.toMap()) {
             if(!element.isJsonObject)continue
@@ -34,7 +34,7 @@ object OvergearedRecipes {
         if(!raw.isJsonObject)return false
         val obj=raw.asJsonObject
         val tag=obj.get("tag")?.asString
-        if(tag!=null)return tag.startsWith("c:ingots/") || tag.startsWith("c:plates/") || tag.startsWith("c:nuggets/") || tag=="c:gems/diamond" || tag=="temperandtang:heatable_stock"
+        if(tag!=null)return tag.startsWith("c:ingots/") || tag.startsWith("c:plates/") || tag.startsWith("c:nuggets/") || tag=="c:gems/diamond" || tag=="temperandtang:heatable_stock" || tag in setOf("magistuarmory:small_plates/steel","magistuarmory:chains/steel","magistuarmory:chainmails/steel","magistuarmory:rings/steel","magistuarmory:lamellar_rows/steel")
         val id=ResourceLocation.tryParse(obj.get("item")?.asString?:return false)?:return false
         val stack=ItemStack(BuiltInRegistries.ITEM.get(id))
         return GearSupport.supported(stack) || com.bareminimumstudios.temperandtang.smithing.WorkshopPlans.stock(stack) || id.toString() in setOf("minecraft:iron_ingot","minecraft:gold_ingot","minecraft:diamond","minecraft:netherite_ingot")

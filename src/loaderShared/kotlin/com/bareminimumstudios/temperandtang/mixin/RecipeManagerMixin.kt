@@ -1,5 +1,5 @@
 package com.bareminimumstudios.temperandtang.mixin
-import com.bareminimumstudios.temperandtang.compat.OvergearedRecipes
+import com.bareminimumstudios.temperandtang.compat.WorkshopRecipes
 import com.google.gson.JsonElement
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation
@@ -14,6 +14,6 @@ abstract class RecipeManagerMixin {
     @WrapMethod(method = ["apply(Ljava/util/Map;Lnet/minecraft/server/packs/resources/ResourceManager;Lnet/minecraft/util/profiling/ProfilerFiller;)V"])
     private fun temperRecipes(recipes: Map<ResourceLocation, JsonElement>, resources: ResourceManager,
                               profiler: ProfilerFiller, original: Operation<Void>) {
-        original.call(OvergearedRecipes.apply(recipes), resources, profiler)
+        original.call(WorkshopRecipes.apply(recipes), resources, profiler)
     }
 }

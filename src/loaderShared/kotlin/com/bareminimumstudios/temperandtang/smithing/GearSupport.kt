@@ -19,6 +19,7 @@ object GearSupport {
         val id=BuiltInRegistries.ITEM.getKey(stack.item)
         if(id.namespace=="simplyswords" && !TemperAndTang.config.simplySwords.get() || id.namespace=="simplymore" && !TemperAndTang.config.simplyMore.get() || id.namespace=="magistuarmory" && !TemperAndTang.config.epicKnights.get())return false
         if(stack.`is`(INCLUDED))return true
+        if(id.path.startsWith("wooden_") || id.path.startsWith("stone_"))return false
         val item=stack.item
         if(item is TieredItem && item.tier in listOf(Tiers.WOOD,Tiers.STONE))return false
         if(item is ArmorItem && item.material==ArmorMaterials.LEATHER)return false
