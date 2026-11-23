@@ -70,7 +70,7 @@ object WorkshopGuidance {
         }
         if(help) {
             text.append(Component.literal("\n"))
-            val extra=when(action) {
+            val extra=if(working)Component.translatable("temperandtang.short.rhythm_help")else when(action) {
                 "strike"->Component.translatable("temperandtang.guide.pattern_keys",key("← / →"),key("TAB"),key("B"),key("R"))
                 "heat"->Component.translatable("temperandtang.short.heat_help")
                 "quench"->Component.translatable("temperandtang.short.quench_help")

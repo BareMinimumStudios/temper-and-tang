@@ -66,7 +66,7 @@ object ThermalClient {
                 for(key in listOf("previous","next","category","scribe","mode"))view.node(key).ifPresent {it.setVisible(!ready && !working && (key=="mode" || !reforging))}
                 for(key in listOf("timing_rail","timing_band","timing_marker"))view.node(key).ifPresent {it.setVisible(working && !ready)}
                 val perfect=(visibleState.getControl("window").toInt()/2+1).toFloat()
-                view.node("timing_band").ifPresent {it.scaleTo(12f*perfect/TemperAndTang.config.shapingBeatTicks.get(),0.05f)}
+                view.node("timing_band").ifPresent {it.scaleTo(12f*view.state().getControl("perfect_window").coerceAtLeast(1f)/view.state().getControl("period").coerceAtLeast(1f),0.05f)}
                 view.node("strike").ifPresent {it.setVisible(!ready)}
                 view.node("gear").ifPresent {it.setGhostItems(listOf(ItemStack(net.minecraft.world.item.Items.IRON_CHESTPLATE)))}
                 view.node("flux").ifPresent {it.setGhostItems(listOf(ItemStack(com.bareminimumstudios.temperandtang.content.TemperContent.item("smithing_flux"))))}

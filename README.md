@@ -7,6 +7,9 @@ The first revision uses **Diegesis charcoal heating, scored hammer work, water q
 ## Current features
 
 - Standalone heat → shape → quench → finish progression, including metal armor, tools, shields and weapons.
+- Compact colored station guidance; **H** for help and **Shift** for equipment details.
+- Recorded material trade-offs and one bounded equipment trait, influenced by accuracy and equipment family.
+- Distinct intermediate metal blanks for weapons, tools, shields and armor.
 - Six server-rolled craftsmanship grades, weighted toward strike accuracy, with a smaller random contribution and smithing mastery bonus.
 - Player mastery, maker records, reusable advanced blueprints and paid hot-gear reforging with smithing flux.
 - Optional Simply Swords, Simply More and Epic Knights support using their original item identities and authored recipes.
@@ -19,6 +22,8 @@ The first revision uses **Diegesis charcoal heating, scored hammer work, water q
 ## Playing
 
 Install the correct loader JAR, Fzzy Config, Diegesis **beta.17** for your loader, and Fabric Language Kotlin or Kotlin for Forge. See `libraries.toml` for exact development dependency pins. Simply Swords, Simply More and Epic Knights are optional equipment integrations. Overgeared is not required or used. The workshop handles weapons, tools, shields and metal armor with server-owned craftsmanship, mastery and reusable blueprints.
+
+See [materials and traits](docs/MATERIALS_AND_TRAITS.md) for the equipment trade-offs.
 
 Follow the [thermal workshop guide](docs/THERMAL_WORKSHOP.md) to heat refined stock, shape equipment, quench it, learn blueprints and reforge existing gear.
 
@@ -55,7 +60,7 @@ The build creates separate Fabric and NeoForge JARs. Verified files, checksums, 
 
 ## Scope
 
-This is a tested first revision. Further alloy traits, runes and additional original weapon forms remain future work. Live station sessions return items when closed rather than keeping persistent block inventories. Working heat uses world ticks. Workstation and tool geometry is original and references Minecraft textures; several material icons use vanilla texture shapes. Tin generates only in new chunks. See the verification record for tested coverage and remaining multiplayer, latency and balance playtesting.
+This is a tested first revision. Additional original weapon forms, broader custom-ability integrations and remote-latency balancing remain future work. Live station sessions return items when closed rather than keeping persistent block inventories. Working heat uses world ticks. Workstation and tool geometry is original and references Minecraft textures; several material icons use vanilla texture shapes. Tin generates only in new chunks. See the verification record for tested coverage and remaining multiplayer, latency and balance playtesting.
 
 See [design](docs/DESIGN.md), [compatibility](docs/COMPATIBILITY.md), [development](DEVELOPMENT.md) and [release checklist](docs/RELEASING.md), [public API](docs/API.md) and [verification record](docs/VERIFICATION.md).
 

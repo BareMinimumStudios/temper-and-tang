@@ -2,6 +2,8 @@
 
 Temper & Tang supplies its own tools, heat, shaping and quenching. It requires Diegesis, Fzzy Config and your loader's Kotlin runtime. It does not require Overgeared.
 
+The station normally shows only your step, next action and ingredients. **H** opens extra help. Hold **Shift** over forged equipment for detailed stats and maker information. Colors highlight quantities and important actions without replacing the words.
+
 ## Make the tools and workstations
 
 - **Smithing Tongs:** two iron nuggets in the top corners, two iron ingots beneath them, and a stick in the bottom centre. Common iron and wooden-rod tags work. Repair the tongs with an iron ingot at a vanilla anvil.
@@ -18,7 +20,7 @@ The temporary pattern board is a preparation guide. When hammer work starts, the
 2. Put up to eight refined ingots and enough coal or charcoal into the hearth. Click the bellows or press **Space** with an empty cursor. Base heating is five seconds per item; steel, diamond and netherite stock take longer. A coal pays for up to 1,600 heating ticks; fuel is spent when work starts.
 3. Retrieve the hot stock. It has about **60 seconds** of working heat by default. Its tooltip shows the remaining time. Reheat if it cools before shaping.
 4. Open the shaping anvil. The ghost pattern shows the selected equipment. Use **Left/Right** to change patterns and **Tab** to filter weapons or armor. Advanced Epic Knights patterns require a matching reusable blueprint. Put heated metal and the remaining ingredients in the shown 3×3 arrangement, then insert the hammer.
-5. Click the hammer or press **Space** when the moving timing marker reaches the central target. Timing varies between blows. Take time to prepare: missed-beat penalties begin only after your first strike. Accurate strikes improve the quality odds; missed beats reduce accuracy. Clicking repeatedly cannot accelerate the work. Most basic gear takes six blows; armor and harder materials take more. The final blow rolls quality once on the server.
+5. Click the hammer or press **Space** when the moving timing marker reaches the central target. Timing varies between blows. Take time to prepare: missed-beat penalties begin only after your first strike. Accurate strikes improve the quality odds; missed beats reduce accuracy. Clicking repeatedly cannot accelerate the work. Most basic gear takes six blows; armor and harder materials take more. The final blow rolls quality and one possible equipment trait once on the server.
 6. The final blow commits an **Unquenched Workpiece**. It is not yet a usable weapon. Carry it to the trough with your tongs, add a water bucket, then click the trough tongs or press **Space**. Default quenching takes two seconds, consumes the water and leaves an empty bucket.
 7. Retrieve the usable cooled weapon and empty bucket. You may now finish the equipment at the finishing anvil using a finishing material, paced blows and experience.
 
@@ -71,3 +73,15 @@ To reforge, heat existing supported equipment, press **R** at an empty shaping a
 Metal armor accepts **Tempered** for durability or **Lightened** for a small movement benefit. **Keen** and **Weighted** require weapons. Finishing precision controls its smaller finishing bonus; it does not reroll craftsmanship. Completed work and paid costs remain committed when the station closes.
 
 Sneak-use an ordinary anvil to open the smithing workshop when enabled. Normal use still opens vanilla repair and enchanting.
+
+Material differences and traits are described in [Materials and workmanship](MATERIALS_AND_TRAITS.md). Mining tools, shields and each armor slot have their own intermediate metal shapes.
+
+## Rhythm forging
+
+Press Space as the marker meets the green band. Its brightness rises as a beat approaches. The small lights show whether the current phrase needs one, two or three strikes; the current light is highlighted and completed lights dim. Later beats in a phrase stay fixed even when the first strike is early or late. A new phrase receives a fresh lead-in. Randomness changes the rhythm, not the required key.
+
+Gold, copper and tin are forgiving. Bronze is a gentler starting material; iron is faster and tighter. Steel is more demanding, and diamond/netherite have the fastest cadence and most frequent multi-hit phrases. The perfect band follows the server's actual scoring window. Waiting before the first strike is free; missed beats after starting reduce accuracy. Pressing repeatedly cannot bypass the strike cooldown.
+
+Each accepted strike drives a physical hammer swing. The exact contact frame triggers its clang, a brief warm surface flash and sparks; perfect strikes produce a brighter spark burst. Timing affects craftsmanship through the existing bounded quality roll, rather than guaranteeing a rarity.
+
+`materialDifficulty` and `rhythmPhrases` can be disabled independently in the existing Fzzy configuration. These options do not change ingredient costs, equipment preservation, or saved item metadata. The default interface remains short; H opens further guidance and Shift expands equipment details.

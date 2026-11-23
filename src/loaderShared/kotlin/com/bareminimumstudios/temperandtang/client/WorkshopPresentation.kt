@@ -26,6 +26,9 @@ class HammerPresentation(private val finishing:Boolean) {
     private var sinceSync=0f
     private var marker=0f
     private var initialized=false
+    private var glow=0f
+    private var glowScore=0f
+    private var pulseTime=0f
     private var wasWorking=false
     private var beatArmed=false
     private fun surface(view:StationView):Float=if(finishing)14.4f else if(view.level().getBlockState(view.pos()).`is`(com.bareminimumstudios.temperandtang.content.TemperContent.block("shaping_anvil")))13.4f else 16.4f
@@ -33,7 +36,7 @@ class HammerPresentation(private val finishing:Boolean) {
         val shown=view.state().getControl("phase")
         val remaining=view.state().getControl("target")
         if(remaining>0f || shown>0f)beatArmed=true
-        val phase=if(shown==0f && remaining>0f).5f-remaining/TemperAndTang.config.shapingBeatTicks.get() else shown
+        val phase=if(shown==0f && remaining>0f).5f-remaining/view.state().getControl("period").coerceAtLeast(1f) else shown
         if(!initialized || phase<anchor-.2f){marker=phase.coerceIn(0f,1f);initialized=true}
         anchor=phase;sinceSync=0f
     }
@@ -81,22 +84,43 @@ class HammerPresentation(private val finishing:Boolean) {
         }
         view.node("result").ifPresent {it.setVisible(ready && (!busy || impacted))}
         if(finishing)view.node("weapon").ifPresent {it.setVisible(!ready && !show)}
+        pulseTime+=dt
+        glow=(glow-dt*5f).coerceAtLeast(0f)
         sinceSync+=dt
-        val predicted=(anchor+sinceSync*20f/TemperAndTang.config.shapingBeatTicks.get()).coerceIn(0f,1f)
-        val advanced=marker+dt*20f/TemperAndTang.config.shapingBeatTicks.get()
+        val predicted=(anchor+sinceSync*20f/view.state().getControl("period").coerceAtLeast(1f)).coerceIn(0f,1f)
+        val advanced=marker+dt*20f/view.state().getControl("period").coerceAtLeast(1f)
         marker=if(!working || !beatArmed || predicted<=0f)0f else max(marker,advanced+(predicted-advanced)*(1-exp(-dt*8f))).coerceIn(0f,1f)
         view.node("timing_marker").ifPresent {it.moveTo((marker-.5f)*12f,0f,0f,0f)}
         for(id in listOf("timing_rail","timing_band","timing_marker"))view.node(id).ifPresent {it.setVisible(working && !ready)}
+        val proximity=(1f-abs(marker-.5f)*6f).coerceIn(0f,1f)
+        val pulse=.5f+.5f*sin(pulseTime*9f)
+        val light=(120+proximity*100+pulse*25).toInt().coerceIn(0,255)
+        view.node("timing_band").ifPresent {it.setTint((0xFF000000L or (65L shl 16) or (light.toLong() shl 8) or 95L).toInt())}
+        view.node("timing_marker").ifPresent {it.setTint(if(glow>0f)if(glowScore>=.75f)0xFFE8FFD5.toInt()else 0xFFFFAF79.toInt()else if(proximity>.65f)0xFFFFF3C2.toInt()else 0xFFFFCF62.toInt())}
+        view.node("impact_flash").ifPresent {
+            it.setVisible(glow>0f && show)
+            it.moveTo(0f,contactY+.08f,0f,0f)
+            it.scaleTo(1f+(1f-glow)*.65f,0f)
+            it.setTint(((glow*180).toLong().coerceIn(0,255) shl 24 or 0xFFD68AL).toInt())
+        }
+        val count=state.getControl("phrase_size").toInt().coerceIn(1,3)
+        val step=state.getControl("phrase_step").toInt().coerceIn(1,3)
+        for(i in 1..3)view.node("rhythm_note_$i").ifPresent {
+            it.setVisible(working && !ready && i<=count)
+            it.setTint(if(i<step)0xFF55765C.toInt()else if(i==step)if(proximity>.65f)0xFFE4FFD3.toInt()else 0xFF9ACD8B.toInt()else 0xFF69766A.toInt())
+            it.scaleTo(if(i==step)1f+.10f*proximity else .82f,0f)
+        }
         strike?.let {event->
-            val before=elapsed;elapsed+=dt
+            val before=elapsed;elapsed+=dt*1.35f
             if(!impacted && before<Motion.IMPACT && elapsed>=Motion.IMPACT) {
                 // Render exactly one contact frame before rebounding, even after a slow frame.
                 view.node("strike").ifPresent {it.rotateTo(0f,0f,0f,0f)}
-                impacted=true
+                impacted=true;glow=1f;glowScore=event.accuracy
+                view.node("impact_flash").ifPresent {it.setVisible(true);it.moveTo(0f,contactY+.08f,0f,0f);it.scaleTo(1f,0f);it.setTint(0xB4FFD68A.toInt())}
                 view.playSound(SoundEvent.createVariableRangeEvent(TemperAndTang.id("forge_impact")),"impact",.72f,event.pitch)
                 if(event.sparks) {
                     val random=view.level().random
-                    repeat(if(event.accuracy>=.75f)12 else 7) {
+                    repeat(if(event.accuracy>=.99f)18 else if(event.accuracy>=.75f)12 else 5) {
                         val a=random.nextFloat()*PI.toFloat()*2
                         val speed=9f+random.nextFloat()*10f
                         view.spawnParticles(TemperAndTang.id("forge_spark"),Vector3f(8f,contactY+.15f,9f),Vector3f(cos(a)*speed,7f+random.nextFloat()*8f,sin(a)*speed),.18f,1,0xFFFFD38A.toInt())

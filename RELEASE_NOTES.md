@@ -1,9 +1,13 @@
-# Temper & Tang 0.3.2
+# Temper & Tang 0.4.0
 
-A workstation detail pass for Minecraft 1.21.1 Fabric and NeoForge.
+A standalone smithing progression revision for Minecraft 1.21.1 Fabric and NeoForge.
 
-Fitted timber, stave seams, wrought iron bands, pegs and holdfasts give the workstations a more constructed appearance. The hearth gains soot lining and an ash-pan pull. The trough gains band rivets and a drain plug. Bellows lid tacks, handle fittings and leather edge welts move with the existing lid and folds.
+The default station display is deliberately short: your stage, next action and required ingredients. Stages use warm gold, quantities use muted cyan, and benefits or penalties use soft green or red. Press **H** for extra station help and hold **Shift** over forged equipment for detailed stats and maker information.
 
-The simpler hammer, hammer contact, dipping, sparks, clangs, steam and timing behavior are preserved. Recipes, progression, costs and configuration settings are unchanged. Original geometry uses vanilla texture references; Supplementaries was inspected as a construction reference without copying its assets or code.
+Material choice now adds small strengths and trade-offs beneath craftsmanship. A completed forge can roll one equipment-appropriate trait. Strike accuracy improves the odds; finishing keeps the trait, while paid reforging replaces it. Existing unstamped equipment is unchanged.
 
-Requires Diegesis, Fzzy Config and the appropriate Kotlin runtime. Simply Swords and Epic Knights remain optional.
+Metal blanks now develop into the appropriate weapon, tool, shield or armor form. Workstation rests and clips are more readable, while the simpler hammer and existing strike, bellows and dipping animations remain in place. Metal hoes and other low-damage tiered tools now use the same equipment progression rules.
+
+Forging now uses readable rhythm phrases: a pulsing green target, small note lights and occasional double or triple beats. Harder metals require faster, more precise strikes. Future beats stay fixed when a strike is early or late. Hammer contact triggers a warm surface flash, clang and sparks, with a stronger spark burst on perfect strikes. Material difficulty and rhythm phrases can be disabled separately.
+
+Requires Diegesis beta.17, Fzzy Config and the loader's Kotlin runtime. Simply Swords, Simply More and Epic Knights remain optional. Existing recipes removed by a pack are not recreated. No food, world-generation, travel, loot or combat configuration is changed by installation.

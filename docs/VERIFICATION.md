@@ -1,4 +1,18 @@
-# Verification — 0.3.2
+# Verification — 0.4.0
+
+## Rhythm revision
+
+The final Fabric and NeoForge builds passed 19 unit tests, resource binding checks and packaged artifact checks. Deterministic rhythm tests cover material pacing/precision, fixed future notes after early input, cooldown rejection, missed-burst recovery and free preparation. Both dedicated servers passed equipment, scored finishing and the complete thermal scenarios with the new timing implementation.
+
+Both hidden clients completed the actual survival heating → shaping → quenching → finishing route. Fabric then restarted as the same player and matched five inventory records and mastery exactly. NeoForge checked all twelve rendered hammer contacts against the actual model striking face, with maximum error 0.000001 scene pixels; sparks were present at each contact. Thirty-one submerged frames retained tong alignment, with maximum error below 0.000002 pixels. Both clients displayed ten equipment-specific blank forms. The 64-second demonstration captures only the isolated game's picture and sound. Multiplayer network latency remains untested; ownership/cleanup coverage uses server-side test players.
+
+## Progression and guidance revision
+
+Both loaders passed crafting, preservation and thermal server diagnostics with Simply Swords and Epic Knights. The NeoForge optional Simply More catalog exercised 378 routed patterns through shaping, quenching, finishing and serialization. Metal tools, including hoes, are supported. Zero-bonus settings passed the standalone NeoForge fixtures; disabling recipe integration restored native crafting recipes on Fabric.
+
+Both hidden loader clients completed the survival workshop route and preserved five crafted/thermal records and mastery through an actual process restart under the same player identity. NeoForge additionally checked station ownership, replay rejection, logout returns, and full-inventory overflow using two server-side test players. This is not a substitute for a remote multiplayer latency test. Compact guidance passed 854×480 and 1280×720 checks, with optional H help and Shift equipment details.
+
+## Previous presentation checks
 
 ## Workstation detail pass
 

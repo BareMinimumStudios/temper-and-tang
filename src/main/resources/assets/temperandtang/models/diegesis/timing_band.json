@@ -3,7 +3,7 @@
   "ambientocclusion": false,
   "textures": {
     "particle": "minecraft:block/moss_block",
-    "green": "minecraft:block/lime_concrete"
+    "green": "minecraft:block/white_concrete"
   },
   "elements": [
     {

@@ -56,7 +56,13 @@ object ThermalStations {
                 .slots("blueprint",1,SlotRules.DEFAULT.maxStack(1).accepts {Blueprints.blank(it) || Blueprints.filled(it)})
                 .control("scribe",ControlSpec.button()).control("category",ControlSpec.button()).control("mode",ControlSpec.button())
                 .control("accuracy",ControlSpec.range(0f,100f,0f).locked()).control("misses",ControlSpec.range(0f,10000f,0f).locked())
-                .control("target",ControlSpec.range(0f,60f,0f).locked()).control("window",ControlSpec.range(0f,10f,0f).locked())
+                .control("target",ControlSpec.range(0f,120f,0f).locked())
+                .control("period",ControlSpec.range(0f,120f,0f).locked())
+                .control("perfect_window",ControlSpec.range(0f,8f,0f).locked())
+                .control("phrase_size",ControlSpec.range(0f,3f,0f).locked())
+                .control("phrase_step",ControlSpec.range(0f,3f,0f).locked())
+                .control("next_gap",ControlSpec.range(0f,120f,0f).locked())
+                .control("combo",ControlSpec.range(0f,40f,0f).locked()).control("window",ControlSpec.range(0f,10f,0f).locked())
                 .control("phase",ControlSpec.range(0f,1f,0f).locked()).control("last_score",ControlSpec.range(0f,1f,0f).locked())
                 .control("strike",ControlSpec.button()).control("next",ControlSpec.button()).control("previous",ControlSpec.button())
                 .control("progress",ControlSpec.range(0f,40f,0f).locked()).control("required",ControlSpec.range(1f,40f,6f).locked())
@@ -285,13 +291,14 @@ object ThermalStations {
             state.setOutput("result",if(active())actual.copy() else ItemStack.EMPTY)
             val status=status(s)
             if(status=="work" && work==null && !s.isClientSide) {
-                work=HammerWork(required(s),TemperAndTang.config.shapingBeatTicks.get(),TemperAndTang.config.shapingWindowTicks.get(),TemperAndTang.config.timingJitter.get()) {ForgeRandom.nextInt(it)}.also {it.arm(s.level().gameTime)}
+                work=WorkshopRhythm.create(required(s),WorkshopRhythm.profile(target,stocks(s)),s.level().gameTime)
             }
             val job=work
+            WorkshopRhythm.sync(state,job,WorkshopRhythm.profile(target,stocks(s)))
             state.setControl("required",required(s).toFloat())
             state.setControl("progress",job?.hits?.toFloat()?:0f);state.setControl("clean",job?.perfect?.toFloat()?:0f)
             state.setControl("accuracy",((job?.accuracy?:0.0)*100).toFloat());state.setControl("misses",job?.misses?.toFloat()?:0f)
-            state.setControl("target",((job?.target?:s.level().gameTime)-s.level().gameTime).toFloat().coerceIn(0f,60f))
+            state.setControl("target",((job?.target?:s.level().gameTime)-s.level().gameTime).toFloat().coerceIn(0f,120f))
             state.setControl("window",job?.window?.toFloat()?:0f);state.setControl("phase",job?.phase(s.level().gameTime)?:0f)
             state.setControl("beat",if(job!=null && kotlin.math.abs(s.level().gameTime-job.target)<=job.perfectWindow)1f else 0f)
             state.setControl("last_score",job?.lastScore?.toFloat()?:0f)

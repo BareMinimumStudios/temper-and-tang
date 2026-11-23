@@ -28,7 +28,13 @@ object FinishingStation {
                 .slots("hammer",1,SlotRules.DEFAULT.maxStack(1).accepts(::isHammer))
                 .slots("finished",1,SlotRules.DEFAULT.maxStack(1).accepts {false})
                 .control("strike",ControlSpec.button()).control("progress",ControlSpec.range(0f,40f,0f).locked())
-                .control("target",ControlSpec.range(0f,60f,0f).locked()).control("phase",ControlSpec.range(0f,1f,0f).locked())
+                .control("target",ControlSpec.range(0f,120f,0f).locked())
+                .control("period",ControlSpec.range(0f,120f,0f).locked())
+                .control("perfect_window",ControlSpec.range(0f,8f,0f).locked())
+                .control("phrase_size",ControlSpec.range(0f,3f,0f).locked())
+                .control("phrase_step",ControlSpec.range(0f,3f,0f).locked())
+                .control("next_gap",ControlSpec.range(0f,120f,0f).locked())
+                .control("combo",ControlSpec.range(0f,40f,0f).locked()).control("phase",ControlSpec.range(0f,1f,0f).locked())
                 .control("beat",ControlSpec.range(0f,1f,0f).locked()).control("accuracy",ControlSpec.range(0f,100f,0f).locked())
                 .control("window",ControlSpec.range(0f,10f,0f).locked())
                 .control("last_score",ControlSpec.range(0f,1f,0f).locked()).output("result").build())
@@ -81,13 +87,14 @@ object FinishingStation {
         override fun updateOutputs(s:StationContext) {
             val state=s.state();val actual=state.getItem(FINISHED)
             if(work==null && actual.isEmpty && TemperAndTang.config.enabled.get() && valid(s) && !s.isClientSide)
-                work=HammerWork(TemperAndTang.config.requiredStrikes.get(),TemperAndTang.config.shapingBeatTicks.get(),TemperAndTang.config.shapingWindowTicks.get(),TemperAndTang.config.timingJitter.get(),ForgeRandom::nextInt).also {it.arm(s.level().gameTime)}
+                work=WorkshopRhythm.create(TemperAndTang.config.requiredStrikes.get(),WorkshopRhythm.profile(state.getItem(WEAPON)),s.level().gameTime)
             val job=work
+            WorkshopRhythm.sync(state,job,WorkshopRhythm.profile(state.getItem(WEAPON)))
             val finish=WeaponFinishes.ingredient(state.getItem(MATERIAL))
             state.setOutput("result",if(!actual.isEmpty)actual.copy() else if(job?.ready==true && finish!=null)WeaponFinishes.preview(state.getItem(WEAPON),finish,job.accuracy) else ItemStack.EMPTY)
             state.setControl("progress",job?.hits?.toFloat()?:0f);state.setControl("accuracy",((job?.accuracy?:0.0)*100).toFloat())
             state.setControl("window",job?.window?.toFloat()?:0f)
-            state.setControl("target",((job?.target?:s.level().gameTime)-s.level().gameTime).toFloat().coerceIn(0f,60f))
+            state.setControl("target",((job?.target?:s.level().gameTime)-s.level().gameTime).toFloat().coerceIn(0f,120f))
             state.setControl("phase",job?.phase(s.level().gameTime)?:0f);state.setControl("last_score",job?.lastScore?.toFloat()?:0f)
             state.setControl("beat",if(job!=null && kotlin.math.abs(s.level().gameTime-job.target)<=job.perfectWindow)1f else 0f)
         }

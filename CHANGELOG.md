@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.4.0
+
+- Added compact stage, action and ingredient guidance, with muted color cues, H for optional help and Shift for detailed equipment tooltips.
+- Added recorded material trade-offs, with additive common tags and neutral behavior for unrecognized materials.
+- Added one accuracy-influenced, server-rolled equipment trait; material and equipment family influence its pool. Finishing preserves traits and paid reforging replaces them.
+- Added distinct intermediate blanks for tools, polearms, shields and all armor slots, scaled to each recipe's required blow count.
+- Added practical tool rests and blueprint clips without retiming the hammer, bellows or quenching motions.
+- Closed the metal-tool filter gap, including low-damage hoes. Verified complete cross-mod pattern routes rather than only their recipe matches.
+- Preserved raw durability baselines, wear, names, enchantments, foreign data, material/trait strengths and netherite upgrade behavior.
+
+
 ## 0.3.2
 
 - Added fitted bench planks, joinery pegs, foot bindings and anvil holdfasts.
@@ -129,3 +140,9 @@
 - Added optional weapon integration, bounded non-stacking finish rules and server tick-based work validation.
 
 - Added CI, local build scripts, artifact verification and opt-in draft-release staging.
+
+### Rhythm forging
+
+- Material-dependent tempo and precision, fixed-beat double/triple phrases, pulsing targets and note lights.
+- Contact-synchronized warm flashes, stronger perfect sparks and faster hammer response.
+- Independent difficulty and rhythm configuration switches; ingredient and preservation rules retained.

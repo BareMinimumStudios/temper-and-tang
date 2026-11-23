@@ -15,3 +15,8 @@ Owned tongs use additive `c:tools/tongs` and `temperandtang:tongs` tags. Compati
 See [the workshop guide](THERMAL_WORKSHOP.md), [API](API.md) and [verification record](VERIFICATION.md).
 
 References inspected during development include [Overgeared](https://github.com/phuccom000/Overgeared), installed Simply Swords and Epic Knights recipes, and the [Diegesis API](https://github.com/Pocky-l/diegesis). Integrations are independently implemented; third-party artwork is not redistributed.
+
+
+Version 0.4.0 checks every available routed pattern through actual output forging, quenching, a compatible finish and serialization. The NeoForge fixture also exercised Simply More from a separate optional test copy. Its disabled state in the live profile is preserved. Vanilla metal hoes are included in routing rather than bypassing the workshop because of low attack damage.
+
+Material/trait strengths are saved with forged items. Finishing and ordinary netherite upgrades preserve those records; the latter refreshes the material and the raw stat baseline. Default guidance is short, H shows station help and Shift reveals equipment details. No compatibility path enables another mod's loot or implicit abilities, or restores a recipe removed by the pack.

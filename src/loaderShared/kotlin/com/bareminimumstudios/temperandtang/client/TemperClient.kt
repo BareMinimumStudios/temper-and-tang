@@ -73,7 +73,7 @@ object TemperClient {
             }
             for(id in listOf("timing_rail","timing_band","timing_marker"))view.node(id).ifPresent {it.setVisible(key=="instructions" && !ready)}
             val perfect=(state.getControl("window").toInt()/2+1).toFloat()
-            view.node("timing_band").ifPresent {it.scaleTo(12f*perfect/TemperAndTang.config.shapingBeatTicks.get(),0.05f)}
+            view.node("timing_band").ifPresent {it.scaleTo(12f*view.state().getControl("perfect_window").coerceAtLeast(1f)/view.state().getControl("period").coerceAtLeast(1f),0.05f)}
             view.showCaption(WorkshopGuidance.caption(view,"finish",key),0f)
         }
     }
