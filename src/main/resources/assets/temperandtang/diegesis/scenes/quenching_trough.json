@@ -1,0 +1,107 @@
+{
+  "camera": {
+    "position": [
+      28,
+      40,
+      -24
+    ],
+    "target": [
+      8,
+      16,
+      8
+    ],
+    "fov": 55
+  },
+  "interface": {
+    "inventory_panel": true,
+    "show_counts": true
+  },
+  "inventory_drawer": {
+    "side": "bottom",
+    "style": "minimal",
+    "always_open": true,
+    "compact": true,
+    "margin": 8,
+    "carry_size": 3.5
+  },
+  "nodes": [
+    {
+      "id": "stock",
+      "pos": [
+        8,
+        16,
+        8
+      ],
+      "slot": {
+        "slot": "stock",
+        "size": 5,
+        "idle_highlight": 0.12
+      },
+      "tooltip": "temperandtang.thermal.slot.stock"
+    },
+    {
+      "id": "water",
+      "pos": [
+        0,
+        16,
+        0
+      ],
+      "slot": {
+        "slot": "water",
+        "size": 3,
+        "idle_highlight": 0.12
+      },
+      "tooltip": "temperandtang.thermal.slot.water"
+    },
+    {
+      "id": "quench",
+      "pos": [
+        18,
+        17,
+        8
+      ],
+      "visual": {
+        "item": "minecraft:bucket"
+      },
+      "control": {
+        "control": "quench",
+        "type": "button",
+        "axis": [
+          0,
+          -1,
+          0
+        ],
+        "range": [
+          0,
+          0.3
+        ]
+      },
+      "collider": {
+        "from": [
+          -2,
+          -1,
+          -2
+        ],
+        "to": [
+          2,
+          3,
+          2
+        ]
+      },
+      "tooltip": "temperandtang.thermal.action.quench"
+    },
+    {
+      "id": "result",
+      "pos": [
+        8,
+        24,
+        19
+      ],
+      "output": {
+        "output": "result",
+        "size": 4
+      },
+      "tooltip": "temperandtang.scene.result"
+    }
+  ]
+}

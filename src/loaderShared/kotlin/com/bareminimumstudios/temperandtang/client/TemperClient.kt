@@ -15,6 +15,7 @@ import org.lwjgl.glfw.GLFW
 /** Client feedback only. Both input routes use the same server-authoritative strike checks. */
 object TemperClient {
     fun initialize() {
+        ThermalClient.initialize()
         DiegesisClient.registerBehavior(TemperAndTang.id("finishing_anvil")) { Feedback() }
     }
     private class Feedback : StationBehavior {

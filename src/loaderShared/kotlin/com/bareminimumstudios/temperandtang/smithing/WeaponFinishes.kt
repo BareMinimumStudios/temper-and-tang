@@ -30,7 +30,7 @@ object WeaponFinishes {
         stack.`is`(TemperAndTangApi.finishingMaterialTag(it.key))
     }
     fun preview(input: ItemStack, finish: Finish): ItemStack {
-        if (!accepts(input)) return ItemStack.EMPTY
+        if (!accepts(input) || ThermalState.pending(input)) return ItemStack.EMPTY
         val custom = input.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag()
         val prior = custom.getCompound(ROOT)
         if (prior.contains("finish") && !TemperAndTang.config.allowRefinishing.get()) return ItemStack.EMPTY

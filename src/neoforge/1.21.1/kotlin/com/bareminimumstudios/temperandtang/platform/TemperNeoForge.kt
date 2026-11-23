@@ -24,7 +24,13 @@ import net.neoforged.neoforge.registries.DeferredRegister
 class TemperNeoForge(bus: IEventBus) {
     private val blocks = DeferredRegister.create(Registries.BLOCK, TemperAndTang.MOD_ID)
     private val items = DeferredRegister.create(Registries.ITEM, TemperAndTang.MOD_ID)
+    private val recipeTypes = DeferredRegister.create(Registries.RECIPE_TYPE, TemperAndTang.MOD_ID)
+    private val recipeSerializers = DeferredRegister.create(Registries.RECIPE_SERIALIZER, TemperAndTang.MOD_ID)
     init {
+        recipeTypes.register("shaping", java.util.function.Supplier { com.bareminimumstudios.temperandtang.smithing.ThermalRecipes.TYPE })
+        recipeSerializers.register("shaping", java.util.function.Supplier { com.bareminimumstudios.temperandtang.smithing.ThermalRecipes.SERIALIZER })
+        recipeTypes.register(bus)
+        recipeSerializers.register(bus)
         TemperContent.blocks.forEach { (name, factory) ->
             val block = blocks.register(name, java.util.function.Supplier<Block> { factory() })
             items.register(name, java.util.function.Supplier<Item> { BlockItem(block.get(), Item.Properties()) })

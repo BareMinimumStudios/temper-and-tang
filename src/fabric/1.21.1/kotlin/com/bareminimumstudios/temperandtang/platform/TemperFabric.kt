@@ -22,6 +22,8 @@ import net.minecraft.world.level.levelgen.GenerationStep
 
 object TemperFabric : ModInitializer {
     override fun onInitialize() {
+        Registry.register(BuiltInRegistries.RECIPE_TYPE, TemperAndTang.id("shaping"), com.bareminimumstudios.temperandtang.smithing.ThermalRecipes.TYPE)
+        Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, TemperAndTang.id("shaping"), com.bareminimumstudios.temperandtang.smithing.ThermalRecipes.SERIALIZER)
         TemperContent.blocks.forEach { (name, factory) ->
             val block = Registry.register(BuiltInRegistries.BLOCK, TemperAndTang.id(name), factory())
             Registry.register(BuiltInRegistries.ITEM, TemperAndTang.id(name), BlockItem(block, Item.Properties()))

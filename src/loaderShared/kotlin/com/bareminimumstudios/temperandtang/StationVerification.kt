@@ -160,6 +160,7 @@ object StationVerification {
         source.sendSuccess({ Component.literal("Running isolated finishing station scenarios...") }, false)
     }
     fun tick(server: MinecraftServer) {
+        ThermalVerification.tick(server)
         val job = jobs[server] ?: return
         try {
             if (job.step()) {
@@ -172,5 +173,5 @@ object StationVerification {
             TemperAndTang.logger.error("TEMPER_STATION_VERIFY_FAILED", failure)
         }
     }
-    fun stop(server: MinecraftServer) { jobs.remove(server) }
+    fun stop(server: MinecraftServer) { jobs.remove(server); ThermalVerification.stop(server) }
 }

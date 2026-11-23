@@ -24,6 +24,7 @@ import net.minecraft.world.item.component.CustomData
 object TemperCommands {
     fun register(dispatcher: CommandDispatcher<CommandSourceStack>) {
         dispatcher.register(Commands.literal("temperandtang").requires { it.hasPermission(2) }
+            .then(Commands.literal("verify_thermal").executes { context -> ThermalVerification.start(context.source); 1 })
             .then(Commands.literal("verify_station").executes { context ->
                 StationVerification.start(context.source)
                 1

@@ -16,6 +16,15 @@ object OvergearedRecipes {
                         raw.asJsonObject.getAsJsonArray("values")?.any { !TemperAndTang.modLoaded(it.asString) } == true
                 } == true
         }.toMutableMap()
+        if (!TemperAndTang.modLoaded("overgeared") && TemperAndTang.config.thermalEnabled.get()) {
+            for ((id, element) in result.toMap()) {
+                if (!element.isJsonObject || element.asJsonObject.get("type")?.asString != "minecraft:crafting_shaped") continue
+                val item = element.asJsonObject.getAsJsonObject("result")?.get("id")?.asString ?: continue
+                val basic = item in setOf("temperandtang:bronze_sword", "minecraft:iron_sword", "minecraft:golden_sword") ||
+                    TemperAndTang.config.simplySwords.get() && (item.startsWith("simplyswords:iron_") || item.startsWith("simplyswords:gold_"))
+                if (basic) result[id] = element.deepCopy().also { it.asJsonObject.addProperty("type", "temperandtang:shaping") }
+            }
+        }
         if (!TemperAndTang.modLoaded("overgeared") || !TemperAndTang.config.overgearedRecipes.get()) return result
         var changed = 0
         for ((id, element) in result.toMap()) {
