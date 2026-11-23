@@ -75,5 +75,8 @@
   "temperandtang.thermal.fuel": "Add enough coal or charcoal for this batch.",
   "temperandtang.thermal.tooltip.hot": "Working heat: about %s seconds remaining.",
   "temperandtang.thermal.tooltip.blank": "Cold unquenched workpiece: reheat before quenching.",
-  "temperandtang.thermal.tooltip.quench": "Quench at a trough to reveal the usable weapon."
+  "temperandtang.thermal.tooltip.quench": "Quench at a trough to reveal the usable weapon.",
+  "temperandtang.thermal.heated_ready": "Take the hot stock to the shaping anvil. Use tongs with Overgeared.",
+  "temperandtang.thermal.cooled_ready": "Take the cooled workpiece and empty bucket. Continue with polishing or finishing.",
+  "temperandtang.thermal.tooltip.native_hot": "Hot metal: use tongs and work promptly."
 }

@@ -64,8 +64,9 @@ object ThermalClient {
                 "heating", "quenching" -> arrayOf(state.getControl("progress").toInt())
                 else -> emptyArray()
             }
-            val caption=Component.translatable("temperandtang.thermal."+status,*args)
-            if (action=="heat" && status=="idle") caption.append(Component.literal(" Fuel: "+state.getControl("fuel_cost").toInt()+" coal / charcoal."))
+            val captionKey=if(status=="ready") when(action) { "heat"->"heated_ready"; "quench"->"cooled_ready"; else->status } else status
+            val caption=Component.translatable("temperandtang.thermal."+captionKey,*args)
+            if (action=="heat" && status in listOf("idle","fuel")) caption.append(Component.literal(" Fuel: "+state.getControl("fuel_cost").toInt()+" coal / charcoal."))
             if (view.isFocused) view.showCaption(caption,0f)
             if (action!="strike") return
             for(i in 0..8) {
