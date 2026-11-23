@@ -100,7 +100,7 @@ object ThermalClient {
             if(action=="strike" && status in listOf("pattern","blueprint"))caption.append(Component.translatable("temperandtang.craft.category_"+data.getInt("category")))
             if(action=="strike" && status=="pattern") caption.append(Component.translatable("temperandtang.craft.pattern_keys",data.getInt("mastery")))
             if (action=="heat" && status in listOf("idle","fuel")) caption.append(Component.literal(" Fuel: "+state.getControl("fuel_cost").toInt()+" coal / charcoal."))
-            if (view.isFocused) view.showCaption(caption,0f)
+            if (view.isFocused) view.showCaption(WorkshopGuidance.decorate(view,action,caption),0f)
             if (action!="strike") return
             for(i in 0..8) {
                 val ghost=ResourceLocation.tryParse(data.getString("ghost_"+i))?.let { ItemStack(BuiltInRegistries.ITEM.get(it)) }

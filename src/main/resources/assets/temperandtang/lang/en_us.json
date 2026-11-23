@@ -122,5 +122,20 @@
   "temperandtang.craft.clear_mode": "Remove gear and loose materials before changing work mode.",
   "temperandtang.thermal.insert_gear": "Reforging: place heated equipment on the anvil and add Smithing Flux.",
   "temperandtang.craft.mastery_max": "Smithing mastery %s (maximum) — %s XP",
-  "subtitles.temperandtang.forge_impact": "Hammer rings on steel"
+  "subtitles.temperandtang.forge_impact": "Hammer rings on steel",
+  "temperandtang.guide.header": "%s · %s / 4 — %s",
+  "temperandtang.guide.heat": "Heat",
+  "temperandtang.guide.strike": "Shape",
+  "temperandtang.guide.quench": "Quench",
+  "temperandtang.guide.finish": "Finish",
+  "temperandtang.guide.choose_stock": "Select your workpiece",
+  "temperandtang.guide.quantity": "%s× %s",
+  "temperandtang.guide.heat_needs": "Needs: refined metal, %s coal / charcoal · Heating: %s seconds · Keep tongs in hand.",
+  "temperandtang.guide.quench_needs": "Needs: shaped hot workpiece + 1 water bucket · %s seconds · Take the empty bucket afterwards.",
+  "temperandtang.guide.shape_needs": "Pattern: %s · Hammer: at least %s durability remaining. Heat the metal first.",
+  "temperandtang.guide.reforge_needs": "Needs: heated equipment + 1 Smithing Flux · Hammer: %s durability. Existing wear is preserved.",
+  "temperandtang.guide.finish_needs": "Needs: 1× %s · Hammer: %s durability · Cost: %s experience levels on completion.",
+  "temperandtang.guide.finishing_material": "compatible finishing material",
+  "temperandtang.guide.substitutes": "Shown items are examples; matching tagged substitutes work. Hover the pattern slots for placement.",
+  "temperandtang.guide.timing": "Empty cursor · Press SPACE when gold meets green. Accuracy drives quality; preparation is free."
 }

@@ -77,7 +77,7 @@ object TemperClient {
                 state.getControl("progress").toInt(), TemperAndTang.config.requiredStrikes.get(),
                 TemperAndTang.config.experienceLevels.get())
             if(key=="instructions")caption.append(Component.translatable("temperandtang.craft.finish_timing",state.getControl("accuracy").toInt()))
-            view.showCaption(caption,0f)
+            view.showCaption(WorkshopGuidance.decorate(view,"finish",caption),0f)
         }
     }
 }
