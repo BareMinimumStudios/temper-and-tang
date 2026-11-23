@@ -83,7 +83,20 @@ class HammerPresentation(private val finishing:Boolean) {
             }
             view.node("workpiece_display").ifPresent {it.setVisible(show && (existing || visibleHits>0) && (!ready || !impacted));it.moveTo(0f,contactY-0.15f,0f,0f);it.setTint(if(existing)0xFFFFFFFF.toInt() else 0xFFFFA06A.toInt())}
             if(!finishing)view.node("pattern_board").ifPresent {it.setVisible(!show && !ready && !reforging);it.moveTo(0f,contactY-.35f,0f,0f)}
-            if(!finishing)for(i in 0..8)view.node("grid_$i").ifPresent {it.setVisible(!ready && !reforging && (!show || visibleHits==0))}
+            if(!finishing) {
+                val metals=(0..8).filter {com.bareminimumstudios.temperandtang.smithing.WorkshopPlans.metal(state.getItem(com.bareminimumstudios.temperandtang.station.ThermalStations.grid(it)))}
+                val columns=metals.size.coerceIn(1,3);val rows=(metals.size+columns-1)/columns
+                for(i in 0..8)view.node("grid_$i").ifPresent {
+                    val index=metals.indexOf(i)
+                    it.setVisible(!ready && !reforging && (!show || visibleHits==0 && index>=0))
+                    if(show && index>=0) {
+                        val x=8f+(index%columns-(columns-1)/2f)*1.25f
+                        val z=9f+(index/columns-(rows-1)/2f)*1.2f
+                        it.moveTo(x-(4f+4f*(i%3)),contactY+.1f-13.3f,z-(5f+4f*(i/3)),0f)
+                        it.scaleTo(.45f,0f)
+                    } else {it.moveTo(0f,0f,0f,0f);it.scaleTo(1f,0f)}
+                }
+            }
             if(!finishing)view.node("gear").ifPresent {it.setVisible(!show && !ready && reforging)}
         }
         view.node("result").ifPresent {it.setVisible(ready && (!busy || impacted))}

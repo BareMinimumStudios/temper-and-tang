@@ -71,13 +71,17 @@ class BellowsPresentation {
         view.node("bellows_top").ifPresent {it.setShape(upper,wood);it.rotateTo(angle*180f/PI.toFloat(),0f,0f,0f)}
         view.node("bellows_leather").ifPresent {it.setShape(leather(angle),ResourceLocation.withDefaultNamespace("block/brown_terracotta"))}
         view.node("bellows_welts").ifPresent {it.setShape(welts(angle),ResourceLocation.withDefaultNamespace("block/dark_oak_planks"))}
-        val compression=heating && cos(time*5f)<-.45f
-        view.node("fire").ifPresent {it.setEmitRate(if(compression)26f else 6f)}
-        view.node("embers").ifPresent {it.setTint(if(compression)0xFFFFFFFF.toInt()else 0xFFD8B79E.toInt())}
-        gust+=dt
-        if(compression && gust>.065f) {
-            gust=0f
-            view.spawnParticles(TemperAndTang.id("bellows_air"),Vector3f(12.5f,7.22f,8f),Vector3f(-11f,2f,0f),.08f,3,0)
+        val pressure=if(heating)((-cos(time*5f)-.45f)/.55f).coerceIn(0f,1f) else 0f
+        view.node("fire").ifPresent {it.setEmitRate(6f+20f*pressure)}
+        val r=(216+39*pressure).toInt();val g=(183+72*pressure).toInt();val b=(158+97*pressure).toInt()
+        view.node("embers").ifPresent {it.setTint((0xFF000000L or (r.toLong() shl 16) or (g.toLong() shl 8) or b.toLong()).toInt())}
+        // Keep distinct compression bursts, but retain sub-frame time instead of resetting the clock per puff.
+        gust=if(pressure>0f)gust+dt.coerceIn(0f,.1f) else .065f
+        var emitted=0
+        while(pressure>0f && gust>=.065f && emitted++<3) {
+            gust-=.065f
+            val age=gust.coerceIn(0f,.1f)
+            view.spawnParticles(TemperAndTang.id("bellows_air"),Vector3f(12.5f-11f*age,7.22f+2f*age,8f),Vector3f(-11f,2f,0f),.08f,3,0)
             view.spawnParticles(DiegesisParticles.FLAME,Vector3f(8.5f,7.25f,8f),Vector3f(0f,5f,0f),.8f,3,0)
             view.spawnParticles(TemperAndTang.id("forge_spark"),Vector3f(8f,6.5f,8f),Vector3f(0f,10f,0f),1.2f,2,0xFFFFB85C.toInt())
         }
