@@ -22,11 +22,14 @@ import net.neoforged.neoforge.registries.DeferredRegister
 
 @Mod(TemperAndTang.MOD_ID)
 class TemperNeoForge(bus: IEventBus) {
+    private val armorMaterials = DeferredRegister.create(Registries.ARMOR_MATERIAL,TemperAndTang.MOD_ID)
     private val blocks = DeferredRegister.create(Registries.BLOCK, TemperAndTang.MOD_ID)
     private val items = DeferredRegister.create(Registries.ITEM, TemperAndTang.MOD_ID)
     private val recipeTypes = DeferredRegister.create(Registries.RECIPE_TYPE, TemperAndTang.MOD_ID)
     private val recipeSerializers = DeferredRegister.create(Registries.RECIPE_SERIALIZER, TemperAndTang.MOD_ID)
     init {
+        com.bareminimumstudios.temperandtang.content.WorkshopCatalog.armorMaterials.forEach { (name,factory) -> armorMaterials.register(name,java.util.function.Supplier {factory()}) }
+        armorMaterials.register(bus)
         recipeTypes.register("shaping", java.util.function.Supplier { com.bareminimumstudios.temperandtang.smithing.ThermalRecipes.TYPE })
         recipeSerializers.register("shaping", java.util.function.Supplier { com.bareminimumstudios.temperandtang.smithing.ThermalRecipes.SERIALIZER })
         recipeSerializers.register("shaping_shapeless", java.util.function.Supplier { com.bareminimumstudios.temperandtang.smithing.ThermalRecipes.SHAPELESS })

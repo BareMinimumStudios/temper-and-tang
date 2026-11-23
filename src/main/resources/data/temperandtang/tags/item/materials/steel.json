@@ -8,6 +8,7 @@
     {
       "id": "#c:gems/steel",
       "required": false
-    }
+    },
+    "temperandtang:steel_ingot"
   ]
 }

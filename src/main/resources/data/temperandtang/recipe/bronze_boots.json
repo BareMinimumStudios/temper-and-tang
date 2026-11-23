@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "M M",
+    "M M"
+  ],
+  "key": {
+    "M": {
+      "tag": "c:ingots/bronze"
+    }
+  },
+  "result": {
+    "id": "temperandtang:bronze_boots",
+    "count": 1
+  }
+}

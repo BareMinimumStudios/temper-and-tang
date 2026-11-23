@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "MMM",
+    "M M",
+    "M M"
+  ],
+  "key": {
+    "M": {
+      "tag": "c:ingots/bronze"
+    }
+  },
+  "result": {
+    "id": "temperandtang:bronze_leggings",
+    "count": 1
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "M M",
+    "MMM",
+    "MMM"
+  ],
+  "key": {
+    "M": {
+      "tag": "c:ingots/steel"
+    }
+  },
+  "result": {
+    "id": "temperandtang:steel_chestplate",
+    "count": 1
+  }
+}

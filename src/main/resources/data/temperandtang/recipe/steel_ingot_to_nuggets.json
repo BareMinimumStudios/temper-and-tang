@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "temperandtang:steel_ingot"
+    }
+  ],
+  "result": {
+    "id": "temperandtang:steel_nugget",
+    "count": 9
+  }
+}
