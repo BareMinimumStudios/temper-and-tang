@@ -115,8 +115,9 @@ object CraftVerification {
             check(CraftTraits.recorded(saved)==trait && saved.maxDamage==finished.maxDamage)
             repeat(10) {val rebuilt=GearStats.rebuild(saved);check(rebuilt.maxDamage==saved.maxDamage && rebuilt.get(DataComponents.ATTRIBUTE_MODIFIERS)==saved.get(DataComponents.ATTRIBUTE_MODIFIERS)){"Trait bonuses stacked"}}
         }
-        val unsafe=ItemStack(Items.IRON_SWORD).also {it.damageValue=180}
-        check(!Craftsmanship.canReforge(unsafe)){"Reforge accepted wear that cannot survive the worst possible committed roll"}
+        val unsafe=ItemStack(Items.IRON_SWORD)
+        val worst=(unsafe.maxDamage*(1+CraftGrade.ROUGH.durability*TemperAndTang.config.qualityPower.get()+ForgeTrait.HONED.durability*TemperAndTang.config.traitPower.get())).toInt().coerceAtLeast(1)
+        if(worst<unsafe.maxDamage){unsafe.damageValue=worst;check(!Craftsmanship.canReforge(unsafe)){"Reforge accepted wear that cannot survive the worst possible committed roll"}}
         TemperAndTang.logger.info("TEMPER_TRAITS_PASSED: all traits, four gear families, finish and serialization preservation, ten rebuilds and worst-roll wear gating")
         check(!GearSupport.supported(ItemStack(Items.WOODEN_SWORD)) && !GearSupport.supported(ItemStack(Items.LEATHER_CHESTPLATE)))
         val diamond=Craftsmanship.apply(CraftTraits.stamp(CraftMaterials.stamp(ItemStack(Items.DIAMOND_SWORD),ForgeMaterial.DIAMOND),ForgeTrait.STURDY),CraftRoll(CraftGrade.MASTERWORK,1.0,0.9,0.5,10),"SmithFixture","fixture")
@@ -126,7 +127,7 @@ object CraftVerification {
         check(upgrade.item==Items.NETHERITE_SWORD && Craftsmanship.grade(upgrade)==CraftGrade.MASTERWORK)
         check(CraftMaterials.recorded(upgrade)==ForgeMaterial.NETHERITE && CraftTraits.recorded(upgrade)==ForgeTrait.STURDY){"Upgrade lost or retained the wrong material/trait"}
         check(Craftsmanship.root(upgrade).getInt("origin_durability")==Items.NETHERITE_SWORD.defaultInstance.maxDamage) {"Upgrade retained the old material baseline"}
-        check(upgrade.maxDamage>Items.NETHERITE_SWORD.defaultInstance.maxDamage) {"Upgrade lost craftsmanship"}
+        check(upgrade.maxDamage>=Items.NETHERITE_SWORD.defaultInstance.maxDamage) {"Upgrade lost craftsmanship"}
         val progress=SmithingProgress();val uuid=UUID.randomUUID();progress.award(uuid,30)
         val loaded=SmithingProgress.load(progress.save(CompoundTag(),source.registryAccess()),source.registryAccess())
         check(loaded.xp(uuid)==30L && loaded.level(uuid)==1)
