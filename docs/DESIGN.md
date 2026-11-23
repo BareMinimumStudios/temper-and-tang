@@ -1,11 +1,11 @@
 # Design
 
-Temper & Tang makes player skill, material choice and deliberate finishing matter in a medieval workshop. It is inspired by material-based crafting games, with original implementation and presentation.
+Temper & Tang is a standalone medieval smithing mod. Player skill, material choice and deliberate finishing matter in its workshop. Libraries provide configuration and world-space interaction; another smithing mod is never required.
 
-The item identity has separate layers: pattern, material, native forging quality, finish and eventually maker. One layer must not accidentally multiply the same quality bonus twice. Overgeared continues to own its existing quality and manufacturing when installed.
+The owned workflow is refined stock → charcoal heating → patterned shaping → quenching → optional finishing. Smithing Tongs safely carry hot stock in either hand. Contact burns and tool wear are bounded per player, and cooling cannot turn an unfinished workpiece into a usable weapon.
 
-First milestone: one real server-authoritative Diegesis workstation, tin/bronze content, survival recipes, bounded finishes and optional weapon integration. No imaginary UI commands or client-only item creation.
+Current layers are weapon pattern, material and finish. Names, damage, enchantments and foreign components must survive processing. Standalone quality grading, maker marks, grinding and further material profiles are future work. External quality data may be preserved by an explicit legacy bridge, but must never define the default progression or be multiplied twice.
 
-Next milestones: visible heating and shaping; readable hammer timing; quenching and grinding; configurable material profiles; additional bronze/steel patterns; optional maker marks. Keep actions short, provide accessible cues and make a deterministic pattern selectable rather than forcing weapon roulette.
+Shipped milestones include server-authoritative Diegesis workstations, original workstation/control geometry, tin and bronze, survival recipes, deterministic ghost patterns, readable hammer timing, owned handling tools and bounded finishes. All completion and consumption runs on the server.
 
-Further alloy properties, runes, material-percentage traits and new weapon variants are future work. Do not describe them as shipped features. Choose crafting systems that remain useful with wind/water/coal power and avoid requiring advanced Create machinery.
+Further alloy properties, runes, material-percentage traits, steel patterns and new weapon variants remain future work. Keep actions short and accessible. Prefer deliberate selectable patterns over weapon roulette. Recipes should remain useful with medieval wind, water and coal workshops rather than requiring advanced Create machinery.
