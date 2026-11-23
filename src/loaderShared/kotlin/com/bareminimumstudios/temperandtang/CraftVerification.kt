@@ -104,7 +104,7 @@ object CraftVerification {
             repeat(10) {val rebuilt=GearStats.rebuild(saved);check(rebuilt.maxDamage==saved.maxDamage && rebuilt.get(DataComponents.ATTRIBUTE_MODIFIERS)==saved.get(DataComponents.ATTRIBUTE_MODIFIERS)){"Material bonuses stacked"}}
         }
         TemperAndTang.logger.info("TEMPER_MATERIALS_PASSED: material preservation, finish, serialization and non-stacking across weapons and armor")
-        for(trait in ForgeTrait.entries)for(item in listOf(Items.IRON_SWORD,Items.IRON_CHESTPLATE,Items.IRON_PICKAXE,Items.SHIELD)) {
+        for(trait in ForgeTrait.entries)for(item in (stacks.map {it.item}+listOf(Items.IRON_PICKAXE,Items.IRON_HOE,Items.SHIELD)).distinct()) {
             val raw=ItemStack(item);raw.damageValue=5
             val stamped=CraftTraits.stamp(CraftMaterials.stamp(raw,ForgeMaterial.IRON),trait)
             val made=Craftsmanship.apply(stamped,CraftRoll(CraftGrade.FINE,1.0,.6,.5,5),"TraitFixture","fixture")
@@ -135,16 +135,28 @@ object CraftVerification {
             light.get(DataComponents.ATTRIBUTE_MODIFIERS)!!.modifiers().single {it.attribute()==net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED}.modifier().id()
         }
         check(movementIds.toSet().size==4) {"Armor movement modifiers collide across equipment slots"}
-        var patterns=0;var armor=0;var knights=0;var swords=0
+        check(GearSupport.supported(ItemStack(Items.IRON_HOE)) && GearSupport.supported(ItemStack(Items.GOLDEN_HOE))){"Metal tools bypass the workshop filter"}
+        val catalogPlayer=Fixture(source,"shaping_anvil").player
+        var patterns=0;var armor=0;var knights=0;var swords=0;var more=0
         for(plan in WorkshopPlans.forming(source.level)) {
             val grid=plan.ghosts.map {if(WorkshopPlans.metal(it))ThermalState.heated(it,source.level)else it.copy()}
             check(plan.matches(grid,source.level) && plan.hot(grid,source.level)) {"Unreachable pattern: "+plan.id}
             val result=plan.assemble(grid,source.level)
             check(!result.isEmpty && GearSupport.supported(result) && Craftsmanship.canReforge(result)) {"Invalid patterned result: "+plan.id}
+            val forged=plan.output(grid,source.level,catalogPlayer,plan.required(),.95)
+            check(ThermalState.blank(forged)){"Could not forge pattern "+plan.id}
+            val quenched=ThermalState.quenched(forged,source.level)
+            check(quenched.item==result.item && Craftsmanship.grade(quenched)!=null && !ThermalState.pending(quenched)){"Quenching lost authored equipment: "+plan.id}
+            val finished=WeaponFinishes.preview(quenched,Finish.TEMPERED)
+            check(!finished.isEmpty && finished.item==result.item && CraftTraits.recorded(finished)==CraftTraits.recorded(quenched)){"Finishing lost equipment or trait: "+plan.id}
+            val saved=ItemStack.parseOptional(source.registryAccess(),finished.save(source.registryAccess()) as CompoundTag)
+            check(saved.item==result.item && saved.maxDamage==finished.maxDamage && CraftMaterials.recorded(saved)==CraftMaterials.recorded(finished)){"Catalog save failed: "+plan.id}
             patterns++;if(GearSupport.armor(result))armor++
             if(plan.id.namespace=="magistuarmory")knights++
             if(plan.id.namespace=="simplyswords")swords++
+            if(plan.id.namespace=="simplymore")more++
         }
+        SmithingProgress.get(source.server).forgetFixture(catalogPlayer.uuid)
         val routed=TemperAndTang.config.thermalEnabled.get() && TemperAndTang.config.recipeIntegration.get()
         if(routed)check(patterns>0 && armor>0)
         else {
@@ -153,7 +165,8 @@ object CraftVerification {
         }
         if(routed && TemperAndTang.modLoaded("magistuarmory") && TemperAndTang.config.epicKnights.get())check(knights>0) {"Epic Knights patterns are missing"}
         if(routed && TemperAndTang.modLoaded("simplyswords") && TemperAndTang.config.simplySwords.get())check(swords>0) {"Simply Swords patterns are missing"}
-        TemperAndTang.logger.info("TEMPER_CRAFT_STATS_PASSED: {} gear types, six grades, stat/finish/persistence invariants; {} patterns ({} armor, {} Epic Knights, {} Simply Swords)",stacks.size,patterns,armor,knights,swords)
+        if(routed && TemperAndTang.modLoaded("simplymore") && TemperAndTang.config.simplyMore.get())check(more>0){"Simply More patterns are missing"}
+        TemperAndTang.logger.info("TEMPER_CRAFT_STATS_PASSED: {} gear types, six grades, stat/finish/persistence invariants; {} patterns ({} armor, {} Epic Knights, {} Simply Swords, {} Simply More)",stacks.size,patterns,armor,knights,swords,more)
     }
     fun startFinishing(source:CommandSourceStack) {
         val key=source.server to "finishing";check(key !in jobs)

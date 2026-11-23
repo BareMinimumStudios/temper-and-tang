@@ -174,5 +174,7 @@
   "temperandtang.trait.balanced": "Balanced",
   "temperandtang.trait.reinforced": "Reinforced",
   "temperandtang.trait.supple": "Supple",
-  "temperandtang.trait.industrious": "Industrious"
+  "temperandtang.trait.industrious": "Industrious",
+  "temperandtang.guide.allowed_finishes": "Compatible treatments for this item: %s.",
+  "temperandtang.guide.no_finish": "This item cannot take another treatment under the current finish and wear restrictions."
 }

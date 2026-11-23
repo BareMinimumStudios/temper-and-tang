@@ -24,7 +24,7 @@ object GearSupport {
         if(item is TieredItem && item.tier in listOf(Tiers.WOOD,Tiers.STONE))return false
         if(item is ArmorItem && item.material==ArmorMaterials.LEATHER)return false
         if(id.toString() in setOf("minecraft:turtle_helmet","minecraft:wolf_armor"))return false
-        return armor(stack) || weapon(stack) || item is ShieldItem || stack.`is`(TemperAndTangApi.FINISHABLE_WEAPONS) || TemperAndTangApi.acceptsCustom(stack)
+        return item is TieredItem || armor(stack) || weapon(stack) || item is ShieldItem || stack.`is`(TemperAndTangApi.FINISHABLE_WEAPONS) || TemperAndTangApi.acceptsCustom(stack)
     }
     fun blueprint(stack:ItemStack)=BuiltInRegistries.ITEM.getKey(stack.item).namespace=="magistuarmory"
     fun category(stack:ItemStack)=if(armor(stack)) 1 else if(stack.item is ShieldItem) 2 else 0
