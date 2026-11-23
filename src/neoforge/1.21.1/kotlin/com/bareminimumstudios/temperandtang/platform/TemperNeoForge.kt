@@ -29,6 +29,7 @@ class TemperNeoForge(bus: IEventBus) {
     init {
         recipeTypes.register("shaping", java.util.function.Supplier { com.bareminimumstudios.temperandtang.smithing.ThermalRecipes.TYPE })
         recipeSerializers.register("shaping", java.util.function.Supplier { com.bareminimumstudios.temperandtang.smithing.ThermalRecipes.SERIALIZER })
+        recipeSerializers.register("shaping_shapeless", java.util.function.Supplier { com.bareminimumstudios.temperandtang.smithing.ThermalRecipes.SHAPELESS })
         recipeTypes.register(bus)
         recipeSerializers.register(bus)
         TemperContent.blocks.forEach { (name, factory) ->

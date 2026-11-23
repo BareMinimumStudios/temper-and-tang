@@ -38,6 +38,8 @@ object TemperClient {
                 returnAfter = 0.08f
             }
             lastProgress = progress
+            view.node("timing_marker").ifPresent {it.moveTo((view.state().getControl("phase")-0.5f)*12f,0f,0f,0.04f)}
+            view.node("strike").ifPresent {it.setTint(if(view.state().getControl("beat")>0f)0xFFFFC46B.toInt() else 0xFFFFFFFF.toInt())}
             refresh(view)
         }
         override fun frame(view: StationView, deltaSeconds: Float) {
@@ -72,6 +74,7 @@ object TemperClient {
             val state = view.state()
             val finish = WeaponFinishes.ingredient(state.getItem(FinishingStation.MATERIAL))
             val key = when {
+                !state.getOutput("result").isEmpty && state.getItem(FinishingStation.WEAPON).isEmpty -> "take_result"
                 carrying -> "empty_cursor"
                 state.getItem(FinishingStation.WEAPON).isEmpty -> "insert_weapon"
                 state.getItem(FinishingStation.MATERIAL).isEmpty -> "insert_material"
@@ -83,9 +86,11 @@ object TemperClient {
                 !state.getOutput("result").isEmpty -> "take_result"
                 else -> "instructions"
             }
-            view.showCaption(Component.translatable("temperandtang.station." + key,
+            val caption=Component.translatable("temperandtang.station." + key,
                 state.getControl("progress").toInt(), TemperAndTang.config.requiredStrikes.get(),
-                TemperAndTang.config.experienceLevels.get()), 0f)
+                TemperAndTang.config.experienceLevels.get())
+            if(key=="instructions")caption.append(Component.translatable("temperandtang.craft.finish_timing",state.getControl("accuracy").toInt()))
+            view.showCaption(caption,0f)
         }
     }
 }

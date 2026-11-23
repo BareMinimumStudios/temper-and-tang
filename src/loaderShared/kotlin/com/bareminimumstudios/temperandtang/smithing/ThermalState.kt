@@ -68,7 +68,7 @@ object ThermalState {
             val base = result.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag()
             foreign.allKeys.filter { it != "temperandtang" }.forEach { base.put(it, foreign.get(it)!!.copy()) }
             if (!base.isEmpty) result.set(DataComponents.CUSTOM_DATA, CustomData.of(base))
-            return result
+            return airCooled(result,level)
         }
         return airCooled(stack, level).also { result -> update(result) { it.putString("stage", "quenched") } }
     }

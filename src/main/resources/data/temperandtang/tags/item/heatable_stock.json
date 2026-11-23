@@ -20,6 +20,76 @@
     {
       "id": "#c:ingots/bronze",
       "required": false
-    }
+    },
+    {
+      "id": "#c:ingots/steel",
+      "required": false
+    },
+    {
+      "id": "#c:ingots/netherite",
+      "required": false
+    },
+    {
+      "id": "#c:plates/iron",
+      "required": false
+    },
+    {
+      "id": "#c:plates/gold",
+      "required": false
+    },
+    {
+      "id": "#c:plates/copper",
+      "required": false
+    },
+    {
+      "id": "#c:plates/tin",
+      "required": false
+    },
+    {
+      "id": "#c:plates/bronze",
+      "required": false
+    },
+    {
+      "id": "#c:plates/steel",
+      "required": false
+    },
+    {
+      "id": "#c:plates/netherite",
+      "required": false
+    },
+    {
+      "id": "#c:nuggets/iron",
+      "required": false
+    },
+    {
+      "id": "#c:nuggets/gold",
+      "required": false
+    },
+    {
+      "id": "#c:nuggets/copper",
+      "required": false
+    },
+    {
+      "id": "#c:nuggets/tin",
+      "required": false
+    },
+    {
+      "id": "#c:nuggets/bronze",
+      "required": false
+    },
+    {
+      "id": "#c:nuggets/steel",
+      "required": false
+    },
+    {
+      "id": "#c:nuggets/netherite",
+      "required": false
+    },
+    {
+      "id": "#c:gems/diamond",
+      "required": false
+    },
+    "minecraft:diamond",
+    "minecraft:netherite_ingot"
   ]
 }

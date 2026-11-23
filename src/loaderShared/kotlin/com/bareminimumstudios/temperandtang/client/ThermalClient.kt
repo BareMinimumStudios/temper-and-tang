@@ -44,6 +44,8 @@ object ThermalClient {
                 keyCode==GLFW.GLFW_KEY_SPACE -> action
                 action=="strike" && keyCode==GLFW.GLFW_KEY_LEFT -> "previous"
                 action=="strike" && keyCode==GLFW.GLFW_KEY_RIGHT -> "next"
+                action=="strike" && keyCode==GLFW.GLFW_KEY_B -> "scribe"
+                action=="strike" && keyCode==GLFW.GLFW_KEY_TAB -> "category"
                 else -> return false
             }
             if (!view.isFocused) return false
@@ -66,6 +68,8 @@ object ThermalClient {
             }
             val captionKey=if(status=="ready") when(action) { "heat"->"heated_ready"; "quench"->"cooled_ready"; else->status } else status
             val caption=Component.translatable("temperandtang.thermal."+captionKey,*args)
+            if(action=="strike" && status=="work") caption.append(Component.translatable("temperandtang.craft.live",state.getControl("accuracy").toInt(),data.getInt("mastery"),state.getControl("misses").toInt()))
+            if(action=="strike" && status=="pattern") caption.append(Component.translatable("temperandtang.craft.pattern_keys",data.getInt("mastery")))
             if (action=="heat" && status in listOf("idle","fuel")) caption.append(Component.literal(" Fuel: "+state.getControl("fuel_cost").toInt()+" coal / charcoal."))
             if (view.isFocused) view.showCaption(caption,0f)
             if (action!="strike") return
@@ -73,6 +77,7 @@ object ThermalClient {
                 val ghost=ResourceLocation.tryParse(data.getString("ghost_"+i))?.let { ItemStack(BuiltInRegistries.ITEM.get(it)) }
                 view.node("grid_"+i).ifPresent { it.setGhostItems(if(ghost==null || ghost.isEmpty) emptyList() else listOf(ghost)) }
             }
+            view.node("timing_marker").ifPresent {it.moveTo((state.getControl("phase")-0.5f)*12f,0f,0f,0.04f)}
             view.node("strike").ifPresent { it.setTint(if(state.getControl("beat")>0f) 0xFFFFC46B.toInt() else 0xFFFFFFFF.toInt()) }
         }
     }

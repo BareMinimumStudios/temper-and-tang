@@ -23,7 +23,7 @@ object RecipeVerification {
             if (holder.id().namespace != TemperAndTang.MOD_ID) continue
             val recipe = holder.value()
             if (recipe is CraftingRecipe) {
-                val shaped = if (recipe is com.bareminimumstudios.temperandtang.smithing.ShapingRecipe) recipe.base else recipe as? ShapedRecipe
+                val shaped = if (recipe is com.bareminimumstudios.temperandtang.smithing.ShapingRecipe) recipe.base as? ShapedRecipe else recipe as? ShapedRecipe
                 val width = shaped?.width ?: 3
                 val height = shaped?.height ?: 3
                 val items = recipe.ingredients.map(::sample).toMutableList()

@@ -23,13 +23,20 @@ import net.minecraft.world.item.component.CustomData
 
 object TemperCommands {
     fun register(dispatcher: CommandDispatcher<CommandSourceStack>) {
-        dispatcher.register(Commands.literal("temperandtang").requires { it.hasPermission(2) }
-            .then(Commands.literal("verify_thermal").executes { context -> ThermalVerification.start(context.source); 1 })
-            .then(Commands.literal("verify_station").executes { context ->
+        dispatcher.register(Commands.literal("temperandtang")
+            .then(Commands.literal("mastery").executes { context ->
+                val player=context.source.playerOrException
+                val data=com.bareminimumstudios.temperandtang.smithing.SmithingProgress.get(context.source.server)
+                val level=data.level(player.uuid)
+                context.source.sendSuccess({Component.translatable("temperandtang.craft.mastery_status",level,data.xp(player.uuid),com.bareminimumstudios.temperandtang.smithing.CraftRules.nextLevelXp(level))},false)
+                1
+            })
+            .then(Commands.literal("verify_thermal").requires {it.hasPermission(2)}.executes { context -> ThermalVerification.start(context.source); 1 })
+            .then(Commands.literal("verify_station").requires {it.hasPermission(2)}.executes { context ->
                 StationVerification.start(context.source)
                 1
             })
-            .then(Commands.literal("verify").executes { context ->
+            .then(Commands.literal("verify").requires {it.hasPermission(2)}.executes { context ->
                 try {
                     verify(context.source)
                     ForgingVerification.verify(context.source)

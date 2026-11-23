@@ -114,6 +114,42 @@
         "size": 5
       },
       "tooltip": "temperandtang.scene.result"
+    },
+    {
+      "id": "timing_rail",
+      "pos": [
+        8,
+        17,
+        -7
+      ],
+      "visual": {
+        "model": "temperandtang:diegesis/timing_rail"
+      },
+      "tooltip": "temperandtang.craft.timing_gauge"
+    },
+    {
+      "id": "timing_band",
+      "pos": [
+        8,
+        17,
+        -7
+      ],
+      "visual": {
+        "model": "temperandtang:diegesis/timing_band"
+      },
+      "tooltip": "temperandtang.craft.timing_gauge"
+    },
+    {
+      "id": "timing_marker",
+      "pos": [
+        8,
+        17,
+        -7
+      ],
+      "visual": {
+        "model": "temperandtang:diegesis/timing_marker"
+      },
+      "tooltip": "temperandtang.craft.timing_gauge"
     }
   ],
   "inventory_drawer": {

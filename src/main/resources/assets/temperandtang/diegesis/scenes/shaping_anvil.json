@@ -296,6 +296,160 @@
         "size": 4
       },
       "tooltip": "temperandtang.scene.result"
+    },
+    {
+      "id": "timing_rail",
+      "pos": [
+        8,
+        17,
+        -7
+      ],
+      "visual": {
+        "model": "temperandtang:diegesis/timing_rail"
+      },
+      "tooltip": "temperandtang.craft.timing_gauge"
+    },
+    {
+      "id": "timing_band",
+      "pos": [
+        8,
+        17,
+        -7
+      ],
+      "visual": {
+        "model": "temperandtang:diegesis/timing_band"
+      },
+      "tooltip": "temperandtang.craft.timing_gauge"
+    },
+    {
+      "id": "timing_marker",
+      "pos": [
+        8,
+        17,
+        -7
+      ],
+      "visual": {
+        "model": "temperandtang:diegesis/timing_marker"
+      },
+      "tooltip": "temperandtang.craft.timing_gauge"
+    },
+    {
+      "id": "gear",
+      "pos": [
+        8,
+        18,
+        -2
+      ],
+      "slot": {
+        "slot": "gear",
+        "size": 3.3,
+        "idle_highlight": 0.12
+      },
+      "tooltip": "temperandtang.thermal.slot.gear"
+    },
+    {
+      "id": "flux",
+      "pos": [
+        -3,
+        17,
+        -3
+      ],
+      "slot": {
+        "slot": "flux",
+        "size": 3.3,
+        "idle_highlight": 0.12
+      },
+      "tooltip": "temperandtang.thermal.slot.flux"
+    },
+    {
+      "id": "blueprint",
+      "pos": [
+        19,
+        17,
+        -3
+      ],
+      "slot": {
+        "slot": "blueprint",
+        "size": 3.3,
+        "idle_highlight": 0.12
+      },
+      "tooltip": "temperandtang.thermal.slot.blueprint"
+    },
+    {
+      "id": "scribe",
+      "pos": [
+        24,
+        17,
+        -3
+      ],
+      "scale": 0.25,
+      "visual": {
+        "item": "minecraft:feather"
+      },
+      "control": {
+        "control": "scribe",
+        "type": "button",
+        "axis": [
+          0,
+          -1,
+          0
+        ],
+        "range": [
+          0,
+          0.3
+        ]
+      },
+      "collider": {
+        "from": [
+          -8,
+          -2,
+          -8
+        ],
+        "to": [
+          8,
+          8,
+          8
+        ]
+      },
+      "tooltip": "temperandtang.thermal.action.scribe"
+    },
+    {
+      "id": "category",
+      "pos": [
+        -6,
+        17,
+        2
+      ],
+      "scale": 0.25,
+      "visual": {
+        "item": "minecraft:book"
+      },
+      "control": {
+        "control": "category",
+        "type": "button",
+        "axis": [
+          0,
+          -1,
+          0
+        ],
+        "range": [
+          0,
+          0.3
+        ]
+      },
+      "collider": {
+        "from": [
+          -8,
+          -2,
+          -8
+        ],
+        "to": [
+          8,
+          8,
+          8
+        ]
+      },
+      "tooltip": "temperandtang.thermal.action.category"
     }
   ]
 }
