@@ -35,7 +35,7 @@ object WorkshopPlans {
         fun hot(grid:List<ItemStack>,level:net.minecraft.world.level.Level)=grid.any(::metal) && grid.filter(::metal).all {ThermalState.hot(it,level)}
         fun required()=maxOf(hits,TemperAndTang.config.shapingStrikes.get()).coerceAtMost(40)
         fun output(grid:List<ItemStack>,level:net.minecraft.world.level.Level,player:Player,clean:Int,accuracy:Double=clean.toDouble()/required()):ItemStack {
-            val gear=Craftsmanship.forge(assemble(grid,level),accuracy,player,id.toString())
+            val gear=Craftsmanship.forge(assemble(grid,level),accuracy,player,id.toString(),grid)
             return if(gear.isEmpty)gear else ThermalState.unquenched(gear,level)
         }
     }

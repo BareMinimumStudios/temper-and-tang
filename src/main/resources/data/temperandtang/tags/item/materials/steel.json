@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#c:ingots/steel",
+      "required": false
+    },
+    {
+      "id": "#c:gems/steel",
+      "required": false
+    }
+  ]
+}

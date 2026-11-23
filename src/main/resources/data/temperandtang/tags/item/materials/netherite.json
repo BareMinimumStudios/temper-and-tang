@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#c:ingots/netherite",
+      "required": false
+    },
+    {
+      "id": "#c:gems/netherite",
+      "required": false
+    }
+  ]
+}

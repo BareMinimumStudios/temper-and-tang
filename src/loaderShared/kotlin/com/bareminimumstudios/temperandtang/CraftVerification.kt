@@ -92,6 +92,18 @@ object CraftVerification {
                 check(!rerolled.isEmpty && rerolled.maxDamage<=finish.maxDamage) {"Reforging stacked durability"}
             }
         }
+        for(material in ForgeMaterial.entries)for(raw in listOf(ItemStack(Items.IRON_SWORD),ItemStack(Items.IRON_CHESTPLATE))) {
+            raw.damageValue=7
+            val stamped=CraftMaterials.stamp(raw,material)
+            val made=Craftsmanship.apply(stamped,CraftRoll(CraftGrade.FINE,1.0,.6,.5,5),"MaterialFixture","fixture")
+            check(!made.isEmpty && made.damageValue==7 && CraftMaterials.recorded(made)==material)
+            val finished=WeaponFinishes.preview(made,Finish.TEMPERED)
+            check(!finished.isEmpty && CraftMaterials.recorded(finished)==material && finished.damageValue==7)
+            val saved=ItemStack.parseOptional(source.registryAccess(),finished.save(source.registryAccess()) as CompoundTag)
+            check(saved.maxDamage==finished.maxDamage && CraftMaterials.recorded(saved)==material)
+            repeat(10) {val rebuilt=GearStats.rebuild(saved);check(rebuilt.maxDamage==saved.maxDamage && rebuilt.get(DataComponents.ATTRIBUTE_MODIFIERS)==saved.get(DataComponents.ATTRIBUTE_MODIFIERS)){"Material bonuses stacked"}}
+        }
+        TemperAndTang.logger.info("TEMPER_MATERIALS_PASSED: material preservation, finish, serialization and non-stacking across weapons and armor")
         check(!GearSupport.supported(ItemStack(Items.WOODEN_SWORD)) && !GearSupport.supported(ItemStack(Items.LEATHER_CHESTPLATE)))
         val diamond=Craftsmanship.apply(ItemStack(Items.DIAMOND_SWORD),CraftRoll(CraftGrade.MASTERWORK,1.0,0.9,0.5,10),"SmithFixture","fixture")
         val finished=WeaponFinishes.preview(diamond,Finish.TEMPERED)

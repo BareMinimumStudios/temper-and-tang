@@ -49,7 +49,9 @@ object WorkshopGuidance {
         val result=header.append(Component.literal("\n")).append(instruction)
         if(status !in listOf("work","heating","quenching","ready") || action=="finish")result.append(Component.literal("\n")).append(requirements)
         if(action=="strike" && status in listOf("pattern","hot","hammer","blueprint"))result.append(Component.literal("\n")).append(Component.translatable("temperandtang.guide.substitutes"))
-        if(status=="work" || action=="finish")result.append(Component.literal("\n")).append(Component.translatable("temperandtang.guide.timing"))
+        if(action=="strike" && status in listOf("pattern","hot","hammer","blueprint") && !stock.isEmpty)result.append(Component.literal("\n")).append(WorkshopDescriptions.material(stock,true))
+        if(action=="finish")WeaponFinishes.ingredient(state.getItem(FinishingStation.MATERIAL))?.let {finish->if(!stock.isEmpty)result.append(Component.literal("\n")).append(WorkshopDescriptions.finish(stock,finish))}
+        if(status=="work" || action=="finish" && !stock.isEmpty && WeaponFinishes.ingredient(state.getItem(FinishingStation.MATERIAL))!=null)result.append(Component.literal("\n")).append(Component.translatable("temperandtang.guide.timing"))
         return result
     }
 }

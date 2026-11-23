@@ -35,6 +35,7 @@ object GearTransfer {
         val oldRaw=if(root.contains("origin_durability"))root.getInt("origin_durability") else root.getInt("base_durability")
         val foreignAdjustment=oldRaw-previous.getOrDefault(DataComponents.MAX_DAMAGE,previous.maxDamage)
         val newRaw=(next.getOrDefault(DataComponents.MAX_DAMAGE,next.maxDamage).toLong()+foreignAdjustment).coerceIn(1,Int.MAX_VALUE.toLong()).toInt()
+        if(root.contains("material"))root.putString("material",CraftMaterials.identify(result).key)
         root.putInt("origin_durability",newRaw);root.putInt("base_durability",newRaw)
         val all=result.getOrDefault(DataComponents.CUSTOM_DATA,CustomData.EMPTY).copyTag();all.put("temperandtang",root);result.set(DataComponents.CUSTOM_DATA,CustomData.of(all))
         return GearStats.rebuild(result)

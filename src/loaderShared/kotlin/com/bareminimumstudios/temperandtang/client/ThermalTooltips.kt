@@ -15,6 +15,8 @@ object ThermalTooltips {
             lines.add(Component.translatable("temperandtang.thermal.tooltip.handle").withStyle(ChatFormatting.GRAY))
         } else if(ThermalState.blank(stack))lines.add(Component.translatable("temperandtang.thermal.tooltip.blank").withStyle(ChatFormatting.GRAY))
         val shown=if(ThermalState.blank(stack))ItemStack.parseOptional(level.registryAccess(),ThermalState.data(stack).getCompound("weapon"))else stack
+        val material=CraftMaterials.recorded(shown)
+        if(material!=ForgeMaterial.NEUTRAL)lines.add(WorkshopDescriptions.material(shown).copy().withStyle(ChatFormatting.AQUA))
         val grade=Craftsmanship.grade(shown)
         if(grade!=null) {
             val color=when(grade) {CraftGrade.ROUGH->ChatFormatting.GRAY;CraftGrade.SERVICEABLE->ChatFormatting.WHITE;CraftGrade.FINE->ChatFormatting.GREEN;CraftGrade.SUPERIOR->ChatFormatting.BLUE;CraftGrade.MASTERWORK->ChatFormatting.LIGHT_PURPLE;CraftGrade.EXCEPTIONAL->ChatFormatting.GOLD}
