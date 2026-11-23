@@ -1,4 +1,4 @@
-# Temper & Tang 0.4.1
+# Temper & Tang 0.4.2
 
 A standalone smithing progression revision for Minecraft 1.21.1 Fabric and NeoForge.
 
@@ -13,3 +13,5 @@ Forging now uses readable rhythm phrases: a pulsing fixed green target and occas
 Bellows compression now sends a visible air stream from the nozzle toward the coals, with a brief flame and ember response.
 
 Requires Diegesis beta.17, Fzzy Config and the loader's Kotlin runtime. Simply Swords, Simply More and Epic Knights remain optional. Existing recipes removed by a pack are not recreated. No food, world-generation, travel, loot or combat configuration is changed by installation.
+
+Distinct bellows puffs now use a stable texture, a softer fade-in and retained fractional emission time. Their compression rhythm remains separate bursts. Initial stock gathers onto the anvil face before shaping rather than staying spread across the pattern grid.

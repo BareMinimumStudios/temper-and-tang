@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.2
+
+- Preserved separate bellows compression puffs while smoothing their timing, texture, fade-in and the coals' brightness response.
+- Gathered heated ingredients onto the anvil face before the first strike, then retained the existing shaping sequence.
+- Recorded accurate bronze, accurate expert diamond triples, missed-note recovery and deliberately poor forging, using actual survival actions and unchanged random quality rolls.
+
 ## 0.4.1
 
 - Replaced separate phrase lights with incoming gold strike markers on the same timing rail. Every note crosses one fixed green target; upcoming notes keep their spacing as the active strike changes.

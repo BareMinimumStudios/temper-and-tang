@@ -1,4 +1,17 @@
-# Verification — 0.4.1
+# Verification — 0.4.2
+
+## Quality showcase and puff smoothing
+
+Version 0.4.2 passed both loader builds, 21 unit tests and resource/artifact checks. Four hidden NeoForge survival runs completed heating, shaping, quenching and finishing. Each used a fresh player at mastery 0. The scheduler and quality RNG were unchanged; each diamond run waited for a naturally occurring triple phrase. Finishing was accurate in all four cases to keep the comparison focused on shaping.
+
+| Material | Attempt | Shaping accuracy | Missed beats | Actual grade | Actual luck roll |
+| --- | --- | --- | --- | --- | --- |
+| Bronze | accurate | 100% | 0 | Masterwork | 0.866646 |
+| Diamond | accurate | 100% | 0 | Masterwork | 0.682756 |
+| Diamond | missed | 72.7% | 3 | Superior | 0.816944 |
+| Diamond | poor | 15.4% | 3 | Serviceable | 0.424895 |
+
+These are actual examples, not a statistical guarantee. Poor timing creates lower-grade equipment; it does not destroy the item. Finishing retains the committed craftsmanship roll. The recordings include the new centered initial-stock presentation and the separate, smoothed bellows puffs. Capture reads only the isolated game's framebuffer and game audio.
 
 ## Shared-track and airflow revision
 
