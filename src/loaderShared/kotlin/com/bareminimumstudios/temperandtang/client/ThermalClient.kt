@@ -36,6 +36,7 @@ object ThermalClient {
             if(action=="quench")quench.frame(view,deltaSeconds)
         }
         override fun onKey(view: StationView, keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
+            if(keyCode==GLFW.GLFW_KEY_H && view.isFocused){WorkshopGuidance.toggle(view);refresh(view);return true}
             val command=when {
                 keyCode==GLFW.GLFW_KEY_SPACE -> action
                 action=="strike" && keyCode==GLFW.GLFW_KEY_LEFT -> "previous"
@@ -85,23 +86,8 @@ object ThermalClient {
             }
             val state=view.state()
             val data=state.data()
-            val status=data.getString("status").ifEmpty { "stock" }
-            val id=ResourceLocation.tryParse(data.getString("target"))
-            val target=id?.let { ItemStack(BuiltInRegistries.ITEM.get(it)).hoverName } ?: Component.empty()
-            val args: Array<Any> = when(status) {
-                "pattern" -> arrayOf(target)
-                "work" -> arrayOf(state.getControl("progress").toInt(),state.getControl("required").toInt())
-                "heating", "quenching" -> arrayOf(state.getControl("progress").toInt())
-                else -> emptyArray()
-            }
-            val captionKey=if(status=="ready") when(action) { "heat"->"heated_ready"; "quench"->"cooled_ready"; else->status } else status
-            val caption=Component.translatable("temperandtang.thermal."+captionKey,*args)
-            if(action=="strike" && status=="work") caption.append(Component.translatable("temperandtang.craft.live",state.getControl("accuracy").toInt(),data.getInt("mastery"),state.getControl("misses").toInt()))
-            if(action=="strike" && status in listOf("pattern","blueprint"))caption.append(Component.translatable("temperandtang.craft.category_"+data.getInt("category")))
-            if(action=="strike" && status=="pattern") caption.append(Component.translatable("temperandtang.craft.pattern_keys",data.getInt("mastery")))
-            if (action=="heat" && status in listOf("idle","fuel")) caption.append(Component.literal(" Fuel: "+state.getControl("fuel_cost").toInt()+" coal / charcoal."))
-            if (view.isFocused) view.showCaption(WorkshopGuidance.decorate(view,action,caption),0f)
-            if (action!="strike") return
+            if(view.isFocused)view.showCaption(WorkshopGuidance.caption(view,action),0f)
+            if(action!="strike")return
             for(i in 0..8) {
                 val ghost=ResourceLocation.tryParse(data.getString("ghost_"+i))?.let { ItemStack(BuiltInRegistries.ITEM.get(it)) }
                 view.node("grid_"+i).ifPresent { it.setGhostItems(if(ghost==null || ghost.isEmpty) emptyList() else listOf(ghost)) }

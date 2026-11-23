@@ -41,6 +41,7 @@ object TemperClient {
             }
         }
         override fun onKey(view: StationView, keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
+            if(keyCode==GLFW.GLFW_KEY_H && view.isFocused){WorkshopGuidance.toggle(view);refresh(view);return true}
             if (keyCode != GLFW.GLFW_KEY_SPACE || !view.isFocused) return false
             if (Minecraft.getInstance().player?.containerMenu?.carried?.isEmpty != true) {
                 view.showCaption(Component.translatable("temperandtang.station.empty_cursor"), 3f)
@@ -73,11 +74,7 @@ object TemperClient {
             for(id in listOf("timing_rail","timing_band","timing_marker"))view.node(id).ifPresent {it.setVisible(key=="instructions" && !ready)}
             val perfect=(state.getControl("window").toInt()/2+1).toFloat()
             view.node("timing_band").ifPresent {it.scaleTo(12f*perfect/TemperAndTang.config.shapingBeatTicks.get(),0.05f)}
-            val caption=Component.translatable("temperandtang.station." + key,
-                state.getControl("progress").toInt(), TemperAndTang.config.requiredStrikes.get(),
-                TemperAndTang.config.experienceLevels.get())
-            if(key=="instructions")caption.append(Component.translatable("temperandtang.craft.finish_timing",state.getControl("accuracy").toInt()))
-            view.showCaption(WorkshopGuidance.decorate(view,"finish",caption),0f)
+            view.showCaption(WorkshopGuidance.caption(view,"finish",key),0f)
         }
     }
 }

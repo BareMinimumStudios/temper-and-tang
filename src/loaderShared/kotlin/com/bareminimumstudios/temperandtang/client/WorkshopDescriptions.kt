@@ -12,20 +12,20 @@ object WorkshopDescriptions {
         val text=Component.empty()
         for((key,value) in values.filter {kotlin.math.abs(it.second)>.000001}) {
             if(text.siblings.isNotEmpty())text.append(Component.literal(", "))
-            text.append(Component.translatable("temperandtang.guide.stat",String.format(Locale.ROOT,"%+.1f%%",value*100),Component.translatable("temperandtang.guide.stat_"+key)))
+            text.append(Component.translatable("temperandtang.guide.stat",WorkshopText.style(Component.literal(String.format(Locale.ROOT,"%+.1f%%",value*100)),if(value>0)WorkshopText.BENEFIT else WorkshopText.COST),WorkshopText.style(Component.translatable("temperandtang.guide.stat_"+key),WorkshopText.MUTED)))
         }
         if(text.siblings.isEmpty())text.append(Component.translatable("temperandtang.guide.neutral"))
         return text
     }
-    fun material(stack:ItemStack,preview:Boolean=false):Component {
-        val material=if(preview)CraftMaterials.identify(stack) else CraftMaterials.recorded(stack)
+    fun material(stack:ItemStack,preview:Boolean=false,inputs:List<ItemStack> = emptyList()):Component {
+        val material=if(preview)CraftMaterials.choose(stack,inputs) else CraftMaterials.recorded(stack)
         val power=if(preview)TemperAndTang.config.materialPower.get() else CraftMaterials.power(stack)
         val values=mutableListOf("durability" to material.durability*power)
         if(GearSupport.armor(stack))values+=listOf("armor" to material.armor*power,"movement" to material.movement*power)
         else if(GearSupport.weapon(stack))values+=listOf("damage" to material.damage*power,"speed" to material.speed*power)
         if(stack.item is net.minecraft.world.item.DiggerItem)values+="mining" to material.speed*power
         if(stack.item is net.minecraft.world.item.ShieldItem)values+="movement" to material.movement*power
-        return Component.translatable("temperandtang.guide.material",Component.translatable("temperandtang.material.name."+material.key),effects(values))
+        return Component.translatable("temperandtang.guide.material",WorkshopText.style(Component.translatable("temperandtang.material.name."+material.key),WorkshopText.QUANTITY),effects(values))
     }
     fun trait(stack:ItemStack):Component {
         val trait=CraftTraits.recorded(stack);val power=CraftTraits.power(stack)
@@ -35,7 +35,7 @@ object WorkshopDescriptions {
             ForgeFamily.SHIELD->values+="movement" to trait.movement*power
             else->{if(GearSupport.weapon(stack))values+=listOf("damage" to trait.damage*power,"speed" to trait.speed*power);if(stack.item is net.minecraft.world.item.DiggerItem)values+="mining" to trait.mining*power}
         }
-        return Component.translatable("temperandtang.guide.trait",Component.translatable("temperandtang.trait."+trait.key),effects(values))
+        return Component.translatable("temperandtang.guide.trait",WorkshopText.style(Component.translatable("temperandtang.trait."+trait.key),WorkshopText.STAGE),effects(values))
     }
     fun finish(stack:ItemStack,finish:Finish):Component {
         val effect=FinishRules.effect(finish,TemperAndTang.config.balance())
