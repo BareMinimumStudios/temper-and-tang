@@ -51,6 +51,8 @@ class TemperConfig : Config(TemperAndTang.id("config")) {
     @ConfigGroup.Pop var blueprintMastery = ValidatedInt(1,20,0)
     @Translatable.Desc("Strength of stamped workshop material trade-offs; 0 disables them. Existing unstamped gear is unchanged.")
     var materialPower = ValidatedDouble(1.0,1.0,0.0)
+    @Translatable.Desc("Strength of the single bounded trait rolled at forging completion. 0 disables traits on new work; finishing never rerolls them.")
+    var traitPower = ValidatedDouble(1.0,1.0,0.0)
     val finishes = ConfigGroup("finishes", true)
     var temperedDurability = ValidatedDouble(0.15, 1.0, 0.0)
     var keenDamage = ValidatedDouble(0.05, 0.5, 0.0)

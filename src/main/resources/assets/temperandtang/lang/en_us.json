@@ -165,5 +165,14 @@
   "temperandtang.material.name.tin": "Tin",
   "temperandtang.material.name.diamond": "Diamond",
   "temperandtang.material.name.netherite": "Netherite",
-  "temperandtang.guide.heat_empty": "Add refined metal. Fuel and heating time are calculated from the batch; keep tongs in hand."
+  "temperandtang.guide.heat_empty": "Add refined metal. Fuel and heating time are calculated from the batch; keep tongs in hand.",
+  "temperandtang.guide.trait": "Trait: %s — %s",
+  "temperandtang.guide.stat_mining": "mining speed",
+  "temperandtang.trait.none": "None",
+  "temperandtang.trait.sturdy": "Sturdy",
+  "temperandtang.trait.honed": "Honed",
+  "temperandtang.trait.balanced": "Balanced",
+  "temperandtang.trait.reinforced": "Reinforced",
+  "temperandtang.trait.supple": "Supple",
+  "temperandtang.trait.industrious": "Industrious"
 }

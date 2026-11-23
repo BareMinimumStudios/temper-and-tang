@@ -33,10 +33,12 @@ object Craftsmanship {
     fun forge(input:ItemStack,accuracy:Double,player:Player,recipe:String,inputs:List<ItemStack> = emptyList()):ItemStack {
         val level=player.server?.let {SmithingProgress.get(it).level(player.uuid)}?:0
         val roll=CraftRules.roll(accuracy,level,ForgeRandom.nextDouble(),TemperAndTang.config.qualityLuck.get(),TemperAndTang.config.qualityMastery.get())
-        return apply(CraftMaterials.stamp(input,CraftMaterials.choose(input,inputs)),roll,player.scoreboardName,recipe)
+        val material=CraftMaterials.choose(input,inputs)
+        val trait=if(TemperAndTang.config.traitPower.get()>0)ForgeTraitRules.roll(accuracy,material,CraftTraits.family(input),ForgeRandom.nextDouble())else ForgeTrait.NONE
+        return apply(CraftTraits.stamp(CraftMaterials.stamp(input,material),trait),roll,player.scoreboardName,recipe)
     }
     fun canReforge(stack:ItemStack):Boolean {
         if(!GearSupport.supported(stack))return false
-        return !apply(CraftMaterials.stamp(stack,CraftMaterials.choose(stack,emptyList())),CraftRules.roll(0.0,0,0.0),"", "").isEmpty
+        return !apply(CraftTraits.stamp(CraftMaterials.stamp(stack,CraftMaterials.choose(stack,emptyList())),ForgeTrait.HONED),CraftRules.roll(0.0,0,0.0),"", "").isEmpty
     }
 }
