@@ -1,11 +1,9 @@
-# Temper & Tang 0.2.0 — thermal workshop prototype
+# Temper & Tang 0.2.1 — owned tools and hot-metal handling
 
-Heat refined metal with a charcoal hearth, follow ghost patterns on a shaping anvil, strike to a visible beat, then immerse the workpiece at a quenching trough. Physical bellows, hammer and tongs controls support mouse or Space-key input, with metalworking sounds and server-owned costs.
+Temper & Tang is a standalone smithing mod. Its craftable Smithing Tongs protect either hand while moving hot stock; no other smithing mod is needed.
 
-With Overgeared, the workshop reads compatible basic bronze/iron/gold forging patterns and preserves native heat, quality, polish and author components. Basic shaping stops at Poor–Well quality; advanced anvils and blueprints stay with Overgeared. Without it, basic shaped weapon recipes move into a dedicated shaping type and produce an unusable workpiece until quenched.
+Hot metal causes half a heart of contact damage every two seconds by default when handled without tongs. It does not set the player persistently on fire. Tongs have 256 durability, can be repaired with iron, and wear at most once per ten seconds of active handling. Multiple stacks never multiply charges. Inventory/cursor heat expires automatically, while a cold unquenched workpiece must still be reheated and quenched before use.
 
-Includes the existing tin/bronze materials, additive common tags, Simply Swords/Simply More finishing support, and four bounded finishes. Pack food recipes, travel restrictions and Create progression are unchanged.
+Heating, shaping, quenching and finishing are owned workflows using Diegesis and Fzzy Config. Simply Swords remains an optional weapon integration. The legacy Overgeared recipe bridge is off by default.
 
-Both loader servers passed native and standalone thermal scenarios, including batch counts, timing/spam guards, material/tool costs, cancellation and item serialization. The packaged NeoForge build passed physical workstation interaction in the existing hidden modpack copy. The workshop guide is in docs/THERMAL_WORKSHOP.md; the verification record describes coverage and limits.
-
-This remains a prototype. Live multiplayer contention, Fabric graphical interaction, long-session balance, advanced material profiles and persistent unattended block inventories remain further work. Some material icons and ore textures use placeholders; workstation/control geometry is original and references game textures and sounds.
+Built for Fabric and NeoForge 1.21.1. Read docs/THERMAL_WORKSHOP.md for recipes, controls, costs and configuration. The verification record documents standalone server/client coverage and remaining playtest scope.

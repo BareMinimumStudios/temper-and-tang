@@ -34,4 +34,10 @@ Recipe integration uses MixinExtras WrapMethod to compose with the normal recipe
 
 `temperandtang:shaping` is a dedicated recipe serializer/type with vanilla shaped recipe fields. It exposes ingredients, remainders and result data, but cannot match ordinary crafting-table recipe-type queries. It is used when Overgeared is absent. With Overgeared installed, supported native `overgeared:forging` recipes supply the workshop's patterns instead. Basic supported result identities are bronze, vanilla iron/gold swords and enabled Simply Swords iron/gold weapons; advanced custom materials/blueprints are intentionally outside this prototype.
 
-Thermal schema version 1 lives under `minecraft:custom_data` → `temperandtang.thermal`, storing a world-tick `hot_until`, stage, and (only for a standalone unquenched workpiece) encoded `weapon`. Treat this as owned persistence data rather than a public modifier API. All completion and consumption must run through the server station; client captions and animations never authorize a result.
+Thermal schema version 1 lives under `minecraft:custom_data` â†’ `temperandtang.thermal`, storing a world-tick `hot_until`, stage, and (only for a standalone unquenched workpiece) encoded `weapon`. Treat this as owned persistence data rather than a public modifier API. All completion and consumption must run through the server station; client captions and animations never authorize a result.
+
+## Tongs and contact heat
+
+`TemperAndTangApi.TONGS` exposes the additive `temperandtang:tongs` item tag. The common `c:tools/tongs` tag is included by default. Damageable members use normal durability/unbreaking handling; explicitly tagged non-damageable protective tools remain valid. Held tools can protect in either hand. The thermal timestamp belongs to Temper & Tang and does not require any optional mod component.
+
+Hot-metal handling runs on the server across player inventory slots and the cursor. Contact burns and tool wear are bounded per player rather than per hot stack. The public configuration can disable exposure while keeping cooling active. Libraries remain Diegesis and Fzzy Config; another smithing mod is never required.

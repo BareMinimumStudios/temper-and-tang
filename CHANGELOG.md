@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.1
+
+- Added owned, craftable and iron-repairable Smithing Tongs with additive common tool tags.
+- Added standalone server-side contact burns, bounded tongs wear, cursor protection and inventory cooling.
+- Made owned heat timestamps independent of external heated components and disabled the legacy Overgeared recipe bridge by default.
+- Added handling configuration, tooltips, isolated in-game checks and cooldown tests.
+- Updated the workshop guide around a complete standalone workflow.
+
 ## 0.2.0
 
 - Added Diegesis charcoal hearth, shaping anvil and quenching trough with original block/control geometry.

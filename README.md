@@ -1,6 +1,6 @@
 # Temper & Tang
 
-Material-driven medieval smithing for **Minecraft 1.21.1**, written in Kotlin for **Fabric and NeoForge**. A Bare Minimum Studios project.
+Standalone, material-driven medieval smithing for **Minecraft 1.21.1**, written in Kotlin for **Fabric and NeoForge**. A Bare Minimum Studios project.
 
 The playable prototype uses **Diegesis charcoal heating, rhythmic shaping, water quenching and weapon finishing**. Place materials directly on physical workstations, work the metal, then retrieve the result. Its rules and item consumption run on the server. Fzzy Config supplies the configuration interface, validation and synchronization.
 
@@ -13,18 +13,18 @@ The playable prototype uses **Diegesis charcoal heating, rhythmic shaping, water
 - Four deliberate finishes: tempered, keen, weighted and lightened. One finish per weapon by default; optional replacement retains the original durability baseline and does not stack modifiers.
 - Enchantments, names, existing attribute entries and other mod data survive finishing.
 - Simply Swords and Simply More weapons work in the finishing station without requiring a separate compatibility mod. Both are optional dependencies.
-- With Overgeared installed, the bronze sword and untouched basic Simply Swords iron/gold grid recipes are adapted to native forging. Existing forging/assembly recipes, upgrades and unique recipes are left alone.
+- Owned Smithing Tongs, hot-metal contact burns, automatic inventory/cursor cooling, and common tool tags. No other smithing mod is required.
 
 - Charcoal hearth, shaping anvil and quenching trough, with server-owned heat, fuel, work and water consumption.
-- Native Overgeared basic forging patterns and quality limits; standalone shaping when Overgeared is absent.
+- Basic vanilla iron/gold, bronze and Simply Swords weapon shaping, with unquenched workpieces that must become usable at the trough.
 
 ## Playing
 
-Install the correct loader JAR, Fzzy Config, Diegesis **beta.17** for your loader, and Fabric Language Kotlin or Kotlin for Forge. See `libraries.toml` for exact development dependency pins. Install Simply Swords, Simply More and Overgeared separately if desired.
+Install the correct loader JAR, Fzzy Config, Diegesis **beta.17** for your loader, and Fabric Language Kotlin or Kotlin for Forge. See `libraries.toml` for exact development dependency pins. Simply Swords and Simply More are optional weapon integrations. Overgeared is not required; its legacy recipe bridge is disabled by default.
 
 Follow the [thermal workshop guide](docs/THERMAL_WORKSHOP.md) to heat refined stock, shape basic weapons and quench them.
 
-Craft the Finishing Anvil, hammer and finishing material. Open the anvil, place a single damageable weapon, material and hammer in its world-space slots, then click the working hammer or press Space six times, waiting between blows. Keep the cursor empty. A caption shows the missing input, current strike count or finished output. Temper & Tang and Overgeared smithing hammers are accepted; a hammer needs enough remaining durability for the work. Taking a valid result consumes one material, six hammer durability and two experience levels by default. Leaving the station returns its inputs through Diegesis; no ingredients are consumed merely to preview a result.
+Craft the Finishing Anvil, hammer and finishing material. Open the anvil, place a single damageable weapon, material and hammer in its world-space slots, then click the working hammer or press Space six times, waiting between blows. Keep the cursor empty. A caption shows the missing input, current strike count or finished output. Temper & Tang hammers and supported common-tagged hammers are accepted; a hammer needs enough remaining durability for the work. Taking a valid result consumes one material, six hammer durability and two experience levels by default. Leaving the station returns its inputs through Diegesis; no ingredients are consumed merely to preview a result.
 
 | Finish | Default benefit | Tradeoff |
 | --- | --- | --- |
@@ -35,7 +35,7 @@ Craft the Finishing Anvil, hammer and finishing material. Open the anvil, place 
 
 The config is `config/temperandtang/config.json5`. Server settings govern results. Reload datapacks after changing recipe integration settings. These finishes do not enable Simply Swords implicits or add armor-piercing effects.
 
-The finishing anvil is crafted with a vanilla anvil, two copper ingots and three planks. Craft the finishing materials in the normal grid; their tooltips list the effects. Both coal and charcoal work for tempering compound. Complete Overgeared forging, quenching and polishing as your pack requires before using the finishing station.
+The finishing anvil is crafted with a vanilla anvil, two copper ingots and three planks. Craft the finishing materials in the normal grid; their tooltips list the effects. Both coal and charcoal work for tempering compound. Hold Smithing Tongs in either hand when moving heated stock. Shape and quench a workpiece before applying a finish.
 
 ![Finishing anvil in a tested survival session](docs/images/finishing-anvil.png)
 
@@ -55,7 +55,7 @@ The build creates separate Fabric and NeoForge JARs. Verified files, checksums, 
 
 ## Scope
 
-This is a working thermal and finishing prototype. The basic shaping station deliberately stops at stone-tier, blueprint-free weapons; advanced Overgeared forging remains with its native stations. Live station sessions return items when closed rather than keeping a persistent block inventory. Offline time does not consume working heat; world ticks do. The workstation and hammer use original model geometry with Minecraft textures. Several material icons and ore textures remain placeholders; no third-party artwork is extracted. Tin appears only in newly generated chunks.
+This is a working thermal and finishing prototype. The basic shaping station supports bronze and basic iron/gold weapons. Additional material profiles and a standalone quality grading system are future work; the bright beat currently guides deliberate shaping rather than granting an external quality tier. Live station sessions return items when closed rather than keeping a persistent block inventory. Offline time does not consume working heat; world ticks do. The workstation and hammer use original model geometry with Minecraft textures. Several material icons and ore textures remain placeholders; no third-party artwork is extracted. Tin appears only in newly generated chunks.
 
 See [design](docs/DESIGN.md), [compatibility](docs/COMPATIBILITY.md), [development](DEVELOPMENT.md) and [release checklist](docs/RELEASING.md), [public API](docs/API.md) and [verification record](docs/VERIFICATION.md).
 
