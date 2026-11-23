@@ -21,35 +21,15 @@ object TemperClient {
     private class Feedback : StationBehavior {
         private var carrying = false
         private var levels = -1
-        private var lastProgress = 0
-        private var returnAfter = 0f
+        private val hammer=HammerPresentation(true)
         override fun onOpen(view: StationView) {
             view.setInventoryFilter { stack -> WeaponFinishes.accepts(stack) || WeaponFinishes.ingredient(stack) != null || FinishingStation.isHammer(stack) }
-            lastProgress = view.state().getControl("progress").toInt()
+            hammer.sync(view)
             refresh(view)
         }
-        override fun onStateChanged(view: StationView, changes: StationState.Changes) {
-            val progress = view.state().getControl("progress").toInt()
-            if (progress > lastProgress) {
-                view.node("strike").ifPresent { hammer ->
-                    hammer.rotateTo(0f, 0f, 35f, 0.06f)
-                    hammer.moveTo(0f, -0.5f, 0f, 0.06f)
-                }
-                returnAfter = 0.08f
-            }
-            lastProgress = progress
-            view.node("timing_marker").ifPresent {it.moveTo((view.state().getControl("phase")-0.5f)*12f,0f,0f,0.04f)}
-            view.node("strike").ifPresent {it.setTint(if(view.state().getControl("beat")>0f)0xFFFFC46B.toInt() else 0xFFFFFFFF.toInt())}
-            refresh(view)
-        }
-        override fun frame(view: StationView, deltaSeconds: Float) {
-            if (returnAfter <= 0f) return
-            returnAfter -= deltaSeconds
-            if (returnAfter <= 0f) view.node("strike").ifPresent { hammer ->
-                hammer.rotateTo(0f, 0f, 0f, 0.14f)
-                hammer.moveTo(0f, 0f, 0f, 0.14f)
-            }
-        }
+        override fun onStateChanged(view:StationView,changes:StationState.Changes) {hammer.sync(view);refresh(view)}
+        override fun onEffect(view:StationView,effect:net.minecraft.resources.ResourceLocation,node:String?,data:CompoundTag) {hammer.effect(effect,data)}
+        override fun frame(view:StationView,deltaSeconds:Float) {hammer.frame(view,deltaSeconds)}
         override fun tick(view: StationView) {
             if (!view.isFocused) return
             val now = Minecraft.getInstance().player?.containerMenu?.carried?.isEmpty == false

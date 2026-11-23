@@ -1,169 +1,653 @@
 {
   "parent": "minecraft:block/block",
+  "ambientocclusion": false,
   "textures": {
-    "stone": "minecraft:block/cobblestone",
-    "coal": "minecraft:block/coal_block",
-    "iron": "minecraft:block/anvil",
-    "particle": "minecraft:block/cobblestone"
+    "particle": "minecraft:block/anvil",
+    "metal": "minecraft:block/anvil",
+    "face": "minecraft:block/anvil_top",
+    "edge": "minecraft:block/iron_block",
+    "wood": "minecraft:block/stripped_spruce_log",
+    "end": "minecraft:block/stripped_spruce_log_top",
+    "plank": "minecraft:block/spruce_planks",
+    "leather": "minecraft:block/brown_terracotta",
+    "band": "minecraft:block/deepslate_tiles",
+    "brick": "minecraft:block/stone_bricks",
+    "coal": "minecraft:block/coal_block"
   },
   "elements": [
     {
+      "name": "stone_base",
       "from": [
+        0.5,
         0,
-        0,
-        0
+        0.5
       ],
       "to": [
-        16,
-        4,
-        16
+        15.5,
+        2,
+        15.5
       ],
       "faces": {
         "north": {
-          "texture": "#stone"
+          "texture": "#brick"
         },
         "south": {
-          "texture": "#stone"
+          "texture": "#brick"
         },
         "east": {
-          "texture": "#stone"
+          "texture": "#brick"
         },
         "west": {
-          "texture": "#stone"
+          "texture": "#brick"
         },
         "up": {
-          "texture": "#stone"
+          "texture": "#brick"
         },
         "down": {
-          "texture": "#stone"
+          "texture": "#brick"
         }
       }
     },
     {
+      "name": "ash_pan",
       "from": [
-        0,
-        4,
-        0
+        2,
+        2,
+        2
       ],
       "to": [
-        3,
         14,
-        16
+        4.8,
+        14
       ],
       "faces": {
         "north": {
-          "texture": "#stone"
+          "texture": "#coal"
         },
         "south": {
-          "texture": "#stone"
+          "texture": "#coal"
         },
         "east": {
-          "texture": "#stone"
+          "texture": "#coal"
         },
         "west": {
-          "texture": "#stone"
+          "texture": "#coal"
         },
         "up": {
-          "texture": "#stone"
+          "texture": "#coal"
         },
         "down": {
-          "texture": "#stone"
+          "texture": "#coal"
         }
       }
     },
     {
+      "name": "left_wall",
       "from": [
-        13,
-        4,
-        0
+        0.5,
+        2,
+        1
       ],
       "to": [
-        16,
-        14,
-        16
+        2.5,
+        10.8,
+        15.5
       ],
       "faces": {
         "north": {
-          "texture": "#stone"
+          "texture": "#brick"
         },
         "south": {
-          "texture": "#stone"
+          "texture": "#brick"
         },
         "east": {
-          "texture": "#stone"
+          "texture": "#brick"
         },
         "west": {
-          "texture": "#stone"
+          "texture": "#brick"
         },
         "up": {
-          "texture": "#stone"
+          "texture": "#brick"
         },
         "down": {
-          "texture": "#stone"
+          "texture": "#brick"
         }
       }
     },
     {
+      "name": "right_wall",
       "from": [
-        3,
-        4,
-        13
+        13.5,
+        2,
+        1
       ],
       "to": [
-        13,
-        14,
-        16
+        15.5,
+        10.8,
+        15.5
       ],
       "faces": {
         "north": {
-          "texture": "#stone"
+          "texture": "#brick"
         },
         "south": {
-          "texture": "#stone"
+          "texture": "#brick"
         },
         "east": {
-          "texture": "#stone"
+          "texture": "#brick"
         },
         "west": {
-          "texture": "#stone"
+          "texture": "#brick"
         },
         "up": {
-          "texture": "#stone"
+          "texture": "#brick"
         },
         "down": {
-          "texture": "#stone"
+          "texture": "#brick"
         }
       }
     },
     {
+      "name": "rear_wall",
       "from": [
-        3,
-        4,
+        2.5,
+        2,
+        13.5
+      ],
+      "to": [
+        13.5,
+        12.8,
+        15.5
+      ],
+      "faces": {
+        "north": {
+          "texture": "#brick"
+        },
+        "south": {
+          "texture": "#brick"
+        },
+        "east": {
+          "texture": "#brick"
+        },
+        "west": {
+          "texture": "#brick"
+        },
+        "up": {
+          "texture": "#brick"
+        },
+        "down": {
+          "texture": "#brick"
+        }
+      }
+    },
+    {
+      "name": "front_sill",
+      "from": [
+        2.5,
+        2,
+        0.5
+      ],
+      "to": [
+        13.5,
+        3.5,
+        2.5
+      ],
+      "faces": {
+        "north": {
+          "texture": "#brick"
+        },
+        "south": {
+          "texture": "#brick"
+        },
+        "east": {
+          "texture": "#brick"
+        },
+        "west": {
+          "texture": "#brick"
+        },
+        "up": {
+          "texture": "#brick"
+        },
+        "down": {
+          "texture": "#brick"
+        }
+      }
+    },
+    {
+      "name": "grate_bar",
+      "from": [
+        3.5,
+        5.6,
         3
       ],
       "to": [
-        13,
+        3.85,
         6,
-        13
+        13.2
       ],
       "faces": {
         "north": {
-          "texture": "#coal"
+          "texture": "#metal"
         },
         "south": {
-          "texture": "#coal"
+          "texture": "#metal"
         },
         "east": {
-          "texture": "#coal"
+          "texture": "#metal"
         },
         "west": {
-          "texture": "#coal"
+          "texture": "#metal"
         },
         "up": {
-          "texture": "#coal"
+          "texture": "#metal"
         },
         "down": {
-          "texture": "#coal"
+          "texture": "#metal"
+        }
+      }
+    },
+    {
+      "name": "grate_bar",
+      "from": [
+        6.2,
+        5.6,
+        3
+      ],
+      "to": [
+        6.55,
+        6,
+        13.2
+      ],
+      "faces": {
+        "north": {
+          "texture": "#metal"
+        },
+        "south": {
+          "texture": "#metal"
+        },
+        "east": {
+          "texture": "#metal"
+        },
+        "west": {
+          "texture": "#metal"
+        },
+        "up": {
+          "texture": "#metal"
+        },
+        "down": {
+          "texture": "#metal"
+        }
+      }
+    },
+    {
+      "name": "grate_bar",
+      "from": [
+        8.9,
+        5.6,
+        3
+      ],
+      "to": [
+        9.25,
+        6,
+        13.2
+      ],
+      "faces": {
+        "north": {
+          "texture": "#metal"
+        },
+        "south": {
+          "texture": "#metal"
+        },
+        "east": {
+          "texture": "#metal"
+        },
+        "west": {
+          "texture": "#metal"
+        },
+        "up": {
+          "texture": "#metal"
+        },
+        "down": {
+          "texture": "#metal"
+        }
+      }
+    },
+    {
+      "name": "grate_bar",
+      "from": [
+        11.6,
+        5.6,
+        3
+      ],
+      "to": [
+        11.95,
+        6,
+        13.2
+      ],
+      "faces": {
+        "north": {
+          "texture": "#metal"
+        },
+        "south": {
+          "texture": "#metal"
+        },
+        "east": {
+          "texture": "#metal"
+        },
+        "west": {
+          "texture": "#metal"
+        },
+        "up": {
+          "texture": "#metal"
+        },
+        "down": {
+          "texture": "#metal"
+        }
+      }
+    },
+    {
+      "name": "rim_cap",
+      "from": [
+        0.35,
+        10.8,
+        0.8
+      ],
+      "to": [
+        2.65,
+        11.3,
+        15.7
+      ],
+      "faces": {
+        "north": {
+          "texture": "#band"
+        },
+        "south": {
+          "texture": "#band"
+        },
+        "east": {
+          "texture": "#band"
+        },
+        "west": {
+          "texture": "#band"
+        },
+        "up": {
+          "texture": "#band"
+        },
+        "down": {
+          "texture": "#band"
+        }
+      }
+    },
+    {
+      "name": "rim_cap",
+      "from": [
+        13.35,
+        10.8,
+        0.8
+      ],
+      "to": [
+        15.649999999999999,
+        11.3,
+        15.7
+      ],
+      "faces": {
+        "north": {
+          "texture": "#band"
+        },
+        "south": {
+          "texture": "#band"
+        },
+        "east": {
+          "texture": "#band"
+        },
+        "west": {
+          "texture": "#band"
+        },
+        "up": {
+          "texture": "#band"
+        },
+        "down": {
+          "texture": "#band"
+        }
+      }
+    },
+    {
+      "name": "bellows_stool",
+      "from": [
+        15.3,
+        5.8,
+        5
+      ],
+      "to": [
+        20.5,
+        6.45,
+        11
+      ],
+      "faces": {
+        "north": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            5.199999999999999,
+            0.6500000000000004
+          ]
+        },
+        "south": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            5.199999999999999,
+            0.6500000000000004
+          ]
+        },
+        "east": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            6,
+            0.6500000000000004
+          ]
+        },
+        "west": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            6,
+            0.6500000000000004
+          ]
+        },
+        "up": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            5.199999999999999,
+            6
+          ]
+        },
+        "down": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            5.199999999999999,
+            6
+          ]
+        }
+      }
+    },
+    {
+      "name": "stool_leg_front",
+      "from": [
+        18.7,
+        0,
+        5.4
+      ],
+      "to": [
+        19.7,
+        5.8,
+        6.4
+      ],
+      "faces": {
+        "north": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            1.0,
+            5.8
+          ]
+        },
+        "south": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            1.0,
+            5.8
+          ]
+        },
+        "east": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            1.0,
+            5.8
+          ]
+        },
+        "west": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            1.0,
+            5.8
+          ]
+        },
+        "up": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            1.0,
+            1.0
+          ]
+        },
+        "down": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "stool_leg_back",
+      "from": [
+        18.7,
+        0,
+        9.6
+      ],
+      "to": [
+        19.7,
+        5.8,
+        10.6
+      ],
+      "faces": {
+        "north": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            1.0,
+            5.8
+          ]
+        },
+        "south": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            1.0,
+            5.8
+          ]
+        },
+        "east": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            1.0,
+            5.8
+          ]
+        },
+        "west": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            1.0,
+            5.8
+          ]
+        },
+        "up": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            1.0,
+            1.0
+          ]
+        },
+        "down": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "tuyere",
+      "from": [
+        13.4,
+        7.1,
+        7.1
+      ],
+      "to": [
+        15.55,
+        8.6,
+        8.9
+      ],
+      "faces": {
+        "north": {
+          "texture": "#metal"
+        },
+        "south": {
+          "texture": "#metal"
+        },
+        "east": {
+          "texture": "#metal"
+        },
+        "west": {
+          "texture": "#metal"
+        },
+        "up": {
+          "texture": "#metal"
+        },
+        "down": {
+          "texture": "#metal"
         }
       }
     }

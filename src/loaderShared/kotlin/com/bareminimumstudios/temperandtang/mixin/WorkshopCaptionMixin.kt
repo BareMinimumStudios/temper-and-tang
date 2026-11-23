@@ -18,7 +18,9 @@ abstract class WorkshopCaptionMixin {
         val text=station.caption()?:return
         val look=station.scene()?.definition()?.captions()?:return
         val mc=Minecraft.getInstance();val font=mc.font
-        val alpha=(station.captionAlpha()*255).toInt().coerceIn(0,255)
+        // Progress text changes on each strike; restarting the library fade makes it flash.
+        // These persistent instructions remain opaque until their caption expires.
+        val alpha=255
         if(alpha<8)return
         val lines=font.split(text,(mc.window.guiScaledWidth-28).coerceAtLeast(80))
         var y=if(look.edge()==com.pockyl.diegesis.api.scene.CaptionOptions.Edge.TOP) 8 else mc.window.guiScaledHeight-8-lines.size*(font.lineHeight+2)

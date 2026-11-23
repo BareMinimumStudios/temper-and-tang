@@ -15,7 +15,8 @@
   "interface": {
     "inventory_panel": true,
     "show_counts": true,
-    "hide_player": true
+    "hide_player": true,
+    "shadows": false
   },
   "inventory_drawer": {
     "side": "bottom",
@@ -61,9 +62,6 @@
         6.5,
         8
       ],
-      "visual": {
-        "model": "temperandtang:diegesis/bellows"
-      },
       "control": {
         "control": "heat",
         "type": "button",
@@ -95,6 +93,51 @@
         0,
         -90,
         0
+      ],
+      "children": [
+        {
+          "id": "bellows_lower",
+          "pickable": false
+        },
+        {
+          "id": "bellows_leather",
+          "pickable": false
+        },
+        {
+          "id": "bellows_top",
+          "pos": [
+            0,
+            1.25,
+            7
+          ],
+          "pickable": false,
+          "children": [
+            {
+              "id": "bellows_handle",
+              "visual": {
+                "model": "temperandtang:diegesis/bellows_handle",
+                "anchor": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "pickable": false
+            }
+          ]
+        },
+        {
+          "id": "bellows_nozzle",
+          "visual": {
+            "model": "temperandtang:diegesis/bellows_nozzle",
+            "anchor": [
+              0,
+              0,
+              0
+            ]
+          },
+          "pickable": false
+        }
       ]
     },
     {
@@ -143,5 +186,6 @@
         "enabled": false
       }
     }
-  ]
+  ],
+  "work_plane": 6
 }

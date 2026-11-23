@@ -27,3 +27,15 @@ assert json.loads((root / "data/c/tags/item/tools/tongs.json").read_text())["val
 assert json.loads((root / "data/temperandtang/tags/item/tongs.json").read_text())["values"] == ["#c:tools/tongs"]
 assert (root / "data/temperandtang/recipe/smithing_tongs.json").exists()
 print("Verified owned tongs recipe and additive common tool tags.")
+
+# Overhanging scene parts require explicit UVs to stay inside the texture atlas.
+assets = root / "assets/temperandtang"
+for path in (assets / "models").rglob("*.json"):
+    model = json.loads(path.read_text(encoding="utf-8"))
+    for element in model.get("elements", []):
+        if any(v < 0 or v > 16 for v in element["from"] + element["to"]):
+            assert all("uv" in face and all(0 <= v <= 16 for v in face["uv"]) for face in element["faces"].values()), path
+assert json.loads((assets / "models/item/smithing_hammer.json").read_text())["parent"] == "temperandtang:diegesis/impact_hammer"
+for sound in (assets / "sounds/forge").glob("*.ogg"):
+    assert sound.read_bytes()[:4] == b"OggS", sound
+print("Verified overhanging UV bounds, shared hammer geometry and encoded impact audio.")

@@ -1,0 +1,82 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "minecraft:block/anvil",
+    "metal": "minecraft:block/anvil",
+    "face": "minecraft:block/iron_block",
+    "wood": "minecraft:block/stripped_spruce_log",
+    "leather": "minecraft:block/brown_terracotta"
+  },
+  "elements": [
+    {
+      "name": "iron_nozzle",
+      "from": [
+        -1,
+        1.1,
+        6.5
+      ],
+      "to": [
+        1,
+        2.5,
+        11
+      ],
+      "faces": {
+        "up": {
+          "texture": "#metal",
+          "uv": [
+            0,
+            0,
+            8,
+            8
+          ]
+        },
+        "down": {
+          "texture": "#metal",
+          "uv": [
+            0,
+            0,
+            8,
+            8
+          ]
+        },
+        "north": {
+          "texture": "#metal",
+          "uv": [
+            0,
+            0,
+            8,
+            8
+          ]
+        },
+        "south": {
+          "texture": "#metal",
+          "uv": [
+            0,
+            0,
+            8,
+            8
+          ]
+        },
+        "east": {
+          "texture": "#metal",
+          "uv": [
+            0,
+            0,
+            8,
+            8
+          ]
+        },
+        "west": {
+          "texture": "#metal",
+          "uv": [
+            0,
+            0,
+            8,
+            8
+          ]
+        }
+      }
+    }
+  ]
+}

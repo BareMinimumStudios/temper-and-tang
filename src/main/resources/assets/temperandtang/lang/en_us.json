@@ -121,5 +121,6 @@
   "temperandtang.thermal.action.mode": "Forge a pattern / reforge equipment (R)",
   "temperandtang.craft.clear_mode": "Remove gear and loose materials before changing work mode.",
   "temperandtang.thermal.insert_gear": "Reforging: place heated equipment on the anvil and add Smithing Flux.",
-  "temperandtang.craft.mastery_max": "Smithing mastery %s (maximum) — %s XP"
+  "temperandtang.craft.mastery_max": "Smithing mastery %s (maximum) — %s XP",
+  "subtitles.temperandtang.forge_impact": "Hammer rings on steel"
 }

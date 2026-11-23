@@ -15,7 +15,8 @@
   "interface": {
     "inventory_panel": true,
     "show_counts": true,
-    "hide_player": true
+    "hide_player": true,
+    "shadows": false
   },
   "inventory_drawer": {
     "side": "bottom",
@@ -29,13 +30,13 @@
     {
       "id": "stock",
       "pos": [
-        8,
-        9.5,
+        12.5,
+        12.35,
         8
       ],
       "slot": {
         "slot": "stock",
-        "size": 4.5,
+        "size": 4.8,
         "idle_highlight": 0.12
       },
       "tooltip": "temperandtang.thermal.slot.stock"
@@ -43,9 +44,9 @@
     {
       "id": "water",
       "pos": [
-        3,
-        14.4,
-        3
+        5.5,
+        12.2,
+        14.5
       ],
       "slot": {
         "slot": "water",
@@ -57,12 +58,17 @@
     {
       "id": "quench",
       "pos": [
-        17,
-        9,
-        8
+        2.15,
+        12.2,
+        2.6
       ],
       "visual": {
-        "model": "temperandtang:diegesis/dipping_tongs"
+        "model": "temperandtang:diegesis/tong_pivot",
+        "anchor": [
+          0,
+          0,
+          0
+        ]
       },
       "control": {
         "control": "quench",
@@ -74,29 +80,79 @@
         ],
         "range": [
           0,
-          0.3
+          0.0001
         ]
       },
       "collider": {
         "from": [
-          -7,
-          0,
-          -7
+          -1.5,
+          -0.8,
+          -6.5
         ],
         "to": [
-          7,
-          15,
-          9
+          1.5,
+          0.8,
+          7
         ]
       },
       "tooltip": "temperandtang.thermal.action.quench",
-      "scale": 0.38
+      "scale": 0.9,
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "children": [
+        {
+          "id": "tong_left",
+          "visual": {
+            "model": "temperandtang:diegesis/tong_left",
+            "anchor": [
+              0,
+              0,
+              0
+            ]
+          },
+          "pickable": false
+        },
+        {
+          "id": "tong_right",
+          "visual": {
+            "model": "temperandtang:diegesis/tong_right",
+            "anchor": [
+              0,
+              0,
+              0
+            ]
+          },
+          "pickable": false
+        },
+        {
+          "id": "quench_hand",
+          "visual": {
+            "model": "temperandtang:diegesis/smith_glove",
+            "anchor": [
+              0,
+              0,
+              0
+            ]
+          },
+          "scale": 0.65,
+          "pos": [
+            0,
+            0,
+            -3.5
+          ],
+          "pickable": false,
+          "hidden": true
+        }
+      ]
     },
     {
       "id": "result",
       "pos": [
-        8,
-        11,
+        12.5,
+        12.35,
         8
       ],
       "output": {
@@ -109,36 +165,38 @@
       "id": "water_surface",
       "pos": [
         8,
-        9,
+        9.8,
         8
       ],
       "visual": {
         "model": "temperandtang:diegesis/trough_water",
         "translucent": true,
         "double_sided": true,
-        "tint": "#C03F76E4"
+        "tint": "#B85D96C9"
       },
-      "hidden": true
+      "hidden": true,
+      "pickable": false
     },
     {
       "id": "steam",
       "pos": [
         8,
-        9,
+        10,
         8
       ],
       "emitter": {
         "particle": "diegesis:steam",
-        "rate": 5,
-        "spread": 1.5,
+        "rate": 16,
+        "spread": 1.1,
         "velocity": [
           0,
-          3,
+          5,
           0
         ],
-        "scale": 0.7,
+        "scale": 0.9,
         "enabled": false
       }
     }
-  ]
+  ],
+  "work_plane": 9.8
 }

@@ -1,39 +1,155 @@
 {
   "parent": "minecraft:block/block",
+  "ambientocclusion": false,
   "textures": {
     "particle": "minecraft:block/anvil",
-    "metal": "minecraft:block/anvil"
+    "metal": "minecraft:block/anvil",
+    "face": "minecraft:block/anvil_top",
+    "edge": "minecraft:block/iron_block",
+    "wood": "minecraft:block/stripped_spruce_log",
+    "end": "minecraft:block/stripped_spruce_log_top",
+    "plank": "minecraft:block/spruce_planks",
+    "leather": "minecraft:block/brown_terracotta",
+    "band": "minecraft:block/deepslate_tiles",
+    "brick": "minecraft:block/stone_bricks",
+    "coal": "minecraft:block/coal_block"
   },
   "elements": [
     {
+      "name": "rail",
       "from": [
         -7,
         0,
-        -0.5
+        -0.45
       ],
       "to": [
         7,
-        0.3,
-        0.5
+        0.16,
+        0.45
       ],
       "faces": {
         "north": {
-          "texture": "#metal"
+          "texture": "#band",
+          "uv": [
+            0,
+            0,
+            14,
+            0.16
+          ]
         },
         "south": {
-          "texture": "#metal"
+          "texture": "#band",
+          "uv": [
+            0,
+            0,
+            14,
+            0.16
+          ]
         },
         "east": {
-          "texture": "#metal"
+          "texture": "#band",
+          "uv": [
+            0,
+            0,
+            0.9,
+            0.16
+          ]
         },
         "west": {
-          "texture": "#metal"
+          "texture": "#band",
+          "uv": [
+            0,
+            0,
+            0.9,
+            0.16
+          ]
         },
         "up": {
-          "texture": "#metal"
+          "texture": "#band",
+          "uv": [
+            0,
+            0,
+            14,
+            0.9
+          ]
         },
         "down": {
-          "texture": "#metal"
+          "texture": "#band",
+          "uv": [
+            0,
+            0,
+            14,
+            0.9
+          ]
+        }
+      }
+    },
+    {
+      "name": "inlay",
+      "from": [
+        -6.4,
+        0.17,
+        -0.12
+      ],
+      "to": [
+        6.4,
+        0.22,
+        0.12
+      ],
+      "faces": {
+        "north": {
+          "texture": "#metal",
+          "uv": [
+            0,
+            0,
+            12.8,
+            0.1
+          ]
+        },
+        "south": {
+          "texture": "#metal",
+          "uv": [
+            0,
+            0,
+            12.8,
+            0.1
+          ]
+        },
+        "east": {
+          "texture": "#metal",
+          "uv": [
+            0,
+            0,
+            0.24,
+            0.1
+          ]
+        },
+        "west": {
+          "texture": "#metal",
+          "uv": [
+            0,
+            0,
+            0.24,
+            0.1
+          ]
+        },
+        "up": {
+          "texture": "#metal",
+          "uv": [
+            0,
+            0,
+            12.8,
+            0.24
+          ]
+        },
+        "down": {
+          "texture": "#metal",
+          "uv": [
+            0,
+            0,
+            12.8,
+            0.24
+          ]
         }
       }
     }

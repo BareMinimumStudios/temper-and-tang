@@ -10,3 +10,8 @@ These projects are not bundled. No third-party textures, models, sounds or code
 are copied into this initial implementation. Their licenses remain their own.
 Simply Swords is an optional external mod under its own custom license.
 Vanilla Minecraft item texture references resolve from the user's game installation.
+
+The workshop impact sounds are original deterministic modal synthesis.
+Their generator is provided in scripts/generate_workshop_audio.py.
+Supplementaries was inspected as a bellows animation reference; none of its
+geometry, textures, sounds or code are included.

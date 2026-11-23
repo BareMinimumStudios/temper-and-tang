@@ -1,39 +1,77 @@
 {
   "parent": "minecraft:block/block",
+  "ambientocclusion": false,
   "textures": {
     "particle": "minecraft:block/gold_block",
-    "metal": "minecraft:block/gold_block"
+    "gold": "minecraft:block/gold_block"
   },
   "elements": [
     {
+      "name": "needle",
       "from": [
-        -0.35,
+        -0.14,
         0,
         -0.9
       ],
       "to": [
-        0.35,
-        1,
+        0.14,
+        0.65,
         0.9
       ],
       "faces": {
         "north": {
-          "texture": "#metal"
+          "texture": "#gold",
+          "uv": [
+            0,
+            0,
+            0.28,
+            0.65
+          ]
         },
         "south": {
-          "texture": "#metal"
+          "texture": "#gold",
+          "uv": [
+            0,
+            0,
+            0.28,
+            0.65
+          ]
         },
         "east": {
-          "texture": "#metal"
+          "texture": "#gold",
+          "uv": [
+            0,
+            0,
+            1.8,
+            0.65
+          ]
         },
         "west": {
-          "texture": "#metal"
+          "texture": "#gold",
+          "uv": [
+            0,
+            0,
+            1.8,
+            0.65
+          ]
         },
         "up": {
-          "texture": "#metal"
+          "texture": "#gold",
+          "uv": [
+            0,
+            0,
+            0.28,
+            1.8
+          ]
         },
         "down": {
-          "texture": "#metal"
+          "texture": "#gold",
+          "uv": [
+            0,
+            0,
+            0.28,
+            1.8
+          ]
         }
       }
     }

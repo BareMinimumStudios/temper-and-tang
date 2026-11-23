@@ -1,22 +1,64 @@
 {
   "parent": "minecraft:block/block",
+  "ambientocclusion": false,
   "textures": {
-    "wood": "minecraft:block/spruce_planks",
-    "iron": "minecraft:block/anvil",
-    "water": "minecraft:block/lapis_block",
-    "particle": "minecraft:block/spruce_planks"
+    "particle": "minecraft:block/anvil",
+    "metal": "minecraft:block/anvil",
+    "face": "minecraft:block/anvil_top",
+    "edge": "minecraft:block/iron_block",
+    "wood": "minecraft:block/stripped_spruce_log",
+    "end": "minecraft:block/stripped_spruce_log_top",
+    "plank": "minecraft:block/spruce_planks",
+    "leather": "minecraft:block/brown_terracotta",
+    "band": "minecraft:block/deepslate_tiles",
+    "brick": "minecraft:block/stone_bricks",
+    "coal": "minecraft:block/coal_block"
   },
   "elements": [
     {
+      "name": "bottom",
       "from": [
-        0,
-        2,
-        0
+        1.5,
+        2.1,
+        1.5
       ],
       "to": [
-        16,
-        5,
-        16
+        14.5,
+        3.5,
+        14.5
+      ],
+      "faces": {
+        "north": {
+          "texture": "#plank"
+        },
+        "south": {
+          "texture": "#plank"
+        },
+        "east": {
+          "texture": "#plank"
+        },
+        "west": {
+          "texture": "#plank"
+        },
+        "up": {
+          "texture": "#plank"
+        },
+        "down": {
+          "texture": "#plank"
+        }
+      }
+    },
+    {
+      "name": "left_plank",
+      "from": [
+        0.7,
+        3.2,
+        1
+      ],
+      "to": [
+        2,
+        11.5,
+        15
       ],
       "faces": {
         "north": {
@@ -40,15 +82,16 @@
       }
     },
     {
+      "name": "right_plank",
       "from": [
-        0,
-        5,
-        0
+        14,
+        3.2,
+        1
       ],
       "to": [
-        2,
-        14,
-        16
+        15.3,
+        11.5,
+        15
       ],
       "faces": {
         "north": {
@@ -72,46 +115,15 @@
       }
     },
     {
+      "name": "front_plank",
       "from": [
-        14,
-        5,
-        0
+        1,
+        3.2,
+        0.7
       ],
       "to": [
-        16,
-        14,
-        16
-      ],
-      "faces": {
-        "north": {
-          "texture": "#wood"
-        },
-        "south": {
-          "texture": "#wood"
-        },
-        "east": {
-          "texture": "#wood"
-        },
-        "west": {
-          "texture": "#wood"
-        },
-        "up": {
-          "texture": "#wood"
-        },
-        "down": {
-          "texture": "#wood"
-        }
-      }
-    },
-    {
-      "from": [
-        2,
-        5,
-        0
-      ],
-      "to": [
-        14,
-        14,
+        15,
+        11.5,
         2
       ],
       "faces": {
@@ -136,15 +148,16 @@
       }
     },
     {
+      "name": "back_plank",
       "from": [
-        2,
-        5,
+        1,
+        3.2,
         14
       ],
       "to": [
-        14,
-        14,
-        16
+        15,
+        11.5,
+        15.3
       ],
       "faces": {
         "north": {
@@ -168,15 +181,412 @@
       }
     },
     {
+      "name": "rim",
       "from": [
-        2,
+        0.5,
+        11.5,
+        0.5
+      ],
+      "to": [
+        2.2,
+        12,
+        15.5
+      ],
+      "faces": {
+        "north": {
+          "texture": "#end"
+        },
+        "south": {
+          "texture": "#end"
+        },
+        "east": {
+          "texture": "#end"
+        },
+        "west": {
+          "texture": "#end"
+        },
+        "up": {
+          "texture": "#end"
+        },
+        "down": {
+          "texture": "#end"
+        }
+      }
+    },
+    {
+      "name": "rim",
+      "from": [
+        13,
+        11.5,
+        0.5
+      ],
+      "to": [
+        15.5,
+        12,
+        15.5
+      ],
+      "faces": {
+        "north": {
+          "texture": "#end"
+        },
+        "south": {
+          "texture": "#end"
+        },
+        "east": {
+          "texture": "#end"
+        },
+        "west": {
+          "texture": "#end"
+        },
+        "up": {
+          "texture": "#end"
+        },
+        "down": {
+          "texture": "#end"
+        }
+      }
+    },
+    {
+      "name": "rim",
+      "from": [
+        2.2,
+        11.5,
+        0.5
+      ],
+      "to": [
+        13,
+        12,
+        2.2
+      ],
+      "faces": {
+        "north": {
+          "texture": "#end"
+        },
+        "south": {
+          "texture": "#end"
+        },
+        "east": {
+          "texture": "#end"
+        },
+        "west": {
+          "texture": "#end"
+        },
+        "up": {
+          "texture": "#end"
+        },
+        "down": {
+          "texture": "#end"
+        }
+      }
+    },
+    {
+      "name": "rim",
+      "from": [
+        2.2,
+        11.5,
+        13.8
+      ],
+      "to": [
+        13,
+        12,
+        15.5
+      ],
+      "faces": {
+        "north": {
+          "texture": "#end"
+        },
+        "south": {
+          "texture": "#end"
+        },
+        "east": {
+          "texture": "#end"
+        },
+        "west": {
+          "texture": "#end"
+        },
+        "up": {
+          "texture": "#end"
+        },
+        "down": {
+          "texture": "#end"
+        }
+      }
+    },
+    {
+      "name": "iron_strap",
+      "from": [
+        0.5,
+        4,
+        0.5
+      ],
+      "to": [
+        15.5,
+        4.35,
+        0.75
+      ],
+      "faces": {
+        "north": {
+          "texture": "#band"
+        },
+        "south": {
+          "texture": "#band"
+        },
+        "east": {
+          "texture": "#band"
+        },
+        "west": {
+          "texture": "#band"
+        },
+        "up": {
+          "texture": "#band"
+        },
+        "down": {
+          "texture": "#band"
+        }
+      }
+    },
+    {
+      "name": "iron_strap",
+      "from": [
+        0.5,
+        4,
+        15.25
+      ],
+      "to": [
+        15.5,
+        4.35,
+        15.5
+      ],
+      "faces": {
+        "north": {
+          "texture": "#band"
+        },
+        "south": {
+          "texture": "#band"
+        },
+        "east": {
+          "texture": "#band"
+        },
+        "west": {
+          "texture": "#band"
+        },
+        "up": {
+          "texture": "#band"
+        },
+        "down": {
+          "texture": "#band"
+        }
+      }
+    },
+    {
+      "name": "iron_strap",
+      "from": [
+        0.5,
+        4,
+        0.75
+      ],
+      "to": [
+        0.75,
+        4.35,
+        15.25
+      ],
+      "faces": {
+        "north": {
+          "texture": "#band"
+        },
+        "south": {
+          "texture": "#band"
+        },
+        "east": {
+          "texture": "#band"
+        },
+        "west": {
+          "texture": "#band"
+        },
+        "up": {
+          "texture": "#band"
+        },
+        "down": {
+          "texture": "#band"
+        }
+      }
+    },
+    {
+      "name": "iron_strap",
+      "from": [
+        15.25,
+        4,
+        0.75
+      ],
+      "to": [
+        15.5,
+        4.35,
+        15.25
+      ],
+      "faces": {
+        "north": {
+          "texture": "#band"
+        },
+        "south": {
+          "texture": "#band"
+        },
+        "east": {
+          "texture": "#band"
+        },
+        "west": {
+          "texture": "#band"
+        },
+        "up": {
+          "texture": "#band"
+        },
+        "down": {
+          "texture": "#band"
+        }
+      }
+    },
+    {
+      "name": "iron_strap",
+      "from": [
+        0.5,
+        9.1,
+        0.5
+      ],
+      "to": [
+        15.5,
+        9.45,
+        0.75
+      ],
+      "faces": {
+        "north": {
+          "texture": "#band"
+        },
+        "south": {
+          "texture": "#band"
+        },
+        "east": {
+          "texture": "#band"
+        },
+        "west": {
+          "texture": "#band"
+        },
+        "up": {
+          "texture": "#band"
+        },
+        "down": {
+          "texture": "#band"
+        }
+      }
+    },
+    {
+      "name": "iron_strap",
+      "from": [
+        0.5,
+        9.1,
+        15.25
+      ],
+      "to": [
+        15.5,
+        9.45,
+        15.5
+      ],
+      "faces": {
+        "north": {
+          "texture": "#band"
+        },
+        "south": {
+          "texture": "#band"
+        },
+        "east": {
+          "texture": "#band"
+        },
+        "west": {
+          "texture": "#band"
+        },
+        "up": {
+          "texture": "#band"
+        },
+        "down": {
+          "texture": "#band"
+        }
+      }
+    },
+    {
+      "name": "iron_strap",
+      "from": [
+        0.5,
+        9.1,
+        0.75
+      ],
+      "to": [
+        0.75,
+        9.45,
+        15.25
+      ],
+      "faces": {
+        "north": {
+          "texture": "#band"
+        },
+        "south": {
+          "texture": "#band"
+        },
+        "east": {
+          "texture": "#band"
+        },
+        "west": {
+          "texture": "#band"
+        },
+        "up": {
+          "texture": "#band"
+        },
+        "down": {
+          "texture": "#band"
+        }
+      }
+    },
+    {
+      "name": "iron_strap",
+      "from": [
+        15.25,
+        9.1,
+        0.75
+      ],
+      "to": [
+        15.5,
+        9.45,
+        15.25
+      ],
+      "faces": {
+        "north": {
+          "texture": "#band"
+        },
+        "south": {
+          "texture": "#band"
+        },
+        "east": {
+          "texture": "#band"
+        },
+        "west": {
+          "texture": "#band"
+        },
+        "up": {
+          "texture": "#band"
+        },
+        "down": {
+          "texture": "#band"
+        }
+      }
+    },
+    {
+      "name": "foot",
+      "from": [
+        3,
         0,
-        2
+        1
       ],
       "to": [
         5,
-        2,
-        14
+        2.1,
+        15
       ],
       "faces": {
         "north": {
@@ -200,15 +610,16 @@
       }
     },
     {
+      "name": "foot",
       "from": [
         11,
         0,
-        2
+        1
       ],
       "to": [
-        14,
-        2,
-        14
+        13,
+        2.1,
+        15
       ],
       "faces": {
         "north": {

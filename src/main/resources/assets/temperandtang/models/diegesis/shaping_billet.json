@@ -1,0 +1,82 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "minecraft:block/anvil",
+    "metal": "minecraft:block/iron_block",
+    "face": "minecraft:block/iron_block",
+    "wood": "minecraft:block/stripped_spruce_log",
+    "leather": "minecraft:block/brown_terracotta"
+  },
+  "elements": [
+    {
+      "name": "hot_billet",
+      "from": [
+        5.4,
+        7.65,
+        4
+      ],
+      "to": [
+        10.6,
+        8.35,
+        12
+      ],
+      "faces": {
+        "up": {
+          "texture": "#metal",
+          "uv": [
+            0,
+            0,
+            8,
+            8
+          ]
+        },
+        "down": {
+          "texture": "#metal",
+          "uv": [
+            0,
+            0,
+            8,
+            8
+          ]
+        },
+        "north": {
+          "texture": "#metal",
+          "uv": [
+            0,
+            0,
+            8,
+            8
+          ]
+        },
+        "south": {
+          "texture": "#metal",
+          "uv": [
+            0,
+            0,
+            8,
+            8
+          ]
+        },
+        "east": {
+          "texture": "#metal",
+          "uv": [
+            0,
+            0,
+            8,
+            8
+          ]
+        },
+        "west": {
+          "texture": "#metal",
+          "uv": [
+            0,
+            0,
+            8,
+            8
+          ]
+        }
+      }
+    }
+  ]
+}

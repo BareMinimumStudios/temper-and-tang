@@ -43,7 +43,7 @@ object CraftVerification {
             override fun blockState()=TemperContent.block(name).defaultBlockState()
             override fun facing()=Direction.NORTH
             override fun users()=listOf(player)
-            override fun effect(effect:ResourceLocation,node:String?,data:CompoundTag) {if(effect.toString()=="diegesis:spark")sparks++}
+            override fun effect(effect:ResourceLocation,node:String?,data:CompoundTag) {if(effect==TemperAndTang.id("hammer_strike"))sparks++}
         }
         val logic=type.logic().create(context)
         init {logic.onOpen(context,player)}

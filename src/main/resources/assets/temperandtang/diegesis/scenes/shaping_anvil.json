@@ -15,7 +15,8 @@
   "interface": {
     "inventory_panel": true,
     "show_counts": true,
-    "hide_player": true
+    "hide_player": true,
+    "shadows": false
   },
   "inventory_drawer": {
     "side": "bottom",
@@ -30,7 +31,7 @@
       "id": "grid_0",
       "pos": [
         4,
-        12.4,
+        13.3,
         5
       ],
       "slot": {
@@ -46,7 +47,7 @@
       "id": "grid_1",
       "pos": [
         8,
-        12.4,
+        13.3,
         5
       ],
       "slot": {
@@ -62,7 +63,7 @@
       "id": "grid_2",
       "pos": [
         12,
-        12.4,
+        13.3,
         5
       ],
       "slot": {
@@ -78,7 +79,7 @@
       "id": "grid_3",
       "pos": [
         4,
-        12.4,
+        13.3,
         9
       ],
       "slot": {
@@ -94,7 +95,7 @@
       "id": "grid_4",
       "pos": [
         8,
-        12.4,
+        13.3,
         9
       ],
       "slot": {
@@ -110,7 +111,7 @@
       "id": "grid_5",
       "pos": [
         12,
-        12.4,
+        13.3,
         9
       ],
       "slot": {
@@ -126,7 +127,7 @@
       "id": "grid_6",
       "pos": [
         4,
-        12.4,
+        13.3,
         13
       ],
       "slot": {
@@ -142,7 +143,7 @@
       "id": "grid_7",
       "pos": [
         8,
-        12.4,
+        13.3,
         13
       ],
       "slot": {
@@ -158,7 +159,7 @@
       "id": "grid_8",
       "pos": [
         12,
-        12.4,
+        13.3,
         13
       ],
       "slot": {
@@ -173,9 +174,9 @@
     {
       "id": "hammer",
       "pos": [
-        12.5,
-        14.5,
-        13.5
+        12.3,
+        15,
+        14.2
       ],
       "slot": {
         "slot": "hammer",
@@ -190,7 +191,7 @@
       "id": "previous",
       "pos": [
         1.5,
-        10.6,
+        9.28,
         1.5
       ],
       "visual": {
@@ -228,7 +229,7 @@
       "id": "next",
       "pos": [
         11.25,
-        10.6,
+        9.28,
         1.5
       ],
       "visual": {
@@ -265,11 +266,11 @@
     {
       "id": "strike",
       "pos": [
-        23,
-        12.5,
-        5
+        8,
+        0,
+        0
       ],
-      "scale": 0.4,
+      "scale": 0.55,
       "control": {
         "control": "strike",
         "type": "button",
@@ -280,36 +281,43 @@
         ],
         "range": [
           0,
-          0.3
+          0.0001
         ]
       },
       "tooltip": "temperandtang.scene.strike",
       "collider": {
         "from": [
-          -6,
-          0,
-          -4
+          -3,
+          -2,
+          -4.5
         ],
         "to": [
-          6,
-          17,
-          4
+          3,
+          4,
+          11.5
         ]
       },
       "rotation": [
         0,
         0,
-        -30
+        0
       ],
       "visual": {
-        "model": "temperandtang:diegesis/striking_hammer"
-      }
+        "model": "temperandtang:diegesis/impact_hammer",
+        "anchor": [
+          8,
+          5,
+          4
+        ]
+      },
+      "children": [],
+      "hidden": true
     },
     {
       "id": "result",
       "pos": [
         8,
-        13,
+        13.3,
         9
       ],
       "output": {
@@ -322,8 +330,8 @@
       "id": "timing_rail",
       "pos": [
         8,
-        10.2,
-        1.3
+        9.32,
+        1.2
       ],
       "visual": {
         "model": "temperandtang:diegesis/timing_rail",
@@ -332,14 +340,15 @@
           0,
           0
         ]
-      }
+      },
+      "pickable": false
     },
     {
       "id": "timing_band",
       "pos": [
         8,
-        10.2,
-        1.3
+        9.64,
+        1.2
       ],
       "visual": {
         "model": "temperandtang:diegesis/timing_band",
@@ -348,14 +357,15 @@
           0,
           0
         ]
-      }
+      },
+      "pickable": false
     },
     {
       "id": "timing_marker",
       "pos": [
         8,
-        10.2,
-        1.3
+        10.0,
+        1.2
       ],
       "visual": {
         "model": "temperandtang:diegesis/timing_marker",
@@ -364,13 +374,14 @@
           0,
           0
         ]
-      }
+      },
+      "pickable": false
     },
     {
       "id": "gear",
       "pos": [
         8,
-        12.6,
+        13.25,
         9
       ],
       "slot": {
@@ -383,8 +394,8 @@
     {
       "id": "flux",
       "pos": [
-        3,
-        12.5,
+        13.6,
+        9.35,
         5
       ],
       "slot": {
@@ -414,7 +425,7 @@
       "id": "scribe",
       "pos": [
         14.5,
-        10.6,
+        9.28,
         1.5
       ],
       "scale": 0.17,
@@ -452,7 +463,7 @@
       "id": "category",
       "pos": [
         4.75,
-        10.6,
+        9.28,
         1.5
       ],
       "scale": 0.17,
@@ -490,7 +501,7 @@
       "id": "mode",
       "pos": [
         8,
-        10.6,
+        9.28,
         1.5
       ],
       "scale": 0.17,
@@ -523,6 +534,52 @@
         ]
       },
       "tooltip": "temperandtang.thermal.action.mode"
+    },
+    {
+      "id": "workpiece_display",
+      "pos": [
+        8,
+        0,
+        9
+      ],
+      "scale": 0.42,
+      "rotation": [
+        90,
+        0,
+        0
+      ],
+      "visual": {
+        "item": "minecraft:iron_sword",
+        "anchor": [
+          8,
+          8,
+          8
+        ]
+      },
+      "pickable": false,
+      "hidden": true
+    },
+    {
+      "id": "impact",
+      "pos": [
+        8,
+        0,
+        9
+      ],
+      "pickable": false
+    },
+    {
+      "id": "pattern_board",
+      "pos": [
+        8,
+        0,
+        8
+      ],
+      "pickable": false,
+      "visual": {
+        "model": "temperandtang:diegesis/pattern_board"
+      }
     }
-  ]
+  ],
+  "work_plane": 13
 }

@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/block",
+  "ambientocclusion": false,
   "textures": {
     "particle": "minecraft:block/water_still",
     "water": "minecraft:block/water_still"
@@ -13,26 +14,11 @@
       ],
       "to": [
         14,
-        0.1,
+        0,
         14
       ],
       "faces": {
-        "north": {
-          "texture": "#water"
-        },
-        "south": {
-          "texture": "#water"
-        },
-        "east": {
-          "texture": "#water"
-        },
-        "west": {
-          "texture": "#water"
-        },
         "up": {
-          "texture": "#water"
-        },
-        "down": {
           "texture": "#water"
         }
       }

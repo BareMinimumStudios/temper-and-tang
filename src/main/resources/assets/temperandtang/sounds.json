@@ -1,0 +1,23 @@
+{
+  "forge_impact": {
+    "subtitle": "subtitles.temperandtang.forge_impact",
+    "sounds": [
+      {
+        "name": "temperandtang:forge/forge_hit_1",
+        "volume": 1.0
+      },
+      {
+        "name": "temperandtang:forge/forge_hit_2",
+        "volume": 1.0
+      },
+      {
+        "name": "temperandtang:forge/forge_hit_3",
+        "volume": 1.0
+      },
+      {
+        "name": "temperandtang:forge/forge_hit_4",
+        "volume": 1.0
+      }
+    ]
+  }
+}

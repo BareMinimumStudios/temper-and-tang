@@ -265,7 +265,7 @@ object ThermalStations {
                 committedTarget=resultTarget;committedCost=hammerCost
                 s.state().setItem(WORKPIECE,result)
                 player.server?.let {SmithingProgress.get(it).award(player.uuid,CraftRules.earnedXp(job.accuracy,reforging))}
-                sound(s,SoundEvents.ANVIL_USE,0.6f,1.1f)
+
             }
             updateOutputs(s)
         }
@@ -325,7 +325,7 @@ object ThermalStations {
             if (ThermalState.quenched(stock,s.level()).isEmpty) { note(s,"invalid"); return }
             input=stock.copy(); start=s.level().gameTime; end=start+TemperAndTang.config.quenchingTicks.get()
             s.state().setItem(WATER,ItemStack(Items.BUCKET))
-            sound(s,SoundEvents.FIRE_EXTINGUISH,0.7f,1f)
+            s.effect(TemperAndTang.id("quench_started"),"quench",CompoundTag().also {it.putInt("ticks",TemperAndTang.config.quenchingTicks.get())})
             updateOutputs(s)
         }
         override fun tick(s: StationContext) {

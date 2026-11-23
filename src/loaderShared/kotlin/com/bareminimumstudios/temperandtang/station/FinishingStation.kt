@@ -70,7 +70,7 @@ object FinishingStation {
             val hammer=state.getItem(HAMMER).copy().also {it.damageValue+=config.requiredStrikes.get()}
             state.setItem(HAMMER,if(hammer.damageValue>=hammer.maxDamage)ItemStack.EMPTY else hammer)
             state.setItem(FINISHED,result)
-            s.level().playSound(null,s.pos(),SoundEvents.ANVIL_USE,SoundSource.BLOCKS,0.55f,1.15f)
+
             return true
         }
         override fun tick(s:StationContext) {

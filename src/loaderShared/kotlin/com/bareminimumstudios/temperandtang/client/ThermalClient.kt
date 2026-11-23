@@ -13,31 +13,27 @@ import org.lwjgl.glfw.GLFW
 
 object ThermalClient {
     fun initialize() {
+        DiegesisClient.registerParticle(TemperAndTang.id("forge_spark"),ParticleStyle.builder(ParticleStyle.frames("spark",8))
+            .color(0xFFFFD38A.toInt()).size(.45f,.85f).life(.22f,.42f).gravity(42f).drag(.25f).stretch().emissive().build())
         for ((name, action) in listOf("charcoal_hearth" to "heat", "shaping_anvil" to "strike", "quenching_trough" to "quench"))
             DiegesisClient.registerBehavior(TemperAndTang.id(name)) { Feedback(action) }
     }
     private class Feedback(val action: String) : StationBehavior {
-        private var progress = 0f
-        private var returnAfter = 0f
-        private var animationTime = 0f
-        override fun onOpen(view: StationView) { refresh(view) }
-        override fun onStateChanged(view: StationView, changes: StationState.Changes) {
-            val now = view.state().getControl("progress")
-            if (action == "strike" && now > progress) {
-                view.node("strike").ifPresent { it.rotateTo(0f,0f,35f,0.06f); it.moveTo(0f,-0.5f,0f,0.06f) }
-                returnAfter=0.08f
-            }
-            progress=now
-            refresh(view)
+        private val hammer=HammerPresentation(false)
+        private val quench=QuenchPresentation()
+        private val bellows=BellowsPresentation()
+        override fun onOpen(view:StationView) {if(action=="strike")hammer.sync(view);refresh(view)}
+        override fun onStateChanged(view:StationView,changes:StationState.Changes) {if(action=="strike")hammer.sync(view);refresh(view)}
+        override fun onEffect(view:StationView,effect:ResourceLocation,node:String?,data:CompoundTag) {
+            if(action=="strike")hammer.effect(effect,data)
+            if(action=="quench")quench.effect(effect,data)
         }
-        override fun frame(view: StationView, deltaSeconds: Float) {
-            animationTime+=deltaSeconds
+        override fun frame(view:StationView,deltaSeconds:Float) {
+
             val status=view.state().data().getString("status")
-            if(action=="heat") view.node("heat").ifPresent { it.moveTo(0f,if(status=="heating") -0.35f*(1f+kotlin.math.sin(animationTime*5f)) else 0f,0f,0.05f) }
-            if(action=="quench") view.node("quench").ifPresent { it.moveTo(if(status=="quenching") -9f else 0f,if(status=="quenching") -1f else 0f,0f,0.18f) }
-            if (returnAfter<=0f) return
-            returnAfter-=deltaSeconds
-            if (returnAfter<=0f) view.node("strike").ifPresent { it.rotateTo(0f,0f,0f,0.14f); it.moveTo(0f,0f,0f,0.14f) }
+            if(action=="heat")bellows.frame(view,deltaSeconds)
+            if(action=="strike")hammer.frame(view,deltaSeconds)
+            if(action=="quench")quench.frame(view,deltaSeconds)
         }
         override fun onKey(view: StationView, keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
             val command=when {
@@ -83,8 +79,8 @@ object ThermalClient {
                 } else {
                     val water=visibleState.getItem(com.bareminimumstudios.temperandtang.station.ThermalStations.WATER)
                     view.node("water_surface").ifPresent {it.setVisible(water.`is`(net.minecraft.world.item.Items.WATER_BUCKET) || status in listOf("quenching","ready"))}
-                    view.node("steam").ifPresent {it.setEmitting(status=="quenching")}
-                    view.node("stock").ifPresent {it.moveTo(0f,if(status=="quenching")-1.5f else 0f,0f,0.15f)}
+
+
                 }
             }
             val state=view.state()
@@ -110,8 +106,8 @@ object ThermalClient {
                 val ghost=ResourceLocation.tryParse(data.getString("ghost_"+i))?.let { ItemStack(BuiltInRegistries.ITEM.get(it)) }
                 view.node("grid_"+i).ifPresent { it.setGhostItems(if(ghost==null || ghost.isEmpty) emptyList() else listOf(ghost)) }
             }
-            view.node("timing_marker").ifPresent {it.moveTo((state.getControl("phase")-0.5f)*12f,0f,0f,0.04f)}
-            view.node("strike").ifPresent { it.setTint(if(state.getControl("beat")>0f) 0xFFFFC46B.toInt() else 0xFFFFFFFF.toInt()) }
+
+
         }
     }
 }

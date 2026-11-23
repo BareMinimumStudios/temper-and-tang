@@ -15,15 +15,16 @@
   "interface": {
     "inventory_panel": true,
     "show_counts": true,
-    "hide_player": true
+    "hide_player": true,
+    "shadows": false
   },
   "nodes": [
     {
       "id": "weapon",
       "pos": [
         8,
-        16.5,
-        8
+        14.25,
+        9
       ],
       "slot": {
         "slot": "weapon",
@@ -36,8 +37,8 @@
       "id": "material",
       "pos": [
         4,
-        8.7,
-        3
+        8.1,
+        2.1
       ],
       "slot": {
         "slot": "material",
@@ -50,8 +51,8 @@
       "id": "hammer",
       "pos": [
         12,
-        8.7,
-        3
+        8.1,
+        2.1
       ],
       "slot": {
         "slot": "hammer",
@@ -63,11 +64,11 @@
     {
       "id": "strike",
       "pos": [
-        18,
-        16,
-        8
+        8,
+        0,
+        0
       ],
-      "scale": 0.4,
+      "scale": 0.55,
       "control": {
         "control": "strike",
         "type": "button",
@@ -78,37 +79,44 @@
         ],
         "range": [
           0,
-          0.3
+          0.0001
         ]
       },
       "tooltip": "temperandtang.scene.strike",
       "collider": {
         "from": [
-          -6,
-          0,
-          -4
+          -3,
+          -2,
+          -4.5
         ],
         "to": [
-          6,
-          17,
-          4
+          3,
+          4,
+          11.5
         ]
       },
       "rotation": [
         0,
         0,
-        50
+        0
       ],
       "visual": {
-        "model": "temperandtang:diegesis/striking_hammer"
-      }
+        "model": "temperandtang:diegesis/impact_hammer",
+        "anchor": [
+          8,
+          5,
+          4
+        ]
+      },
+      "children": [],
+      "hidden": true
     },
     {
       "id": "result",
       "pos": [
         8,
-        16.8,
-        8
+        14.3,
+        9
       ],
       "output": {
         "output": "result",
@@ -120,8 +128,8 @@
       "id": "timing_rail",
       "pos": [
         8,
-        8.7,
-        1
+        8.22,
+        1.2
       ],
       "visual": {
         "model": "temperandtang:diegesis/timing_rail",
@@ -130,14 +138,15 @@
           0,
           0
         ]
-      }
+      },
+      "pickable": false
     },
     {
       "id": "timing_band",
       "pos": [
         8,
-        8.7,
-        1
+        8.540000000000001,
+        1.2
       ],
       "visual": {
         "model": "temperandtang:diegesis/timing_band",
@@ -146,14 +155,15 @@
           0,
           0
         ]
-      }
+      },
+      "pickable": false
     },
     {
       "id": "timing_marker",
       "pos": [
         8,
-        8.7,
-        1
+        8.9,
+        1.2
       ],
       "visual": {
         "model": "temperandtang:diegesis/timing_marker",
@@ -162,7 +172,41 @@
           0,
           0
         ]
-      }
+      },
+      "pickable": false
+    },
+    {
+      "id": "workpiece_display",
+      "pos": [
+        8,
+        0,
+        9
+      ],
+      "scale": 0.42,
+      "rotation": [
+        90,
+        0,
+        0
+      ],
+      "visual": {
+        "item": "minecraft:iron_sword",
+        "anchor": [
+          8,
+          8,
+          8
+        ]
+      },
+      "pickable": false,
+      "hidden": true
+    },
+    {
+      "id": "impact",
+      "pos": [
+        8,
+        0,
+        9
+      ],
+      "pickable": false
     }
   ],
   "inventory_drawer": {
@@ -172,5 +216,6 @@
     "compact": true,
     "margin": 12,
     "carry_size": 3.5
-  }
+  },
+  "work_plane": 14
 }

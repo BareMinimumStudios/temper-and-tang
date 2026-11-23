@@ -1,11 +1,9 @@
-# Temper & Tang 0.3.0 — Craftsmanship
+# Temper & Tang 0.3.1
 
-A standalone, hands-on smithing workshop for Fabric and NeoForge 1.21.1.
+Physical smithing presentation update for Minecraft 1.21.1 Fabric and NeoForge.
 
-Heat stock with coal or charcoal, follow an equipment pattern, strike to a changing rhythm, quench the committed workpiece, then add a smaller finishing treatment. Six server-rolled craftsmanship grades reward accuracy and smithing mastery while retaining a random contribution. Craftsmanship improves the equipment itself; enchantments remain a separate final enhancement.
+The same simple hammer appears as an item and at both anvils. Every accepted blow drives a contact pose, an original metallic clang and small hot sparks. Raw ingredients become a billet and then a blade blank before the completed workpiece appears.
 
-Metal weapons, tools, shields and armor are supported. Simply Swords, Simply More and Epic Knights use their own item identities. Advanced Epic Knights patterns use reusable blueprints. Existing gear can be heated and reforged with consumable smithing flux. Names, damage, enchantments and foreign data survive processing; bonuses do not stack repeatedly or provide free repairs.
+The bellows now folds and hinges as it pumps air into the hearth. Tongs grip, lower and retrieve the metal, with steam at immersion. Workstation geometry, texture mapping and timing cursor motion have been refined.
 
-The workshop includes owned tongs, contact-heat handling, directional models, contextual slots, a timing gauge, tiny sparks, varied anvil sounds, water and ember effects, and wrapped instructions. No Overgeared installation is needed. Required libraries remain Diegesis beta.17, Fzzy Config and the loader's Kotlin runtime.
-
-Read docs/THERMAL_WORKSHOP.md for controls and progression, docs/API.md for common tags and integration, and docs/VERIFICATION.md for tested behavior and remaining playtest scope. Build and release scripts stage both verified loader artifacts with checksums; nothing is uploaded automatically.
+Existing recipe integration, preservation, progression and configuration remain in place. Requires Diegesis, Fzzy Config and the appropriate Kotlin runtime. Simply Swords and Epic Knights remain optional.
