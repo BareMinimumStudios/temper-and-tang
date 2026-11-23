@@ -61,6 +61,26 @@ object ThermalVerification {
         val plans=WorkshopPlans.forming(level)
         val plan=plans.firstOrNull { it.recipe.getResultItem(level.registryAccess()).item==TemperContent.item("bronze_sword") }
             ?: error("The bronze sword is not reachable through the shaping station")
+        val probe=Fixture(source,"shaping_anvil")
+        for(candidate in plans) {
+            val grid=candidate.ghosts.map { if(WorkshopPlans.metal(it)) ThermalState.heated(it,level) else it.copy() }
+            check(candidate.matches(grid,level) && candidate.hot(grid,level)) { "Unreachable thermal pattern: "+candidate.id }
+            val output=candidate.output(grid,level,probe.player,candidate.required())
+            check(!output.isEmpty && output.count==1 && ThermalState.hot(output,level)) { "Invalid thermal output: "+candidate.id }
+            val saved=ItemStack.parseOptional(level.registryAccess(),output.save(level.registryAccess()) as CompoundTag)
+            val cooled=ThermalState.quenched(saved,level)
+            check(WorkshopPlans.basicWeapon(cooled) && !ThermalState.pending(cooled)) { "Unquenchable basic pattern: "+candidate.id }
+            if(candidate.native) check(NativeSmithing.quality(cooled) in listOf(null,"NONE","POOR","WELL"))
+        }
+        if(!NativeSmithing.loaded()) {
+            for(id in listOf("minecraft:iron_sword","minecraft:golden_sword","temperandtang:bronze_sword"))
+                check(level.recipeManager.byKey(ResourceLocation.parse(id)).orElseThrow().value() is ShapingRecipe) { "Ordinary grid bypass: "+id }
+        }
+        val iron=ItemStack(Items.IRON_INGOT,8)
+        val heating=WorkshopPlans.heating(iron,level)?:error("Iron cannot be heated")
+        val cooledIron=ThermalState.quenched(ThermalState.heated(heating.output,level),level)
+        check(cooledIron.`is`(Items.IRON_INGOT) && cooledIron.count==8 && !ThermalState.hot(cooledIron,level)) { "Native hot ingot cooling lost batch count" }
+        TemperAndTang.logger.info("TEMPER_THERMAL_PATTERNS_PASSED: {} heatable, matchable, serialized and quenchable basic patterns",plans.size)
         val hearth=Fixture(source,"charcoal_hearth")
         val shaper=Fixture(source,"shaping_anvil")
         val trough=Fixture(source,"quenching_trough")
@@ -146,6 +166,17 @@ object ThermalVerification {
                     cancel.put(T.STOCK,ItemStack(bronze,3));cancel.put(T.FUEL,ItemStack(Items.CHARCOAL,2));cancel.press("heat")
                     val left=cancel.state.getItem(T.FUEL).count
                     cancel.close();check(cancel.count(bronze)==3 && cancel.count(Items.CHARCOAL)==left)
+                    val cancelledQuench=Fixture(source,"quenching_trough")
+                    cancelledQuench.put(T.STOCK,ThermalState.heated(ItemStack(bronze,8),level))
+                    cancelledQuench.put(T.WATER,ItemStack(Items.WATER_BUCKET));cancelledQuench.press("quench")
+                    cancelledQuench.close()
+                    check(cancelledQuench.count(bronze)==8 && cancelledQuench.count(Items.BUCKET)==1 && cancelledQuench.count(Items.WATER_BUCKET)==0) { "Quench cancellation refunded water or lost stock" }
+                    val partial=Fixture(source,"shaping_anvil")
+                    plan.ghosts.forEachIndexed { i,stack -> partial.put(T.grid(i),if(WorkshopPlans.metal(stack)) ThermalState.heated(stack,level) else stack) }
+                    partial.put(T.HAMMER,ItemStack(TemperContent.item("smithing_hammer")));partial.press("strike")
+                    partial.close()
+                    check(partial.player.inventory.items.filter {it.item==TemperContent.item("smithing_hammer")}.single().damageValue==0) { "Partial shape charged tool wear" }
+                    check(partial.count(bronze)==plan.ghosts.filter { it.item==bronze }.sumOf { it.count }) { "Partial shape lost ingredients" }
                     val cool=ThermalState.airCooled(ThermalState.heated(ItemStack(bronze,8),level),level)
                     check(cool.count==8 && !ThermalState.hot(cool,level))
                     TemperAndTang.logger.info("TEMPER_THERMAL_VERIFY_PASSED: batch heating, fuel and water charges, cold/spam gates, native patterns/quality, committed cancellation, components and serialized heat")

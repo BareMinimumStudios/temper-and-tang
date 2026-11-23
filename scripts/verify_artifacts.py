@@ -27,6 +27,11 @@ def artifacts():
             assert "META-INF/licenses/THIRD_PARTY_NOTICES.txt" in files
             assert "assets/temperandtang/diegesis/scenes/finishing_anvil.json" in files
             assert "com/bareminimumstudios/temperandtang/station/FinishingStation.class" in files
+            for station in ("charcoal_hearth", "shaping_anvil", "quenching_trough"):
+                assert f"assets/temperandtang/diegesis/scenes/{station}.json" in files
+            assert "com/bareminimumstudios/temperandtang/station/ThermalStations.class" in files
+            assert "com/bareminimumstudios/temperandtang/smithing/ShapingRecipe.class" in files
+            assert "com/bareminimumstudios/temperandtang/client/ThermalClient.class" in files
             assert "temperandtang.mixins.json" in files
             assert "com/bareminimumstudios/temperandtang/client/TemperClient.class" in files
             assert "assets/temperandtang/models/diegesis/striking_hammer.json" in files

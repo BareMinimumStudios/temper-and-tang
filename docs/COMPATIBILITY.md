@@ -20,3 +20,9 @@ Pack-authored native forging recipes are preserved. New Test's existing gold rec
 - Diegesis beta.17 API and upstream station documentation: https://github.com/Pocky-l/diegesis
 
 These are independently implemented integrations. Simply Swords and its artwork remain under their separate license. The mod does not import Andromeda's global loot, travel or food restrictions into unrelated modpacks.
+
+## Thermal stations (0.2.0)
+
+See [thermal workshop](THERMAL_WORKSHOP.md). The optional native adapter was checked against Overgeared 1.7.1.1. Basic shaping imports only stone-tier, blueprint-free recipes without minigame-only/transfer-NBT/advanced quality requirements. Its quality range is Poor–Well and follows native ingredient caps and tiered-hammer settings. Native polishing and author components are retained. All shaped outputs start hot; native air-cooling and water routes remain available.
+
+Without Overgeared, the `temperandtang:shaping` recipe type delegates vanilla shaped matching/serialization while keeping basic weapons out of normal grid crafting. Its result becomes an encoded non-weapon workpiece until quenched. Existing native forging recipes, pack food tags/recipes, loot restrictions and Create progression are not rewritten by this feature.

@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.0
+
+- Added Diegesis charcoal hearth, shaping anvil and quenching trough with original block/control geometry.
+- Added fuel-paid batch heating, working-heat tooltips, ghost patterns, rhythmic hammer work, native quality limits and water-paid quenching.
+- Integrated supported stone-tier Overgeared basic recipes without replacing blueprint or advanced forging.
+- Added standalone shaping recipes and encoded unquenched workpieces to preserve the quenching progression.
+- Preserved native heat/cooling, names, enchantments, damage, quality, batch counts and foreign data.
+- Committed results on the final strike, guarded repeated actions, and kept cancellation costs explicit.
+- Added thermal operator diagnostics, timing tests and a survival workshop guide.
+
 ## 0.1.2
 
 - Replaced the red control with a working hammer, swing animation, metallic strikes and a completion sound.

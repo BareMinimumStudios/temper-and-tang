@@ -61,7 +61,7 @@
         8
       ],
       "visual": {
-        "item": "minecraft:blaze_powder"
+        "model": "temperandtang:diegesis/bellows"
       },
       "control": {
         "control": "heat",
@@ -78,17 +78,18 @@
       },
       "collider": {
         "from": [
-          -2,
-          -1,
-          -2
+          -7,
+          0,
+          -7
         ],
         "to": [
-          2,
-          3,
-          2
+          7,
+          15,
+          9
         ]
       },
-      "tooltip": "temperandtang.thermal.action.heat"
+      "tooltip": "temperandtang.thermal.action.heat",
+      "scale": 0.55
     },
     {
       "id": "result",

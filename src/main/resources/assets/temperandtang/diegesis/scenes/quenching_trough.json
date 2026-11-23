@@ -61,7 +61,7 @@
         8
       ],
       "visual": {
-        "item": "minecraft:bucket"
+        "model": "temperandtang:diegesis/dipping_tongs"
       },
       "control": {
         "control": "quench",
@@ -78,17 +78,18 @@
       },
       "collider": {
         "from": [
-          -2,
-          -1,
-          -2
+          -7,
+          0,
+          -7
         ],
         "to": [
-          2,
-          3,
-          2
+          7,
+          15,
+          9
         ]
       },
-      "tooltip": "temperandtang.thermal.action.quench"
+      "tooltip": "temperandtang.thermal.action.quench",
+      "scale": 0.55
     },
     {
       "id": "result",

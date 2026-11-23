@@ -10,6 +10,9 @@ class ShapingRecipe(val base: ShapedRecipe) : CraftingRecipe by base {
     override fun getType(): RecipeType<*> = ThermalRecipes.TYPE
     override fun getSerializer(): RecipeSerializer<*> = ThermalRecipes.SERIALIZER
     override fun isSpecial() = true
+    override fun getIngredients() = base.ingredients
+    override fun getGroup() = base.group
+    override fun getRemainingItems(input: CraftingInput) = base.getRemainingItems(input)
 }
 object ThermalRecipes {
     val TYPE: RecipeType<ShapingRecipe> = object : RecipeType<ShapingRecipe> {

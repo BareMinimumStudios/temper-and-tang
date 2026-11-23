@@ -190,17 +190,18 @@
       },
       "collider": {
         "from": [
+          -8,
           -2,
-          -1,
-          -2
+          -8
         ],
         "to": [
-          2,
-          3,
-          2
+          8,
+          8,
+          8
         ]
       },
-      "tooltip": "temperandtang.thermal.action.previous"
+      "tooltip": "temperandtang.thermal.action.previous",
+      "scale": 0.25
     },
     {
       "id": "next",
@@ -227,17 +228,18 @@
       },
       "collider": {
         "from": [
+          -8,
           -2,
-          -1,
-          -2
+          -8
         ],
         "to": [
-          2,
-          3,
-          2
+          8,
+          8,
+          8
         ]
       },
-      "tooltip": "temperandtang.thermal.action.next"
+      "tooltip": "temperandtang.thermal.action.next",
+      "scale": 0.25
     },
     {
       "id": "strike",

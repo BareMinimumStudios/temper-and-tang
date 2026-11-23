@@ -2,7 +2,7 @@
 
 Material-driven medieval smithing for **Minecraft 1.21.1**, written in Kotlin for **Fabric and NeoForge**. A Bare Minimum Studios project.
 
-The first playable implementation is a **Diegesis finishing anvil**: place a weapon, finishing material and smithing hammer directly on the workstation, work the piece, then take its finished result. Its rules and item consumption run on the server. Fzzy Config supplies the configuration interface, validation and synchronization.
+The playable prototype uses **Diegesis charcoal heating, rhythmic shaping, water quenching and weapon finishing**. Place materials directly on physical workstations, work the metal, then retrieve the result. Its rules and item consumption run on the server. Fzzy Config supplies the configuration interface, validation and synchronization.
 
 ## Current features
 
@@ -15,9 +15,14 @@ The first playable implementation is a **Diegesis finishing anvil**: place a wea
 - Simply Swords and Simply More weapons work in the finishing station without requiring a separate compatibility mod. Both are optional dependencies.
 - With Overgeared installed, the bronze sword and untouched basic Simply Swords iron/gold grid recipes are adapted to native forging. Existing forging/assembly recipes, upgrades and unique recipes are left alone.
 
+- Charcoal hearth, shaping anvil and quenching trough, with server-owned heat, fuel, work and water consumption.
+- Native Overgeared basic forging patterns and quality limits; standalone shaping when Overgeared is absent.
+
 ## Playing
 
 Install the correct loader JAR, Fzzy Config, Diegesis **beta.17** for your loader, and Fabric Language Kotlin or Kotlin for Forge. See `libraries.toml` for exact development dependency pins. Install Simply Swords, Simply More and Overgeared separately if desired.
+
+Follow the [thermal workshop guide](docs/THERMAL_WORKSHOP.md) to heat refined stock, shape basic weapons and quench them.
 
 Craft the Finishing Anvil, hammer and finishing material. Open the anvil, place a single damageable weapon, material and hammer in its world-space slots, then click the working hammer or press Space six times, waiting between blows. Keep the cursor empty. A caption shows the missing input, current strike count or finished output. Temper & Tang and Overgeared smithing hammers are accepted; a hammer needs enough remaining durability for the work. Taking a valid result consumes one material, six hammer durability and two experience levels by default. Leaving the station returns its inputs through Diegesis; no ingredients are consumed merely to preview a result.
 
@@ -50,7 +55,7 @@ The build creates separate Fabric and NeoForge JARs. Verified files, checksums, 
 
 ## Scope
 
-This is an initial prototype, not the complete heating/shaping/quenching simulation. The first workstation performs finishing; material-driven forging and further Diegesis scenes are next. The workstation and hammer use original model geometry with Minecraft textures. Several material icons and ore textures remain placeholders; no third-party artwork is extracted. Tin appears only in newly generated chunks.
+This is a working thermal and finishing prototype. The basic shaping station deliberately stops at stone-tier, blueprint-free weapons; advanced Overgeared forging remains with its native stations. Live station sessions return items when closed rather than keeping a persistent block inventory. Offline time does not consume working heat; world ticks do. The workstation and hammer use original model geometry with Minecraft textures. Several material icons and ore textures remain placeholders; no third-party artwork is extracted. Tin appears only in newly generated chunks.
 
 See [design](docs/DESIGN.md), [compatibility](docs/COMPATIBILITY.md), [development](DEVELOPMENT.md) and [release checklist](docs/RELEASING.md), [public API](docs/API.md) and [verification record](docs/VERIFICATION.md).
 

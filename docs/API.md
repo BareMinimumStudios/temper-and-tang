@@ -27,3 +27,11 @@ Add another mod's ingredients to `data/temperandtang/tags/item/finishing_materia
 The current API adds support for existing finish types. Arbitrary new finish definitions, material fluids and dynamic alloy profiles are future API work. Item finish schema version 1 is stored under `minecraft:custom_data` -> `temperandtang`; do not rewrite that data to apply bonuses. Let the server station calculate and consume the result. Finishes currently affect melee attributes and durability; custom projectile damage propagation needs its own integration.
 
 Recipe integration uses MixinExtras WrapMethod to compose with the normal recipe reload path. It never adds a global loot blacklist and does not override already-converted forging/assembly recipes.
+
+## Thermal recipes and stock
+
+`temperandtang:heatable_stock` accepts common refined ingots by default and can be extended additively. Do not add raw ores to this tag unless intentionally allowing direct reheating of them. The hearth preserves components and uses a native hot-result blasting recipe when one exists.
+
+`temperandtang:shaping` is a dedicated recipe serializer/type with vanilla shaped recipe fields. It exposes ingredients, remainders and result data, but cannot match ordinary crafting-table recipe-type queries. It is used when Overgeared is absent. With Overgeared installed, supported native `overgeared:forging` recipes supply the workshop's patterns instead. Basic supported result identities are bronze, vanilla iron/gold swords and enabled Simply Swords iron/gold weapons; advanced custom materials/blueprints are intentionally outside this prototype.
+
+Thermal schema version 1 lives under `minecraft:custom_data` → `temperandtang.thermal`, storing a world-tick `hot_until`, stage, and (only for a standalone unquenched workpiece) encoded `weapon`. Treat this as owned persistence data rather than a public modifier API. All completion and consumption must run through the server station; client captions and animations never authorize a result.

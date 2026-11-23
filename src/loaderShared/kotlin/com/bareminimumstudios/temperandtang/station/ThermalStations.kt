@@ -67,6 +67,9 @@ object ThermalStations {
         private var plan: WorkshopPlans.Heating? = null
         private var input = ItemStack.EMPTY
         private var completed = false
+        private var previewStock = ItemStack.EMPTY
+        private var preview: WorkshopPlans.Heating? = null
+        private var previewTick = -20L
         private fun reset(s: StationContext) {
             start = -1; end = -1; completed = false; plan = null
             s.state().setControl("progress",0f); s.state().setOutput("result",ItemStack.EMPTY)
@@ -120,9 +123,14 @@ object ThermalStations {
             val stock = s.state().getItem(STOCK)
             val ready = active() && completed && snapshot(stock,input) && ThermalState.hot(stock,s.level())
             s.state().setOutput("result",if (ready) stock.copy() else ItemStack.EMPTY)
-            val candidate = if (start < 0 && !completed) WorkshopPlans.heating(stock,s.level()) else plan
+            val candidate = if (start < 0 && !completed) {
+                if (!snapshot(stock,previewStock) || s.level().gameTime-previewTick >= 20) {
+                    previewStock=stock.copy(); preview=WorkshopPlans.heating(stock,s.level()); previewTick=s.level().gameTime
+                }
+                preview
+            } else plan
             s.state().setControl("fuel_cost",candidate?.let { ThermalRules.coalCost(ThermalRules.heatingTicks(it.perItem,stock.count)).toFloat() } ?: 1f)
-            note(s,when { !active()->"disabled"; ready->"ready"; start>=0->"heating"; stock.isEmpty->"stock"; ThermalState.hot(stock,s.level())->"already_hot"; else->"idle" },stock)
+            note(s,when { !active()->"disabled"; ready->"ready"; start>=0->"heating"; stock.isEmpty->"stock"; ThermalState.hot(stock,s.level())->"already_hot"; candidate != null && s.state().getItem(FUEL).count < s.state().getControl("fuel_cost").toInt()->"fuel"; else->"idle" },stock)
         }
         override fun takeOutput(s: StationContext, player: Player, output: String): ItemStack {
             val stock = s.state().getItem(STOCK)

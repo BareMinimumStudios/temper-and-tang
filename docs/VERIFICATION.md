@@ -1,4 +1,4 @@
-# Verification — 2026-11-22
+# Verification â€” 2026-11-22
 
 The 0.1.0 prototype was built with Java 21 and Gradle 9.9.2. Both loader builds, four common unit tests, resource checks, artifact checks and release staging passed.
 
@@ -49,3 +49,17 @@ The final client run loaded the actual NeoForge distribution JAR through a separ
 The isolated client copy excluded Diagonal Fences because its model modification failed in the development launcher. This test-only exclusion was not applied to New Test. No live two-player contention test or complete human playthrough of every Overgeared timing minigame was performed. Native recipe matching/assembly and finishing were verified as described above. Further thermal simulation and additional artwork remain future work.
 
 New Test received 0.1.2 after its mods, settings, worlds and gameplay data were backed up and 1,308 files checked. Required dependency JARs matched the tested copies. Existing food unification, workshop progression, settings and worlds were preserved.
+
+## 0.2.0 thermal workshop
+
+Built with Java 21 / Gradle 9.9.2. Six common unit tests and both loader builds passed, along with additive-tag, nine-grid-binding, recipe/model and distributable metadata checks. The distributions contain required thermal controller/client classes and no external client-harness code.
+
+Dedicated Fabric and NeoForge 1.21.1 servers passed thermal scenarios with Overgeared 1.7.1.1 / Simply Swords 1.70.2 and with those optional mods absent. Native mode matched, heated, assembled, serialized and quenched all 31 supported bronze/iron/gold patterns; standalone mode checked three base patterns and absence of ordinary grid crafting bypasses. A standalone recipe-delegation bug was found by these tests and corrected by explicitly forwarding ingredients and crafting remainders.
+
+The timed scenarios exercise an eight-ingot batch, fuel charged once, refusal without fuel, cold shaping rejection, alternating button/custom strike actions, same-beat spam guards, final-blow ingredient commitment, hammer wear, output ownership on close, partial-shape cancellation, spent fuel/water on cancellation, refusal without water, empty-bucket return, component preservation, quality caps and hot-item serialization. Native hot-iron cooling was checked for preserving all eight items. Existing finishing station scenarios were rerun after the heat restriction was added.
+
+The packaged NeoForge distribution ran through the existing isolated modpack/world copy using a window hidden before creation. Real FocusScreen mouse clicks heated and retrieved stock; mouse/Space strikes shaped a bronze weapon; Space immersed it and mouse output picking retrieved the cooled native weapon. Fire, anvil and quenching sounds were observed. All three Diegesis scenes loaded. Offscreen images were inspected; oversized book controls were reduced, and bellows/tongs replaced item placeholders. The copied fixture's pre-existing Diagonal Fences exclusion remains a limitation, as recorded under 0.1.1.
+
+The external harness, server fixtures and copied world remain outside the distributed mod. New Test's mods, settings, food unification and progression were not changed during this thermal pass. Nothing was pushed or published.
+
+Remaining playtest scope: Fabric graphical interaction, live multiplayer contention/disconnect timing, full-inventory overflow, long-session balancing and broader third-party recipe variants. Stations return session inventory on close rather than persisting unattended block inventories. Overgeared's native cooling and hot-item handling remain authoritative; no blanket rewrite of advanced forging was introduced.

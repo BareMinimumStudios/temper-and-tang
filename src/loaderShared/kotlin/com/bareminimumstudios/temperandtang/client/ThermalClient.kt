@@ -19,6 +19,7 @@ object ThermalClient {
     private class Feedback(val action: String) : StationBehavior {
         private var progress = 0f
         private var returnAfter = 0f
+        private var animationTime = 0f
         override fun onOpen(view: StationView) { refresh(view) }
         override fun onStateChanged(view: StationView, changes: StationState.Changes) {
             val now = view.state().getControl("progress")
@@ -30,6 +31,10 @@ object ThermalClient {
             refresh(view)
         }
         override fun frame(view: StationView, deltaSeconds: Float) {
+            animationTime+=deltaSeconds
+            val status=view.state().data().getString("status")
+            if(action=="heat") view.node("heat").ifPresent { it.moveTo(0f,if(status=="heating") -0.35f*(1f+kotlin.math.sin(animationTime*5f)) else 0f,0f,0.05f) }
+            if(action=="quench") view.node("quench").ifPresent { it.moveTo(0f,if(status=="quenching") -3f else 0f,0f,0.18f) }
             if (returnAfter<=0f) return
             returnAfter-=deltaSeconds
             if (returnAfter<=0f) view.node("strike").ifPresent { it.rotateTo(0f,0f,0f,0.14f); it.moveTo(0f,0f,0f,0.14f) }
