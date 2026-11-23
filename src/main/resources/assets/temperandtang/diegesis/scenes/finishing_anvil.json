@@ -14,7 +14,8 @@
   },
   "interface": {
     "inventory_panel": true,
-    "show_counts": true
+    "show_counts": true,
+    "hide_player": true
   },
   "nodes": [
     {
@@ -123,7 +124,12 @@
         1
       ],
       "visual": {
-        "model": "temperandtang:diegesis/timing_rail"
+        "model": "temperandtang:diegesis/timing_rail",
+        "anchor": [
+          0,
+          0,
+          0
+        ]
       }
     },
     {
@@ -134,7 +140,12 @@
         1
       ],
       "visual": {
-        "model": "temperandtang:diegesis/timing_band"
+        "model": "temperandtang:diegesis/timing_band",
+        "anchor": [
+          0,
+          0,
+          0
+        ]
       }
     },
     {
@@ -145,7 +156,12 @@
         1
       ],
       "visual": {
-        "model": "temperandtang:diegesis/timing_marker"
+        "model": "temperandtang:diegesis/timing_marker",
+        "anchor": [
+          0,
+          0,
+          0
+        ]
       }
     }
   ],

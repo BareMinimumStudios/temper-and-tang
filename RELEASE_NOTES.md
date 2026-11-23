@@ -1,9 +1,11 @@
-# Temper & Tang 0.2.1 — owned tools and hot-metal handling
+# Temper & Tang 0.3.0 — Craftsmanship
 
-Temper & Tang is a standalone smithing mod. Its craftable Smithing Tongs protect either hand while moving hot stock; no other smithing mod is needed.
+A standalone, hands-on smithing workshop for Fabric and NeoForge 1.21.1.
 
-Hot metal causes half a heart of contact damage every two seconds by default when handled without tongs. It does not set the player persistently on fire. Tongs have 256 durability, can be repaired with iron, and wear at most once per ten seconds of active handling. Multiple stacks never multiply charges. Inventory/cursor heat expires automatically, while a cold unquenched workpiece must still be reheated and quenched before use.
+Heat stock with coal or charcoal, follow an equipment pattern, strike to a changing rhythm, quench the committed workpiece, then add a smaller finishing treatment. Six server-rolled craftsmanship grades reward accuracy and smithing mastery while retaining a random contribution. Craftsmanship improves the equipment itself; enchantments remain a separate final enhancement.
 
-Heating, shaping, quenching and finishing are owned workflows using Diegesis and Fzzy Config. Simply Swords remains an optional weapon integration. The legacy Overgeared recipe bridge is off by default.
+Metal weapons, tools, shields and armor are supported. Simply Swords, Simply More and Epic Knights use their own item identities. Advanced Epic Knights patterns use reusable blueprints. Existing gear can be heated and reforged with consumable smithing flux. Names, damage, enchantments and foreign data survive processing; bonuses do not stack repeatedly or provide free repairs.
 
-Built for Fabric and NeoForge 1.21.1. Read docs/THERMAL_WORKSHOP.md for recipes, controls, costs and configuration. The verification record documents standalone server/client coverage and remaining playtest scope.
+The workshop includes owned tongs, contact-heat handling, directional models, contextual slots, a timing gauge, tiny sparks, varied anvil sounds, water and ember effects, and wrapped instructions. No Overgeared installation is needed. Required libraries remain Diegesis beta.17, Fzzy Config and the loader's Kotlin runtime.
+
+Read docs/THERMAL_WORKSHOP.md for controls and progression, docs/API.md for common tags and integration, and docs/VERIFICATION.md for tested behavior and remaining playtest scope. Build and release scripts stage both verified loader artifacts with checksums; nothing is uploaded automatically.

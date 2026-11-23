@@ -14,7 +14,8 @@
   },
   "interface": {
     "inventory_panel": true,
-    "show_counts": true
+    "show_counts": true,
+    "hide_player": true
   },
   "inventory_drawer": {
     "side": "bottom",

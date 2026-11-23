@@ -103,6 +103,11 @@ object CraftVerification {
         val progress=SmithingProgress();val uuid=UUID.randomUUID();progress.award(uuid,30)
         val loaded=SmithingProgress.load(progress.save(CompoundTag(),source.registryAccess()),source.registryAccess())
         check(loaded.xp(uuid)==30L && loaded.level(uuid)==1)
+        val movementIds=listOf(Items.IRON_HELMET,Items.IRON_CHESTPLATE,Items.IRON_LEGGINGS,Items.IRON_BOOTS).map {item->
+            val light=WeaponFinishes.preview(ItemStack(item),Finish.LIGHTENED)
+            light.get(DataComponents.ATTRIBUTE_MODIFIERS)!!.modifiers().single {it.attribute()==net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED}.modifier().id()
+        }
+        check(movementIds.toSet().size==4) {"Armor movement modifiers collide across equipment slots"}
         var patterns=0;var armor=0;var knights=0;var swords=0
         for(plan in WorkshopPlans.forming(source.level)) {
             val grid=plan.ghosts.map {if(WorkshopPlans.metal(it))ThermalState.heated(it,source.level)else it.copy()}
@@ -113,9 +118,14 @@ object CraftVerification {
             if(plan.id.namespace=="magistuarmory")knights++
             if(plan.id.namespace=="simplyswords")swords++
         }
-        check(patterns>0 && armor>0)
-        if(TemperAndTang.modLoaded("magistuarmory") && TemperAndTang.config.epicKnights.get())check(knights>0) {"Epic Knights patterns are missing"}
-        if(TemperAndTang.modLoaded("simplyswords") && TemperAndTang.config.simplySwords.get())check(swords>0) {"Simply Swords patterns are missing"}
+        val routed=TemperAndTang.config.thermalEnabled.get() && TemperAndTang.config.recipeIntegration.get()
+        if(routed)check(patterns>0 && armor>0)
+        else {
+            check(source.server.recipeManager.byKey(ResourceLocation.parse("minecraft:iron_sword")).orElseThrow().value().type==net.minecraft.world.item.crafting.RecipeType.CRAFTING)
+            check(source.server.recipeManager.byKey(TemperAndTang.id("bronze_sword")).orElseThrow().value().type==net.minecraft.world.item.crafting.RecipeType.CRAFTING)
+        }
+        if(routed && TemperAndTang.modLoaded("magistuarmory") && TemperAndTang.config.epicKnights.get())check(knights>0) {"Epic Knights patterns are missing"}
+        if(routed && TemperAndTang.modLoaded("simplyswords") && TemperAndTang.config.simplySwords.get())check(swords>0) {"Simply Swords patterns are missing"}
         TemperAndTang.logger.info("TEMPER_CRAFT_STATS_PASSED: {} gear types, six grades, stat/finish/persistence invariants; {} patterns ({} armor, {} Epic Knights, {} Simply Swords)",stacks.size,patterns,armor,knights,swords)
     }
     fun startFinishing(source:CommandSourceStack) {
@@ -172,7 +182,8 @@ object CraftVerification {
                     plan.ghosts.forEachIndexed {i,it->shaper.put(T.grid(i),it)};shaper.put(T.HAMMER,ItemStack(hammer));shaper.press("strike");check(shaper.state.getControl("progress")==0f)
                     prepare(shaper);phase=1
                 }
-                1->if(shaper.state.getControl("misses")>=1f) {check(shaper.state.getControl("progress")==0f);phase=2}
+                1->if(shaper.aim()) {shaper.press("strike");phase=11}
+                11->if(shaper.state.getControl("misses")>=1f) {check(shaper.state.getControl("progress")==1f);phase=2}
                 2->if(shaper.aim()) {
                     val before=shaper.state.getControl("progress");shaper.press("strike",false);shaper.press("strike")
                     check(shaper.state.getControl("progress")==before+1) {"Shaping spam bypass"}

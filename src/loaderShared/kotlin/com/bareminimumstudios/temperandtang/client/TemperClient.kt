@@ -90,6 +90,9 @@ object TemperClient {
                 !state.getOutput("result").isEmpty -> "take_result"
                 else -> "instructions"
             }
+            for(id in listOf("timing_rail","timing_band","timing_marker"))view.node(id).ifPresent {it.setVisible(key=="instructions" && !ready)}
+            val perfect=(state.getControl("window").toInt()/2+1).toFloat()
+            view.node("timing_band").ifPresent {it.scaleTo(12f*perfect/TemperAndTang.config.shapingBeatTicks.get(),0.05f)}
             val caption=Component.translatable("temperandtang.station." + key,
                 state.getControl("progress").toInt(), TemperAndTang.config.requiredStrikes.get(),
                 TemperAndTang.config.experienceLevels.get())

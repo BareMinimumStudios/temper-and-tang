@@ -30,6 +30,7 @@ object FinishingStation {
                 .control("strike",ControlSpec.button()).control("progress",ControlSpec.range(0f,40f,0f).locked())
                 .control("target",ControlSpec.range(0f,60f,0f).locked()).control("phase",ControlSpec.range(0f,1f,0f).locked())
                 .control("beat",ControlSpec.range(0f,1f,0f).locked()).control("accuracy",ControlSpec.range(0f,100f,0f).locked())
+                .control("window",ControlSpec.range(0f,10f,0f).locked())
                 .control("last_score",ControlSpec.range(0f,1f,0f).locked()).output("result").build())
             .exclusive().openWhen {_,_,_->TemperAndTang.config.enabled.get()}.logic {Logic()}.register()
     }
@@ -49,7 +50,7 @@ object FinishingStation {
             if(!valid(s))return
             val job=work?:return
             if(job.ready) {commit(s,player);updateOutputs(s);return}
-            val score=job.strike(s.level().gameTime)?:return
+            val score=job.strike(s.level().gameTime,TemperAndTang.config.strikeIntervalTicks.get())?:return
             SmithingFeedback.strike(s,"weapon",score)
             if(job.ready)commit(s,player)
             updateOutputs(s)
@@ -85,6 +86,7 @@ object FinishingStation {
             val finish=WeaponFinishes.ingredient(state.getItem(MATERIAL))
             state.setOutput("result",if(!actual.isEmpty)actual.copy() else if(job?.ready==true && finish!=null)WeaponFinishes.preview(state.getItem(WEAPON),finish,job.accuracy) else ItemStack.EMPTY)
             state.setControl("progress",job?.hits?.toFloat()?:0f);state.setControl("accuracy",((job?.accuracy?:0.0)*100).toFloat())
+            state.setControl("window",job?.window?.toFloat()?:0f)
             state.setControl("target",((job?.target?:s.level().gameTime)-s.level().gameTime).toFloat().coerceIn(0f,60f))
             state.setControl("phase",job?.phase(s.level().gameTime)?:0f);state.setControl("last_score",job?.lastScore?.toFloat()?:0f)
             state.setControl("beat",if(job!=null && kotlin.math.abs(s.level().gameTime-job.target)<=job.perfectWindow)1f else 0f)

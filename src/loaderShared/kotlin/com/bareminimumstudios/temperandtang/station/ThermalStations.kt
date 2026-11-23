@@ -241,7 +241,7 @@ object ThermalStations {
             updateOutputs(s)
             if(status(s)!="work")return
             val job=work?:return
-            val score=job.strike(s.level().gameTime)?:return
+            val score=job.strike(s.level().gameTime,TemperAndTang.config.strikeIntervalTicks.get())?:return
             SmithingFeedback.strike(s,"grid_4",score)
             if(job.ready) {
                 val gear=s.state().getItem(GEAR)

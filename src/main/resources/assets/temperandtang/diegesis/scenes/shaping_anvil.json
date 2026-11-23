@@ -14,7 +14,8 @@
   },
   "interface": {
     "inventory_panel": true,
-    "show_counts": true
+    "show_counts": true,
+    "hide_player": true
   },
   "inventory_drawer": {
     "side": "bottom",
@@ -321,33 +322,48 @@
       "id": "timing_rail",
       "pos": [
         8,
-        12.6,
+        10.2,
         1.3
       ],
       "visual": {
-        "model": "temperandtang:diegesis/timing_rail"
+        "model": "temperandtang:diegesis/timing_rail",
+        "anchor": [
+          0,
+          0,
+          0
+        ]
       }
     },
     {
       "id": "timing_band",
       "pos": [
         8,
-        12.6,
+        10.2,
         1.3
       ],
       "visual": {
-        "model": "temperandtang:diegesis/timing_band"
+        "model": "temperandtang:diegesis/timing_band",
+        "anchor": [
+          0,
+          0,
+          0
+        ]
       }
     },
     {
       "id": "timing_marker",
       "pos": [
         8,
-        12.6,
+        10.2,
         1.3
       ],
       "visual": {
-        "model": "temperandtang:diegesis/timing_marker"
+        "model": "temperandtang:diegesis/timing_marker",
+        "anchor": [
+          0,
+          0,
+          0
+        ]
       }
     },
     {

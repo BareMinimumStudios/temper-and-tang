@@ -41,7 +41,7 @@ object GearStats {
             if(effect.speed!=0.0)builder.add(Attributes.ATTACK_SPEED,AttributeModifier(TemperAndTang.id("finish_speed"),effect.speed,AttributeModifier.Operation.ADD_MULTIPLIED_BASE),EquipmentSlotGroup.MAINHAND)
         } else if(finish==Finish.LIGHTENED && input.item is ArmorItem) {
             val slot=when((input.item as ArmorItem).equipmentSlot) {EquipmentSlot.HEAD->EquipmentSlotGroup.HEAD;EquipmentSlot.CHEST->EquipmentSlotGroup.CHEST;EquipmentSlot.LEGS->EquipmentSlotGroup.LEGS;else->EquipmentSlotGroup.FEET}
-            builder.add(Attributes.MOVEMENT_SPEED,AttributeModifier(TemperAndTang.id("finish_movement"),TemperAndTang.config.lightenedArmorSpeed.get()*strength,AttributeModifier.Operation.ADD_MULTIPLIED_BASE),slot)
+            builder.add(Attributes.MOVEMENT_SPEED,AttributeModifier(TemperAndTang.id("finish_movement_"+slot.name.lowercase(java.util.Locale.ROOT)),TemperAndTang.config.lightenedArmorSpeed.get()*strength,AttributeModifier.Operation.ADD_MULTIPLIED_BASE),slot)
         }
         result.set(DataComponents.ATTRIBUTE_MODIFIERS,builder.build().withTooltip(old.showInTooltip()))
         return result

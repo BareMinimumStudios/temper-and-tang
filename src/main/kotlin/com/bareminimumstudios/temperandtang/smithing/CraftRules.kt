@@ -36,24 +36,27 @@ class HammerWork(private val required:Int,private val period:Int,private val bas
     var lastScore=0.0;private set
     private var points=0.0
     private var lastHit=Long.MIN_VALUE
+    private var minimumGap=8
     var armed=false;private set
     val ready get()=hits>=required
     val accuracy get()=(points/(hits+misses).coerceAtLeast(1)).coerceIn(0.0,1.0)
     fun arm(now:Long) { if(!armed && !ready) {armed=true;next(now)} }
     private fun next(now:Long) {
         val span=jitter.coerceIn(0,12)
-        target=now+(period.coerceIn(16,60)+random(span*2+1)-span).coerceAtLeast(12)
+        target=now+(period.coerceIn(16,60)+random(span*2+1)-span).coerceAtLeast(maxOf(12,minimumGap))
         window=(baseWindow+random(3)-1).coerceIn(2,8)
     }
     fun tick(now:Long):Boolean {
         if(!armed || ready || now<=target+window*3L)return false
-        misses=(misses+1).coerceAtMost(10000);lastScore=0.0;next(now);return true
+        if(hits>0)misses=(misses+1).coerceAtMost(10000)
+        lastScore=0.0;next(now);return true
     }
     fun strike(now:Long,minGap:Int=8):Double? {
         if(!armed || ready || now<0 || lastHit!=Long.MIN_VALUE && (now<lastHit || now-lastHit<minGap.coerceAtLeast(1)))return null
         tick(now)
         val delta=abs(now-target)
         val score=when {delta<=perfectWindow.toLong()->1.0;delta<=window->0.75;delta<=window*2L->0.40;else->0.10}
+        minimumGap=minGap.coerceIn(1,40)
         lastHit=now;lastScore=score;hits++;points+=score;if(score==1.0)perfect++
         if(!ready)next(now)
         return score

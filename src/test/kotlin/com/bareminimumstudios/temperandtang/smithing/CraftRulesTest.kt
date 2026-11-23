@@ -22,6 +22,17 @@ class CraftRulesTest {
         assertEquals(1.0,work.strike(work.target));assertEquals(1.0,work.strike(work.target))
         assertTrue(work.ready);assertEquals(0.75,work.accuracy);assertNull(work.strike(work.target+100))
     }
+    @Test fun `waiting before the first blow is free and custom cooldowns leave reachable targets`() {
+        val work=HammerWork(3,16,3,0){0}
+        work.arm(100)
+        repeat(4) {work.tick(work.target+30)}
+        assertEquals(0,work.misses)
+        val first=work.target
+        assertEquals(1.0,work.strike(first,40))
+        assertTrue(work.target-first>=40)
+        assertNull(work.strike(first+39,40))
+        assertEquals(1.0,work.strike(work.target,40))
+    }
     @Test fun `mastery grows with successful work and reforging gives less experience`() {
         assertEquals(0,CraftRules.level(0));assertEquals(1,CraftRules.level(25));assertEquals(20,CraftRules.level(Long.MAX_VALUE))
         assertTrue(CraftRules.earnedXp(1.0,false)>CraftRules.earnedXp(1.0,true))
