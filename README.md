@@ -13,7 +13,8 @@ The first revision uses **Diegesis charcoal heating, scored hammer work, water q
 - Six server-rolled craftsmanship grades, weighted toward strike accuracy, with a smaller random contribution and smithing mastery bonus.
 - Player mastery, maker records, reusable advanced blueprints and paid hot-gear reforging with smithing flux.
 - Optional Simply Swords, Simply More and Epic Knights support using their original item identities and authored recipes.
-- Tin ore and raw tin; copper/tin bronze blending; additive common material and tool tags.
+- Tin ore, furnace refining and counted hearth alloys: 3 copper + 1 tin → 4 bronze; iron + carbon → steel.
+- Bronze and steel tool/armor families, plus bronze/iron/steel daggers, spears and warhammers; additive common tags and optional Better Combat profiles.
 - Owned Smithing Tongs, bounded contact burns and wear, automatic inventory/cursor cooling and unusable unquenched workpieces.
 - Directional workstations, contextual slots, physical hammer controls, a changing timing gauge, tiny sparks, varied anvil sounds, water and embers.
 - Tempered, Keen, Weighted and Lightened finishes. Precision controls the smaller finish bonus. Armor accepts Tempered or Lightened.
@@ -22,6 +23,8 @@ The first revision uses **Diegesis charcoal heating, scored hammer work, water q
 ## Playing
 
 Install the correct loader JAR, Fzzy Config, Diegesis **beta.17** for your loader, and Fabric Language Kotlin or Kotlin for Forge. See `libraries.toml` for exact development dependency pins. Simply Swords, Simply More and Epic Knights are optional equipment integrations. Overgeared is not required or used. The workshop handles weapons, tools, shields and metal armor with server-owned craftsmanship, mastery and reusable blueprints.
+
+See [metals and equipment](docs/METALLURGY.md) for the standalone catalog, bootstrap route and alloy ratios.
 
 See [materials and traits](docs/MATERIALS_AND_TRAITS.md) for the equipment trade-offs.
 

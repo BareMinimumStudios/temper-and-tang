@@ -1,5 +1,16 @@
 # Changelog
 
+
+## 0.5.0
+
+- Added standalone bronze/steel tools and armor, plus bronze/iron/steel daggers, spears and warhammers (27 owned equipment items total).
+- Added counted, data-driven hearth refining and alloying with a separate additive dish, concise yield/fuel guidance and exact input consumption.
+- Added steel ingots, nuggets and storage blocks; retained the furnace bronze bootstrap and added bronze tongs crafting.
+- Added common tags, vanilla armor trims, appropriate creative tabs and optional Better Combat profiles.
+- Bridged only Epic Knights' unchanged fast steel shortcut into carbon alloying. Removed/custom recipes remain authoritative.
+- Preserved native gilding material records and external upgrade components, raw durability adjustments and foreign affixes without quality stacking.
+- Added codec, batch, survival-route, cancellation, preservation and actual workstation client checks on both loaders.
+
 ## 0.4.2
 
 - Preserved separate bellows compression puffs while smoothing their timing, texture, fade-in and the coals' brightness response.

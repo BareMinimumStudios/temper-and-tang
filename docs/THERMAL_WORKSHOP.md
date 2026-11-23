@@ -4,9 +4,11 @@ Temper & Tang supplies its own tools, heat, shaping and quenching. It requires D
 
 The station normally shows only your step, next action and ingredients. **H** opens extra help. Hold **Shift** over forged equipment for detailed stats and maker information. Colors highlight quantities and important actions without replacing the words.
 
+For the complete bronze/iron/steel equipment route and counted alloys, see [metals and equipment](METALLURGY.md).
+
 ## Make the tools and workstations
 
-- **Smithing Tongs:** two iron nuggets in the top corners, two iron ingots beneath them, and a stick in the bottom centre. Common iron and wooden-rod tags work. Repair the tongs with an iron ingot at a vanilla anvil.
+- **Smithing Tongs:** two iron or bronze nuggets in the top corners, two matching ingots beneath them, and a stick in the bottom centre. Common iron and wooden-rod tags work. Repair the tongs with an iron ingot at a vanilla anvil.
 - **Smithing Hammer:** the normal bronze-and-stick recipe shown in your recipe viewer.
 - **Charcoal Hearth:** seven cobblestone around coal or charcoal; leave the top-middle space empty.
 - **Shaping Anvil:** three bronze ingots above one smooth stone and three planks.

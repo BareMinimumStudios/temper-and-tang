@@ -20,3 +20,14 @@ References inspected during development include [Overgeared](https://github.com/
 Version 0.4.0 checks every available routed pattern through actual output forging, quenching, a compatible finish and serialization. The NeoForge fixture also exercised Simply More from a separate optional test copy. Its disabled state in the live profile is preserved. Vanilla metal hoes are included in routing rather than bypassing the workshop because of low attack damage.
 
 Material/trait strengths are saved with forged items. Finishing and ordinary netherite upgrades preserve those records; the latter refreshes the material and the raw stat baseline. Default guidance is short, H shows station help and Shift reveals equipment details. No compatibility path enables another mod's loot or implicit abilities, or restores a recipe removed by the pack.
+
+
+## Catalog and metallurgy (0.5)
+
+The standalone catalog supplies bronze and steel equipment and three extra weapon forms for bronze, iron and steel. It uses native tool/armor behavior, repair tags, vanilla trim/enchantment tags and optional Better Combat profiles. Another smithing or weapon mod is not needed.
+
+Epic Knights common steel and nugget tags accept workshop materials. Both loader fixtures matched and assembled 77 native component recipes using those inputs. Its default fast iron-to-steel blast recipe is narrowly bridged into a carbon alloy; pack-authored alternatives and deleted recipes remain untouched. See the API for the explicit opt-out. Native steel armet gilding retains material, trait, workmanship, finish and wear even when the decorated output name does not identify steel.
+
+Forging an upgrade keeps foreign component patches, portable vanilla metadata and foreign attribute additions unless the result explicitly authors that component. The new item's native base stats remain authoritative. Only the external raw durability difference carries forward; previous craftsmanship multipliers are not baked into the next baseline. Recipe-authored custom data wins on conflicts. Finishing and native smithing upgrades retain the original workmanship as before.
+
+References inspected: [Overgeared](https://modrinth.com/mod/overgeared), [Overgeared × Epic Knights](https://modrinth.com/project/overgeared-x-epic-knights), and the installed Simply Swords/Epic Knights recipe and tag data. Compatibility here is independently implemented; no addon source or artwork is bundled.

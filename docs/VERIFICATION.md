@@ -83,3 +83,30 @@ This is a tested first revision, not a claim that every mod combination or long-
 The hidden development copy excluded Diagonal Fences because its model modification fails in that launcher; the live profile was not changed for that test workaround. Existing pack warnings include optional missing models, recipe-viewer categories and third-party data-fixer messages. A Small Ships config-unload error can occur after all dimensions have saved; that external shutdown issue was not represented as a Temper & Tang gameplay failure or silently patched in the live pack.
 
 All automated gameplay fixtures, worlds and external test-driver sources are separate from the distributable mod and live saved worlds. No artifact is published by the build or release scripts.
+
+
+## 0.5.0 equipment and metallurgy verification
+
+Java 21; Fabric Loader 0.20.1 / NeoForge 21.1.267; Diegesis beta.17. Production JARs were used in isolated runtime fixtures. No live profile or user world was changed.
+
+| Check | Evidence and scope |
+| --- | --- |
+| Build and pure rules | Both loader distributions built; 24 unit tests passed, including complete-batch/output bounds and material conservation. Resource and artifact verifiers validate JSON, scene bindings, common tags, metadata and packaged alloy/catalog classes. |
+| Enabled optional integrations | Both dedicated servers passed `/temperandtang verify` and `verify_metallurgy`. All 404 NeoForge / 374 Fabric available patterns were forged, quenched, finished and serialized by the diagnostic. NeoForge includes 30 Simply More patterns; both include 274 Epic Knights and 45 Simply Swords patterns. |
+| Standalone | Optional weapon mods removed from both isolated fixtures; verification and metallurgy passed with 55 patterns, including 20 armor patterns, and zero optional patterns. |
+| Integrations disabled | Optional mods restored, their support switches and recipe integration disabled; both servers started and verification passed with zero routed patterns. |
+| Alloy correctness | JSON/network recipe codec roundtrips; actual raw copper/iron/tin and bronze-blend smelting; six copper plus three tin gives eight bronze and one spare tin; eight iron plus eight carbon gives eight steel and costs two separate fuel. Hot stock works. Missing fuel, partial batches and overflow are refused. |
+| Consumption and cancellation | Closing cancels without producing alloy; stock/additive are returned, burned fuel stays spent. Input mutation invalidates the running plan. Output collection is single-use; hot state survives serialization. |
+| Mining and repairs | Every new catalog item accepts its common-tag repair metal. Bronze mines iron but not diamond; steel mines diamond but not obsidian. |
+| Native compatibility | 77 actual Epic Knights component recipes matched and assembled using workshop steel/nuggets. Native armet gilding retains workmanship, steel material, trait, finish, wear and raw durability provenance. Removed/custom native steel recipes are not recreated or rewritten. |
+| Component preservation | Upgrade fixture preserves external durability adjustments, foreign damage affixes, portable metadata and custom data. Authored result values win; previous quality does not multiply into a new raw baseline. Repeated stat rebuilds do not stack bonuses. |
+| Actual NeoForge controls | Hidden survival clients completed raw tin/copper → bronze and raw iron → steel → sword → quench → finish using the physical Diegesis slots and timing controls. Expected fuel and leftover quantities were checked. All 26 newly added equipment models loaded; bronze/steel armor was worn and rendered. |
+| Actual Fabric controls | Hidden survival client completed raw iron → steel → sword → quench → finish, with exact fuel/ingredient checks and all 26 new models loaded. |
+| Disk persistence | Bronze and steel NeoForge workflows were restarted and compared against six saved actual inventory/equipment records plus mastery. The steel check used its own world to avoid integrated-server host inventory sharing between test identities. |
+| Complete current pack | Copied New Test mods/configs into a separate directory and used the cached installed NeoForge runtime. Raw iron → steel → shaping → quenching → finishing passed through actual controls. Six worn/crafted records and mastery survived a full restart. Live New Test stayed on 0.4.2. |
+
+The complete pack still logs Small Ships' `getFullPath()` config-unloading exception after saving during shutdown. The progression and subsequent saved-item reload passed; this revision does not change that mod or reinstall an unload workaround. The development launcher also produced unrelated model-transform errors not reproduced by the installed runtime. Offline verification identities can produce external-service authentication warnings.
+
+Runtime logs and captures are retained in the isolated verification workspace: `final-050-preservation-metallurgy.log`, `standalone-050.log`, `flags-disabled-050.log`, `normal-pack-progression.log`, `normal-pack-reload.log`, and the bronze/steel progression capture directories. QA probes, hidden-window hooks, supplied fixture resources and video tools are not packaged in the mod.
+
+These checks establish the implemented routes and local preservation behavior. They do not establish arbitrary third-party ability damage, remote-server latency balance, cross-version world migration or long-term economy balance. Worn armor currently deliberately uses vanilla gold/iron visual layers; the distinct item models and workstations use original geometry with Minecraft textures.
