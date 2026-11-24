@@ -1,0 +1,8 @@
+{
+  "parent": "temperandtang:diegesis/helmet_blank",
+  "textures": {
+    "metal": "temperandtang:block/workpiece/steel",
+    "face": "temperandtang:block/workpiece/steel",
+    "particle": "temperandtang:block/workpiece/steel"
+  }
+}

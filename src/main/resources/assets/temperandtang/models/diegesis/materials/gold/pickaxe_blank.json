@@ -1,0 +1,8 @@
+{
+  "parent": "temperandtang:diegesis/pickaxe_blank",
+  "textures": {
+    "metal": "temperandtang:block/workpiece/gold",
+    "face": "temperandtang:block/workpiece/gold",
+    "particle": "temperandtang:block/workpiece/gold"
+  }
+}

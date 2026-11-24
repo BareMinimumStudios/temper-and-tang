@@ -1,17 +1,18 @@
-# Temper & Tang 0.7.0
+# Temper & Tang 0.7.1
 
-Tin remains an alloy ingredient. Tin resources and bronze/steel swords, tools and armor now use dedicated medieval textures, including worn armor layers. Compounds, treatments, blueprints and the unfinished workpiece have distinct inventory icons. Extra weapon families come only from installed compatible equipment mods; the nine standalone dagger, spear and warhammer items are removed.
+Shaping billets and blanks now use the selected metal’s ingot palette with a subtle heat tint; shared geometry, timber and leather details are preserved.
 
-## Stations
+This presentation pass keeps the 0.7.0 survival recipes and equipment progression.
 
-- Charcoal Hearth: seven cobblestone + one charcoal. Heat refined stock and equipment here. Smelt ore in a normal furnace.
-- Alloy Furnace: eight clay balls + one coal or charcoal. Make bronze (3 copper + 1 tin → 4) or steel (1 iron + 1 coal/charcoal → 1).
-- Nether Alloy Furnace: seven clay balls + one coal/charcoal + one netherite scrap. All ordinary alloys also work here; 4 scraps + 4 gold → 1 netherite ingot directly.
-- Any normal furnace fuel works. Steel's carbon ingredient is additional to fuel. Fuel is paid once per batch; container fuel returns its container.
-- Hearths occupy 2 × 2 × 1 blocks; furnaces occupy 2 × 2 × 2. Every part opens the same exclusive station. Occupied neighbors prevent placement. Existing roots reserve clear space when first opened and never overwrite solid neighboring blocks; clear the space if prompted.
+- Regular Alloy Forge: compact red-brick-topped supplied furnace; the red masonry stays unchanged.
+- Nether Alloy Furnace: larger supplied hooded forge with animated logs, interior and fire, with subtly muted charcoal and Nether-brick masonry.
+- The focused camera shows the stations at a useful working size. World and focused furnace bodies use matching geometry and texture references; coplanar front faces are separated.
+- Fuel goes directly into the firebox. Its display hides while burning; unused fuel and container remainders stay available afterward. No extra fuel shelf or blaze-powder control.
+- Hearth air starts at the bellows nozzle and follows the complete model transform toward the coals. Furnaces use the supplied fire animation without loose sparks floating outside.
+- Recipe grids read top-to-bottom and left-to-right from the front camera. Completed items lie flat instead of bobbing. The finishing compound rests on a separate attached corner tray, clear of the timing track.
+- The quenching tool lifts before crossing the rim and uses a steeper dip. A small iron rest supports the waiting workpiece.
+- Craftsmanship labels use title case, including Superior Craftsmanship.
 
-Diamond and netherite equipment still require matching base equipment and structure templates at a smithing table. Ordinary Simply Swords/Simply More/Epic Knights weapons retain their native identity and art. Legacy netherite billets can be smelted into their previously paid-for ingot.
+Supplied animated fire textures interpolate between their original frames. Required dependencies and configuration settings are unchanged. See THIRD_PARTY_NOTICES.txt for supplied artwork credits.
 
-The removed fallback weapons do not migrate into another mod's weapons. Prototype saves containing those nine removed items will lose those particular items when loaded with this revision. Back up such saves before updating.
-
-Code licensing does not relicense supplied artwork. See THIRD_PARTY_NOTICES.txt for asset credits.
+Common tool, melee-weapon, mining-tool, armor and enchantable tags cover both equipment families on both loaders. Workshop sorting tags cover stations, blueprints, compounds, finishing materials, workpieces and templates without changing slot restrictions or recipe eligibility.

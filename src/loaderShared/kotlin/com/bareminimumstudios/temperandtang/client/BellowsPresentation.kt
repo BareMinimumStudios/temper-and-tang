@@ -65,12 +65,10 @@ class BellowsPresentation {
         view.node("hearth_body").ifPresent {it.setVisible(view.isBlockHidden)}
         time+=dt
         val heating=view.state().data().getString("status")=="heating"
+        // These furnished fireboxes have their own animated fire, logs and interior atlas.
+        // Do not add loose flames or metal sparks in front of their doors.
         if(view.node("furnace_body").isPresent) {
-            gust+=dt
-            if(heating && gust>=.12f) {
-                gust%=.12f
-                view.spawnParticles(DiegesisParticles.FLAME,Vector3f(8f,6.5f,3.5f),Vector3f(0f,3f,0f),.5f,2,0)
-            }
+            view.node("furnace_body").ifPresent {it.setVisible(view.isBlockHidden)}
             return
         }
         drive+=((if(heating)1f else 0f)-drive)*(1-exp(-dt*7f))
@@ -91,16 +89,16 @@ class BellowsPresentation {
         view.node("embers").ifPresent {it.setTint((0xFF000000L or (r.toLong() shl 16) or (g.toLong() shl 8) or b.toLong()).toInt())}
         // Keep distinct compression bursts, but retain sub-frame time instead of resetting the clock per puff.
         gust=if(pressure>0f)gust+dt.coerceIn(0f,.1f) else .065f
-        val fitted=view.node("hearth_scene").isPresent
-        fun position(x:Float,y:Float,z:Float)=if(fitted)Vector3f(.3f+x*.64f,y*.64f,2.88f+z*.64f)else Vector3f(x,y,z)
-        fun velocity(x:Float,y:Float,z:Float)=Vector3f(x,y,z).mul(if(fitted).64f else 1f)
         var emitted=0
         while(pressure>0f && gust>=.065f && emitted++<3) {
             gust-=.065f
             val age=gust.coerceIn(0f,.1f)
-            view.spawnParticles(TemperAndTang.id("bellows_air"),position(12.5f-11f*age,7.29f-2.4f*age,8f),velocity(-11f,-2.4f,0f),.08f,3,0)
-            view.spawnParticles(DiegesisParticles.FLAME,position(8.5f,7.25f,8f),velocity(0f,5f,0f),.8f,3,0)
-            view.spawnParticles(TemperAndTang.id("forge_spark"),position(8f,6.5f,8f),velocity(0f,10f,0f),1.2f,2,0xFFFFB85C.toInt())
+            val mouth=SceneCoordinates.point(view,"bellows_nozzle_tip",0f,0f,0f)
+            val coal=SceneCoordinates.point(view,"hearth_scene",8.5f,7.25f,8f)
+            val air=Vector3f(coal).sub(mouth).normalize().mul(15f)
+            view.spawnParticles(TemperAndTang.id("bellows_air"),Vector3f(mouth).fma(age,air),air,.10f,3,0)
+            SceneCoordinates.burst(view,"hearth_scene",DiegesisParticles.FLAME,Vector3f(8.5f,7.25f,8f),Vector3f(0f,5f,0f),.45f,2,0)
+            SceneCoordinates.burst(view,"hearth_scene",TemperAndTang.id("forge_spark"),Vector3f(8f,7.25f,8f),Vector3f(0f,7f,0f),.5f,1,0xFFFFB85C.toInt())
         }
     }
 }

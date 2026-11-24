@@ -1,0 +1,8 @@
+{
+  "parent": "temperandtang:diegesis/crossbow_blank",
+  "textures": {
+    "metal": "temperandtang:block/workpiece/copper",
+    "face": "temperandtang:block/workpiece/copper",
+    "particle": "temperandtang:block/workpiece/copper"
+  }
+}

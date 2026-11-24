@@ -23,7 +23,7 @@
       "id": "weapon",
       "pos": [
         8,
-        14.25,
+        14.45,
         9
       ],
       "slot": {
@@ -36,28 +36,32 @@
     {
       "id": "material",
       "pos": [
-        4,
-        8.1,
-        2.1
+        14.2,
+        14.1,
+        14
       ],
       "slot": {
         "slot": "material",
-        "size": 3,
-        "idle_highlight": 0.12
+        "size": 2.2,
+        "idle_highlight": 0.12,
+        "item_size": 1.7,
+        "counts": "hover"
       },
       "tooltip": "temperandtang.scene.material"
     },
     {
       "id": "hammer",
       "pos": [
-        12,
-        8.1,
-        2.1
+        1.8,
+        14.35,
+        10.7
       ],
       "slot": {
         "slot": "hammer",
-        "size": 3,
-        "idle_highlight": 0.12
+        "size": 2.3,
+        "idle_highlight": 0.12,
+        "item_size": 1.8,
+        "counts": "never"
       },
       "tooltip": "temperandtang.scene.hammer"
     },
@@ -131,12 +135,13 @@
       "id": "result",
       "pos": [
         8,
-        14.3,
+        14.45,
         9
       ],
       "output": {
         "output": "result",
-        "size": 5.4
+        "size": 5.4,
+        "display": "flat"
       },
       "tooltip": "temperandtang.scene.result"
     },

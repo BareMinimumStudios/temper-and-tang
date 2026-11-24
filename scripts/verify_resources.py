@@ -55,3 +55,23 @@ for status in set(re.findall(r'-> "([a-z_]+)"',branch)) - {"instructions"}:
     key="temperandtang.short.finish_"+status
     assert key in translations, f"Missing finishing caption: {key}"
 print("Verified every dynamically composed finishing caption has a readable translation.")
+
+shape=json.loads((assets/'diegesis/scenes/shaping_anvil.json').read_text())
+for node in shape['nodes']:
+    if node['id'].startswith('grid_'):
+        index=int(node['id'][5:])
+        assert node['pos'][0]==12-4*(index%3) and node['pos'][2]==12-4*(index//3),'Front-view recipe grid reversed'
+print('Verified crafting-grid rows and columns follow the front-facing view.')
+
+# Common tags must cover both equipment families on either loader, independently of loader defaults.
+for metal in ('bronze', 'steel'):
+    for tag, parts in {
+        'tools': ['sword', 'pickaxe', 'axe', 'shovel', 'hoe'],
+        'tools/melee_weapon': ['sword', 'axe'],
+        'tools/mining_tool': ['pickaxe'],
+        'armors': ['helmet', 'chestplate', 'leggings', 'boots'],
+    }.items():
+        values=json.loads((root/f'data/c/tags/item/{tag}.json').read_text())['values']
+        assert all(f'temperandtang:{metal}_{part}' in values for part in parts), (metal,tag)
+assert json.loads((root/'data/c/tags/block/storage_blocks/steel.json').read_text())['values']==['temperandtang:steel_block']
+print('Verified both equipment families have common tool, armor and storage-block tags on both loaders.')

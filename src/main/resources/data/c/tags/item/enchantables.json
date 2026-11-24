@@ -1,0 +1,23 @@
+{
+  "replace": false,
+  "values": [
+    "temperandtang:bronze_sword",
+    "temperandtang:bronze_pickaxe",
+    "temperandtang:bronze_axe",
+    "temperandtang:bronze_shovel",
+    "temperandtang:bronze_hoe",
+    "temperandtang:bronze_helmet",
+    "temperandtang:bronze_chestplate",
+    "temperandtang:bronze_leggings",
+    "temperandtang:bronze_boots",
+    "temperandtang:steel_sword",
+    "temperandtang:steel_pickaxe",
+    "temperandtang:steel_axe",
+    "temperandtang:steel_shovel",
+    "temperandtang:steel_hoe",
+    "temperandtang:steel_helmet",
+    "temperandtang:steel_chestplate",
+    "temperandtang:steel_leggings",
+    "temperandtang:steel_boots"
+  ]
+}

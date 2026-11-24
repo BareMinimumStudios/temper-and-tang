@@ -19,7 +19,7 @@ class WorkshopBlock(properties:BlockBehaviour.Properties,val kind:String):Block(
     val width=if(scale>1)2 else 1
     val height=if(kind.endsWith("alloy_furnace"))2 else 1
     private val cells=buildList {for(y in 0 until height)for(z in 0 until width)for(x in 0 until width)add(BlockPos(x,y,z))}
-    private val parts=WorkshopShapes.parts(if(kind=="nether_alloy_furnace")"alloy_furnace"else kind).map {box->DoubleArray(6){i->box[i]*scale+if(i%3!=1)(width*8-8*scale)else 0.0}}
+    private val parts=WorkshopShapes.parts(kind).map {box->DoubleArray(6){i->box[i]*scale+if(i%3!=1)(width*8-8*scale)else 0.0}}
     private fun turns(facing:Direction)=when(facing){Direction.EAST->1;Direction.SOUTH->2;Direction.WEST->3;else->0}
     private fun offset(index:Int,facing:Direction):BlockPos {var p=cells.getOrElse(index){BlockPos.ZERO};repeat(turns(facing)){p=BlockPos(-p.z,p.y,p.x)};return p}
     private val shapes=Direction.Plane.HORIZONTAL.associateWith {facing->cells.indices.map {index->

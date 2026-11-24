@@ -76,3 +76,32 @@ for path in (assets/'diegesis/scenes').glob('*.json'):
     ids=[n['id']for n in nodes]
     assert len(ids)==len(set(ids)),f'Duplicate scene node ids: {path}'
 print('Validated unique node identities in all station scenes.')
+
+for path in (assets/'diegesis/scenes').glob('*.json'):
+    for node in scene_nodes(json.loads(path.read_text())['nodes']):
+        assert not set(node.get('output',{}))-{'output','display','size','count_facing'},(path,node['id'],'Unsupported output field')
+print('Validated output bindings against the Diegesis output schema.')
+
+# Focused bodies and world meshes must differ only by their uniform workshop transform.
+import copy
+for station,scale in [('alloy_furnace',2.0),('nether_alloy_furnace',2.1)]:
+    source=models['diegesis/'+station+'_unscaled']
+    expected=copy.deepcopy(source)
+    for element in expected['elements']:
+        for key in ('from','to'):
+            element[key]=[round(x*scale+(16-8*scale if i!=1 else 0),6) for i,x in enumerate(element[key])]
+        if 'rotation' in element:
+            element['rotation']['origin']=[round(x*scale+(16-8*scale if i!=1 else 0),6) for i,x in enumerate(element['rotation']['origin'])]
+    assert models['block/'+station]==expected,(station,'World and focused body diverged')
+    scene=json.loads((assets/('diegesis/scenes/'+station+'.json')).read_text())
+    nodes={n['id']:n for n in scene_nodes(scene['nodes'])}
+    assert 'visual' not in nodes['heat'],(station,'Do not use an unrelated item icon as the stoke control')
+    assert nodes['fuel']['pos'][0]==8 and nodes['fuel']['pos'][1]<4,(station,'Fuel must be inside the firebox')
+    assert nodes['result']['output']['display']=='flat',station
+print('Verified identical world/focus furnace bodies, firebox fuel placement and grounded outputs.')
+
+for name,model in models.items():
+    if name.startswith('diegesis/materials/'):
+        assert model['parent'].startswith('temperandtang:diegesis/')
+        assert set(model['textures'])=={'metal','face','particle'},(name,'Do not recolor wooden/leather details')
+print('Verified shared shaping geometry and metal-only material overrides.')

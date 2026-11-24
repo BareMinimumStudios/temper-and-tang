@@ -126,3 +126,10 @@ Counts are 1–8; cooking time is 1–12000 ticks per recipe batch (default 200)
 The catalog adds `c:ingots/steel`, `c:nuggets/steel`, `c:storage_blocks/steel` and parent tags, repair tags, vanilla mining/enchantment/trim tags and optional Better Combat weapon profiles. Tags are additive. Existing third-party stacks and recipes are not globally replaced.
 
 With Epic Knights integration enabled, only its unmodified `magistuarmory:furnace/steel_ingot_blasting` signature (one iron, one steel, 40 ticks, 0.5 XP) is bridged to the counted carbon alloy. Its ID, output and conditions remain intact. A different duration/ingredient/result or `"temperandtang:keep_native": true` opts out. Missing recipes stay missing. Turning recipe integration or thermal processing off restores normal native loading on reload.
+
+
+## Additive sorting tags (0.7.1)
+
+Both loaders ship the same `c:` material, ore, storage-block, tool, melee-weapon, mining-tool, armor and enchantable tags. Bronze and steel pickaxes belong to `c:tools/mining_tool`; swords and axes belong to `c:tools/melee_weapon`. Vanilla equipment tags remain authoritative for individual tool and armor slots. Steel storage blocks have both item and block tags.
+
+Workshop-specific categories use `temperandtang:workstations` (item/block), `blueprints`, `finishing_materials`, `alloy_compounds`, `workpieces` and `smithing_templates`. These categories do not have an established common equivalent, so they use the mod namespace instead of claiming a new common standard. Existing recipe-input tags such as `honing_abrasives`, `tempering_binders` and `finishing_materials/<finish>` remain the extension points for accepted ingredients. Sorting tags alone never grant fuel, slot access or a new recipe. All tags are additive (`replace: false`); authors may reference them from recipes or extend them with datapacks.

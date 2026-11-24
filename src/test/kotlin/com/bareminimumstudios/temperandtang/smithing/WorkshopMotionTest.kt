@@ -26,6 +26,11 @@ class WorkshopMotionTest {
             assertEquals(p.z,g.point.z+WorkshopMotion.TONG_JAW_Y*sin(a)+WorkshopMotion.TONG_JAW_Z*cos(a),.001f)
         }
         assertTrue(WorkshopMotion.quenchPiece(.65f).y<14.4f)
-        assertEquals(16.35f,WorkshopMotion.quenchPiece(1f).y)
+        assertEquals(16.15f,WorkshopMotion.quenchPiece(1f).y)
+    }
+    @Test fun `withdrawal lifts above the rim before moving across the wall`() {
+        for(i in 740..859)assertEquals(8f,WorkshopMotion.quenchPiece(i/1000f).x,.001f)
+        assertEquals(18f,WorkshopMotion.quenchPiece(.86f).y,.001f)
+        for(i in 300..419)assertEquals(18f,WorkshopMotion.quenchPiece(i/1000f).y,.001f)
     }
 }

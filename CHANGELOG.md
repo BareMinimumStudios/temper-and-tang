@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.7.1
+
+- Color shaping blanks from the selected metal palette while sharing their geometry and retaining wooden/leather details. Steel-core native recipes use the actual steel inputs.
+
+- Give the regular Alloy Forge the compact red-topped supplied furnace, and the Nether Alloy Furnace the wider hooded forge with a muted Nether masonry palette.
+- Preserve supplied animated logs, fire and interior textures and interpolate animation frames.
+- Match focused and world models, separate coplanar door faces, and bring the focused camera closer.
+- Remove the blaze-powder control and loose furnace particle effects; place fuel in the firebox and hide its display while burning.
+- Anchor hearth gusts to the actual bellows nozzle and route them toward the coals through the complete scene transform.
+- Correct front-view recipe row/column orientation, ground output displays, and separate the finishing compound from the timing track.
+- Add a small supported quench rest and a vertical-first, steeper tong path that clears the barrel.
+- Use title case for craftsmanship grade labels.
+
 ## 0.7.0
 
 - Add dedicated tin resources, bronze/steel equipment and worn armor textures, plus distinct workshop material and blueprint icons.

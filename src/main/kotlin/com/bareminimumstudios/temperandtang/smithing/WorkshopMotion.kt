@@ -32,23 +32,25 @@ object WorkshopMotion {
         return Point(g.x,g.y+HAMMER_SCALE*(FACE_Y*cos(a)-HEAD_Z*sin(a)),g.z+HAMMER_SCALE*(FACE_Y*sin(a)+HEAD_Z*cos(a)))
     }
     fun quenchPiece(u:Float):Point=when {
-        u<0.26f->Point(12f,16.35f,8f)
-        u<0.40f->{val t=(u-.26f)/.14f;Point(mix(12f,8f,t),mix(16.35f,17.5f,t),8f)}
-        u<0.56f->Point(8f,mix(17.5f,11f,(u-.40f)/.16f),8f)
-        u<0.75f->{val t=(u-.56f)/.19f;Point(8f,11f,8f+sin(t*PI.toFloat()*2)*sin(t*PI.toFloat()).pow(2)*.25f)}
-        u<0.93f->{val t=(u-.75f)/.18f;Point(mix(8f,12f,t),mix(11f,16.35f,t),8f)}
-        else->Point(12f,16.35f,8f)
+        u<.22f->Point(12.5f,16.15f,8f)
+        u<.30f->Point(12.5f,mix(16.15f,18f,(u-.22f)/.08f),8f)
+        u<.42f->Point(mix(12.5f,8f,(u-.30f)/.12f),18f,8f)
+        u<.58f->Point(8f,mix(18f,12f,(u-.42f)/.16f),8f)
+        u<.74f->{val t=(u-.58f)/.16f;Point(8f,12f,8f+sin(t*PI.toFloat()*2)*sin(t*PI.toFloat()).pow(2)*.18f)}
+        u<.86f->Point(8f,mix(12f,18f,(u-.74f)/.12f),8f)
+        u<.95f->Point(mix(8f,12.5f,(u-.86f)/.09f),mix(18f,16.15f,(u-.86f)/.09f),8f)
+        else->Point(12.5f,16.15f,8f)
     }
     fun tongGrip(u:Float):Grip {
-        val rest=Point(2.15f,16.2f,2.6f)
+        val rest=Point(2.15f,16.5f,2.6f)
         if(u<=0f || u>=1f)return Grip(rest,0f)
         val p=quenchPiece(u)
-        val angle=when {u<.40f->0f;u<.56f->mix(0f,40f,(u-.40f)/.16f);u<.75f->40f;else->mix(40f,0f,(u-.75f)/.18f)}
+        val angle=when {u<.42f->0f;u<.58f->mix(0f,60f,(u-.42f)/.16f);u<.86f->60f;else->mix(60f,0f,(u-.86f)/.09f)}
         val a=angle*PI.toFloat()/180
         val held=Point(p.x,p.y-TONG_JAW_Y*cos(a)+TONG_JAW_Z*sin(a),p.z-TONG_JAW_Y*sin(a)-TONG_JAW_Z*cos(a))
         return when {
             u<.20f->{val t=ease(u/.20f);Grip(Point(rest.x+(held.x-rest.x)*t,rest.y+(held.y-rest.y)*t+sin(t*PI.toFloat())*2.5f,rest.z+(held.z-rest.z)*t),0f)}
-            u>.93f->{val t=ease((u-.93f)/.07f);Grip(Point(held.x+(rest.x-held.x)*t,held.y+(rest.y-held.y)*t+sin(t*PI.toFloat())*1.2f,held.z+(rest.z-held.z)*t),angle)}
+            u>.95f->{val t=ease((u-.95f)/.05f);Grip(Point(held.x+(rest.x-held.x)*t,held.y+(rest.y-held.y)*t+sin(t*PI.toFloat())*1.2f,held.z+(rest.z-held.z)*t),angle)}
             else->Grip(held,angle)
         }
     }

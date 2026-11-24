@@ -35,3 +35,8 @@ weapon silhouettes were adapted for this project. Original artwork rights remain
 with Blossom Studios; the project code license does not relicense these textures.
 Public distribution must comply with the asset owner's applicable permission.
 Overgeared steel and other bronze mods were color references only.
+
+The wider Workshop Six hooded forge, its animated logs, interior and fire sheets
+are adapted for the Nether Alloy Furnace. Its masonry palette is subtly muted;
+original detail and animated frame sequences are preserved. The compact red-topped
+furnace remains the regular Alloy Forge.

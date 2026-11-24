@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-    "temperandtang:bronze_sword"
+    "temperandtang:bronze_sword",
+    "temperandtang:bronze_axe",
+    "temperandtang:steel_sword",
+    "temperandtang:steel_axe"
   ]
 }

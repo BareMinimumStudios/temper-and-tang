@@ -1,16 +1,16 @@
 {
   "camera": {
     "position": [
-      16.0,
-      71.4,
-      -53.3
+      16,
+      43,
+      -33
     ],
     "target": [
-      16.0,
-      18.9,
-      16.0
+      16,
+      15,
+      18
     ],
-    "fov": 50
+    "fov": 42
   },
   "interface": {
     "inventory_panel": true,
@@ -48,7 +48,7 @@
             0
           ],
           "visual": {
-            "model": "temperandtang:diegesis/alloy_furnace_body",
+            "model": "temperandtang:diegesis/nether_alloy_furnace_body",
             "anchor": [
               0,
               0,
@@ -60,28 +60,32 @@
         {
           "id": "stock",
           "pos": [
-            5,
-            17,
-            6
+            5.8,
+            10.96,
+            5.3
           ],
           "slot": {
             "slot": "stock",
-            "size": 4,
-            "idle_highlight": 0.12
+            "size": 2.0,
+            "idle_highlight": 0.12,
+            "item_size": 1.65,
+            "counts": "hover"
           },
           "tooltip": "temperandtang.thermal.slot.stock"
         },
         {
           "id": "fuel",
           "pos": [
-            5,
-            6,
-            2
+            8,
+            3.15,
+            4.5
           ],
           "slot": {
             "slot": "fuel",
-            "size": 3,
-            "idle_highlight": 0.12
+            "size": 1.8,
+            "idle_highlight": 0.12,
+            "item_size": 1.35,
+            "counts": "hover"
           },
           "tooltip": "temperandtang.thermal.slot.fuel"
         },
@@ -89,26 +93,29 @@
           "id": "result",
           "pos": [
             8,
-            17,
-            8
+            10.96,
+            5.3
           ],
           "output": {
             "output": "result",
-            "size": 4.5
+            "size": 2.0,
+            "display": "flat"
           },
           "tooltip": "temperandtang.scene.result"
         },
         {
           "id": "additive",
           "pos": [
-            11,
-            17,
-            6
+            10.2,
+            10.96,
+            5.3
           ],
           "slot": {
             "slot": "additive",
-            "size": 2.8,
-            "idle_highlight": 0.12
+            "size": 2.0,
+            "idle_highlight": 0.12,
+            "item_size": 1.65,
+            "counts": "hover"
           },
           "tooltip": "temperandtang.thermal.slot.additive"
         },
@@ -116,35 +123,26 @@
           "id": "heat",
           "pos": [
             8,
-            9,
-            1.7
+            5.0,
+            4.2
           ],
-          "visual": {
-            "item": "minecraft:blaze_powder",
-            "anchor": [
-              8,
-              8,
-              8
-            ]
-          },
           "control": {
             "control": "heat",
             "type": "button"
           },
           "collider": {
             "from": [
-              -6,
-              -6,
-              -1
+              -2.5,
+              -1.5,
+              -0.3
             ],
             "to": [
-              6,
-              6,
-              1
+              2.5,
+              1.5,
+              0.3
             ]
           },
-          "tooltip": "temperandtang.furnace.stoke",
-          "scale": 0.22
+          "tooltip": "temperandtang.furnace.stoke"
         }
       ]
     }

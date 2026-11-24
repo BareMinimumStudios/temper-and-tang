@@ -1,1 +1,7 @@
-{"animation":{"frametime":4},"mcmodels":"3ac72f3326a9dbd11696a1e153be1203"}
+{
+  "animation": {
+    "frametime": 4,
+    "interpolate": true
+  },
+  "mcmodels": "3ac72f3326a9dbd11696a1e153be1203"
+}

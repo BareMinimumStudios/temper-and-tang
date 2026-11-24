@@ -7,3 +7,7 @@ Run `scripts/adapt_platinum_textures.py` with the original ZIP and Pillow availa
 References: [Overgeared](https://modrinth.com/mod/overgeared) and [Bronze](https://modrinth.com/mod/bronze) informed the metal color distinction. Their textures are not bundled. Ordinary optional weapon art resolves from the installed weapon mod; no fallback dagger/spear/warhammer textures are shipped.
 
 See THIRD_PARTY_NOTICES.txt for credits and the separation of artwork rights from the code license.
+
+The compact red-topped `blacksmith_v2_furnace` is the regular Alloy Forge. The wider `blacksmith_v2_forge` is the Nether Alloy Furnace. Their source identities deliberately follow the requested visual pairing rather than item naming. The Nether variant darkens neutral masonry pixels toward muted charcoal and Nether-brick tones while preserving warm timber and animated flame colors. The supplied animated frame sequences are retained with atlas interpolation.
+
+Shaping colors use `models/diegesis/materials/<material>/<form>` aliases. Each inherits its original geometry and only overrides the metal, face and particle texture; wood and leather remain inherited. `scripts/generate_workpiece_palettes.py` reproduces the metal swatches without extra dependencies. Resource packs can override `textures/block/workpiece/<material>.png`. These are visual assets, not equipment registrations or recipes: tin remains an alloy ingredient, and diamond/netherite acquisition stays at the smithing table.

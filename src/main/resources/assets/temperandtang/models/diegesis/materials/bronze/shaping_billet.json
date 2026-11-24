@@ -1,0 +1,8 @@
+{
+  "parent": "temperandtang:diegesis/shaping_billet",
+  "textures": {
+    "metal": "temperandtang:block/workpiece/bronze",
+    "face": "temperandtang:block/workpiece/bronze",
+    "particle": "temperandtang:block/workpiece/bronze"
+  }
+}

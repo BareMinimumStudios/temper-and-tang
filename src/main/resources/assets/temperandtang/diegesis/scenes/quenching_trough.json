@@ -30,8 +30,8 @@
     {
       "id": "stock",
       "pos": [
-        12,
-        16.35,
+        12.5,
+        16.15,
         8
       ],
       "slot": {
@@ -44,14 +44,16 @@
     {
       "id": "water",
       "pos": [
-        5.5,
-        16.2,
-        14.5
+        7.5,
+        15.3,
+        13
       ],
       "slot": {
         "slot": "water",
-        "size": 2.8,
-        "idle_highlight": 0.12
+        "size": 2.0,
+        "idle_highlight": 0.12,
+        "item_size": 1.7,
+        "counts": "hover"
       },
       "tooltip": "temperandtang.thermal.slot.water"
     },
@@ -59,7 +61,7 @@
       "id": "quench",
       "pos": [
         2.15,
-        16.2,
+        16.5,
         2.6
       ],
       "visual": {
@@ -151,13 +153,14 @@
     {
       "id": "result",
       "pos": [
-        12,
-        16.35,
+        12.5,
+        16.15,
         8
       ],
       "output": {
         "output": "result",
-        "size": 5
+        "size": 5,
+        "display": "flat"
       },
       "tooltip": "temperandtang.scene.result"
     },

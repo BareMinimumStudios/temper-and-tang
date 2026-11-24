@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "temperandtang:tempering_compound",
+    "temperandtang:honing_compound",
+    "temperandtang:balance_weight",
+    "temperandtang:lightweight_grip"
+  ]
+}

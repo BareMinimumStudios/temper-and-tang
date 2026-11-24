@@ -7,7 +7,8 @@
   "textures": {
     "2": "temperandtang:block/workshop_six/blacksmith_water_barrel",
     "inside": "minecraft:block/stripped_spruce_log",
-    "floor": "minecraft:block/spruce_planks"
+    "floor": "minecraft:block/spruce_planks",
+    "rest_metal": "minecraft:block/iron_block"
   },
   "elements": [
     {
@@ -581,6 +582,142 @@
           ],
           "rotation": 90,
           "texture": "#2"
+        }
+      }
+    },
+    {
+      "from": [
+        11.8,
+        15.2,
+        5.5
+      ],
+      "to": [
+        13.7,
+        15.95,
+        5.9
+      ],
+      "faces": {
+        "up": {
+          "texture": "#rest_metal",
+          "uv": [
+            0,
+            0,
+            3,
+            1
+          ]
+        },
+        "down": {
+          "texture": "#rest_metal",
+          "uv": [
+            0,
+            0,
+            3,
+            1
+          ]
+        },
+        "north": {
+          "texture": "#rest_metal",
+          "uv": [
+            0,
+            0,
+            3,
+            1
+          ]
+        },
+        "south": {
+          "texture": "#rest_metal",
+          "uv": [
+            0,
+            0,
+            3,
+            1
+          ]
+        },
+        "east": {
+          "texture": "#rest_metal",
+          "uv": [
+            0,
+            0,
+            3,
+            1
+          ]
+        },
+        "west": {
+          "texture": "#rest_metal",
+          "uv": [
+            0,
+            0,
+            3,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        11.8,
+        15.2,
+        10.1
+      ],
+      "to": [
+        13.7,
+        15.95,
+        10.5
+      ],
+      "faces": {
+        "up": {
+          "texture": "#rest_metal",
+          "uv": [
+            0,
+            0,
+            3,
+            1
+          ]
+        },
+        "down": {
+          "texture": "#rest_metal",
+          "uv": [
+            0,
+            0,
+            3,
+            1
+          ]
+        },
+        "north": {
+          "texture": "#rest_metal",
+          "uv": [
+            0,
+            0,
+            3,
+            1
+          ]
+        },
+        "south": {
+          "texture": "#rest_metal",
+          "uv": [
+            0,
+            0,
+            3,
+            1
+          ]
+        },
+        "east": {
+          "texture": "#rest_metal",
+          "uv": [
+            0,
+            0,
+            3,
+            1
+          ]
+        },
+        "west": {
+          "texture": "#rest_metal",
+          "uv": [
+            0,
+            0,
+            3,
+            1
+          ]
         }
       }
     }

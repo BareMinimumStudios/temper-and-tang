@@ -20,6 +20,8 @@ class HammerPresentation(private val finishing:Boolean) {
     private var strike:Strike?=null
     private var elapsed=0f
     private var impacted=false
+    private var workMaterial=com.bareminimumstudios.temperandtang.smithing.ForgeMaterial.NEUTRAL
+    private var colorTarget=""
     private var lastTarget=""
     private var cachedItem=""
     val busy get()=strike!=null || pending.isNotEmpty()
@@ -100,13 +102,19 @@ class HammerPresentation(private val finishing:Boolean) {
             val required=if(finishing)TemperAndTang.config.requiredStrikes.get()else state.getControl("required").toInt().coerceAtLeast(1)
             val ratio=visibleHits.toFloat()/required
             val stage=if(existing)id else if(state.data().getBoolean("precision_refining"))"refining_billet" else when {ratio<.35f->"shaping_billet";ratio<.7f->if(WorkpieceForms.plate(targetItem))"armor_plate" else "drawn_stock";else->WorkpieceForms.model(targetItem)}
-            val key=(if(existing)"item:" else "stock:")+stage
+            if(!existing) {
+                val stocks=(0..8).map {state.getItem(com.bareminimumstudios.temperandtang.station.ThermalStations.grid(it))}.filter(com.bareminimumstudios.temperandtang.smithing.WorkshopPlans::metal)
+                if(stocks.isNotEmpty())workMaterial=com.bareminimumstudios.temperandtang.smithing.CraftMaterials.choose(net.minecraft.world.item.ItemStack(targetItem),stocks)
+                else if(colorTarget!=id)workMaterial=com.bareminimumstudios.temperandtang.smithing.CraftMaterials.identify(net.minecraft.world.item.ItemStack(targetItem))
+                colorTarget=id
+            }
+            val key=(if(existing)"item:" else "stock:"+workMaterial.key+":")+stage
             if(key!=lastTarget){
-                val visual=if(existing)ResourceLocation.tryParse(id)?.let {Visual.ofItem(BuiltInRegistries.ITEM.get(it))} else Visual.ofModel(TemperAndTang.id("diegesis/"+stage)).asEmissive()
+                val visual=if(existing)ResourceLocation.tryParse(id)?.let {Visual.ofItem(BuiltInRegistries.ITEM.get(it))} else Visual.ofModel(TemperAndTang.id("diegesis/materials/"+workMaterial.key+"/"+stage)).asEmissive()
                 visual?.let {v->view.node("workpiece_display").ifPresent {it.setVisual(v.withAnchor(Vector3f(8f,8f,8f)));it.rotateTo(if(existing)0f else -90f,0f,0f,0f)}}
                 lastTarget=key
             }
-            view.node("workpiece_display").ifPresent {it.setVisible(show && (existing || visibleHits>0) && (!ready || pending.isNotEmpty() || !impacted));it.moveTo(0f,workpieceY,0f,0f);it.setTint(if(existing)0xFFFFFFFF.toInt() else 0xFFFFA06A.toInt())}
+            view.node("workpiece_display").ifPresent {it.setVisible(show && (existing || visibleHits>0) && (!ready || pending.isNotEmpty() || !impacted));it.moveTo(0f,workpieceY,0f,0f);it.setTint(if(existing)0xFFFFFFFF.toInt() else 0xFFFFF3E8.toInt())}
             if(!finishing)view.node("pattern_board").ifPresent {it.setVisible(!show && !ready && !reforging);it.moveTo(0f,refiningBed,0f,0f)}
             if(!finishing) {
                 val metals=(0..8).filter {com.bareminimumstudios.temperandtang.smithing.WorkshopPlans.metal(state.getItem(com.bareminimumstudios.temperandtang.station.ThermalStations.grid(it)))}
@@ -117,7 +125,7 @@ class HammerPresentation(private val finishing:Boolean) {
                     if(show && index>=0) {
                         val x=8f+(index%columns-(columns-1)/2f)*1.25f
                         val z=9f+(index/columns-(rows-1)/2f)*1.2f
-                        it.moveTo(x-(4f+4f*(i%3)),contactY+.1f-14.0f,z-(4f+4f*(i/3)),0f)
+                        it.moveTo(x-(12f-4f*(i%3)),contactY+.1f-14.0f,z-(12f-4f*(i/3)),0f)
                         it.scaleTo(.45f,0f)
                     } else {it.moveTo(0f,contactY-13.4f,0f,0f);it.scaleTo(1f,0f)}
                 }
@@ -194,14 +202,14 @@ class QuenchPresentation {
         val u=if(busy)(elapsed/duration).coerceIn(0f,1f) else 0f
         val grip=Motion.tongGrip(u)
         val piece=Motion.quenchPiece(u)
-        view.node("quench").ifPresent {it.moveTo(grip.point.x-2.15f,grip.point.y-16.2f,grip.point.z-2.6f,0f);it.rotateTo(grip.angle,0f,0f,0f)}
-        val closure=when {u<.10f->0f;u<.22f->Motion.ease((u-.10f)/.12f);u<.90f->1f;else->1f-Motion.ease((u-.90f)/.10f)}
+        view.node("quench").ifPresent {it.moveTo(grip.point.x-2.15f,grip.point.y-16.5f,grip.point.z-2.6f,0f);it.rotateTo(grip.angle,0f,0f,0f)}
+        val closure=when {u<.08f->0f;u<.18f->Motion.ease((u-.08f)/.10f);u<.95f->1f;else->1f-Motion.ease((u-.95f)/.05f)}
         val open=6f*(1f-closure)
         view.node("tong_left").ifPresent {it.rotateTo(0f,-open,0f,0f)}
         view.node("tong_right").ifPresent {it.rotateTo(0f,open,0f,0f)}
         view.node("quench_hand").ifPresent {it.setVisible(false)}
         val ready=!view.state().getOutput("result").isEmpty
-        view.node("stock").ifPresent {it.setVisible(!ready || busy);it.moveTo(piece.x-12f,piece.y-16.35f,piece.z-8f,0f)}
+        view.node("stock").ifPresent {it.setVisible(!ready || busy);it.moveTo(piece.x-12.5f,piece.y-16.15f,piece.z-8f,0f)}
         view.node("result").ifPresent {it.setVisible(ready && !busy)}
         view.node("steam").ifPresent {it.setEmitting(busy && u>.52f && u<.81f)}
         if(busy && !hiss && u>=.52f) {

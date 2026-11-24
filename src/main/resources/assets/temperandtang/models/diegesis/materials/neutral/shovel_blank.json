@@ -1,0 +1,8 @@
+{
+  "parent": "temperandtang:diegesis/shovel_blank",
+  "textures": {
+    "metal": "temperandtang:block/workpiece/neutral",
+    "face": "temperandtang:block/workpiece/neutral",
+    "particle": "temperandtang:block/workpiece/neutral"
+  }
+}

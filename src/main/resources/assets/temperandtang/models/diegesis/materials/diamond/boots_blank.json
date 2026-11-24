@@ -1,0 +1,8 @@
+{
+  "parent": "temperandtang:diegesis/boots_blank",
+  "textures": {
+    "metal": "temperandtang:block/workpiece/diamond",
+    "face": "temperandtang:block/workpiece/diamond",
+    "particle": "temperandtang:block/workpiece/diamond"
+  }
+}

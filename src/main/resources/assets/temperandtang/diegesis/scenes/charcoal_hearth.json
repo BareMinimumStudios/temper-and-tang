@@ -158,6 +158,15 @@
                 {
                   "id": "workshop_six_bellows_leather",
                   "pickable": false
+                },
+                {
+                  "id": "bellows_nozzle_tip",
+                  "pos": [
+                    -14.819856,
+                    -1.89876,
+                    0
+                  ],
+                  "pickable": false
                 }
               ]
             },
@@ -170,7 +179,8 @@
               ],
               "output": {
                 "output": "result",
-                "size": 4.5
+                "size": 4.5,
+                "display": "flat"
               },
               "tooltip": "temperandtang.scene.result"
             },
