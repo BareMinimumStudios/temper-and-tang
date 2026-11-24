@@ -35,7 +35,7 @@
         0
       ],
       "visual": {
-        "model": "temperandtang:block/alloy_furnace",
+        "model": "temperandtang:diegesis/alloy_furnace_body",
         "anchor": [
           0,
           0,
@@ -103,11 +103,16 @@
       "id": "heat",
       "pos": [
         8,
-        10,
-        3
+        9,
+        1.7
       ],
       "visual": {
-        "item": "minecraft:blaze_powder"
+        "item": "minecraft:blaze_powder",
+        "anchor": [
+          8,
+          8,
+          8
+        ]
       },
       "control": {
         "control": "heat",
@@ -115,17 +120,18 @@
       },
       "collider": {
         "from": [
-          -3,
-          -2,
+          -6,
+          -6,
           -1
         ],
         "to": [
-          3,
-          2,
+          6,
+          6,
           1
         ]
       },
-      "tooltip": "temperandtang.furnace.stoke"
+      "tooltip": "temperandtang.furnace.stoke",
+      "scale": 0.22
     }
   ],
   "work_plane": 16

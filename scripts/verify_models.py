@@ -64,5 +64,8 @@ for p in (assets/'diegesis/scenes').glob('*.json'):
     for node in scene_nodes(scene['nodes']):
         visual=node.get('visual',{})
         assert not set(visual)-visual_fields,(p.name,node['id'],'unknown visual fields',set(visual)-visual_fields)
-        if 'model' in visual:own(visual['model'],'models','.json')
+        if 'model' in visual:
+            own(visual['model'],'models','.json')
+            if visual['model'].startswith('temperandtang:'):
+                assert visual['model'].startswith('temperandtang:diegesis/'),(p.name,node['id'],'Scene model needs an auto-loaded diegesis alias or explicit model registration')
 print('Validated every station visual schema and model reference.')

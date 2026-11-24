@@ -1,6 +1,6 @@
 # Refining revision 0.6.0 — acceptance record
 
-Completed on November 24, 2026 for Minecraft 1.21.1. This record supersedes the earlier development checkpoints in `refining-revision.md`; those checkpoints remain as history rather than outstanding release gates.
+Completed on November 24, 2026 for Minecraft 1.21.1. The later 0.6.1 recording pass corrected focused Alloy Furnace model discovery and control sizing; see the release notes and model-inspection record. The 0.6.0 distributions are retained in `build/release-history/`, while `build/release/` contains the current hotfix. This record supersedes the earlier development checkpoints in `refining-revision.md`; those checkpoints remain as history rather than outstanding release gates.
 
 ## Artifacts and environment
 

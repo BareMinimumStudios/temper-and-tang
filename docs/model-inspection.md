@@ -22,3 +22,8 @@ Both loader builds and checks pass after the texture change. These checks were r
 The preparation pad now fits within the anvil face, with a 0.6-pixel wooden body, visible edge/end grain and small flush corner pins. Its lower face rests at the actual custom or vanilla anvil height. The nine ingredient positions fit above the pad and gather normally for forging. The supplied barrel no longer contains a baked water plane or a solid cuboid beneath it: textured staves, interior walls and a wooden floor form an empty vessel. A separate animated water surface fits inside the opening and is shown by the existing water-bucket/quenching state.
 
 The hidden survival walkthrough passed again with both empty/filled barrel screenshots, the thicker board, actual shaping/finishing contact checks, slot restrictions and exact ingredient/fuel accounting. All 109 current model resources pass validation; the new resource is the metal crossbow-prod blank.
+
+
+## 0.6.1 focused-furnace correction
+
+Recording the actual alloy workflow exposed a scene-loading gap that the all-model gallery had masked by explicitly baking every model. The furnace body now has an automatically discovered `models/diegesis/alloy_furnace_body.json` alias. Its front heat control is also sized to the furnace rather than covering the model. The resource audit now rejects built-in scene models outside the automatically discovered namespace path, so a file-existing check cannot pass this regression again. All 110 current models validate; no gameplay class changes are part of this hotfix.

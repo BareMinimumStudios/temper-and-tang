@@ -1,3 +1,9 @@
+# Temper & Tang 0.6.1
+
+Fixes the Alloy Furnace body disappearing in its focused Diegesis workstation view. Its scene now references an automatically loaded scene-model alias instead of an unregistered block-model location. Its heat control is also scaled to fit the furnace face rather than obscuring the work. World appearance, recipes, timing, save data and equipment stats are unchanged.
+
+The complete steel-to-diamond and netherite alloy/refine/upgrade recording is verified in an isolated Survival test copy. No live profile is changed.
+
 # Temper & Tang 0.6.0
 
 Standalone medieval blacksmithing for Minecraft 1.21.1 Fabric and NeoForge.

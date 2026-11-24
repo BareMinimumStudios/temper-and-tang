@@ -66,6 +66,7 @@ def artifacts():
             assert "com/bareminimumstudios/temperandtang/station/WorkshopRecovery.class" in files
             assert "assets/temperandtang/models/diegesis/crossbow_blank.json" in files
             assert "assets/temperandtang/models/block/alloy_furnace.json" in files
+            assert "assets/temperandtang/models/diegesis/alloy_furnace_body.json" in files
             assert "assets/temperandtang/textures/block/workshop_six/blacksmith_water_barrel.png" in files
             assert not any(n.startswith(("com/pockyl/", "net/minecraft/", "net/sweenus/")) and n.endswith(".class") for n in files)
             assert "com/bareminimumstudios/temperandtang/client/TemperClient.class" in files
