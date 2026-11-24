@@ -3,7 +3,7 @@ from pathlib import Path
 import json, struct, zlib
 ROOT=Path(__file__).resolve().parents[1]/'src/main/resources/assets/temperandtang'
 # Middle metal shades from the inventory palettes. Neutral is the integration fallback.
-PALETTES={'neutral':(174,174,168),'iron':(186,185,174),'bronze':(184,127,58),'steel':(125,142,151),'gold':(232,191,79),'copper':(209,126,89),'tin':(177,188,190),'diamond':(74,199,199),'netherite':(85,73,81)}
+PALETTES={'neutral':(174,174,168),'iron':(186,185,174),'bronze':(184,127,58),'steel':(110,125,133),'gold':(232,191,79),'copper':(209,126,89),'tin':(200,210,207),'silver':(203,210,220),'diamond':(74,199,199),'netherite':(85,73,81)}
 FORMS=('shaping_billet','drawn_stock','blade_blank','armor_plate','helmet_blank','chestplate_blank','leggings_blank','boots_blank','shield_blank','crossbow_blank','pickaxe_blank','axe_blank','shovel_blank','hoe_blank','scythe_blank','spear_blank','hammer_blank','refining_billet')
 def chunk(kind,data):return struct.pack('>I',len(data))+kind+data+struct.pack('>I',zlib.crc32(kind+data)&0xffffffff)
 def swatch(color):

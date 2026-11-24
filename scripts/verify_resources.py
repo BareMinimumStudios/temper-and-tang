@@ -64,7 +64,7 @@ for node in shape['nodes']:
 print('Verified crafting-grid rows and columns follow the front-facing view.')
 
 # Common tags must cover both equipment families on either loader, independently of loader defaults.
-for metal in ('bronze', 'steel'):
+for metal in ('tin', 'bronze', 'steel'):
     for tag, parts in {
         'tools': ['sword', 'pickaxe', 'axe', 'shovel', 'hoe'],
         'tools/melee_weapon': ['sword', 'axe'],
@@ -74,4 +74,26 @@ for metal in ('bronze', 'steel'):
         values=json.loads((root/f'data/c/tags/item/{tag}.json').read_text())['values']
         assert all(f'temperandtang:{metal}_{part}' in values for part in parts), (metal,tag)
 assert json.loads((root/'data/c/tags/block/storage_blocks/steel.json').read_text())['values']==['temperandtang:steel_block']
-print('Verified both equipment families have common tool, armor and storage-block tags on both loaders.')
+print('Verified all three equipment families have common tool, armor and storage-block tags on both loaders.')
+
+for path in (root/'data/temperandtang/recipe').glob('*silver*.json'):
+    data=json.loads(path.read_text())
+    assert data['type'] in {'minecraft:crafting_shaped','minecraft:crafting_shapeless','minecraft:smelting','minecraft:blasting'}, path
+for registry in ('item','block'):
+    for category in ('ores/silver','storage_blocks/silver','storage_blocks/raw_silver'):
+        assert (root/f'data/c/tags/{registry}/{category}.json').exists(),(registry,category)
+print('Verified silver recipe serializers and common ore/storage categories.')
+
+for path in (root/'data/c/tags').rglob('*.json'):
+    if path.stem in ('tin','raw_tin'):
+        assert all('silver' not in str(v) for v in json.loads(path.read_text())['values']),path
+    if path.stem in ('silver','raw_silver'):
+        assert all('tin_' not in str(v) and 'raw_tin' not in str(v) for v in json.loads(path.read_text())['values']),path
+print('Verified tin and silver material tags remain disjoint.')
+
+content=(root.parents[2]/'src/loaderShared/kotlin/com/bareminimumstudios/temperandtang/content/TemperContent.kt').read_text()
+blocks=content.split('val blocks:')[1].split('val items:')[0]
+for name in re.findall(r'"([a-z_]+)" to',blocks):
+    assert (assets/f'blockstates/{name}.json').exists(),name
+    assert (assets/f'models/item/{name}.json').exists(),name
+print('Verified every registered block has a blockstate and inventory model.')

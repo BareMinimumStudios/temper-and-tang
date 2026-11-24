@@ -12,6 +12,11 @@
     "temperandtang:steel_shovel",
     "temperandtang:steel_hoe",
     "#c:tools/hammers",
-    "#c:tools/tongs"
+    "#c:tools/tongs",
+    "temperandtang:tin_sword",
+    "temperandtang:tin_pickaxe",
+    "temperandtang:tin_axe",
+    "temperandtang:tin_shovel",
+    "temperandtang:tin_hoe"
   ]
 }

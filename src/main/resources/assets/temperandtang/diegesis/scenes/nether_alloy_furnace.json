@@ -30,14 +30,14 @@
     {
       "id": "workshop_scale",
       "pos": [
-        -0.8000000000000007,
+        0.0,
         0,
-        -0.8000000000000007
+        0.0
       ],
       "scale": [
-        2.1,
-        2.1,
-        2.1
+        2.0,
+        2.0,
+        2.0
       ],
       "children": [
         {
@@ -53,16 +53,17 @@
               0,
               0,
               0
-            ]
+            ],
+            "tint": "#FFB39DA8"
           },
           "pickable": false
         },
         {
           "id": "stock",
           "pos": [
-            5.8,
-            10.96,
-            5.3
+            6,
+            10.33,
+            4.9
           ],
           "slot": {
             "slot": "stock",
@@ -77,8 +78,8 @@
           "id": "fuel",
           "pos": [
             8,
-            3.15,
-            4.5
+            2.85,
+            4.4
           ],
           "slot": {
             "slot": "fuel",
@@ -93,8 +94,8 @@
           "id": "result",
           "pos": [
             8,
-            10.96,
-            5.3
+            10.33,
+            4.9
           ],
           "output": {
             "output": "result",
@@ -106,9 +107,9 @@
         {
           "id": "additive",
           "pos": [
-            10.2,
-            10.96,
-            5.3
+            10,
+            10.33,
+            4.9
           ],
           "slot": {
             "slot": "additive",
@@ -123,8 +124,8 @@
           "id": "heat",
           "pos": [
             8,
-            5.0,
-            4.2
+            7.0,
+            5.0
           ],
           "control": {
             "control": "heat",
@@ -143,9 +144,26 @@
             ]
           },
           "tooltip": "temperandtang.furnace.stoke"
+        },
+        {
+          "id": "nether_fire",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "visual": {
+            "model": "temperandtang:diegesis/nether_alloy_furnace_fire",
+            "anchor": [
+              0,
+              0,
+              0
+            ]
+          },
+          "pickable": false
         }
       ]
     }
   ],
-  "work_plane": 67.2
+  "work_plane": 32.0
 }

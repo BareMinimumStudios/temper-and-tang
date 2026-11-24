@@ -38,6 +38,7 @@ object WorkshopVerification {
             fun add(station:String,primary:ItemStack,additive:ItemStack,fuel:ItemStack,expected:Item,count:Int,duration:Int) {
                 val f=CraftVerification.Fixture(source,station)
                 cases+=Case(f,expected,count,duration,fuel.copy())
+                check(f.type.schema().slotGroups().getValue("stock").rules().accepts().test(primary)){"Stock slot rejects valid $station input: $primary"}
                 f.put(T.STOCK,primary);f.put(T.ADDITIVE,additive);f.put(T.FUEL,fuel);f.press("heat")
                 check(f.state.data().getString("status")=="heating"){"$station rejected fuel/recipe: ${f.state.data()}"}
                 val remaining=f.state.getItem(T.FUEL)
@@ -47,6 +48,10 @@ object WorkshopVerification {
             }
             val tin=TemperContent.item("tin_ingot");val bronze=TemperContent.item("bronze_ingot");val steel=TemperContent.item("steel_ingot")
             add("charcoal_hearth",ItemStack(Items.IRON_INGOT),ItemStack.EMPTY,ItemStack(Items.OAK_PLANKS,2),Items.IRON_INGOT,1,HearthProcesses.duration(checkNotNull(WorkshopPlans.heating(ItemStack(Items.IRON_INGOT),source.level)),1))
+            for((raw,ingot) in listOf(Items.RAW_IRON to Items.IRON_INGOT,TemperContent.item("raw_tin") to tin,TemperContent.item("raw_silver") to TemperContent.item("silver_ingot"),TemperContent.item("silver_ore") to TemperContent.item("silver_ingot"))) {
+                val input=ItemStack(raw)
+                add("charcoal_hearth",input,ItemStack.EMPTY,ItemStack(Items.COAL),ingot,1,HearthProcesses.duration(checkNotNull(WorkshopPlans.heating(input,source.level)),1))
+            }
             add("alloy_furnace",ItemStack(Items.COPPER_INGOT,3),ItemStack(tin),ItemStack(Items.OAK_PLANKS,2),bronze,4,200)
             add("alloy_furnace",ItemStack(Items.IRON_INGOT),ItemStack(Items.COAL),ItemStack(Items.STICK,4),steel,1,240)
             add("alloy_furnace",ItemStack(Items.IRON_INGOT),ItemStack(Items.CHARCOAL),ItemStack(Items.COAL_BLOCK),steel,1,240)
@@ -72,7 +77,7 @@ object WorkshopVerification {
             if(job.source.level.gameTime-job.started<1202)return
             for(case in job.cases){val f=case.fixture;val result=f.take();check(result.item==case.expected && result.count==case.count){"Unexpected alloy result: $result"};check(f.take().isEmpty){"Output could be taken twice"};check(f.state.getItem(T.STOCK).isEmpty && f.state.getItem(T.ADDITIVE).isEmpty){"Alloy inputs not consumed exactly"}}
             jobs.remove(server);job.cases.forEach {it.fixture.close()}
-            TemperAndTang.logger.info("WORKSHOP_VERIFY_PASSED: seven timed batches; both carbon types; wood/stick/block/blaze/lava fuels; bucket returned; direct netherite; no duplicate output; cancellation; four-facing multiblocks")
+            TemperAndTang.logger.info("WORKSHOP_VERIFY_PASSED: eleven timed batches including raw iron/tin/silver and silver ore refining; both carbon types; wood/stick/block/blaze/lava fuels; bucket returned; direct netherite; no duplicate output; cancellation; four-facing multiblocks")
             job.source.sendSuccess({Component.literal("Workshop verification passed.")},false)
         }catch(e:Exception){jobs.remove(server);job.cases.forEach {it.fixture.close()};TemperAndTang.logger.error("WORKSHOP_VERIFY_FAILED",e)}
     }

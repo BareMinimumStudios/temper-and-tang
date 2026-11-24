@@ -3,6 +3,7 @@
   "values": [
     "#c:ingots/tin",
     "#minecraft:coals",
-    "#c:ingots/gold"
+    "#c:ingots/gold",
+    "#c:ingots/silver"
   ]
 }

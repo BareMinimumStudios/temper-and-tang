@@ -5,14 +5,6 @@
     {
       "id": "#c:tools/hammers",
       "required": false
-    },
-    {
-      "id": "overgeared:smithing_hammer",
-      "required": false
-    },
-    {
-      "id": "overgeared:copper_smithing_hammer",
-      "required": false
     }
   ]
 }

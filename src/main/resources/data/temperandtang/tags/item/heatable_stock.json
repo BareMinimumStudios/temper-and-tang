@@ -112,6 +112,18 @@
       "required": false
     },
     "minecraft:netherite_scrap",
-    "temperandtang:unrefined_netherite_alloy"
+    "temperandtang:unrefined_netherite_alloy",
+    {
+      "id": "#c:ingots/silver",
+      "required": false
+    },
+    {
+      "id": "#c:nuggets/silver",
+      "required": false
+    },
+    {
+      "id": "#c:plates/silver",
+      "required": false
+    }
   ]
 }

@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "temperandtang:tin_ore",
-    "temperandtang:deepslate_tin_ore"
+    "temperandtang:deepslate_tin_ore",
+    "temperandtang:silver_ore",
+    "temperandtang:deepslate_silver_ore"
   ]
 }

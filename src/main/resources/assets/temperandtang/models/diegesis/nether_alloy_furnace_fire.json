@@ -1,0 +1,126 @@
+{
+  "credit": "Made by Workshop Six",
+  "texture_size": [
+    128,
+    128
+  ],
+  "textures": {
+    "2": "temperandtang:block/workshop_six/blacksmith_furnace",
+    "4": "temperandtang:block/workshop_six/blacksmith_forge_lava",
+    "particle": "temperandtang:block/workshop_six/blacksmith_furnace"
+  },
+  "elements": [
+    {
+      "from": [
+        7.5,
+        1.75625,
+        4.8375
+      ],
+      "to": [
+        8.5,
+        3.75625,
+        5.8375
+      ],
+      "light_emission": 15,
+      "rotation": {
+        "angle": 0,
+        "axis": "y",
+        "origin": [
+          8.0,
+          3.75625,
+          5.0875
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            4,
+            8
+          ],
+          "texture": "#4"
+        },
+        "east": {
+          "uv": [
+            4,
+            0,
+            8,
+            8
+          ],
+          "texture": "#4"
+        },
+        "south": {
+          "uv": [
+            0,
+            8,
+            4,
+            16
+          ],
+          "texture": "#4"
+        },
+        "west": {
+          "uv": [
+            8,
+            0,
+            12,
+            8
+          ],
+          "texture": "#4"
+        },
+        "up": {
+          "uv": [
+            8,
+            12,
+            4,
+            8
+          ],
+          "texture": "#4"
+        },
+        "down": {
+          "uv": [
+            12,
+            8,
+            8,
+            12
+          ],
+          "texture": "#4"
+        }
+      }
+    }
+  ],
+  "gui_light": "front",
+  "display": {},
+  "groups": [
+    {
+      "name": "group",
+      "origin": [
+        -0.5,
+        2,
+        0.5
+      ],
+      "color": 0,
+      "children": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    }
+  ],
+  "mcmodels": "3ac72f3326a9dbd11696a1e153be1203",
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "render_type": "minecraft:cutout"
+}

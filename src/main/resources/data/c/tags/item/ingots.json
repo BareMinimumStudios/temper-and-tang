@@ -4,6 +4,7 @@
     "#c:ingots/tin",
     "#c:ingots/bronze",
     "#c:ingots/copper",
-    "#c:ingots/steel"
+    "#c:ingots/steel",
+    "#c:ingots/silver"
   ]
 }

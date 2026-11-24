@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "temperandtang:steel_block"
+    "temperandtang:steel_block",
+    "temperandtang:silver_ore",
+    "temperandtang:deepslate_silver_ore"
   ]
 }

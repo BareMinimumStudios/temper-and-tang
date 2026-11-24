@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NNN",
+    "NNN",
+    "NNN"
+  ],
+  "key": {
+    "N": {
+      "tag": "c:nuggets/silver"
+    }
+  },
+  "result": {
+    "id": "temperandtang:silver_ingot",
+    "count": 1
+  }
+}

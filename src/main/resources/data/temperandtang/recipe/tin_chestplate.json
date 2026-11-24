@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "M M",
+    "MMM",
+    "MMM"
+  ],
+  "key": {
+    "M": {
+      "tag": "c:ingots/tin"
+    }
+  },
+  "result": {
+    "id": "temperandtang:tin_chestplate",
+    "count": 1
+  }
+}

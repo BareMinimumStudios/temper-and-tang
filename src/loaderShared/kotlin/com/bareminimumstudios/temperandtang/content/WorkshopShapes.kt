@@ -23,7 +23,7 @@ internal object WorkshopShapes {
             doubleArrayOf(2.5,5.34375,2.15,13.5,14.25,13.85)
         )
         "alloy_furnace" -> listOf(doubleArrayOf(4.0,0.0,2.375,12.0,15.0,13.625))
-        "nether_alloy_furnace" -> listOf(doubleArrayOf(2.375,0.0,2.375,13.625,15.0,12.6875))
+        "nether_alloy_furnace" -> listOf(doubleArrayOf(4.0,0.0,2.375,12.0,15.0,13.625))
         "trough" -> listOf(
             doubleArrayOf(11.8,15.2,5.5,13.7,15.95,5.9),
             doubleArrayOf(11.8,15.2,10.1,13.7,15.95,10.5),

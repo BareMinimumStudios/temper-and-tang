@@ -1360,5 +1360,6 @@
   ],
   "mcmodels": "3ac72f3326a9dbd11696a1e153be1203",
   "parent": "minecraft:block/block",
-  "ambientocclusion": false
+  "ambientocclusion": false,
+  "render_type": "minecraft:cutout"
 }

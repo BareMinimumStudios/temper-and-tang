@@ -8,6 +8,10 @@ import net.minecraft.world.level.block.state.BlockBehaviour
 
 object TemperContent {
     val blocks: Map<String, () -> Block> = linkedMapOf(
+        "silver_ore" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_ORE)) },
+        "deepslate_silver_ore" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_IRON_ORE)) },
+        "silver_block" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)) },
+        "raw_silver_block" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.RAW_IRON_BLOCK)) },
         "tin_ore" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_ORE)) },
         "deepslate_tin_ore" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_IRON_ORE)) },
         "tin_block" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)) },
@@ -25,6 +29,9 @@ object TemperContent {
         "unrefined_netherite_alloy" to { Item(Item.Properties().fireResistant()) },
         "diamond_upgrade_smithing_template" to { DiamondUpgradeTemplateItem() },
         "unquenched_weapon" to { Item(Item.Properties().stacksTo(1)) },
+        "raw_silver" to { Item(Item.Properties()) },
+        "silver_ingot" to { Item(Item.Properties()) },
+        "silver_nugget" to { Item(Item.Properties()) },
         "raw_tin" to { Item(Item.Properties()) },
         "tin_ingot" to { Item(Item.Properties()) },
         "tin_nugget" to { Item(Item.Properties()) },

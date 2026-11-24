@@ -28,6 +28,34 @@ object ProgressionVerification {
         check(diamondCraft.isEmpty()){ "Diamond crafting shortcut remains: ${diamondCraft.map {it.id()}}" }
         val plans=WorkshopPlans.forming(level)
         check(plans.none {BuiltInRegistries.ITEM.getKey(it.recipe.getResultItem(registry).item).path.startsWith("diamond_")}) {"Diamond shaping shortcuts: "+plans.filter {BuiltInRegistries.ITEM.getKey(it.recipe.getResultItem(registry).item).path.startsWith("diamond_")}.map {it.id to it.recipe.getResultItem(registry)}}
+        for(part in listOf("sword","pickaxe","axe","shovel","hoe","helmet","chestplate","leggings","boots")) {
+            val item=TemperContent.item("tin_"+part);val stack=ItemStack(item)
+            check(GearSupport.supported(stack) && CraftMaterials.identify(stack)==ForgeMaterial.TIN)
+            check(plans.any {it.recipe.getResultItem(registry).item==item}) {"Missing tin shaping recipe: $part"}
+            val refined=Craftsmanship.apply(CraftMaterials.stamp(stack,ForgeMaterial.TIN),CraftRoll(CraftGrade.FINE,.8,.8,.5,10),"TinFixture","temperandtang:tin_"+part)
+            check(!refined.isEmpty && Craftsmanship.grade(refined)==CraftGrade.FINE)
+            val restored=ItemStack.parseOptional(registry,refined.save(registry) as net.minecraft.nbt.CompoundTag)
+            check(CraftMaterials.recorded(restored)==ForgeMaterial.TIN && restored.maxDamage==refined.maxDamage)
+        }
+        val tinPick=ItemStack(TemperContent.item("tin_pickaxe"))
+        check(tinPick.isCorrectToolForDrops(TemperContent.block("tin_ore").defaultBlockState()))
+        check(!tinPick.isCorrectToolForDrops(net.minecraft.world.level.block.Blocks.IRON_ORE.defaultBlockState())) {"Tin bypasses bronze mining progression"}
+        TemperAndTang.logger.info("TIN_CATALOG_PASSED: all nine native recipes, forging, saved material/quality and lower-tier mining restrictions")
+        val silver=ItemStack(TemperContent.item("silver_ingot"))
+        check(WorkshopPlans.stock(silver) && CraftMaterials.identify(silver)==ForgeMaterial.SILVER){"Silver tag mismatch: stock=${WorkshopPlans.stock(silver)} material=${CraftMaterials.identify(silver)} tags=${silver.tags.toList()}"}
+        for(name in listOf("raw_silver","silver_ore","deepslate_silver_ore")) {
+            val refining=checkNotNull(WorkshopPlans.heating(ItemStack(TemperContent.item(name)),level)){"Silver cannot be refined: $name"}
+            check(refining.output.item==silver.item && refining.output.count==1)
+        }
+        check(ItemStack(Items.IRON_PICKAXE).isCorrectToolForDrops(TemperContent.block("silver_ore").defaultBlockState()))
+        check(!bronze.isCorrectToolForDrops(TemperContent.block("silver_ore").defaultBlockState()))
+        val silverPlans=plans.filter {BuiltInRegistries.ITEM.getKey(it.recipe.getResultItem(registry).item).let {id->id.namespace=="magistuarmory" && id.path.startsWith("silver_")}}
+        if(BuiltInRegistries.ITEM.containsKey(ResourceLocation.fromNamespaceAndPath("magistuarmory","iron_shortsword")))check(silverPlans.isNotEmpty()){ "Epic Knights silver recipes did not resolve common silver ingots" }
+        for(p in silverPlans) {
+            check(p.requiresBlueprint)
+            check(CraftMaterials.choose(p.recipe.getResultItem(registry),p.ghosts)==ForgeMaterial.SILVER)
+        }
+        TemperAndTang.logger.info("SILVER_ROUTE_PASSED: ore/raw refinement, iron mining gate, common silver stock, {} Epic Knights blueprint patterns",silverPlans.size)
         val template=ItemStack(TemperContent.item("diamond_upgrade_smithing_template"))
         check(manager.recipes.none {it.value().getResultItem(registry).item==template.item}) {"Structure-only diamond template has a manufacturing recipe"}
         var upgrades=0;var native=0

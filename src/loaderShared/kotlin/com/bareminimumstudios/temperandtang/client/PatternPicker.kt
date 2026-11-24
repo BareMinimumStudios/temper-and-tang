@@ -1,6 +1,7 @@
 package com.bareminimumstudios.temperandtang.client
 
 import com.bareminimumstudios.temperandtang.smithing.WorkshopPlans
+import com.bareminimumstudios.temperandtang.smithing.GearSupport
 import com.pockyl.diegesis.api.client.ScreenOverlay
 import com.pockyl.diegesis.api.client.StationView
 import net.minecraft.client.Minecraft
@@ -27,6 +28,11 @@ class PatternPicker(private val view:StationView):ScreenOverlay {
     private val names=plans.associate {it.id to it.recipe.getResultItem(view.level().registryAccess()).hoverName.string.lowercase(Locale.ROOT)}
     private val nameWords=names.mapValues {it.value.split(Regex("\\s+")).toSet()}
     private val searchText=plans.associate {it.id to (names[it.id]+" "+it.id).lowercase(Locale.ROOT).replace('_',' ')}
+    private val ingredients=plans.associate {plan->
+        val counts=plan.ghosts.filterNot {it.isEmpty}.groupingBy {it.hoverName.string}.eachCount()
+        val text=counts.entries.joinToString(" \u00b7 ") {(name,count)->if(count>1)"$count \u00d7 $name" else name}
+        plan.id to (text+if(GearSupport.blueprint(plan.recipe.getResultItem(view.level().registryAccess())))" \u00b7 "+Component.translatable("temperandtang.patterns.blueprint").string else "")
+    }
     private var filtered=plans
     private var query=""
     private var offset=0
@@ -84,7 +90,7 @@ class PatternPicker(private val view:StationView):ScreenOverlay {
             val result=plan.recipe.getResultItem(view.level().registryAccess())
             g.renderItem(result,left+6,y+3)
             g.drawString(mc.font,mc.font.plainSubstrByWidth(result.hoverName.string,width-35),left+28,y+2,0xECE6D8)
-            g.drawString(mc.font,mc.font.plainSubstrByWidth(plan.id.toString(),width-35),left+28,y+13,0x9DA990)
+            g.drawString(mc.font,mc.font.plainSubstrByWidth(ingredients[plan.id]?:"",width-35),left+28,y+13,0x9DA990)
         }
         if(filtered.isEmpty())g.drawString(mc.font,Component.translatable("temperandtang.patterns.empty"),left+8,top+48,0xBBBBBB)
     }

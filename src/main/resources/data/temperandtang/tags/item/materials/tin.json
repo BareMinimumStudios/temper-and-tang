@@ -16,6 +16,15 @@
     {
       "id": "#c:plates/tin",
       "required": false
-    }
+    },
+    "temperandtang:tin_sword",
+    "temperandtang:tin_pickaxe",
+    "temperandtang:tin_axe",
+    "temperandtang:tin_shovel",
+    "temperandtang:tin_hoe",
+    "temperandtang:tin_helmet",
+    "temperandtang:tin_chestplate",
+    "temperandtang:tin_leggings",
+    "temperandtang:tin_boots"
   ]
 }

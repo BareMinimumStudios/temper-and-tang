@@ -25,7 +25,9 @@ object ThermalClient {
         private val quench=QuenchPresentation()
         private val bellows=BellowsPresentation()
         private var patterns:PatternPicker?=null
-        override fun onOpen(view:StationView) {if(action=="strike")hammer.sync(view);refresh(view)}
+        private val ghostIds=arrayOfNulls<String>(9)
+        private var lastCaption:Component?=null
+        override fun onOpen(view:StationView) {ghostIds.fill(null);lastCaption=null;if(action=="strike")hammer.sync(view);refresh(view)}
         override fun onStateChanged(view:StationView,changes:StationState.Changes) {if(action=="strike")hammer.sync(view);refresh(view)}
         override fun onEffect(view:StationView,effect:ResourceLocation,node:String?,data:CompoundTag) {
             if(action=="strike")hammer.effect(effect,data)
@@ -33,7 +35,6 @@ object ThermalClient {
         }
         override fun frame(view:StationView,deltaSeconds:Float) {
 
-            val status=view.state().data().getString("status")
             if(action=="heat")bellows.frame(view,deltaSeconds)
             if(action=="strike")hammer.frame(view,deltaSeconds)
             if(action=="quench")quench.frame(view,deltaSeconds)
@@ -74,7 +75,6 @@ object ThermalClient {
                 val working=visibleState.data().getString("status")=="work"
                 for(key in listOf("previous","next","category","scribe","mode"))view.node(key).ifPresent {it.setVisible(!ready && !working && (key=="mode" || !reforging))}
                 for(key in listOf("timing_rail","timing_band","timing_marker"))view.node(key).ifPresent {it.setVisible(working && !ready)}
-                val perfect=(visibleState.getControl("window").toInt()/2+1).toFloat()
                 view.node("timing_band").ifPresent {it.scaleTo(com.bareminimumstudios.temperandtang.smithing.RhythmTrack.bandWidth(view.state().getControl("perfect_window").coerceAtLeast(1f))/2f,0.05f)}
                 view.node("strike").ifPresent {it.setVisible(!ready)}
                 view.node("gear").ifPresent {it.setGhostItems(listOf(ItemStack(net.minecraft.world.item.Items.IRON_CHESTPLATE)))}
@@ -99,10 +99,16 @@ object ThermalClient {
             }
             val state=view.state()
             val data=state.data()
-            if(view.isFocused)view.showCaption(WorkshopGuidance.caption(view,action),0f)
+            if(view.isFocused) {
+                val caption=WorkshopGuidance.caption(view,action)
+                if(caption!=lastCaption){view.showCaption(caption,0f);lastCaption=caption}
+            }
             if(action!="strike")return
             for(i in 0..8) {
-                val ghost=ResourceLocation.tryParse(data.getString("ghost_"+i))?.let { ItemStack(BuiltInRegistries.ITEM.get(it)) }
+                val id=data.getString("ghost_"+i)
+                if(ghostIds[i]==id)continue
+                ghostIds[i]=id
+                val ghost=ResourceLocation.tryParse(id)?.let { ItemStack(BuiltInRegistries.ITEM.get(it)) }
                 view.node("grid_"+i).ifPresent { it.setGhostItems(if(ghost==null || ghost.isEmpty) emptyList() else listOf(ghost)) }
             }
 

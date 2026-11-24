@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#c:ingots/silver",
+      "required": false
+    },
+    {
+      "id": "#c:nuggets/silver",
+      "required": false
+    },
+    {
+      "id": "#c:plates/silver",
+      "required": false
+    },
+    {
+      "id": "#c:gems/silver",
+      "required": false
+    }
+  ]
+}

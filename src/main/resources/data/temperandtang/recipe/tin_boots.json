@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "M M",
+    "M M"
+  ],
+  "key": {
+    "M": {
+      "tag": "c:ingots/tin"
+    }
+  },
+  "result": {
+    "id": "temperandtang:tin_boots",
+    "count": 1
+  }
+}

@@ -16,6 +16,8 @@ def artifacts():
                 assert m["id"] == "temperandtang"
                 assert m["version"] == EXPECTED_VERSION
                 assert "diegesis" in m["depends"] and "fzzy_config" in m["depends"]
+                assert m["icon"] == "assets/temperandtang/icon.png"
+                assert m["icon"] in files
                 assert m["entrypoints"]["main"] and m["entrypoints"]["client"]
                 assert m["entrypoints"]["emi"] and m["entrypoints"]["jei_mod_plugin"]
                 loader = "fabric"
@@ -23,6 +25,8 @@ def artifacts():
                 m = tomllib.loads(z.read("META-INF/neoforge.mods.toml").decode())
                 assert m["mods"][0]["modId"] == "temperandtang"
                 assert m["mods"][0]["version"] == EXPECTED_VERSION
+                assert m["mods"][0]["logoFile"] == "assets/temperandtang/icon.png"
+                assert m["mods"][0]["logoFile"] in files
                 deps = {x["modId"] for x in m["dependencies"]["temperandtang"]}
                 assert {"diegesis", "fzzy_config", "kotlinforforge"} <= deps
                 loader = "neoforge"
@@ -40,7 +44,7 @@ def artifacts():
             assert "com/bareminimumstudios/temperandtang/content/WorkshopCatalog.class" in files
             for name in ("bronze_alloy", "steel_alloy", "smithing_tongs_from_bronze"):
                 assert f"data/temperandtang/recipe/{name}.json" in files
-            for metal in ("bronze", "steel"):
+            for metal in ("tin", "bronze", "steel"):
                 for part in ("pickaxe", "helmet", "sword"):
                     assert f"assets/temperandtang/models/item/{metal}_{part}.json" in files
                     assert f"data/temperandtang/recipe/{metal}_{part}.json" in files

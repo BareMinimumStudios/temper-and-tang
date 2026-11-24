@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "temperandtang:tin_ore"
+    "temperandtang:tin_ore",
+    "temperandtang:silver_ore"
   ]
 }

@@ -11,6 +11,10 @@
     "temperandtang:shaping_anvil",
     "temperandtang:steel_block",
     "temperandtang:alloy_furnace",
-    "temperandtang:nether_alloy_furnace"
+    "temperandtang:nether_alloy_furnace",
+    "temperandtang:silver_ore",
+    "temperandtang:deepslate_silver_ore",
+    "temperandtang:silver_block",
+    "temperandtang:raw_silver_block"
   ]
 }

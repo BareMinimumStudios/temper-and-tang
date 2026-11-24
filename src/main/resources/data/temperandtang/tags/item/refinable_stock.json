@@ -18,6 +18,17 @@
     {
       "id": "#c:raw_materials",
       "required": false
-    }
+    },
+    {
+      "id": "#c:ores/silver",
+      "required": false
+    },
+    {
+      "id": "#c:raw_materials/silver",
+      "required": false
+    },
+    "temperandtang:raw_silver",
+    "temperandtang:silver_ore",
+    "temperandtang:deepslate_silver_ore"
   ]
 }

@@ -15,7 +15,7 @@ import net.minecraft.world.phys.shapes.*
 
 /** A single owned station spanning real occupied cells; every part anchors to the same session. */
 class WorkshopBlock(properties:BlockBehaviour.Properties,val kind:String):Block(properties.pushReaction(net.minecraft.world.level.material.PushReaction.BLOCK)) {
-    val scale=when(kind){"hearth","alloy_furnace"->2.0;"nether_alloy_furnace"->2.1;else->1.0}
+    val scale=when(kind){"hearth","alloy_furnace","nether_alloy_furnace"->2.0;else->1.0}
     val width=if(scale>1)2 else 1
     val height=if(kind.endsWith("alloy_furnace"))2 else 1
     private val cells=buildList {for(y in 0 until height)for(z in 0 until width)for(x in 0 until width)add(BlockPos(x,y,z))}
