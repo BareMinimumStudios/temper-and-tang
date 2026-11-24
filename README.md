@@ -12,9 +12,11 @@ Press **F** at the shaping anvil to find a pattern directly. You can select whil
 - Compact colored station guidance; **H** for help and **Shift** for equipment details.
 - Recorded material trade-offs and one bounded equipment trait, influenced by accuracy and equipment family.
 - Distinct intermediate metal blanks for weapons, tools, shields and armor.
-- Six server-rolled craftsmanship grades, weighted toward strike accuracy, with a smaller random contribution and smithing mastery bonus.
+- Five server-rolled craftsmanship grades, weighted toward strike accuracy, with a smaller random contribution and smithing mastery bonus.
 - Player mastery, maker records, reusable advanced blueprints and paid hot-gear reforging with smithing flux.
 - Optional Simply Swords, Simply More and Epic Knights support using their original item identities and authored recipes.
+- Bronze-before-iron mining, structure-template steel-to-diamond upgrades, and a dedicated precision netherite alloy route.
+- Optional native EMI and JEI workshop recipe categories, with the same synchronized server recipe graph.
 - Tin ore, furnace refining and counted hearth alloys: 3 copper + 1 tin → 4 bronze; iron + carbon → steel.
 - Bronze and steel tool/armor families, plus bronze/iron/steel daggers, spears and warhammers; additive common tags and optional Better Combat profiles.
 - Owned Smithing Tongs, bounded contact burns and wear, automatic inventory/cursor cooling and unusable unquenched workpieces.

@@ -17,7 +17,7 @@ object ThermalClient {
             .color(0xFFFFD38A.toInt()).size(.45f,.85f).life(.22f,.42f).gravity(42f).drag(.25f).stretch().emissive().build())
         DiegesisClient.registerParticle(TemperAndTang.id("bellows_air"),ParticleStyle.builder(ResourceLocation.fromNamespaceAndPath("diegesis","steam_3"))
             .color(0xDDE5EFF5.toInt()).size(.7f,1f).life(.42f,.52f).gravity(0f).drag(.05f).stretch().grow(1.15f).fadeIn(.18f).emissive().build())
-        for ((name, action) in listOf("charcoal_hearth" to "heat", "shaping_anvil" to "strike", "quenching_trough" to "quench"))
+        for ((name, action) in listOf("charcoal_hearth" to "heat", "alloy_furnace" to "heat", "shaping_anvil" to "strike", "quenching_trough" to "quench"))
             DiegesisClient.registerBehavior(TemperAndTang.id(name)) { Feedback(action) }
     }
     private class Feedback(val action: String) : StationBehavior {

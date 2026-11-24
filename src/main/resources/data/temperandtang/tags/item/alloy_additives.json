@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "#c:ingots/tin",
-    "#minecraft:coals"
+    "#minecraft:coals",
+    "#c:ingots/gold"
   ]
 }

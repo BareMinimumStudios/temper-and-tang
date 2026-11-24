@@ -6,12 +6,22 @@
     " S "
   ],
   "key": {
-    "N": {
-      "tag": "c:nuggets/iron"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    },
+    "N": [
+      {
+        "tag": "c:nuggets/bronze"
+      },
+      {
+        "tag": "c:nuggets/iron"
+      }
+    ],
+    "I": [
+      {
+        "tag": "c:ingots/bronze"
+      },
+      {
+        "tag": "c:ingots/iron"
+      }
+    ],
     "S": {
       "tag": "c:rods/wooden"
     }

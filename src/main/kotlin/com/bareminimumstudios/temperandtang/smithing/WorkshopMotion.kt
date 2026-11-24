@@ -9,7 +9,7 @@ object WorkshopMotion {
     const val HAMMER_SCALE = 0.4f
     const val HEAD_Z = 9f
     const val TONG_JAW_Z = 4.494708f
-    const val TONG_JAW_Y = -.108f
+    const val TONG_JAW_Y = -.36f
     const val FACE_Y = -3f
     data class Point(val x:Float,val y:Float,val z:Float)
     data class Grip(val point:Point,val angle:Float)
@@ -32,15 +32,15 @@ object WorkshopMotion {
         return Point(g.x,g.y+HAMMER_SCALE*(FACE_Y*cos(a)-HEAD_Z*sin(a)),g.z+HAMMER_SCALE*(FACE_Y*sin(a)+HEAD_Z*cos(a)))
     }
     fun quenchPiece(u:Float):Point=when {
-        u<0.26f->Point(12.5f,12.35f,8f)
-        u<0.40f->{val t=(u-.26f)/.14f;Point(mix(12.5f,8f,t),mix(12.35f,14.3f,t),8f)}
-        u<0.56f->Point(8f,mix(14.3f,8.95f,(u-.40f)/.16f),8f)
-        u<0.75f->{val t=(u-.56f)/.19f;Point(8f,8.95f,8f+sin(t*PI.toFloat()*2)*sin(t*PI.toFloat()).pow(2)*.25f)}
-        u<0.93f->{val t=(u-.75f)/.18f;Point(mix(8f,12.5f,t),mix(8.95f,12.35f,t),8f)}
-        else->Point(12.5f,12.35f,8f)
+        u<0.26f->Point(12f,16.35f,8f)
+        u<0.40f->{val t=(u-.26f)/.14f;Point(mix(12f,8f,t),mix(16.35f,17.5f,t),8f)}
+        u<0.56f->Point(8f,mix(17.5f,11f,(u-.40f)/.16f),8f)
+        u<0.75f->{val t=(u-.56f)/.19f;Point(8f,11f,8f+sin(t*PI.toFloat()*2)*sin(t*PI.toFloat()).pow(2)*.25f)}
+        u<0.93f->{val t=(u-.75f)/.18f;Point(mix(8f,12f,t),mix(11f,16.35f,t),8f)}
+        else->Point(12f,16.35f,8f)
     }
     fun tongGrip(u:Float):Grip {
-        val rest=Point(2.15f,12.308f,2.6f)
+        val rest=Point(2.15f,16.2f,2.6f)
         if(u<=0f || u>=1f)return Grip(rest,0f)
         val p=quenchPiece(u)
         val angle=when {u<.40f->0f;u<.56f->mix(0f,40f,(u-.40f)/.16f);u<.75f->40f;else->mix(40f,0f,(u-.75f)/.18f)}

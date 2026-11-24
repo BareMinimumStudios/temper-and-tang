@@ -17,11 +17,11 @@ Supplementaries was inspected as a bellows animation reference; none of its
 geometry, textures, sounds or code are included.
 
 Workshop Six — Blacksmith Furniture
-Hearth, anvil, hammer, tongs and bellows models/textures adapted from the supplied Blacksmith Furniture asset pack.
+Hearth, furnace, water barrel, anvil, hammer, tongs and bellows models/textures adapted from the supplied Blacksmith Furniture asset pack.
 Creator credit: Made by Workshop Six.
 Used with redistribution permission supplied by the project owner on November 24, 2026.
 Original artwork rights remain with its creator; the project code license does not relicense this artwork.
-Adaptations: texture namespaces, workstation sizing, bellows part separation and animation.
+Adaptations: texture namespaces, uniform workstation/tool sizing, vertex-preserving UV rotation, bellows part separation and animation.
 
 Workshop Six — Mine Furniture
 Pallet geometry and timber textures adapted for the bellows support from the asset pack supplied by the project owner.

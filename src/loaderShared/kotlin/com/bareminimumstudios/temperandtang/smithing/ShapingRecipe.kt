@@ -4,7 +4,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.world.item.crafting.*
 
-class ShapingRecipe(val base:CraftingRecipe):CraftingRecipe by base {
+open class ShapingRecipe(val base:CraftingRecipe):CraftingRecipe by base {
     val width get()=(base as? ShapedRecipe)?.width?:3
     val height get()=(base as? ShapedRecipe)?.height?:((base.ingredients.size+2)/3).coerceAtLeast(1)
     override fun getType():RecipeType<*> = ThermalRecipes.TYPE

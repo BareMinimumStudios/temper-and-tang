@@ -3,12 +3,17 @@ package com.bareminimumstudios.temperandtang.smithing
 import kotlin.math.abs
 import kotlin.math.sqrt
 
-enum class CraftGrade(val durability:Double,val damage:Double,val armor:Double,val toughness:Double) {
-    ROUGH(-0.25,-0.15,-0.15,0.0), SERVICEABLE(0.0,0.0,0.0,0.0),
-    FINE(0.20,0.08,0.06,0.0), SUPERIOR(0.40,0.18,0.12,0.10),
-    MASTERWORK(0.70,0.30,0.20,0.20), EXCEPTIONAL(1.0,0.45,0.28,0.35);
+enum class CraftGrade(val durability:Double,val damage:Double,val armor:Double,val toughness:Double,val speed:Double,val mining:Double) {
+    ROUGH(-0.20,-0.10,-0.10,0.0,-0.04,-0.12), SERVICEABLE(0.0,0.0,0.0,0.0,0.0,0.0),
+    FINE(0.15,0.06,0.05,0.0,0.02,0.08), SUPERIOR(0.30,0.12,0.10,0.08,0.04,0.16),
+    MASTERWORK(0.50,0.20,0.16,0.15,0.06,0.25);
     val key get()=name.lowercase(java.util.Locale.ROOT)
+    companion object {
+        /** Existing exceptional pieces migrate to the highest of the five grades. */
+        fun parse(value:String)=if(value=="EXCEPTIONAL") MASTERWORK else entries.firstOrNull {it.name==value}
+    }
 }
+
 data class CraftRoll(val grade:CraftGrade,val accuracy:Double,val effective:Double,val luck:Double,val mastery:Int)
 object CraftRules {
     fun roll(accuracy:Double,mastery:Int,random:Double,luckWeight:Double=0.20,masteryWeight:Double=0.10,maxLevel:Int=20):CraftRoll {
@@ -17,7 +22,7 @@ object CraftRules {
         val lw=luckWeight.coerceIn(0.0,0.35);val mw=masteryWeight.coerceIn(0.0,0.20)
         val level=mastery.coerceIn(0,maxLevel.coerceAtLeast(1))
         val effective=skill*(1-lw-mw)+luck*lw+level.toDouble()/maxLevel.coerceAtLeast(1)*mw
-        val index=when {effective<0.12->0;effective<0.32->1;effective<0.52->2;effective<0.72->3;effective<0.92->4;else->5}
+        val index=when {effective<0.22->0;effective<0.48->1;effective<0.72->2;effective<0.90->3;else->4}
         return CraftRoll(CraftGrade.entries[index],skill,effective,luck,level)
     }
     fun level(xp:Long,maxLevel:Int=20)=sqrt(xp.coerceAtLeast(0).toDouble()/25.0).toInt().coerceIn(0,maxLevel.coerceAtLeast(1))

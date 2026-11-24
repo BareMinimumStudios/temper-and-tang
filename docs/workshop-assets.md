@@ -6,7 +6,7 @@ The source pack uses ordinary Java item model JSON and PNG textures. Nexo is not
 
 This integration uses the supplied hearth with its coal bed aligned to the existing heated-stock and particle positions, and the anvil artwork for both functional anvils, scaled to keep their existing working surfaces and impact animations. It splits the supplied bellows into its fixed stand/nozzle, rotating upper board/handle and flexible textured leather. Air bursts and fire feedback retain the existing compression rhythm. The supplied hammer and tongs share their artwork with the inventory and animated versions. Their grip, striking face and jaw contact coordinates are calibrated to the workpieces. Mine Furniture provides the textured pallet stand and matching timber surfaces.
 
-The remaining decorative furniture is not registered as new content. Large forge, table and rack models have multi-block proportions and need deliberate footprints and interaction layouts before replacing functional stations. The supplied water barrel would also need its own quench surface and dipping trajectory; the current trough is retained.
+The remaining decorative furniture is not registered as new content. Large forge, table and rack models have multi-block proportions and need deliberate footprints and interaction layouts before replacing functional stations. The supplied water barrel now replaces the trough artwork, with its own rim height, water surface and dipping trajectory. The supplied furnace is uniformly fitted for the separate late-game alloy furnace.
 
 ## Pattern selection
 
@@ -18,7 +18,7 @@ All four station cameras are centered on the work surface rather than offset sid
 
 ## Restricted ingredient slots
 
-The hearth additive dish accepts only `temperandtang:alloy_additives`: common tin ingots, coal and charcoal by default. Datapacks adding a new alloy's secondary ingredient should extend that tag as well as adding the alloy recipe. Accepted additives still need a matching primary ingredient and counted recipe before the hearth can run.
+The hearth additive dish accepts only `temperandtang:alloy_additives`: common tin/gold ingots, coal and charcoal by default. Datapacks adding a new alloy's secondary ingredient should extend that tag as well as adding the alloy recipe. Accepted additives still need a matching primary ingredient and counted recipe before the hearth can run.
 
 Finishing treatments remain limited to the four `temperandtang:finishing_materials/*` tags. Fuel accepts coal/charcoal, the hammer slots accept supported hammers, flux accepts smithing flux, blueprints accept blueprint items, and the quench water slot accepts water/empty buckets. General shaping grid cells remain recipe ingredient cells so sticks, leather, metal and compatibility ingredients can be arranged normally.
 
@@ -31,3 +31,5 @@ The rhythm display carries upcoming strikes forward when a phrase advances, usin
 The front-facing anvil camera is retained while the hammer swings in from the player's main-hand side. A yawed parent pose keeps the normal striking motion and collider aligned. Left- and right-handed poses land on the same workpiece contact point; the original forward pose remains available for older scene overrides without the side-pose node.
 
 The hammer is rolled a quarter turn around its handle so its small 4×4 end face strikes downward. Its broad 6×4 cheek remains vertical. The head contact offset and interaction bounds follow this orientation.
+
+All 107 shipped model resources pass parent/texture, UV, bounds, rotation and display-scale validation. The converted tongs retain uniform thickness; the original hammer texture coordinates are matched at transformed vertices. Model-gallery inspection remains part of release verification.

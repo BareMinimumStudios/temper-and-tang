@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "RecipeManagerMixin",
-    "SmithingUpgradeMixin"
+    "SmithingUpgradeMixin",
+    "SmithingIngredientsAccess"
   ],
   "injectors": {
     "defaultRequire": 1

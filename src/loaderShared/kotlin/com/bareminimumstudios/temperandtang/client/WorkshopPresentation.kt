@@ -178,20 +178,20 @@ class QuenchPresentation {
         val u=if(busy)(elapsed/duration).coerceIn(0f,1f) else 0f
         val grip=Motion.tongGrip(u)
         val piece=Motion.quenchPiece(u)
-        view.node("quench").ifPresent {it.moveTo(grip.point.x-2.15f,grip.point.y-12.2f,grip.point.z-2.6f,0f);it.rotateTo(grip.angle,0f,0f,0f)}
+        view.node("quench").ifPresent {it.moveTo(grip.point.x-2.15f,grip.point.y-16.2f,grip.point.z-2.6f,0f);it.rotateTo(grip.angle,0f,0f,0f)}
         val closure=when {u<.10f->0f;u<.22f->Motion.ease((u-.10f)/.12f);u<.90f->1f;else->1f-Motion.ease((u-.90f)/.10f)}
         val open=6f*(1f-closure)
         view.node("tong_left").ifPresent {it.rotateTo(0f,-open,0f,0f)}
         view.node("tong_right").ifPresent {it.rotateTo(0f,open,0f,0f)}
         view.node("quench_hand").ifPresent {it.setVisible(false)}
         val ready=!view.state().getOutput("result").isEmpty
-        view.node("stock").ifPresent {it.setVisible(!ready || busy);it.moveTo(piece.x-12.5f,piece.y-12.35f,piece.z-8f,0f)}
+        view.node("stock").ifPresent {it.setVisible(!ready || busy);it.moveTo(piece.x-12f,piece.y-16.35f,piece.z-8f,0f)}
         view.node("result").ifPresent {it.setVisible(ready && !busy)}
         view.node("steam").ifPresent {it.setEmitting(busy && u>.52f && u<.81f)}
         if(busy && !hiss && u>=.52f) {
             hiss=true;view.playSound(SoundEvents.FIRE_EXTINGUISH,"water_surface",.65f,1.25f)
-            view.spawnParticles(DiegesisParticles.SPLASH,Vector3f(8f,9.85f,8f),Vector3f(0f,6f,0f),1f,7,0xAA88BBE8.toInt())
-            view.spawnParticles(DiegesisParticles.STEAM,Vector3f(8f,10f,8f),Vector3f(0f,6f,0f),.8f,14,0)
+            view.spawnParticles(DiegesisParticles.SPLASH,Vector3f(8f,14.45f,8f),Vector3f(0f,6f,0f),1f,7,0xAA88BBE8.toInt())
+            view.spawnParticles(DiegesisParticles.STEAM,Vector3f(8f,14.5f,8f),Vector3f(0f,6f,0f),.8f,14,0)
         }
     }
 }

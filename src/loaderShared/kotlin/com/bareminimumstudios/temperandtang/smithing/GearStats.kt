@@ -38,9 +38,9 @@ object GearStats {
                 if(amount!=0.0 && amount.isFinite())builder.add(attribute,AttributeModifier(TemperAndTang.id("craft_"+when(attribute) {Attributes.ATTACK_DAMAGE->"damage";Attributes.ARMOR->"armor";else->"toughness"}+"_"+slot.name.lowercase(java.util.Locale.ROOT)),amount,AttributeModifier.Operation.ADD_VALUE),slot)
             }
         }
-        val handling=material.speed*materialPower+trait.speed*traitPower
+        val handling=(grade?.speed?:0.0)*scale+material.speed*materialPower+trait.speed*traitPower
         if(GearSupport.weapon(input) && handling!=0.0)builder.add(Attributes.ATTACK_SPEED,AttributeModifier(TemperAndTang.id("craft_handling_speed"),handling,AttributeModifier.Operation.ADD_MULTIPLIED_BASE),EquipmentSlotGroup.MAINHAND)
-        val mining=material.speed*materialPower+trait.mining*traitPower
+        val mining=(grade?.mining?:0.0)*scale+material.speed*materialPower+trait.mining*traitPower
         if(input.item is net.minecraft.world.item.DiggerItem && mining!=0.0)builder.add(Attributes.BLOCK_BREAK_SPEED,AttributeModifier(TemperAndTang.id("craft_mining_speed"),mining,AttributeModifier.Operation.ADD_MULTIPLIED_BASE),EquipmentSlotGroup.MAINHAND)
         val movement=material.movement*materialPower+trait.movement*traitPower
         if(movement!=0.0 && (input.item is ArmorItem || input.item is net.minecraft.world.item.ShieldItem)) {

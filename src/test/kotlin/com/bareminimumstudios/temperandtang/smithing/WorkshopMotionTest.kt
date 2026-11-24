@@ -25,7 +25,7 @@ class WorkshopMotionTest {
             assertEquals(p.y,g.point.y+WorkshopMotion.TONG_JAW_Y*cos(a)-WorkshopMotion.TONG_JAW_Z*sin(a),.001f)
             assertEquals(p.z,g.point.z+WorkshopMotion.TONG_JAW_Y*sin(a)+WorkshopMotion.TONG_JAW_Z*cos(a),.001f)
         }
-        assertTrue(WorkshopMotion.quenchPiece(.65f).y<9.8f)
-        assertEquals(12.35f,WorkshopMotion.quenchPiece(1f).y)
+        assertTrue(WorkshopMotion.quenchPiece(.65f).y<14.4f)
+        assertEquals(16.35f,WorkshopMotion.quenchPiece(1f).y)
     }
 }

@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.6.0 — in development
+
+- Use five craftsmanship grades, migrate old Exceptional records, and apply quality to handling and mining speed.
+- Exclude unique/runic Simply Swords families from forging and reforge acceptance.
+- Preserve normal optional weapon identities, including steel-core recipes and template-gated diamond upgrades.
+- Add structure-found diamond templates and route Epic Knights diamond equipment through native steel counterparts.
+- Add bronze-before-iron mining and bronze-compatible tongs for a reachable early workshop.
+- Add the supplied water barrel and furnace, restore uniform tong thickness, and preserve tool UVs through rotation.
+- Add counted high-temperature netherite alloying and data-driven precision refinement with scrap recovery.
+- Add optional EMI/JEI workshop recipe categories and a complete model/scene resource audit.
+- Runtime survival, recipe-viewer, multiplayer and full-pack acceptance remain in progress.
+
 ## 0.5.1
 
 - Add searchable pattern selection with F, automatic layout matching, and restoration of a valid saved pattern.

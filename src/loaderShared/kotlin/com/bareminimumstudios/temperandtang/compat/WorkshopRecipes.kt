@@ -27,6 +27,7 @@ object WorkshopRecipes {
                 }
             }
         }
+        EquipmentProgression.apply(result)
         var count=0
         for((id,element) in result.toMap()) {
             if(!element.isJsonObject)continue

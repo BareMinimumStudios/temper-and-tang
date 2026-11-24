@@ -23,6 +23,10 @@ import net.minecraft.world.item.component.CustomData
 
 object TemperCommands {
     fun register(dispatcher: CommandDispatcher<CommandSourceStack>) {
+        dispatcher.register(Commands.literal("temperandtang").requires {it.hasPermission(2)}.then(Commands.literal("verify_progression").executes {context->
+            try {ProgressionVerification.run(context.source);context.source.sendSuccess({Component.literal("Progression verification passed.")},false);1}
+            catch(failure:Exception){TemperAndTang.logger.error("PROGRESSION_VERIFY_FAILED",failure);context.source.sendFailure(Component.literal("Progression verification failed: "+failure.message));0}
+        }))
         dispatcher.register(Commands.literal("temperandtang")
             .then(Commands.literal("mastery").executes { context ->
                 val player=context.source.playerOrException

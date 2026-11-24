@@ -17,7 +17,7 @@ data class AlloyInput(val primary:ItemStack,val additive:ItemStack):RecipeInput 
 }
 
 /** Counted common-tag ingredients; no item replacement or hard dependency on another content mod. */
-class AlloyRecipe(val primary:Ingredient,val primaryCount:Int,val additive:Ingredient,val additiveCount:Int,val result:ItemStack,val cookingTime:Int):Recipe<AlloyInput> {
+class AlloyRecipe(val primary:Ingredient,val primaryCount:Int,val additive:Ingredient,val additiveCount:Int,val result:ItemStack,val cookingTime:Int,val requiresAdvanced:Boolean=false):Recipe<AlloyInput> {
     override fun matches(input:AlloyInput,level:Level)=primary.test(input.primary) && additive.test(input.additive) && input.primary.count>=primaryCount && input.additive.count>=additiveCount
     override fun assemble(input:AlloyInput,provider:HolderLookup.Provider)=result.copy()
     override fun canCraftInDimensions(width:Int,height:Int)=width*height>=2
@@ -37,12 +37,13 @@ object AlloyRecipes {
             Ingredient.CODEC_NONEMPTY.fieldOf("additive").forGetter(AlloyRecipe::additive),
             Codec.intRange(1,8).fieldOf("additive_count").forGetter(AlloyRecipe::additiveCount),
             ItemStack.STRICT_CODEC.fieldOf("result").forGetter(AlloyRecipe::result),
-            Codec.intRange(1,12000).optionalFieldOf("cookingtime",200).forGetter(AlloyRecipe::cookingTime)
+            Codec.intRange(1,12000).optionalFieldOf("cookingtime",200).forGetter(AlloyRecipe::cookingTime),
+            Codec.BOOL.optionalFieldOf("requires_advanced_furnace",false).forGetter(AlloyRecipe::requiresAdvanced)
         ).apply(i,::AlloyRecipe)}
         override fun streamCodec():StreamCodec<RegistryFriendlyByteBuf,AlloyRecipe> = StreamCodec.of({b,r->
             Ingredient.CONTENTS_STREAM_CODEC.encode(b,r.primary);b.writeVarInt(r.primaryCount)
             Ingredient.CONTENTS_STREAM_CODEC.encode(b,r.additive);b.writeVarInt(r.additiveCount)
-            ItemStack.STREAM_CODEC.encode(b,r.result);b.writeVarInt(r.cookingTime)
-        },{b->AlloyRecipe(Ingredient.CONTENTS_STREAM_CODEC.decode(b),b.readVarInt(),Ingredient.CONTENTS_STREAM_CODEC.decode(b),b.readVarInt(),ItemStack.STREAM_CODEC.decode(b),b.readVarInt())})
+            ItemStack.STREAM_CODEC.encode(b,r.result);b.writeVarInt(r.cookingTime);b.writeBoolean(r.requiresAdvanced)
+        },{b->AlloyRecipe(Ingredient.CONTENTS_STREAM_CODEC.decode(b),b.readVarInt(),Ingredient.CONTENTS_STREAM_CODEC.decode(b),b.readVarInt(),ItemStack.STREAM_CODEC.decode(b),b.readVarInt(),b.readBoolean())})
     }
 }

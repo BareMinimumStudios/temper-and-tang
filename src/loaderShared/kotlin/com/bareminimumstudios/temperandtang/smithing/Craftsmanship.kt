@@ -11,7 +11,7 @@ import net.minecraft.world.item.component.CustomData
 object Craftsmanship {
     fun root(stack:ItemStack)=stack.getOrDefault(DataComponents.CUSTOM_DATA,CustomData.EMPTY).copyTag().getCompound("temperandtang")
     fun data(stack:ItemStack)=root(stack).getCompound("craftsmanship")
-    fun grade(stack:ItemStack)=runCatching {CraftGrade.valueOf(data(stack).getString("grade"))}.getOrNull()
+    fun grade(stack:ItemStack)=CraftGrade.parse(data(stack).getString("grade"))
     fun apply(input:ItemStack,roll:CraftRoll,maker:String,recipe:String):ItemStack {
         if(!GearSupport.supported(input))return ItemStack.EMPTY
         val result=input.copy()
@@ -26,7 +26,7 @@ object Craftsmanship {
         if(!root.contains("origin_rarity"))root.putString("origin_rarity",input.getOrDefault(DataComponents.RARITY,Rarity.COMMON).name)
         all.put("temperandtang",root);result.set(DataComponents.CUSTOM_DATA,CustomData.of(all))
         val origin=runCatching {Rarity.valueOf(root.getString("origin_rarity"))}.getOrDefault(Rarity.COMMON)
-        val rarity=when(roll.grade) {CraftGrade.FINE->Rarity.UNCOMMON;CraftGrade.SUPERIOR->Rarity.RARE;CraftGrade.MASTERWORK,CraftGrade.EXCEPTIONAL->Rarity.EPIC;else->Rarity.COMMON}
+        val rarity=when(roll.grade) {CraftGrade.FINE->Rarity.UNCOMMON;CraftGrade.SUPERIOR->Rarity.RARE;CraftGrade.MASTERWORK->Rarity.EPIC;else->Rarity.COMMON}
         result.set(DataComponents.RARITY,if(rarity.ordinal>origin.ordinal)rarity else origin)
         return GearStats.rebuild(result)
     }

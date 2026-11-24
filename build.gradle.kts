@@ -45,6 +45,8 @@ cloche {
             modImplementation(libs.fabric.language.kotlin)
             modImplementation(libs.fzzy.config.fabric)
             modImplementation(libs.diegesis.fabric)
+            modCompileOnly(libs.emi.fabric)
+            modCompileOnly(libs.jei.fabric)
             compileOnly(libs.mixinextras)
         }
         metadata {
@@ -55,6 +57,7 @@ cloche {
                 dependency { modId = "fzzy_config"; version(libs.versions.fzzy.fabric.get()) }
                 dependency { modId = "diegesis"; version("1.0.0-beta.19") }
             }
+            entrypoint("emi") { value.set("com.bareminimumstudios.temperandtang.compat.viewer.TemperEmiPlugin") }
             entrypoint("client") {
                 adapter.set("kotlin")
                 value.set("com.bareminimumstudios.temperandtang.platform.TemperFabricClient")
@@ -73,6 +76,8 @@ cloche {
             modImplementation(libs.neoforge.language.kotlin)
             modImplementation(libs.fzzy.config.neoforge)
             modImplementation(libs.diegesis.neoforge)
+            modCompileOnly(libs.emi.neoforge)
+            modCompileOnly(libs.jei.neoforge)
             compileOnly(libs.mixinextras)
         }
         metadata {

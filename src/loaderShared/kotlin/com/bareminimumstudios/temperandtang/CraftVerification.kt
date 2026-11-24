@@ -176,7 +176,7 @@ object CraftVerification {
         check(GearSupport.supported(ItemStack(Items.IRON_HOE)) && GearSupport.supported(ItemStack(Items.GOLDEN_HOE))){"Metal tools bypass the workshop filter"}
         val catalogPlayer=Fixture(source,"shaping_anvil").player
         var patterns=0;var armor=0;var knights=0;var swords=0;var more=0
-        for(plan in WorkshopPlans.forming(source.level)) {
+        for(plan in WorkshopPlans.forming(source.level).filterNot {it.polishing}) {
             val grid=plan.ghosts.map {if(WorkshopPlans.metal(it))ThermalState.heated(it,source.level)else it.copy()}
             check(plan.matches(grid,source.level) && plan.hot(grid,source.level)) {"Unreachable pattern: "+plan.id}
             val result=plan.assemble(grid,source.level)
@@ -271,7 +271,7 @@ object CraftVerification {
                         check(SmithingProgress.get(source.server).xp(shaper.player.uuid)==xp && xp>0)
                         val contents=ItemStack.parseOptional(level.registryAccess(),ThermalState.data(shaped).getCompound("weapon"))
                         grade=Craftsmanship.grade(contents);accuracy=Craftsmanship.data(contents).getInt("accuracy")
-                        check(grade!=null && accuracy<1000 && grade!=CraftGrade.EXCEPTIONAL)
+                        check(grade!=null && accuracy<1000 && grade!=CraftGrade.MASTERWORK)
                         contents.damageValue=3;contents.set(DataComponents.CUSTOM_NAME,Component.literal("Craft persistence"))
                         contents.enchant(level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.UNBREAKING),2)
                         shaped=ThermalState.unquenched(contents,level)

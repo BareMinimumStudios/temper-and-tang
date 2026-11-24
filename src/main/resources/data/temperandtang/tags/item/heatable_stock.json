@@ -110,6 +110,8 @@
     {
       "id": "#magistuarmory:lamellar_rows/steel",
       "required": false
-    }
+    },
+    "minecraft:netherite_scrap",
+    "temperandtang:unrefined_netherite_alloy"
   ]
 }

@@ -18,6 +18,8 @@ object GearSupport {
         if(stack.isEmpty || stack.count!=1 || !stack.isDamageableItem || stack.`is`(EXCLUDED) || stack.`is`(TemperAndTangApi.EXCLUDED_WEAPONS))return false
         val id=BuiltInRegistries.ITEM.getKey(stack.item)
         if(id.namespace=="simplyswords" && !TemperAndTang.config.simplySwords.get() || id.namespace=="simplymore" && !TemperAndTang.config.simplyMore.get() || id.namespace=="magistuarmory" && !TemperAndTang.config.epicKnights.get())return false
+        // Ordinary metal families only. Unique/runic identities keep their own acquisition and powers.
+        if(id.namespace in setOf("simplyswords","simplymore") && !id.path.matches(Regex("(iron|gold|golden|diamond|netherite)_.+")))return false
         if(stack.`is`(INCLUDED))return true
         if(id.path.startsWith("wooden_") || id.path.startsWith("stone_"))return false
         val item=stack.item

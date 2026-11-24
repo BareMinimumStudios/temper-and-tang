@@ -65,6 +65,14 @@ class BellowsPresentation {
         view.node("hearth_body").ifPresent {it.setVisible(view.isBlockHidden)}
         time+=dt
         val heating=view.state().data().getString("status")=="heating"
+        if(view.node("furnace_body").isPresent) {
+            gust+=dt
+            if(heating && gust>=.12f) {
+                gust%=.12f
+                view.spawnParticles(DiegesisParticles.FLAME,Vector3f(8f,6.5f,3.5f),Vector3f(0f,3f,0f),.5f,2,0)
+            }
+            return
+        }
         drive+=((if(heating)1f else 0f)-drive)*(1-exp(-dt*7f))
         val target=3f+drive*(.9f+1.9f*sin(time*5f))
         val previousOpening=opening

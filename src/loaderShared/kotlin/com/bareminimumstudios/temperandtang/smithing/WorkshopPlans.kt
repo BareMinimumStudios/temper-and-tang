@@ -15,9 +15,9 @@ object WorkshopPlans {
     fun metal(stack:ItemStack)=stock(stack) || GearSupport.supported(stack)
     fun basicWeapon(stack:ItemStack)=GearSupport.supported(stack)
     fun heatable(stack:ItemStack)=HearthProcesses.refinable(stack) || stock(stack) || ThermalState.blank(stack) || GearSupport.supported(stack)
-    data class Heating(val output:ItemStack,val perItem:Int,val nativeRecipe:RecipeHolder<*>?=null,val additiveCost:Int=0,val process:String="heat",val totalTicks:Int=0)
-    fun heating(stack:ItemStack,level:net.minecraft.world.level.Level,additive:ItemStack=ItemStack.EMPTY):Heating? {
-        if(!additive.isEmpty)return HearthProcesses.alloy(stack,additive,level)
+    data class Heating(val output:ItemStack,val perItem:Int,val nativeRecipe:RecipeHolder<*>?=null,val additiveCost:Int=0,val process:String="heat",val totalTicks:Int=0,val requiresAdvanced:Boolean=false)
+    fun heating(stack:ItemStack,level:net.minecraft.world.level.Level,additive:ItemStack=ItemStack.EMPTY,advanced:Boolean=false):Heating? {
+        if(!additive.isEmpty)return HearthProcesses.alloy(stack,additive,level)?.takeIf {advanced || !it.requiresAdvanced}
         if(HearthProcesses.refinable(stack))return HearthProcesses.refine(stack,level)
         if(!heatable(stack))return null
         val path=BuiltInRegistries.ITEM.getKey(stack.item).path
@@ -37,6 +37,7 @@ object WorkshopPlans {
         fun hot(grid:List<ItemStack>,level:net.minecraft.world.level.Level)=grid.any(::metal) && grid.filter(::metal).all {ThermalState.hot(it,level)}
         fun required()=maxOf(hits,TemperAndTang.config.shapingStrikes.get()).coerceAtMost(40)
         fun output(grid:List<ItemStack>,level:net.minecraft.world.level.Level,player:Player,clean:Int,accuracy:Double=clean.toDouble()/required()):ItemStack {
+            if(recipe is PrecisionRefiningRecipe)return if(accuracy>=recipe.minimumAccuracy)assemble(grid,level) else recipe.failure.copy()
             val gear=Craftsmanship.forge(assemble(grid,level),accuracy,player,id.toString(),grid)
             return if(gear.isEmpty)gear else ThermalState.unquenched(gear,level)
         }
@@ -45,12 +46,13 @@ object WorkshopPlans {
         val result=mutableListOf<Forming>()
         for(holder in level.recipeManager.getAllRecipesFor(ThermalRecipes.TYPE)) {
             val recipe=holder.value();val output=recipe.getResultItem(level.registryAccess())
-            if(!GearSupport.supported(output))continue
+            val refining=recipe is PrecisionRefiningRecipe
+            if(!GearSupport.supported(output) && !refining)continue
             val ghosts=ghostGrid(recipe.ingredients,recipe.width,recipe.height)?:continue
             if(ghosts.none(::metal))continue
             val id=BuiltInRegistries.ITEM.getKey(output.item).path
             val hits=TemperAndTang.config.shapingStrikes.get()+(if(GearSupport.armor(output))2 else 0)+(if("netherite" in id || "diamond" in id)2 else 0)
-            result.add(Forming(holder.id(),recipe,false,ghosts,hits))
+            result.add(Forming(holder.id(),recipe,false,ghosts,(recipe as? PrecisionRefiningRecipe)?.strikes?:hits,refining))
         }
         return result.sortedBy {it.id.toString()}
     }

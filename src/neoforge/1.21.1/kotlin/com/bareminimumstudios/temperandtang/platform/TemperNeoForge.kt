@@ -35,6 +35,8 @@ class TemperNeoForge(bus: IEventBus) {
         recipeSerializers.register("shaping_shapeless", java.util.function.Supplier { com.bareminimumstudios.temperandtang.smithing.ThermalRecipes.SHAPELESS })
         recipeTypes.register("alloying",java.util.function.Supplier {com.bareminimumstudios.temperandtang.smithing.AlloyRecipes.TYPE})
         recipeSerializers.register("alloying",java.util.function.Supplier {com.bareminimumstudios.temperandtang.smithing.AlloyRecipes.SERIALIZER})
+        recipeSerializers.register("precision_refining",java.util.function.Supplier {com.bareminimumstudios.temperandtang.smithing.PrecisionRefining.SERIALIZER})
+        recipeSerializers.register("steel_upgrade",java.util.function.Supplier {com.bareminimumstudios.temperandtang.smithing.SteelUpgrades.SERIALIZER})
         recipeTypes.register(bus)
         recipeSerializers.register(bus)
         TemperContent.blocks.forEach { (name, factory) ->
@@ -42,6 +44,7 @@ class TemperNeoForge(bus: IEventBus) {
             items.register(name, java.util.function.Supplier<Item> { BlockItem(block.get(), Item.Properties()) })
         }
         TemperContent.items.forEach { (name, factory) -> items.register(name, java.util.function.Supplier<Item> { factory() }) }
+        NeoForge.EVENT_BUS.addListener { event: net.neoforged.neoforge.event.LootTableLoadEvent -> com.bareminimumstudios.temperandtang.compat.TemplateLoot.pool(event.name)?.let {event.table.addPool(it.build())} }
         NeoForge.EVENT_BUS.addListener { event: RegisterCommandsEvent -> TemperCommands.register(event.dispatcher) }
         NeoForge.EVENT_BUS.addListener { event: ServerTickEvent.Post -> com.bareminimumstudios.temperandtang.smithing.HotMetalHandling.tick(event.server); StationVerification.tick(event.server) }
         NeoForge.EVENT_BUS.addListener { event: ServerStoppedEvent -> StationVerification.stop(event.server); com.bareminimumstudios.temperandtang.smithing.HotMetalHandling.clear() }

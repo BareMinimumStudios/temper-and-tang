@@ -27,7 +27,7 @@ object HearthProcesses {
             val r=holder.value()
             if(!r.matches(input,level) || !WorkshopPlans.stock(r.result))continue
             val batch=AlloyRules.batch(primary.count,additive.count,r.primaryCount,r.additiveCount,r.result.count,minOf(8,r.result.maxStackSize))?:continue
-            return WorkshopPlans.Heating(r.result.copyWithCount(batch.outputCount),r.cookingTime,holder,batch.additiveCost,"alloy",(r.cookingTime.toLong()*batch.batches).coerceAtMost(96000).toInt())
+            return WorkshopPlans.Heating(r.result.copyWithCount(batch.outputCount),r.cookingTime,holder,batch.additiveCost,"alloy",(r.cookingTime.toLong()*batch.batches).coerceAtMost(96000).toInt(),r.requiresAdvanced)
         }
         return null
     }

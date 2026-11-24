@@ -14,12 +14,15 @@ object TemperContent {
         "bronze_block" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)) },
         "steel_block" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)) },
         "raw_tin_block" to { Block(BlockBehaviour.Properties.ofFullCopy(Blocks.RAW_IRON_BLOCK)) },
+        "alloy_furnace" to { WorkshopBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BLAST_FURNACE).lightLevel { 0 }.noOcclusion(),"alloy_furnace") },
         "charcoal_hearth" to { WorkshopBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FURNACE).lightLevel { 0 }.noOcclusion(),"hearth") },
         "shaping_anvil" to { WorkshopBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANVIL).noOcclusion(),"forge") },
         "quenching_trough" to { WorkshopBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion(),"trough") },
         "finishing_anvil" to { WorkshopBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANVIL).noOcclusion(),"finishing") },
     )
     val items: Map<String, () -> Item> = linkedMapOf(
+        "unrefined_netherite_alloy" to { Item(Item.Properties().fireResistant()) },
+        "diamond_upgrade_smithing_template" to { DiamondUpgradeTemplateItem() },
         "unquenched_weapon" to { Item(Item.Properties().stacksTo(1)) },
         "raw_tin" to { Item(Item.Properties()) },
         "tin_ingot" to { Item(Item.Properties()) },

@@ -7,7 +7,7 @@ import net.minecraft.world.item.Tiers
 import net.minecraft.world.item.crafting.Ingredient
 
 object BronzeTier : Tier by Tiers.IRON {
-    override fun getIncorrectBlocksForDrops() = net.minecraft.tags.BlockTags.INCORRECT_FOR_STONE_TOOL
+    override fun getIncorrectBlocksForDrops() = TagKey.create(Registries.BLOCK,ResourceLocation.fromNamespaceAndPath("temperandtang","incorrect_for_bronze_tool"))
     override fun getSpeed() = 5.0f
     override fun getUses() = 220
     override fun getAttackDamageBonus() = 1.0f

@@ -39,7 +39,7 @@ object ThermalStations {
         if (data != before) s.state().setData(data)
     }
     fun register() {
-        Diegesis.station(TemperAndTang.id("charcoal_hearth")).block { TemperContent.block("charcoal_hearth") }
+        for(name in listOf("charcoal_hearth","alloy_furnace")) Diegesis.station(TemperAndTang.id(name)).block { TemperContent.block(name) }
             .schema(StationSchema.builder()
                 .slots("stock",1,SlotRules.DEFAULT.maxStack(8).accepts(WorkshopPlans::heatable))
                 .slots("fuel",1,SlotRules.DEFAULT.accepts { it.`is`(ItemTags.COALS) })
@@ -52,7 +52,7 @@ object ThermalStations {
             .schema(StationSchema.builder()
                 .slots("grid",9,SlotRules.DEFAULT.maxStack(1))
                 .slots("hammer",1,SlotRules.DEFAULT.maxStack(1).accepts(FinishingStation::isHammer))
-                .slots("workpiece",1,SlotRules.DEFAULT.maxStack(1).accepts { false })
+                .slots("workpiece",1,SlotRules.DEFAULT.maxStack(8).accepts { false })
                 .slots("gear",1,SlotRules.DEFAULT.maxStack(1).accepts(GearSupport::supported))
                 .slots("flux",1,SlotRules.DEFAULT.accepts {it.item==TemperContent.item("smithing_flux")})
                 .slots("blueprint",1,SlotRules.DEFAULT.maxStack(1).accepts {Blueprints.blank(it) || Blueprints.filled(it)})
@@ -107,7 +107,7 @@ object ThermalStations {
             if (s.isClientSide || control != "heat" || !active() || player.isSpectator || start >= 0 || completed) return
             val stock = s.state().getItem(STOCK)
             if (stock.isEmpty || ThermalState.hot(stock,s.level()) && s.state().getItem(ADDITIVE).isEmpty) { updateOutputs(s); return }
-            val candidate = WorkshopPlans.heating(stock,s.level(),s.state().getItem(ADDITIVE)) ?: return
+            val candidate = WorkshopPlans.heating(stock,s.level(),s.state().getItem(ADDITIVE),s.blockState().`is`(TemperContent.block("alloy_furnace"))) ?: return
             val duration = HearthProcesses.duration(candidate,stock.count)
             val cost = ThermalRules.coalCost(duration)
             val fuel = s.state().getItem(FUEL)
@@ -151,7 +151,7 @@ object ThermalStations {
             s.state().setOutput("result",if (ready) stock.copy() else ItemStack.EMPTY)
             val candidate = if (start < 0 && !completed) {
                 if (!snapshot(stock,previewStock) || !snapshot(s.state().getItem(ADDITIVE),previewSupplement) || s.level().gameTime-previewTick >= 20) {
-                    previewStock=stock.copy(); previewSupplement=s.state().getItem(ADDITIVE).copy(); preview=WorkshopPlans.heating(stock,s.level(),s.state().getItem(ADDITIVE)); previewTick=s.level().gameTime
+                    previewStock=stock.copy(); previewSupplement=s.state().getItem(ADDITIVE).copy(); preview=WorkshopPlans.heating(stock,s.level(),s.state().getItem(ADDITIVE),s.blockState().`is`(TemperContent.block("alloy_furnace"))); previewTick=s.level().gameTime
                 }
                 preview
             } else plan
@@ -206,7 +206,7 @@ object ThermalStations {
                 if(GearSupport.blueprint(target) && Blueprints.pattern(s.state().getItem(BLUEPRINT))!=selected.id.toString())return "blueprint"
                 if(!selected.matches(stocks(s),s.level()))return "pattern"
                 if(!selected.hot(stocks(s),s.level()))return "hot"
-                if(work==null && !Craftsmanship.canReforge(selected.assemble(stocks(s),s.level())))return "repair"
+                if(work==null && !selected.polishing && !Craftsmanship.canReforge(selected.assemble(stocks(s),s.level())))return "repair"
             }
             val hammer=s.state().getItem(HAMMER)
             if(!FinishingStation.isHammer(hammer) || hammer.maxDamage-hammer.damageValue<required(s))return "hammer"
@@ -283,7 +283,7 @@ object ThermalStations {
                     val forged=Craftsmanship.forge(ThermalState.airCooled(gear,s.level()),job.accuracy,player,"reforge:"+BuiltInRegistries.ITEM.getKey(gear.item))
                     if(forged.isEmpty)forged else ThermalState.unquenched(forged,s.level())
                 } else plan()?.output(stocks(s),s.level(),player,job.perfect,job.accuracy)?:ItemStack.EMPTY
-                if(result.isEmpty || result.count!=1)return
+                if(result.isEmpty || result.count !in 1..(if(plan()?.polishing==true)8 else 1))return
                 if(reforging) {
                     s.state().setItem(GEAR,ItemStack.EMPTY)
                     s.state().setItem(FLUX,s.state().getItem(FLUX).copy().also {it.shrink(1)})

@@ -1,0 +1,132 @@
+{
+  "camera": {
+    "position": [
+      8,
+      34,
+      -25
+    ],
+    "target": [
+      8,
+      9,
+      8
+    ],
+    "fov": 50
+  },
+  "interface": {
+    "inventory_panel": true,
+    "show_counts": true,
+    "hide_player": true,
+    "shadows": false
+  },
+  "inventory_drawer": {
+    "side": "bottom",
+    "style": "minimal",
+    "always_open": true,
+    "compact": true,
+    "margin": 12,
+    "carry_size": 3.5
+  },
+  "nodes": [
+    {
+      "id": "furnace_body",
+      "pos": [
+        0,
+        0,
+        0
+      ],
+      "visual": {
+        "model": "temperandtang:block/alloy_furnace",
+        "anchor": [
+          0,
+          0,
+          0
+        ]
+      },
+      "pickable": false
+    },
+    {
+      "id": "stock",
+      "pos": [
+        5,
+        17,
+        6
+      ],
+      "slot": {
+        "slot": "stock",
+        "size": 4,
+        "idle_highlight": 0.12
+      },
+      "tooltip": "temperandtang.thermal.slot.stock"
+    },
+    {
+      "id": "fuel",
+      "pos": [
+        5,
+        6,
+        2
+      ],
+      "slot": {
+        "slot": "fuel",
+        "size": 3,
+        "idle_highlight": 0.12
+      },
+      "tooltip": "temperandtang.thermal.slot.fuel"
+    },
+    {
+      "id": "result",
+      "pos": [
+        8,
+        17,
+        8
+      ],
+      "output": {
+        "output": "result",
+        "size": 4.5
+      },
+      "tooltip": "temperandtang.scene.result"
+    },
+    {
+      "id": "additive",
+      "pos": [
+        11,
+        17,
+        6
+      ],
+      "slot": {
+        "slot": "additive",
+        "size": 2.8,
+        "idle_highlight": 0.12
+      },
+      "tooltip": "temperandtang.thermal.slot.additive"
+    },
+    {
+      "id": "heat",
+      "pos": [
+        8,
+        10,
+        3
+      ],
+      "visual": {
+        "item": "minecraft:blaze_powder"
+      },
+      "control": {
+        "control": "heat",
+        "type": "button"
+      },
+      "collider": {
+        "from": [
+          -3,
+          -2,
+          -1
+        ],
+        "to": [
+          3,
+          2,
+          1
+        ]
+      },
+      "tooltip": "temperandtang.furnace.stoke"
+    }
+  ],
+  "work_plane": 16
+}
