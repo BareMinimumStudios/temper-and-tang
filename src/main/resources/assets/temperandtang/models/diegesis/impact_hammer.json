@@ -5,7 +5,11 @@
     64
   ],
   "textures": {
-    "1": "temperandtang:block/workshop_six/blacksmith_tool_board_long"
+    "1": "temperandtang:block/workshop_six/blacksmith_tool_board_long",
+    "shaft": "minecraft:block/stripped_spruce_log",
+    "shaft_end": "minecraft:block/stripped_spruce_log_top",
+    "grip": "minecraft:block/stripped_dark_oak_log",
+    "grip_end": "minecraft:block/stripped_dark_oak_log_top"
   },
   "elements": [
     {
@@ -30,66 +34,63 @@
       },
       "faces": {
         "north": {
+          "texture": "#grip_end",
           "uv": [
-            13.5,
-            1.25,
-            13,
-            1.5
-          ],
-          "rotation": 270,
-          "texture": "#1"
+            6,
+            6,
+            7.300000000000001,
+            8.3
+          ]
         },
         "up": {
+          "texture": "#grip",
           "uv": [
-            12.75,
-            0,
-            13,
-            1.5
-          ],
-          "rotation": 180,
-          "texture": "#1"
+            6,
+            1,
+            7.300000000000001,
+            7.0
+          ]
         },
         "south": {
+          "texture": "#grip_end",
           "uv": [
-            13.5,
-            1.25,
-            13,
-            1
-          ],
-          "texture": "#1",
-          "rotation": 270
+            6,
+            6,
+            7.300000000000001,
+            8.3
+          ]
         },
         "down": {
+          "texture": "#grip",
           "uv": [
-            12.75,
-            3.75,
-            13,
-            5.25
-          ],
-          "rotation": 0,
-          "texture": "#1"
+            6,
+            1,
+            7.300000000000001,
+            7.0
+          ]
         },
         "west": {
+          "texture": "#grip",
           "uv": [
-            10,
-            12,
-            10.5,
-            13.5
+            6,
+            1,
+            8.3,
+            7.0
           ],
-          "rotation": 90,
-          "texture": "#1"
+          "rotation": 90
         },
         "east": {
+          "texture": "#grip",
           "uv": [
-            10.5,
-            12,
-            11,
-            13.5
+            6,
+            1,
+            8.3,
+            7.0
           ],
-          "texture": "#1",
-          "rotation": 270
+          "rotation": 90
         }
-      }
+      },
+      "name": "wooden_grip"
     },
     {
       "from": [
@@ -113,66 +114,63 @@
       },
       "faces": {
         "north": {
+          "texture": "#shaft_end",
           "uv": [
-            13.5,
-            2.25,
-            13,
-            2.5
-          ],
-          "rotation": 270,
-          "texture": "#1"
+            6,
+            6,
+            7.0,
+            8
+          ]
         },
         "up": {
+          "texture": "#shaft",
           "uv": [
-            9.5,
-            12,
-            9.75,
-            15.5
-          ],
-          "rotation": 180,
-          "texture": "#1"
+            6,
+            1,
+            7.0,
+            15
+          ]
         },
         "south": {
+          "texture": "#shaft_end",
           "uv": [
-            13.5,
-            2.25,
-            13,
-            2
-          ],
-          "texture": "#1",
-          "rotation": 270
+            6,
+            6,
+            7.0,
+            8
+          ]
         },
         "down": {
+          "texture": "#shaft",
           "uv": [
-            9.75,
-            12,
-            10,
-            15.5
-          ],
-          "rotation": 0,
-          "texture": "#1"
+            6,
+            1,
+            7.0,
+            15
+          ]
         },
         "west": {
+          "texture": "#shaft",
           "uv": [
-            11.75,
-            0,
-            12.25,
-            3.5
+            6,
+            1,
+            8,
+            15
           ],
-          "rotation": 90,
-          "texture": "#1"
+          "rotation": 90
         },
         "east": {
+          "texture": "#shaft",
           "uv": [
-            11.75,
-            3.5,
-            12.25,
-            7
+            6,
+            1,
+            8,
+            15
           ],
-          "texture": "#1",
-          "rotation": 270
+          "rotation": 90
         }
-      }
+      },
+      "name": "wooden_shaft"
     },
     {
       "from": [
