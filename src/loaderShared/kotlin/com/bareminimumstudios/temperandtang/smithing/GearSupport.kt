@@ -28,6 +28,11 @@ object GearSupport {
         if(id.toString() in setOf("minecraft:turtle_helmet","minecraft:wolf_armor"))return false
         return item is TieredItem || armor(stack) || weapon(stack) || item is ShieldItem || stack.`is`(TemperAndTangApi.FINISHABLE_WEAPONS) || TemperAndTangApi.acceptsCustom(stack)
     }
+    fun steelCore(stack:ItemStack):Boolean {
+        val id=BuiltInRegistries.ITEM.getKey(stack.item)
+        return id.namespace!="minecraft" && id.path.startsWith("iron_") && supported(stack) &&
+            !BuiltInRegistries.ITEM.containsKey(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(id.namespace,"steel_"+id.path.removePrefix("iron_")))
+    }
     fun blueprint(stack:ItemStack)=BuiltInRegistries.ITEM.getKey(stack.item).namespace=="magistuarmory"
     fun category(stack:ItemStack)=if(armor(stack)) 1 else if(stack.item is ShieldItem) 2 else 0
 }

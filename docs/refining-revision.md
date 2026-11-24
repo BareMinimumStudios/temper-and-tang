@@ -55,3 +55,16 @@ Station-manager checks cover all five stations using two simulated connections: 
 The standalone dedicated NeoForge server passed the equipment/catalog checks (367 forging patterns: 246 Epic Knights, 30 Simply Swords, 20 Simply More, and remaining standalone/vanilla patterns), progression checks and the timed netherite success/failure loop, then saved and shut down normally.
 
 The isolated GUI bronze walkthrough now starts with actual survival block destruction and generated tin/copper loot. It completed refining, bronze alloying, six shaping strikes, barrel quenching and six finishing strikes, with exact fuel/leftover accounting and no hot-metal damage while tongs were equipped. Both anvil contact probes and the airflow/track probes passed. Six crafted/worn equipment records and mastery were checked after an actual saved-world restart. The iron-to-steel GUI route and fresh full-pack copy remain in progress.
+
+
+## Full-pack integration checkpoint
+
+A read-only snapshot of the current New Test profile (262 existing dependency/content JARs plus the replacement development build) exposed Reliable Recipes applying its equipment edits after the original workshop hook. Routing now runs on the final JSON map immediately before recipe parsing, after HEAD recipe modifiers. This respects removed patterns and converts late additions. The current full-pack audit passes 55 steel-to-diamond routes and 55 diamond-to-netherite routes, with no supported equipment crafting/shaping shortcuts. Native food knives and cleavers use their own steel-forged iron-family identities when no native steel item exists. The backported diamond spear upgrades from the existing standalone steel spear.
+
+Netherite equipment requires its matching diamond base, a vanilla netherite upgrade template and a netherite ingot. Normal mod-added crafting alternatives are converted to the same route. Dedicated checks passed 63 netherite upgrade recipes on the NeoForge compatibility fixture and 53 on Fabric, including quality/name/wear preservation. Every generated steel-core pattern is now checked through forging, finishing and reforging; reforging retains its recorded steel material.
+
+Both bronze and steel GUI walkthroughs passed from actual survival ore drops through their alloy, shaping, quenching and finishing paths. Both retained six real crafted/worn equipment records and mastery after saved-world restart. The Fabric client rendered the six workshop categories and passed variant matching as well as the recipe/slot audits. The full-pack copy rendered the same categories in EMI after its progression audit.
+
+Full-pack fixture caveats: an unrelated MidnightLib concurrent-initialization failure occurred during one launch; only the disposable copy uses `fml.toml` startup `maxThreads = 1` to avoid that race. After successful world save, the pack also logs Small Ships' existing `smallships-server.toml` unload exception. No live New Test files were modified, no client content mods were disabled, and these third-party startup/shutdown issues are not claimed fixed in the live profile.
+
+Outstanding acceptance remains actual two-client network interruption/latency checks, a normal-equipment catalog gap audit (including ranged equipment), final configurable-rule checks, final artifacts and preview review. This checkpoint is not release completion.

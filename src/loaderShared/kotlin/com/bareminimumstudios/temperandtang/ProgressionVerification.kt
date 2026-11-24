@@ -33,9 +33,10 @@ object ProgressionVerification {
         for(holder in manager.getAllRecipesFor(RecipeType.SMITHING)) {
             val recipe=holder.value();val output=recipe.getResultItem(registry);val id=BuiltInRegistries.ITEM.getKey(output.item)
             if(!id.path.startsWith("diamond_") || !GearSupport.supported(output) || !recipe.isTemplateIngredient(template))continue
-            val base=if(id.namespace=="minecraft")ItemStack(TemperContent.item("steel_"+id.path.removePrefix("diamond_")))else {
-                native++;ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath(id.namespace,(if(id.namespace=="magistuarmory")"steel_"else"iron_")+id.path.removePrefix("diamond_"))))
-            }
+            val transform=when(recipe) {is SteelUpgradeRecipe->recipe.base;is SmithingTransformRecipe->recipe;else->error("Unknown template recipe: ${holder.id()}")}
+            val ingredient=(transform as com.bareminimumstudios.temperandtang.mixin.SmithingIngredientsAccess).temperBase()
+            val base=ingredient.items.firstOrNull()?.copy()?:error("Empty upgrade base: ${holder.id()}")
+            if(id.namespace!="minecraft")native++
             if(base.isEmpty)continue
             val marked=Craftsmanship.apply(CraftMaterials.stamp(base,ForgeMaterial.STEEL),CraftRoll(CraftGrade.SUPERIOR,.9,.85,.5,10),"UpgradeFixture","fixture")
             marked.damageValue=7;marked.set(DataComponents.CUSTOM_NAME,Component.literal("Preserved steel core"))
@@ -43,6 +44,7 @@ object ProgressionVerification {
             check(recipe.matches(input,level)){"No steel-to-diamond match: ${holder.id()}"}
             check(!recipe.matches(SmithingRecipeInput(ItemStack(Items.PAPER),marked,ItemStack(Items.DIAMOND)),level))
             if(recipe is SteelUpgradeRecipe)check(!recipe.matches(SmithingRecipeInput(template,base,ItemStack(Items.DIAMOND)),level)){"Unforged iron bypasses steel"}
+            if(recipe is SteelUpgradeRecipe)check(plans.any {it.recipe.getResultItem(registry).item==base.item && it.ghosts.any {stock->CraftMaterials.identify(stock)==ForgeMaterial.STEEL}}){"No obtainable steel-core pattern for ${holder.id()}"}
             val upgraded=recipe.assemble(input,registry)
             check(upgraded.item==output.item && upgraded.damageValue==7)
             check(Craftsmanship.grade(upgraded)==CraftGrade.SUPERIOR && CraftMaterials.recorded(upgraded)==ForgeMaterial.DIAMOND)
@@ -56,6 +58,28 @@ object ProgressionVerification {
             val stack=ItemStack(item);val id=BuiltInRegistries.ITEM.getKey(item)
             if(id.namespace in setOf("simplyswords","simplymore") && !id.path.matches(Regex("(iron|gold|golden|diamond|netherite)_.+")))check(!GearSupport.supported(stack)){"Unique/runic item accepted: $id"}
         }
+        check(manager.getAllRecipesFor(RecipeType.CRAFTING).none {BuiltInRegistries.ITEM.getKey(it.value().getResultItem(registry).item).path.startsWith("netherite_") && GearSupport.supported(it.value().getResultItem(registry))}) {"Netherite crafting shortcut remains"}
+        check(plans.none {!it.polishing && BuiltInRegistries.ITEM.getKey(it.recipe.getResultItem(registry).item).path.startsWith("netherite_")}) {"Netherite equipment shaping shortcut remains"}
+        var netheriteUpgrades=0
+        val netheriteTemplate=ItemStack(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE)
+        for(holder in manager.getAllRecipesFor(RecipeType.SMITHING)) {
+            val recipe=holder.value();val output=recipe.getResultItem(registry)
+            if(!BuiltInRegistries.ITEM.getKey(output.item).path.startsWith("netherite_") || !GearSupport.supported(output) || !recipe.isTemplateIngredient(netheriteTemplate))continue
+            val transform=recipe as? SmithingTransformRecipe?:continue
+            val base=(transform as com.bareminimumstudios.temperandtang.mixin.SmithingIngredientsAccess).temperBase().items.firstOrNull()?.copy()?:error("Empty netherite base: ${holder.id()}")
+            check(BuiltInRegistries.ITEM.getKey(base.item).path.startsWith("diamond_")){"Netherite skips diamond: ${holder.id()}"}
+            val marked=Craftsmanship.apply(CraftMaterials.stamp(base,ForgeMaterial.DIAMOND),CraftRoll(CraftGrade.SUPERIOR,.9,.85,.5,10),"NetheriteFixture","fixture")
+            marked.damageValue=7;marked.set(DataComponents.CUSTOM_NAME,Component.literal("Preserved diamond core"))
+            val input=SmithingRecipeInput(netheriteTemplate,marked,ItemStack(Items.NETHERITE_INGOT))
+            check(recipe.matches(input,level)){"Unreachable netherite upgrade: ${holder.id()}"}
+            val result=recipe.assemble(input,registry)
+            check(result.item==output.item && result.damageValue==7 && Craftsmanship.grade(result)==CraftGrade.SUPERIOR && CraftMaterials.recorded(result)==ForgeMaterial.NETHERITE)
+            check(result.get(DataComponents.CUSTOM_NAME)==marked.get(DataComponents.CUSTOM_NAME))
+            check(Craftsmanship.root(result).getInt("origin_durability")==output.item.defaultInstance.maxDamage)
+            netheriteUpgrades++
+        }
+        check(netheriteUpgrades>=9){"Missing diamond-to-netherite upgrade families"}
+        TemperAndTang.logger.info("NETHERITE_UPGRADES_PASSED: {} diamond bases, required vanilla templates, preserved quality/name/wear, no crafting or shaping shortcuts",netheriteUpgrades)
         val primary=ItemStack(Items.NETHERITE_SCRAP,4);val gold=ItemStack(Items.GOLD_INGOT,4)
         check(WorkshopPlans.heating(primary,level,gold)==null){"Regular hearth allows netherite alloy"}
         val plan=checkNotNull(WorkshopPlans.heating(primary,level,gold,true))

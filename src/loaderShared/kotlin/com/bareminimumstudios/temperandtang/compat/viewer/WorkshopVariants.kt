@@ -7,10 +7,7 @@ import net.minecraft.world.item.component.CustomData
 
 /** Only recipe-relevant differences affect viewer identity; quality, names and wear do not. */
 object WorkshopVariants {
-    fun ironFamily(stack:ItemStack):Boolean {
-        val id=BuiltInRegistries.ITEM.getKey(stack.item)
-        return id.namespace in setOf("simplyswords","simplymore") && id.path.startsWith("iron_") && GearSupport.supported(stack)
-    }
+    fun ironFamily(stack:ItemStack)=GearSupport.steelCore(stack)
     fun key(stack:ItemStack)=if(Blueprints.filled(stack))Blueprints.pattern(stack)else if(ironFamily(stack) && CraftMaterials.recorded(stack)==ForgeMaterial.STEEL)"steel_core"else "normal"
     fun steel(stack:ItemStack):ItemStack {
         val result=CraftMaterials.stamp(stack,ForgeMaterial.STEEL)

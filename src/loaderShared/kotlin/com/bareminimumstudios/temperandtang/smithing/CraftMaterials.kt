@@ -26,8 +26,8 @@ object CraftMaterials {
     fun choose(output:ItemStack,inputs:List<ItemStack>):ForgeMaterial {
         // An upgrade's actual finished tier wins over a carried lower-tier base item.
         val authored=identify(output)
-        // Optional weapon mods keep the iron-family item identity for a steel-forged core.
-        if(authored==ForgeMaterial.IRON && net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(output.item).namespace in setOf("simplyswords","simplymore") && inputs.any {identify(it)==ForgeMaterial.STEEL})return ForgeMaterial.STEEL
+        // Native iron-family equipment can keep its item identity when forged from steel.
+        if(authored==ForgeMaterial.IRON && GearSupport.steelCore(output) && (recorded(output)==ForgeMaterial.STEEL || inputs.any {identify(it)==ForgeMaterial.STEEL}))return ForgeMaterial.STEEL
         if(authored!=ForgeMaterial.NEUTRAL)return authored
         return inputs.filter {WorkshopPlans.stock(it)}.groupBy(::identify).filterKeys {it!=ForgeMaterial.NEUTRAL}
             .maxByOrNull {it.value.sumOf(ItemStack::getCount)}?.key?:recorded(output).takeUnless {it==ForgeMaterial.NEUTRAL}?:inputs.filter(GearSupport::supported).singleOrNull()?.let {recorded(it).takeUnless {m->m==ForgeMaterial.NEUTRAL}?:identify(it)}?:ForgeMaterial.NEUTRAL

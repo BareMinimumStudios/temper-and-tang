@@ -216,6 +216,11 @@ object CraftVerification {
             check(quenched.item==result.item && Craftsmanship.grade(quenched)!=null && !ThermalState.pending(quenched)){"Quenching lost authored equipment: "+plan.id}
             val finished=WeaponFinishes.preview(quenched,Finish.TEMPERED)
             check(!finished.isEmpty && finished.item==result.item && CraftTraits.recorded(finished)==CraftTraits.recorded(quenched)){"Finishing lost equipment or trait: "+plan.id}
+            if(plan.id.namespace==TemperAndTang.MOD_ID && plan.id.path.startsWith("steel_core/")) {
+                check(CraftMaterials.recorded(finished)==ForgeMaterial.STEEL){"Native steel-core material lost: ${plan.id}"}
+                val reforged=Craftsmanship.forge(finished,.95,catalogPlayer,"reforge:"+BuiltInRegistries.ITEM.getKey(finished.item))
+                check(!reforged.isEmpty && CraftMaterials.recorded(reforged)==ForgeMaterial.STEEL){"Reforging downgraded steel to iron: ${plan.id}"}
+            }
             val saved=ItemStack.parseOptional(source.registryAccess(),finished.save(source.registryAccess()) as CompoundTag)
             check(saved.item==result.item && saved.maxDamage==finished.maxDamage && CraftMaterials.recorded(saved)==CraftMaterials.recorded(finished)){"Catalog save failed: "+plan.id}
             patterns++;if(GearSupport.armor(result))armor++
