@@ -5,29 +5,23 @@
     64
   ],
   "textures": {
-    "2": "temperandtang:block/workshop_six/blacksmith_water_barrel"
+    "2": "temperandtang:block/workshop_six/blacksmith_water_barrel",
+    "inside": "minecraft:block/stripped_spruce_log",
+    "floor": "minecraft:block/spruce_planks"
   },
   "elements": [
     {
+      "name": "north_staves",
       "from": [
-        2.0,
+        2,
         1.6,
-        2.0
+        2
       ],
       "to": [
-        14.0,
+        14,
         13.6,
-        14.0
+        4
       ],
-      "rotation": {
-        "angle": 0,
-        "axis": "y",
-        "origin": [
-          7.6,
-          1.6,
-          8.4
-        ]
-      },
       "faces": {
         "north": {
           "uv": [
@@ -39,15 +33,38 @@
           "texture": "#2",
           "rotation": 0
         },
+        "south": {
+          "texture": "#inside"
+        },
+        "west": {
+          "texture": "#inside"
+        },
         "east": {
-          "uv": [
-            0,
-            0,
-            3.75,
-            3.75
-          ],
-          "texture": "#2",
-          "rotation": 0
+          "texture": "#inside"
+        },
+        "up": {
+          "texture": "#inside"
+        },
+        "down": {
+          "texture": "#inside"
+        }
+      }
+    },
+    {
+      "name": "south_staves",
+      "from": [
+        2,
+        1.6,
+        12
+      ],
+      "to": [
+        14,
+        13.6,
+        14
+      ],
+      "faces": {
+        "north": {
+          "texture": "#inside"
         },
         "south": {
           "uv": [
@@ -60,6 +77,82 @@
           "rotation": 0
         },
         "west": {
+          "texture": "#inside"
+        },
+        "east": {
+          "texture": "#inside"
+        },
+        "up": {
+          "texture": "#inside"
+        },
+        "down": {
+          "texture": "#inside"
+        }
+      }
+    },
+    {
+      "name": "west_staves",
+      "from": [
+        2,
+        1.6,
+        4
+      ],
+      "to": [
+        4,
+        13.6,
+        12
+      ],
+      "faces": {
+        "north": {
+          "texture": "#inside"
+        },
+        "south": {
+          "texture": "#inside"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            3.75,
+            3.75
+          ],
+          "texture": "#2",
+          "rotation": 0
+        },
+        "east": {
+          "texture": "#inside"
+        },
+        "up": {
+          "texture": "#inside"
+        },
+        "down": {
+          "texture": "#inside"
+        }
+      }
+    },
+    {
+      "name": "east_staves",
+      "from": [
+        12,
+        1.6,
+        4
+      ],
+      "to": [
+        14,
+        13.6,
+        12
+      ],
+      "faces": {
+        "north": {
+          "texture": "#inside"
+        },
+        "south": {
+          "texture": "#inside"
+        },
+        "west": {
+          "texture": "#inside"
+        },
+        "east": {
           "uv": [
             0,
             0,
@@ -70,24 +163,10 @@
           "rotation": 0
         },
         "up": {
-          "uv": [
-            3.75,
-            7.5,
-            0,
-            3.75
-          ],
-          "texture": "#2",
-          "rotation": 0
+          "texture": "#inside"
         },
         "down": {
-          "uv": [
-            7.5,
-            0,
-            3.75,
-            3.75
-          ],
-          "texture": "#2",
-          "rotation": 0
+          "texture": "#inside"
         }
       }
     },
@@ -153,14 +232,13 @@
           "rotation": 0
         },
         "up": {
+          "texture": "#floor",
           "uv": [
-            7.25,
-            7.25,
-            3.75,
-            3.75
-          ],
-          "texture": "#2",
-          "rotation": 0
+            2.4,
+            2.4,
+            13.6,
+            13.6
+          ]
         },
         "down": {
           "uv": [
@@ -417,89 +495,6 @@
             6,
             9.75,
             6.5
-          ],
-          "rotation": 90,
-          "texture": "#2"
-        }
-      }
-    },
-    {
-      "from": [
-        4.0,
-        14.4,
-        4.0
-      ],
-      "to": [
-        12.0,
-        14.4,
-        12.0
-      ],
-      "rotation": {
-        "angle": 0,
-        "axis": "y",
-        "origin": [
-          8.0,
-          14.4,
-          8.0
-        ]
-      },
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            2.5,
-            0
-          ],
-          "texture": "#2",
-          "rotation": 0
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            2.5,
-            0
-          ],
-          "texture": "#2",
-          "rotation": 0
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            2.5,
-            0
-          ],
-          "texture": "#2",
-          "rotation": 0
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            2.5,
-            0
-          ],
-          "texture": "#2",
-          "rotation": 0
-        },
-        "up": {
-          "uv": [
-            9.75,
-            6.25,
-            7.25,
-            3.75
-          ],
-          "rotation": 270,
-          "texture": "#2"
-        },
-        "down": {
-          "uv": [
-            9.75,
-            6.25,
-            7.25,
-            8.75
           ],
           "rotation": 90,
           "texture": "#2"

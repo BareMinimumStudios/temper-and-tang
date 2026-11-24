@@ -15,3 +15,10 @@ These are static and rendered-model checks. They do not replace the ongoing surv
 All 108 resources were baked again from four angles (432 renders across 36 pages), including face-direction quads rather than only unculled faces. All pages were visually inspected. Enlarged tool renders were inspected before and after the handle correction. No missing baked textures, inverted surfaces, visibly stretched station textures, or new sizing defects were found in these views. The held-item hammer inherits the same model as both anvil scenes. Its head, striking face, proportions and animation pivots remain unchanged.
 
 Both loader builds and checks pass after the texture change. These checks were run in the hidden isolated runtime; New Test remains untouched.
+
+
+## Solid pattern pad and hollow barrel
+
+The preparation pad now fits within the anvil face, with a 0.6-pixel wooden body, visible edge/end grain and small flush corner pins. Its lower face rests at the actual custom or vanilla anvil height. The nine ingredient positions fit above the pad and gather normally for forging. The supplied barrel no longer contains a baked water plane or a solid cuboid beneath it: textured staves, interior walls and a wooden floor form an empty vessel. A separate animated water surface fits inside the opening and is shown by the existing water-bucket/quenching state.
+
+The hidden survival walkthrough passed again with both empty/filled barrel screenshots, the thicker board, actual shaping/finishing contact checks, slot restrictions and exact ingredient/fuel accounting. All 109 current model resources pass validation; the new resource is the metal crossbow-prod blank.
