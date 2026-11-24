@@ -7,7 +7,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.item.ItemStack
 
-/** Preserve workshop custody on connection loss, after station-specific cancellation settles its costs. */
+/** Return owned session items before library fallback, after station-specific cancellation settles its costs. */
 object WorkshopRecovery {
     private val active=java.util.WeakHashMap<ServerPlayer,Unit>()
     fun opened(station:StationContext,player:Player) {
@@ -21,7 +21,7 @@ object WorkshopRecovery {
     fun closed(station:StationContext,player:Player) {
         val owner=player as? ServerPlayer?:return
         active.remove(owner)
-        if(station.isClientSide || !owner.hasDisconnected() || owner.isDeadOrDying)return
+        if(station.isClientSide || owner.isDeadOrDying)return
         val items=mutableListOf<ItemStack>()
         val cursor=owner.inventoryMenu.carried
         if(!cursor.isEmpty){items.add(cursor.copy());owner.inventoryMenu.carried=ItemStack.EMPTY}
@@ -43,6 +43,6 @@ object WorkshopRecovery {
             }
         }
         // Logout callbacks may follow vanilla's normal save; persist the returned inventory explicitly.
-        (owner.server.playerList as PlayerListSaveAccess).temperSaveWorkshopOwner(owner)
+        if(owner.hasDisconnected())(owner.server.playerList as PlayerListSaveAccess).temperSaveWorkshopOwner(owner)
     }
 }

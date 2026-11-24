@@ -29,6 +29,7 @@ object ProgressionVerification {
         val plans=WorkshopPlans.forming(level)
         check(plans.none {BuiltInRegistries.ITEM.getKey(it.recipe.getResultItem(registry).item).path.startsWith("diamond_")}) {"Diamond shaping shortcuts: "+plans.filter {BuiltInRegistries.ITEM.getKey(it.recipe.getResultItem(registry).item).path.startsWith("diamond_")}.map {it.id to it.recipe.getResultItem(registry)}}
         val template=ItemStack(TemperContent.item("diamond_upgrade_smithing_template"))
+        check(manager.recipes.none {it.value().getResultItem(registry).item==template.item}) {"Structure-only diamond template has a manufacturing recipe"}
         var upgrades=0;var native=0
         for(holder in manager.getAllRecipesFor(RecipeType.SMITHING)) {
             val recipe=holder.value();val output=recipe.getResultItem(registry);val id=BuiltInRegistries.ITEM.getKey(output.item)

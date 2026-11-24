@@ -67,7 +67,7 @@ The build creates separate Fabric and NeoForge JARs. Verified files, checksums, 
 
 ## Scope
 
-This is a tested first revision. Additional original weapon forms, broader custom-ability integrations and remote-latency balancing remain future work. Live station sessions return items when closed rather than keeping persistent block inventories. Working heat uses world ticks. Workstation and tool geometry is original and references Minecraft textures; several material icons use vanilla texture shapes. Tin generates only in new chunks. See the verification record for tested coverage and remaining multiplayer, latency and balance playtesting.
+This refining revision is in development. Live station sessions return items when closed rather than keeping persistent block inventories. Working heat uses world ticks. Workstation and tool artwork combines independently authored elements with licensed Workshop Six assets supplied by the project owner; adaptations and credits are listed in `THIRD_PARTY_NOTICES.txt` and the workshop asset guide. Several material icons reference vanilla textures. Tin generates only in new chunks. Both loaders have been exercised with real delayed network connections, interrupted sessions and clean server restarts; see the refining revision record for exact coverage and remaining acceptance work. Third-party custom combat abilities remain authoritative and are not rewritten by craftsmanship.
 
 See [design](docs/DESIGN.md), [compatibility](docs/COMPATIBILITY.md), [development](DEVELOPMENT.md) and [release checklist](docs/RELEASING.md), [public API](docs/API.md) and [verification record](docs/VERIFICATION.md).
 

@@ -32,4 +32,4 @@ The front-facing anvil camera is retained while the hammer swings in from the pl
 
 The hammer is rolled a quarter turn around its handle so its small 4×4 end face strikes downward. Its broad 6×4 cheek remains vertical. The head contact offset and interaction bounds follow this orientation.
 
-All 107 shipped model resources pass parent/texture, UV, bounds, rotation and display-scale validation. The converted tongs retain uniform thickness; the original hammer texture coordinates are matched at transformed vertices. Model-gallery inspection remains part of release verification.
+All 108 shipped model resources pass parent/texture, UV, bounds, rotation and display-scale validation. The converted tongs retain uniform thickness; the supplied metal-head texture coordinates are matched at transformed vertices, while the handle uses consistently aligned spruce grain. Model-gallery inspection remains part of release verification.
