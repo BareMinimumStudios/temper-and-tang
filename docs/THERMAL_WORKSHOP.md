@@ -64,7 +64,7 @@ Operators can run `/temperandtang verify`, `/temperandtang verify_station` and `
 
 ## Quality, mastery and blueprints
 
-Craftsmanship has six grades: **Rough, Serviceable, Fine, Superior, Masterwork and Exceptional**. Accuracy provides most of the result, with a smaller server-random contribution and a modest mastery bonus. Perfect play improves the odds rather than guaranteeing the highest grade. Quality changes the gear's own base durability and appropriate damage, armor or toughness attributes. Enchantments remain a separate final enhancement. Repeated processing replaces the previous craftsmanship modifiers rather than stacking them.
+Craftsmanship has five grades: **Rough, Serviceable, Fine, Superior and Masterwork**. Accuracy provides most of the result, with a smaller server-random contribution and a modest mastery bonus. Perfect play improves the odds rather than guaranteeing the highest grade. Quality changes the gear's own base durability and appropriate damage, armor or toughness attributes. Enchantments remain a separate final enhancement. Repeated processing replaces the previous craftsmanship modifiers rather than stacking them.
 
 Use `/temperandtang mastery` to see your smithing level and experience. Completing new equipment grants more mastery than reforging existing gear. The maximum level is 20. The crafted item records its maker, strike accuracy and the maker's level when it was made.
 
@@ -87,3 +87,10 @@ Gold, copper and tin are forgiving. Bronze is a gentler starting material; iron 
 Each accepted strike drives a physical hammer swing. The exact contact frame triggers its clang, a brief warm surface flash and sparks; perfect strikes produce a brighter spark burst. Timing affects craftsmanship through the existing bounded quality roll, rather than guaranteeing a rarity. A perfect double earns the same quality chance as equally accurate singles; its closer spacing makes accuracy harder to maintain. Missing a beat lowers accuracy and therefore the chance of masterwork.
 
 `materialDifficulty` and `rhythmPhrases` can be disabled independently in the existing Fzzy configuration. These options do not change ingredient costs, equipment preservation, or saved item metadata. The default interface remains short; H opens further guidance and Shift expands equipment details.
+
+
+## Connection interruptions
+
+Anvil timing measures the connection automatically when the station opens. Keep striking against the visible target; no manual ping setting is needed. Compensation is bounded by the server configuration.
+
+Disconnecting returns your station inputs and held items to your saved inventory. If the inventory is full, overflow stays at the station, reserved for you. Precision netherite refinement is committed by the first blow: disconnecting or abandoning it after that returns scrap, just as a failed attempt does.

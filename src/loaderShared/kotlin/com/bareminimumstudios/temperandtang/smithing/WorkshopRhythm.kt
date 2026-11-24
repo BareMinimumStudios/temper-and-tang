@@ -5,8 +5,37 @@ import com.pockyl.diegesis.api.state.StationState
 import net.minecraft.world.item.ItemStack
 
 object WorkshopRhythm {
+    private data class TimingSample(val milliseconds:Int,val measuredAt:Long)
+    private val timings=java.util.WeakHashMap<net.minecraft.server.level.ServerPlayer,TimingSample>()
+    private fun roundTrip(player:net.minecraft.world.entity.player.Player?):Int {
+        val serverPlayer=player as? net.minecraft.server.level.ServerPlayer?:return 0
+        val sample=timings[serverPlayer]
+        return if(sample!=null && System.nanoTime()-sample.measuredAt<120_000_000_000L)sample.milliseconds else serverPlayer.connection.latency()
+    }
+    /** Three server-owned round trips avoid the initially-zero, slowly averaged vanilla ping. */
+    class Measurement {
+        private var nonce=0;private var sent=0L;private var samples=0;private var best=Int.MAX_VALUE
+        fun begin(s:com.pockyl.diegesis.api.station.StationContext) {
+            if(s.isClientSide)return
+            samples=0;best=Int.MAX_VALUE;challenge(s)
+        }
+        private fun challenge(s:com.pockyl.diegesis.api.station.StationContext) {
+            nonce=ForgeRandom.nextInt(Int.MAX_VALUE-1)+1;sent=System.nanoTime()
+            val data=s.state().data().copy();data.putInt("timing_probe",nonce)
+            data.putInt("rhythm_ping",roundTrip(s.users().firstOrNull()));s.state().setData(data)
+        }
+        fun acknowledge(s:com.pockyl.diegesis.api.station.StationContext,player:net.minecraft.world.entity.player.Player,data:net.minecraft.nbt.CompoundTag) {
+            val owner=player as? net.minecraft.server.level.ServerPlayer?:return
+            if(s.isClientSide || nonce==0 || data.getInt("nonce")!=nonce || s.users().none {it.uuid==owner.uuid})return
+            val measured=((System.nanoTime()-sent)/1_000_000L).coerceIn(0,5000).toInt()
+            best=minOf(best,measured);timings[owner]=TimingSample(best,System.nanoTime());samples++;nonce=0
+            val state=s.state().data().copy();state.putInt("rhythm_ping",best);s.state().setData(state)
+            if(samples<3)challenge(s)
+        }
+    }
+
     fun evaluationTick(now:Long,player:net.minecraft.world.entity.player.Player?):Long {
-        val ping=(player as? net.minecraft.server.level.ServerPlayer)?.connection?.latency()?:0
+        val ping=roundTrip(player)
         return RhythmLatency.evaluationTick(now,ping,TemperAndTang.config.latencyCompensationTicks.get())
     }
 

@@ -5,7 +5,8 @@
   "mixins": [
     "RecipeManagerMixin",
     "SmithingUpgradeMixin",
-    "SmithingIngredientsAccess"
+    "SmithingIngredientsAccess",
+    "PlayerListSaveAccess"
   ],
   "injectors": {
     "defaultRequire": 1

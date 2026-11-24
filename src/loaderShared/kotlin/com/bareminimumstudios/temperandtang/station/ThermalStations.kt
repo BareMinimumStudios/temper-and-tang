@@ -80,6 +80,7 @@ object ThermalStations {
             .exclusive().openWhen { _,_,_ -> active() }.logic { Trough() }.register()
     }
     private class Hearth : StationLogic {
+        override fun onClose(s:StationContext,player:Player)=WorkshopRecovery.disconnected(s,player)
         private var start = -1L
         private var end = -1L
         private var plan: WorkshopPlans.Heating? = null
@@ -167,6 +168,7 @@ object ThermalStations {
         }
     }
     private class Shaper : StationLogic {
+        private val timing=WorkshopRhythm.Measurement()
         private data class RefiningAttempt(val plan:WorkshopPlans.Forming,val inputs:List<ItemStack>)
         private var refiningAttempt:RefiningAttempt?=null
         private var plans=emptyList<WorkshopPlans.Forming>()
@@ -228,8 +230,8 @@ object ThermalStations {
         }
         override fun mayPlace(s:StationContext,player:Player,slot:SlotRef,stack:ItemStack)=refiningAttempt==null
         override fun mayTake(s:StationContext,player:Player,slot:SlotRef)=refiningAttempt==null
-        override fun onClose(s:StationContext,player:Player) {if(!s.isClientSide)reset(s)}
-        override fun onOpen(s:StationContext,player:Player) {refresh(s);updateOutputs(s)}
+        override fun onClose(s:StationContext,player:Player) {if(!s.isClientSide){reset(s);WorkshopRecovery.disconnected(s,player)}}
+        override fun onOpen(s:StationContext,player:Player) {refresh(s);timing.begin(s);updateOutputs(s)}
         override fun onSlotChanged(s:StationContext,slot:SlotRef) {
             if(slot==GEAR && !s.state().getItem(GEAR).isEmpty)reforgeMode=true
             if(slot==BLUEPRINT) {
@@ -245,6 +247,7 @@ object ThermalStations {
             }
         }
         override fun onCustomAction(s:StationContext,player:Player,action:String,data:CompoundTag) {
+            if(action=="timing_ack"){timing.acknowledge(s,player,data);return}
             if(action=="select_pattern") {
                 if(s.isClientSide || !active() || player.isSpectator || reforgeMode || work!=null || !s.state().getItem(WORKPIECE).isEmpty)return
                 val chosen=plans.indexOfFirst {it.id.toString()==data.getString("pattern")}
@@ -366,6 +369,7 @@ object ThermalStations {
         }
     }
     private class Trough : StationLogic {
+        override fun onClose(s:StationContext,player:Player)=WorkshopRecovery.disconnected(s,player)
         private var start = -1L
         private var end = -1L
         private var input = ItemStack.EMPTY

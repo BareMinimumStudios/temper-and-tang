@@ -41,6 +41,9 @@ object FinishingStation {
             .exclusive().openWhen {_,_,_->TemperAndTang.config.enabled.get()}.logic {Logic()}.register()
     }
     private class Logic:StationLogic {
+        private val timing=WorkshopRhythm.Measurement()
+        override fun onOpen(s:StationContext,player:Player)=timing.begin(s)
+        override fun onClose(s:StationContext,player:Player)=WorkshopRecovery.disconnected(s,player)
         private var work:HammerWork?=null
         private fun valid(s:StationContext):Boolean {
             val state=s.state();val finish=WeaponFinishes.ingredient(state.getItem(MATERIAL))?:return false
@@ -49,7 +52,7 @@ object FinishingStation {
         override fun onSlotChanged(s:StationContext,slot:SlotRef) {
             if(s.state().getItem(FINISHED).isEmpty) {work=null;s.state().setControl("progress",0f)}
         }
-        override fun onCustomAction(s:StationContext,player:Player,action:String,data:CompoundTag) {if(action=="strike")onButton(s,player,action)}
+        override fun onCustomAction(s:StationContext,player:Player,action:String,data:CompoundTag) {if(action=="timing_ack")timing.acknowledge(s,player,data)else if(action=="strike")onButton(s,player,action)}
         override fun onButton(s:StationContext,player:Player,control:String) {
             if(s.isClientSide || control!="strike" || player.isSpectator || !player.inventoryMenu.carried.isEmpty || !TemperAndTang.config.enabled.get() || !s.state().getItem(FINISHED).isEmpty)return
             updateOutputs(s)

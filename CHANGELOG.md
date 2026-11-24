@@ -10,7 +10,8 @@
 - Add the supplied water barrel and furnace, restore uniform tong thickness, and preserve tool UVs through rotation.
 - Add counted high-temperature netherite alloying and data-driven precision refinement with scrap recovery.
 - Add optional EMI/JEI workshop recipe categories and a complete model/scene resource audit.
-- Runtime survival, recipe-viewer, multiplayer and full-pack acceptance remain in progress.
+- Preserve workshop inputs through disconnect/reconnect and calibrate bounded rhythm timing from server-measured connection round trips.
+- Verify actual two-client custody, cancellation and precision refinement under delayed TCP on both loaders; remaining acceptance stays in progress.
 
 ## 0.5.1
 

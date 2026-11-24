@@ -34,12 +34,21 @@ class HammerPresentation(private val finishing:Boolean) {
     private var wasWorking=false
     private var beatArmed=false
     private fun surface(view:StationView):Float=if(finishing)14.4f else if(view.level().getBlockState(view.pos()).`is`(com.bareminimumstudios.temperandtang.content.TemperContent.block("shaping_anvil")))13.4f else 16.4f
+    private var lastTimingProbe=0
+    private fun acknowledgeTiming(view:StationView) {
+        val nonce=view.state().data().getInt("timing_probe")
+        if(view.isFocused && nonce!=0 && nonce!=lastTimingProbe) {
+            lastTimingProbe=nonce
+            view.sendAction("timing_ack",CompoundTag().also {it.putInt("nonce",nonce)})
+        }
+    }
     fun sync(view:StationView) {
+        acknowledgeTiming(view)
         val state=view.state()
         val period=state.getControl("period").coerceAtLeast(1f)
         val rawUntil=state.getControl("target").takeIf {it>0f}?:((.5f-state.getControl("phase"))*period)
         val mc=net.minecraft.client.Minecraft.getInstance()
-        val ping=mc.player?.uuid?.let {mc.connection?.getPlayerInfo(it)?.latency}?:0
+        val ping=if(state.data().contains("rhythm_ping"))state.data().getInt("rhythm_ping")else mc.player?.uuid?.let {mc.connection?.getPlayerInfo(it)?.latency}?:0
         val until=rawUntil-com.bareminimumstudios.temperandtang.smithing.RhythmLatency.ticks(ping,TemperAndTang.config.latencyCompensationTicks.get())
         if(state.getControl("target")>0f || state.getControl("phase")>0f)beatArmed=true
         val id=state.data().getLong("rhythm_target")
@@ -54,6 +63,7 @@ class HammerPresentation(private val finishing:Boolean) {
         if(pending.size<40)pending.addLast(Strike(data.getFloat("pitch"),data.getBoolean("sparks"),data.getFloat("accuracy")))
     }
     fun frame(view:StationView,dt:Float) {
+        acknowledgeTiming(view)
         val state=view.state();val ready=!state.getOutput("result").isEmpty
         val input=if(finishing)state.getItem(com.bareminimumstudios.temperandtang.station.FinishingStation.WEAPON) else state.getItem(com.bareminimumstudios.temperandtang.station.ThermalStations.GEAR)
         val working=if(finishing)!input.isEmpty && !state.getItem(com.bareminimumstudios.temperandtang.station.FinishingStation.HAMMER).isEmpty && com.bareminimumstudios.temperandtang.smithing.WeaponFinishes.ingredient(state.getItem(com.bareminimumstudios.temperandtang.station.FinishingStation.MATERIAL))!=null else state.data().getString("status")=="work"
