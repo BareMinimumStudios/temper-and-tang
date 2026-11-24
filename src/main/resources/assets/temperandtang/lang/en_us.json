@@ -302,5 +302,6 @@
   "temperandtang.template.addition_slot": "Add a diamond",
   "temperandtang.short.refining_failed": "Refinement failed. Take the recovered scrap.",
   "temperandtang.short.refining_accuracy": "%s%% accuracy needed for success.",
-  "emi.category.temperandtang.blueprints": "Blueprint Scribing"
+  "emi.category.temperandtang.blueprints": "Blueprint Scribing",
+  "temperandtang.short.finish_empty_cursor": "Put the held item away."
 }

@@ -45,3 +45,13 @@ assert head["from"] == [6, 2, 10.5] and head["to"] == [10, 8, 14.5], "Recalibrat
 for sound in (assets / "sounds/forge").glob("*.ogg"):
     assert sound.read_bytes()[:4] == b"OggS", sound
 print("Verified overhanging UV bounds, shared hammer geometry and encoded impact audio.")
+
+# Captions compose these keys dynamically from the finishing state, so literal-key scans cannot find omissions.
+import re
+translations=json.loads((assets / "lang/en_us.json").read_text())
+client=(root.parents[2] / "src/loaderShared/kotlin/com/bareminimumstudios/temperandtang/client/TemperClient.kt").read_text()
+branch=client[client.index("val key = when"):client.index('for(id in listOf("timing_rail"')]
+for status in set(re.findall(r'-> "([a-z_]+)"',branch)) - {"instructions"}:
+    key="temperandtang.short.finish_"+status
+    assert key in translations, f"Missing finishing caption: {key}"
+print("Verified every dynamically composed finishing caption has a readable translation.")
