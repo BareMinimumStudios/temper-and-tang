@@ -53,6 +53,13 @@ def artifacts():
             assert "com/bareminimumstudios/temperandtang/compat/NativeSmithing.class" not in files
             assert "temperandtang.mixins.json" in files
             assert "com/bareminimumstudios/temperandtang/client/TemperClient.class" in files
+            for name in ("PatternPicker", "WorkshopSixBellows"):
+                assert f"com/bareminimumstudios/temperandtang/client/{name}.class" in files
+            assert "com/bareminimumstudios/temperandtang/mixin/PatternInputMixin.class" in files
+            for name in ("blacksmith_anvil", "blacksmith_bellows", "blacksmith_hearth", "blacksmith_hearth_coals", "blacksmith_tool_board_long", "mine_pallet_stone", "mine_support"):
+                assert f"assets/temperandtang/textures/block/workshop_six/{name}.png" in files
+            for name in ("charcoal_hearth_body", "workshop_six_bellows_base", "workshop_six_bellows_top"):
+                assert f"assets/temperandtang/models/diegesis/{name}.json" in files
             assert "assets/temperandtang/models/diegesis/striking_hammer.json" in files
             assert "assets/temperandtang/models/block/finishing_anvil.json" in files
             assert not any(n.startswith("com/bareminimumstudios/temperandtang/qa/") for n in files)

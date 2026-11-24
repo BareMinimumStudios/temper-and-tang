@@ -1,7 +1,7 @@
 {
   "camera": {
     "position": [
-      28,
+      8,
       36,
       -24
     ],
@@ -264,54 +264,70 @@
       "scale": 0.17
     },
     {
-      "id": "strike",
+      "id": "strike_pose",
       "pos": [
         8,
         0,
         0
       ],
-      "scale": 0.55,
-      "control": {
-        "control": "strike",
-        "type": "button",
-        "axis": [
-          0,
-          -1,
-          0
-        ],
-        "range": [
-          0,
-          0.0001
-        ]
-      },
-      "tooltip": "temperandtang.scene.strike",
-      "collider": {
-        "from": [
-          -3,
-          -2,
-          -4.5
-        ],
-        "to": [
-          3,
-          4,
-          11.5
-        ]
-      },
       "rotation": [
         0,
         0,
         0
       ],
-      "visual": {
-        "model": "temperandtang:diegesis/impact_hammer",
-        "anchor": [
-          8,
-          5,
-          4
-        ]
-      },
-      "children": [],
-      "hidden": true
+      "pickable": false,
+      "children": [
+        {
+          "id": "strike",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "scale": 0.4,
+          "control": {
+            "control": "strike",
+            "type": "button",
+            "axis": [
+              0,
+              -1,
+              0
+            ],
+            "range": [
+              0,
+              0.0001
+            ]
+          },
+          "tooltip": "temperandtang.scene.strike",
+          "collider": {
+            "from": [
+              -2.2,
+              -3.2,
+              -2.7
+            ],
+            "to": [
+              2.2,
+              3.2,
+              11.7
+            ]
+          },
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "visual": {
+            "model": "temperandtang:diegesis/impact_hammer",
+            "anchor": [
+              8,
+              5,
+              3.5
+            ]
+          },
+          "children": [],
+          "hidden": true
+        }
+      ]
     },
     {
       "id": "result",

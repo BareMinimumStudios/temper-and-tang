@@ -1,0 +1,2167 @@
+{
+  "credit": "Made by Workshop Six",
+  "texture_size": [
+    64,
+    64
+  ],
+  "textures": {
+    "0": "temperandtang:block/workshop_six/blacksmith_hearth",
+    "1": "temperandtang:block/workshop_six/blacksmith_hearth_coals",
+    "particle": "temperandtang:block/workshop_six/blacksmith_hearth",
+    "support_wood": "minecraft:block/stripped_spruce_log",
+    "mine_pallet": "temperandtang:block/workshop_six/mine_pallet_stone",
+    "mine_support": "temperandtang:block/workshop_six/mine_support"
+  },
+  "elements": [
+    {
+      "from": [
+        0.8,
+        0.17,
+        1.6
+      ],
+      "to": [
+        15.2,
+        5.93,
+        14.4
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "y",
+        "origin": [
+          5.6,
+          0.17,
+          -1.6
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            2.125,
+            4.25,
+            5.125,
+            5
+          ],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [
+            7.125,
+            3.5,
+            5.125,
+            4.25
+          ],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [
+            5.125,
+            4.25,
+            2.125,
+            5
+          ],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [
+            5.125,
+            3.5,
+            7.125,
+            4.25
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            3,
+            2,
+            0,
+            0
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            3,
+            2,
+            0,
+            4
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "from": [
+        2.0,
+        6.05,
+        3.6
+      ],
+      "to": [
+        14.0,
+        6.05,
+        12.4
+      ],
+      "light_emission": 15,
+      "rotation": {
+        "angle": 0,
+        "axis": "y",
+        "origin": [
+          5.6,
+          0.17,
+          -1.6
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            10,
+            0
+          ],
+          "texture": "#1"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            5.5,
+            0
+          ],
+          "texture": "#1"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            10,
+            0
+          ],
+          "texture": "#1"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            5.5,
+            0
+          ],
+          "texture": "#1"
+        },
+        "up": {
+          "uv": [
+            10,
+            5.5,
+            0,
+            0
+          ],
+          "texture": "#1"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            10,
+            5.5
+          ],
+          "texture": "#1"
+        }
+      }
+    },
+    {
+      "from": [
+        1.4,
+        5.93,
+        2.4
+      ],
+      "to": [
+        14.6,
+        6.89,
+        4.0
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "y",
+        "origin": [
+          5.6,
+          0.17,
+          -1.6
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5.125,
+            5.25,
+            7.875,
+            5.375
+          ],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [
+            2.125,
+            4,
+            2.375,
+            4.125
+          ],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [
+            5.125,
+            5.375,
+            7.875,
+            5.5
+          ],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [
+            2.375,
+            4,
+            2.625,
+            4.125
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            7.875,
+            4.5,
+            5.125,
+            4.25
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            7.875,
+            4.5,
+            5.125,
+            4.75
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "from": [
+        1.4,
+        5.93,
+        12.0
+      ],
+      "to": [
+        14.6,
+        6.89,
+        13.6
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "y",
+        "origin": [
+          5.6,
+          0.17,
+          -1.6
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5.5,
+            0,
+            8.25,
+            0.125
+          ],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [
+            2.625,
+            4,
+            2.875,
+            4.125
+          ],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [
+            5.5,
+            0.125,
+            8.25,
+            0.25
+          ],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [
+            2.125,
+            4.125,
+            2.375,
+            4.25
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            7.875,
+            5,
+            5.125,
+            4.75
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            7.875,
+            5,
+            5.125,
+            5.25
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "from": [
+        1.4,
+        5.93,
+        4.0
+      ],
+      "to": [
+        2.6,
+        6.89,
+        12.0
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "y",
+        "origin": [
+          8.0,
+          6.41,
+          5.0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5.5,
+            2.125,
+            5.75,
+            2.25
+          ],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [
+            5.5,
+            1.625,
+            6.75,
+            1.75
+          ],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [
+            5.5,
+            2.25,
+            5.75,
+            2.375
+          ],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [
+            5.5,
+            1.75,
+            6.75,
+            1.875
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            5.75,
+            1.5,
+            5.5,
+            0.25
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            0.75,
+            5.5,
+            0.5,
+            6.75
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "from": [
+        13.4,
+        5.93,
+        4.0
+      ],
+      "to": [
+        14.6,
+        6.89,
+        12.0
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "y",
+        "origin": [
+          8.0,
+          6.41,
+          5.0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            2.375,
+            4.125,
+            2.625,
+            4.25
+          ],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [
+            0.75,
+            5.5,
+            2,
+            5.625
+          ],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [
+            2.625,
+            4.125,
+            2.875,
+            4.25
+          ],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [
+            5.5,
+            1.5,
+            6.75,
+            1.625
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            0.25,
+            6.75,
+            0,
+            5.5
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            0.5,
+            5.5,
+            0.25,
+            6.75
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "from": [
+        2.9,
+        6.89,
+        3.2
+      ],
+      "to": [
+        13.1,
+        7.37,
+        12.8
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "y",
+        "origin": [
+          5.6,
+          0.17,
+          -1.6
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5.5,
+            1.875,
+            7.625,
+            1.9375
+          ],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [
+            5.5,
+            2,
+            7,
+            2.0625
+          ],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [
+            5.5,
+            1.9375,
+            7.625,
+            2
+          ],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [
+            5.5,
+            2.0625,
+            7,
+            2.125
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            5.125,
+            4.25,
+            3,
+            2.75
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            2.125,
+            4,
+            0,
+            5.5
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "name": "cube inverted",
+      "from": [
+        13.1,
+        7.37,
+        12.8
+      ],
+      "to": [
+        2.9,
+        6.89,
+        3.2
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "y",
+        "origin": [
+          5.6,
+          0.17,
+          -1.6
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5.5,
+            2,
+            7.625,
+            1.9375
+          ],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [
+            5.5,
+            2.125,
+            7,
+            2.0625
+          ],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [
+            5.5,
+            1.9375,
+            7.625,
+            1.875
+          ],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [
+            5.5,
+            2.0625,
+            7,
+            2
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            0,
+            4,
+            2.125,
+            5.5
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            3,
+            4.25,
+            5.125,
+            2.75
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "from": [
+        16.4,
+        4.61,
+        4.160938
+      ],
+      "to": [
+        23.0,
+        4.74,
+        5.135938
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            6.5,
+            8,
+            6.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "east": {
+          "uv": [
+            0,
+            5.25,
+            1,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "south": {
+          "uv": [
+            0,
+            6.75,
+            8,
+            7
+          ],
+          "texture": "#mine_pallet"
+        },
+        "west": {
+          "uv": [
+            1,
+            5.25,
+            2,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "up": {
+          "uv": [
+            8,
+            1,
+            0,
+            0
+          ],
+          "texture": "#mine_pallet"
+        },
+        "down": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        }
+      },
+      "name": "pallet_support"
+    },
+    {
+      "from": [
+        16.4,
+        4.61,
+        6.842187
+      ],
+      "to": [
+        23.0,
+        4.74,
+        7.817188
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8,
+            6.5,
+            0,
+            6.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "east": {
+          "uv": [
+            1,
+            5.25,
+            0,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "south": {
+          "uv": [
+            8,
+            6.75,
+            0,
+            7
+          ],
+          "texture": "#mine_pallet"
+        },
+        "west": {
+          "uv": [
+            2,
+            5.25,
+            1,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "up": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        },
+        "down": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        }
+      },
+      "name": "pallet_support"
+    },
+    {
+      "from": [
+        16.4,
+        4.61,
+        10.864062
+      ],
+      "to": [
+        23.0,
+        4.74,
+        11.839063
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8,
+            6.5,
+            0,
+            6.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "east": {
+          "uv": [
+            1,
+            5.25,
+            0,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "south": {
+          "uv": [
+            8,
+            6.75,
+            0,
+            7
+          ],
+          "texture": "#mine_pallet"
+        },
+        "west": {
+          "uv": [
+            2,
+            5.25,
+            1,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "up": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        },
+        "down": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        }
+      },
+      "name": "pallet_support"
+    },
+    {
+      "from": [
+        16.4,
+        4.61,
+        5.501563
+      ],
+      "to": [
+        23.0,
+        4.74,
+        6.476562
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8,
+            6.5,
+            0,
+            6.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "east": {
+          "uv": [
+            1,
+            5.25,
+            0,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "south": {
+          "uv": [
+            8,
+            6.75,
+            0,
+            7
+          ],
+          "texture": "#mine_pallet"
+        },
+        "west": {
+          "uv": [
+            2,
+            5.25,
+            1,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "up": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        },
+        "down": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        }
+      },
+      "name": "pallet_support"
+    },
+    {
+      "from": [
+        16.4,
+        4.61,
+        8.182813
+      ],
+      "to": [
+        23.0,
+        4.74,
+        9.157813
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8,
+            6.5,
+            0,
+            6.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "east": {
+          "uv": [
+            1,
+            5.25,
+            0,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "south": {
+          "uv": [
+            8,
+            6.75,
+            0,
+            7
+          ],
+          "texture": "#mine_pallet"
+        },
+        "west": {
+          "uv": [
+            2,
+            5.25,
+            1,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "up": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        },
+        "down": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        }
+      },
+      "name": "pallet_support"
+    },
+    {
+      "from": [
+        16.4,
+        4.61,
+        9.523438
+      ],
+      "to": [
+        23.0,
+        4.74,
+        10.498437
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8,
+            6.5,
+            0,
+            6.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "east": {
+          "uv": [
+            1,
+            5.25,
+            0,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "south": {
+          "uv": [
+            8,
+            6.75,
+            0,
+            7
+          ],
+          "texture": "#mine_pallet"
+        },
+        "west": {
+          "uv": [
+            2,
+            5.25,
+            1,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "up": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        },
+        "down": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        }
+      },
+      "name": "pallet_support"
+    },
+    {
+      "from": [
+        16.4,
+        4.09,
+        4.160938
+      ],
+      "to": [
+        23.0,
+        4.22,
+        5.135938
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8,
+            6.5,
+            0,
+            6.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "east": {
+          "uv": [
+            1,
+            5.25,
+            0,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "south": {
+          "uv": [
+            8,
+            6.75,
+            0,
+            7
+          ],
+          "texture": "#mine_pallet"
+        },
+        "west": {
+          "uv": [
+            2,
+            5.25,
+            1,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "up": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        },
+        "down": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        }
+      },
+      "name": "pallet_support"
+    },
+    {
+      "from": [
+        16.4,
+        4.09,
+        5.501563
+      ],
+      "to": [
+        23.0,
+        4.22,
+        6.476562
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8,
+            6.5,
+            0,
+            6.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "east": {
+          "uv": [
+            1,
+            5.25,
+            0,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "south": {
+          "uv": [
+            8,
+            6.75,
+            0,
+            7
+          ],
+          "texture": "#mine_pallet"
+        },
+        "west": {
+          "uv": [
+            2,
+            5.25,
+            1,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "up": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        },
+        "down": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        }
+      },
+      "name": "pallet_support"
+    },
+    {
+      "from": [
+        16.4,
+        4.09,
+        6.842187
+      ],
+      "to": [
+        23.0,
+        4.22,
+        7.817188
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8,
+            6.5,
+            0,
+            6.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "east": {
+          "uv": [
+            1,
+            5.25,
+            0,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "south": {
+          "uv": [
+            8,
+            6.75,
+            0,
+            7
+          ],
+          "texture": "#mine_pallet"
+        },
+        "west": {
+          "uv": [
+            2,
+            5.25,
+            1,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "up": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        },
+        "down": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        }
+      },
+      "name": "pallet_support"
+    },
+    {
+      "from": [
+        16.4,
+        4.09,
+        8.182813
+      ],
+      "to": [
+        23.0,
+        4.22,
+        9.157813
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8,
+            6.5,
+            0,
+            6.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "east": {
+          "uv": [
+            1,
+            5.25,
+            0,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "south": {
+          "uv": [
+            8,
+            6.75,
+            0,
+            7
+          ],
+          "texture": "#mine_pallet"
+        },
+        "west": {
+          "uv": [
+            2,
+            5.25,
+            1,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "up": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        },
+        "down": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        }
+      },
+      "name": "pallet_support"
+    },
+    {
+      "from": [
+        16.4,
+        4.09,
+        9.523438
+      ],
+      "to": [
+        23.0,
+        4.22,
+        10.498437
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8,
+            6.5,
+            0,
+            6.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "east": {
+          "uv": [
+            1,
+            5.25,
+            0,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "south": {
+          "uv": [
+            8,
+            6.75,
+            0,
+            7
+          ],
+          "texture": "#mine_pallet"
+        },
+        "west": {
+          "uv": [
+            2,
+            5.25,
+            1,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "up": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        },
+        "down": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        }
+      },
+      "name": "pallet_support"
+    },
+    {
+      "from": [
+        16.4,
+        4.09,
+        10.864062
+      ],
+      "to": [
+        23.0,
+        4.22,
+        11.839063
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8,
+            6.5,
+            0,
+            6.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "east": {
+          "uv": [
+            1,
+            5.25,
+            0,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "south": {
+          "uv": [
+            8,
+            6.75,
+            0,
+            7
+          ],
+          "texture": "#mine_pallet"
+        },
+        "west": {
+          "uv": [
+            2,
+            5.25,
+            1,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "up": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        },
+        "down": {
+          "uv": [
+            0,
+            1,
+            8,
+            0
+          ],
+          "texture": "#mine_pallet"
+        }
+      },
+      "name": "pallet_support"
+    },
+    {
+      "from": [
+        16.8125,
+        4.22,
+        4.282813
+      ],
+      "to": [
+        17.01875,
+        4.61,
+        11.717187
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.5,
+            7,
+            0.75,
+            7.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "east": {
+          "uv": [
+            0,
+            1,
+            7.75,
+            1.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "south": {
+          "uv": [
+            0.75,
+            7,
+            1,
+            7.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "west": {
+          "uv": [
+            0,
+            1.75,
+            7.75,
+            2.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "up": {
+          "uv": [
+            0.25,
+            14.75,
+            0,
+            7
+          ],
+          "texture": "#mine_pallet"
+        },
+        "down": {
+          "uv": [
+            0.5,
+            7,
+            0.25,
+            14.75
+          ],
+          "texture": "#mine_pallet"
+        }
+      },
+      "name": "pallet_support"
+    },
+    {
+      "from": [
+        16.967188,
+        4.285,
+        4.5875
+      ],
+      "to": [
+        22.432812,
+        4.545,
+        4.83125
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            5.5,
+            6.75,
+            6
+          ],
+          "texture": "#mine_pallet"
+        },
+        "east": {
+          "uv": [
+            6.75,
+            6,
+            7,
+            6.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "south": {
+          "uv": [
+            0,
+            6,
+            6.75,
+            6.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "west": {
+          "uv": [
+            1,
+            7,
+            1.25,
+            7.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "up": {
+          "uv": [
+            13.5,
+            5.75,
+            6.75,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "down": {
+          "uv": [
+            13.5,
+            5.75,
+            6.75,
+            6
+          ],
+          "texture": "#mine_pallet"
+        }
+      },
+      "name": "pallet_support"
+    },
+    {
+      "from": [
+        22.38125,
+        4.22,
+        4.282813
+      ],
+      "to": [
+        22.5875,
+        4.61,
+        11.717187
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.75,
+            7,
+            1,
+            7.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "east": {
+          "uv": [
+            0,
+            1.75,
+            7.75,
+            2.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "south": {
+          "uv": [
+            0.5,
+            7,
+            0.75,
+            7.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "west": {
+          "uv": [
+            0,
+            1,
+            7.75,
+            1.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "up": {
+          "uv": [
+            0.25,
+            14.75,
+            0,
+            7
+          ],
+          "texture": "#mine_pallet"
+        },
+        "down": {
+          "uv": [
+            0.5,
+            14.75,
+            0.25,
+            7
+          ],
+          "texture": "#mine_pallet"
+        }
+      },
+      "name": "pallet_support"
+    },
+    {
+      "from": [
+        16.967188,
+        4.285,
+        11.16875
+      ],
+      "to": [
+        22.432812,
+        4.545,
+        11.4125
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            6,
+            6.75,
+            6.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "east": {
+          "uv": [
+            1,
+            7,
+            1.25,
+            7.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "south": {
+          "uv": [
+            0,
+            5.5,
+            6.75,
+            6
+          ],
+          "texture": "#mine_pallet"
+        },
+        "west": {
+          "uv": [
+            6.75,
+            6,
+            7,
+            6.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "up": {
+          "uv": [
+            13.5,
+            5.75,
+            6.75,
+            5.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "down": {
+          "uv": [
+            13.5,
+            6,
+            6.75,
+            5.75
+          ],
+          "texture": "#mine_pallet"
+        }
+      },
+      "name": "pallet_support"
+    },
+    {
+      "from": [
+        16.55,
+        0,
+        4.45
+      ],
+      "to": [
+        17.55,
+        4.09,
+        5.45
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            4,
+            0.5,
+            5.0225
+          ],
+          "texture": "#mine_support"
+        },
+        "east": {
+          "uv": [
+            1.0,
+            4,
+            1.25,
+            5.0225
+          ],
+          "texture": "#mine_support"
+        },
+        "south": {
+          "uv": [
+            1.75,
+            4,
+            2.0,
+            5.0225
+          ],
+          "texture": "#mine_support"
+        },
+        "west": {
+          "uv": [
+            2.5,
+            4,
+            2.75,
+            5.0225
+          ],
+          "texture": "#mine_support"
+        },
+        "up": {
+          "uv": [
+            9.75,
+            12.75,
+            9,
+            12
+          ],
+          "texture": "#mine_support"
+        },
+        "down": {
+          "uv": [
+            12.75,
+            9,
+            12,
+            9.75
+          ],
+          "texture": "#mine_support"
+        }
+      },
+      "name": "braced_stand_leg"
+    },
+    {
+      "from": [
+        16.55,
+        0,
+        10.45
+      ],
+      "to": [
+        17.55,
+        4.09,
+        11.45
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            4,
+            0.5,
+            5.0225
+          ],
+          "texture": "#mine_support"
+        },
+        "east": {
+          "uv": [
+            1.0,
+            4,
+            1.25,
+            5.0225
+          ],
+          "texture": "#mine_support"
+        },
+        "south": {
+          "uv": [
+            1.75,
+            4,
+            2.0,
+            5.0225
+          ],
+          "texture": "#mine_support"
+        },
+        "west": {
+          "uv": [
+            2.5,
+            4,
+            2.75,
+            5.0225
+          ],
+          "texture": "#mine_support"
+        },
+        "up": {
+          "uv": [
+            9.75,
+            12.75,
+            9,
+            12
+          ],
+          "texture": "#mine_support"
+        },
+        "down": {
+          "uv": [
+            12.75,
+            9,
+            12,
+            9.75
+          ],
+          "texture": "#mine_support"
+        }
+      },
+      "name": "braced_stand_leg"
+    },
+    {
+      "from": [
+        21.85,
+        0,
+        4.45
+      ],
+      "to": [
+        22.85,
+        4.09,
+        5.45
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            4,
+            0.5,
+            5.0225
+          ],
+          "texture": "#mine_support"
+        },
+        "east": {
+          "uv": [
+            1.0,
+            4,
+            1.25,
+            5.0225
+          ],
+          "texture": "#mine_support"
+        },
+        "south": {
+          "uv": [
+            1.75,
+            4,
+            2.0,
+            5.0225
+          ],
+          "texture": "#mine_support"
+        },
+        "west": {
+          "uv": [
+            2.5,
+            4,
+            2.75,
+            5.0225
+          ],
+          "texture": "#mine_support"
+        },
+        "up": {
+          "uv": [
+            9.75,
+            12.75,
+            9,
+            12
+          ],
+          "texture": "#mine_support"
+        },
+        "down": {
+          "uv": [
+            12.75,
+            9,
+            12,
+            9.75
+          ],
+          "texture": "#mine_support"
+        }
+      },
+      "name": "braced_stand_leg"
+    },
+    {
+      "from": [
+        21.85,
+        0,
+        10.45
+      ],
+      "to": [
+        22.85,
+        4.09,
+        11.45
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            4,
+            0.5,
+            5.0225
+          ],
+          "texture": "#mine_support"
+        },
+        "east": {
+          "uv": [
+            1.0,
+            4,
+            1.25,
+            5.0225
+          ],
+          "texture": "#mine_support"
+        },
+        "south": {
+          "uv": [
+            1.75,
+            4,
+            2.0,
+            5.0225
+          ],
+          "texture": "#mine_support"
+        },
+        "west": {
+          "uv": [
+            2.5,
+            4,
+            2.75,
+            5.0225
+          ],
+          "texture": "#mine_support"
+        },
+        "up": {
+          "uv": [
+            9.75,
+            12.75,
+            9,
+            12
+          ],
+          "texture": "#mine_support"
+        },
+        "down": {
+          "uv": [
+            12.75,
+            9,
+            12,
+            9.75
+          ],
+          "texture": "#mine_support"
+        }
+      },
+      "name": "braced_stand_leg"
+    },
+    {
+      "from": [
+        16.65,
+        1.6,
+        5.4
+      ],
+      "to": [
+        17.45,
+        2.35,
+        10.6
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.5,
+            7,
+            0.75,
+            7.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "east": {
+          "uv": [
+            0,
+            1,
+            7.75,
+            1.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "south": {
+          "uv": [
+            0.75,
+            7,
+            1,
+            7.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "west": {
+          "uv": [
+            0,
+            1.75,
+            7.75,
+            2.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "up": {
+          "uv": [
+            0.25,
+            14.75,
+            0,
+            7
+          ],
+          "texture": "#mine_pallet"
+        },
+        "down": {
+          "uv": [
+            0.5,
+            7,
+            0.25,
+            14.75
+          ],
+          "texture": "#mine_pallet"
+        }
+      },
+      "name": "stand_crossbrace"
+    },
+    {
+      "from": [
+        21.95,
+        1.6,
+        5.4
+      ],
+      "to": [
+        22.75,
+        2.35,
+        10.6
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.5,
+            7,
+            0.75,
+            7.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "east": {
+          "uv": [
+            0,
+            1,
+            7.75,
+            1.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "south": {
+          "uv": [
+            0.75,
+            7,
+            1,
+            7.75
+          ],
+          "texture": "#mine_pallet"
+        },
+        "west": {
+          "uv": [
+            0,
+            1.75,
+            7.75,
+            2.5
+          ],
+          "texture": "#mine_pallet"
+        },
+        "up": {
+          "uv": [
+            0.25,
+            14.75,
+            0,
+            7
+          ],
+          "texture": "#mine_pallet"
+        },
+        "down": {
+          "uv": [
+            0.5,
+            7,
+            0.25,
+            14.75
+          ],
+          "texture": "#mine_pallet"
+        }
+      },
+      "name": "stand_crossbrace"
+    }
+  ],
+  "gui_light": "front",
+  "mcmodels": "3ac72f3326a9dbd11696a1e153be1203",
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "source_credits": {
+    "mine_pallet": {
+      "credit": "Made by Workshop Six",
+      "mcmodels": "4259c67676b356f4e5be55a6dfe2bcea"
+    },
+    "mine_support": {
+      "credit": "Made by Workshop Six",
+      "mcmodels": "4259c67676b356f4e5be55a6dfe2bcea"
+    }
+  }
+}

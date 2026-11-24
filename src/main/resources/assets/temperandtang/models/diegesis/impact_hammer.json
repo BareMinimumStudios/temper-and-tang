@@ -1,358 +1,236 @@
 {
-  "parent": "minecraft:block/block",
-  "ambientocclusion": false,
+  "credit": "Made by Workshop Six",
+  "texture_size": [
+    64,
+    64
+  ],
   "textures": {
-    "particle": "minecraft:block/anvil",
-    "metal": "minecraft:block/anvil",
-    "face": "minecraft:block/iron_block",
-    "wood": "minecraft:block/stripped_spruce_log",
-    "leather": "minecraft:block/brown_terracotta"
+    "1": "temperandtang:block/workshop_six/blacksmith_tool_board_long"
   },
   "elements": [
     {
-      "name": "ash_handle",
       "from": [
-        7.45,
-        4.45,
-        0.2
+        7.35,
+        3.8499999999999996,
+        3.5
       ],
       "to": [
-        8.55,
-        5.55,
-        13
+        8.65,
+        6.15,
+        9.5
       ],
       "faces": {
-        "up": {
-          "texture": "#wood",
-          "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
-        },
-        "down": {
-          "texture": "#wood",
-          "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
-        },
         "north": {
-          "texture": "#wood",
           "uv": [
+            13.5,
+            1.25,
+            13,
+            1.5
+          ],
+          "rotation": 270,
+          "texture": "#1"
+        },
+        "up": {
+          "uv": [
+            12.75,
             0,
-            0,
-            8,
-            8
-          ]
+            13,
+            1.5
+          ],
+          "rotation": 270,
+          "texture": "#1"
         },
         "south": {
-          "texture": "#wood",
           "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
+            13.5,
+            1.25,
+            13,
+            1
+          ],
+          "texture": "#1",
+          "rotation": 270
         },
-        "east": {
-          "texture": "#wood",
+        "down": {
           "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
+            12.75,
+            3.75,
+            13,
+            5.25
+          ],
+          "rotation": 90,
+          "texture": "#1"
         },
         "west": {
-          "texture": "#wood",
           "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
+            10,
+            12,
+            10.5,
+            13.5
+          ],
+          "rotation": 180,
+          "texture": "#1"
+        },
+        "east": {
+          "uv": [
+            10.5,
+            12,
+            11,
+            13.5
+          ],
+          "texture": "#1"
         }
       }
     },
     {
-      "name": "wrapped_grip",
       "from": [
-        7.32,
-        4.32,
-        1.3
+        7.5,
+        4,
+        1
       ],
       "to": [
-        8.68,
-        5.68,
-        4.9
+        8.5,
+        6,
+        15
       ],
       "faces": {
-        "up": {
-          "texture": "#leather",
-          "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
-        },
-        "down": {
-          "texture": "#leather",
-          "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
-        },
         "north": {
-          "texture": "#leather",
           "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
+            13.5,
+            2.25,
+            13,
+            2.5
+          ],
+          "rotation": 270,
+          "texture": "#1"
+        },
+        "up": {
+          "uv": [
+            9.5,
+            12,
+            9.75,
+            15.5
+          ],
+          "rotation": 270,
+          "texture": "#1"
         },
         "south": {
-          "texture": "#leather",
           "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
+            13.5,
+            2.25,
+            13,
+            2
+          ],
+          "texture": "#1",
+          "rotation": 270
         },
-        "east": {
-          "texture": "#leather",
+        "down": {
           "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
+            9.75,
+            12,
+            10,
+            15.5
+          ],
+          "rotation": 90,
+          "texture": "#1"
         },
         "west": {
-          "texture": "#leather",
           "uv": [
+            11.75,
             0,
-            0,
-            8,
-            8
-          ]
+            12.25,
+            3.5
+          ],
+          "rotation": 180,
+          "texture": "#1"
+        },
+        "east": {
+          "uv": [
+            11.75,
+            3.5,
+            12.25,
+            7
+          ],
+          "texture": "#1"
         }
       }
     },
     {
-      "name": "forged_head",
       "from": [
-        6.65,
-        2.1,
-        11.6
+        6,
+        2,
+        10.5
       ],
       "to": [
-        9.35,
-        7.7,
-        14.4
-      ],
-      "faces": {
-        "up": {
-          "texture": "#metal",
-          "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
-        },
-        "down": {
-          "texture": "#metal",
-          "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
-        },
-        "north": {
-          "texture": "#metal",
-          "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
-        },
-        "south": {
-          "texture": "#metal",
-          "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
-        },
-        "east": {
-          "texture": "#metal",
-          "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
-        },
-        "west": {
-          "texture": "#metal",
-          "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
-        }
-      }
-    },
-    {
-      "name": "striking_face",
-      "from": [
-        6.5,
-        1.6,
-        11.5
-      ],
-      "to": [
-        9.5,
-        2.1,
+        10,
+        8,
         14.5
       ],
       "faces": {
-        "up": {
-          "texture": "#face",
-          "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
-        },
-        "down": {
-          "texture": "#face",
-          "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
-        },
         "north": {
-          "texture": "#face",
           "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
+            13.25,
+            10,
+            11.75,
+            11
+          ],
+          "rotation": 270,
+          "texture": "#1"
+        },
+        "up": {
+          "uv": [
+            2.5,
+            12,
+            3.5,
+            13
+          ],
+          "rotation": 270,
+          "texture": "#1"
         },
         "south": {
-          "texture": "#face",
           "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
-        },
-        "east": {
-          "texture": "#face",
-          "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
-        },
-        "west": {
-          "texture": "#face",
-          "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
-        }
-      }
-    },
-    {
-      "name": "cross_peen",
-      "from": [
-        7.3,
-        7.7,
-        11.8
-      ],
-      "to": [
-        8.7,
-        8.5,
-        14.2
-      ],
-      "faces": {
-        "up": {
-          "texture": "#metal",
-          "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
+            13.25,
+            10,
+            11.75,
+            9
+          ],
+          "texture": "#1",
+          "rotation": 270
         },
         "down": {
-          "texture": "#metal",
           "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
-        },
-        "north": {
-          "texture": "#metal",
-          "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
-        },
-        "south": {
-          "texture": "#metal",
-          "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
-        },
-        "east": {
-          "texture": "#metal",
-          "uv": [
-            0,
-            0,
-            8,
-            8
-          ]
+            3.5,
+            12,
+            4.5,
+            13
+          ],
+          "rotation": 90,
+          "texture": "#1"
         },
         "west": {
-          "texture": "#metal",
           "uv": [
-            0,
-            0,
-            8,
+            11.75,
+            7,
+            13.25,
             8
-          ]
+          ],
+          "rotation": 180,
+          "texture": "#1"
+        },
+        "east": {
+          "uv": [
+            11.75,
+            8,
+            13.25,
+            9
+          ],
+          "texture": "#1"
         }
       }
     }
-  ]
+  ],
+  "gui_light": "front",
+  "display": {},
+  "mcmodels": "3ac72f3326a9dbd11696a1e153be1203",
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false
 }

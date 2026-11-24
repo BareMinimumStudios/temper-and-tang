@@ -2,8 +2,9 @@
   "parent": "minecraft:block/block",
   "ambientocclusion": false,
   "textures": {
-    "particle": "minecraft:block/moss_block",
-    "green": "minecraft:block/white_concrete"
+    "particle": "minecraft:block/white_concrete",
+    "green": "minecraft:block/white_concrete",
+    "edge": "minecraft:block/light_gray_concrete"
   },
   "elements": [
     {
@@ -11,12 +12,12 @@
       "from": [
         -1,
         0,
-        -0.65
+        -0.6
       ],
       "to": [
         1,
-        0.1,
-        0.65
+        0.09,
+        0.6
       ],
       "faces": {
         "north": {
@@ -24,8 +25,8 @@
           "uv": [
             0,
             0,
-            2,
-            0.1
+            16,
+            16
           ]
         },
         "south": {
@@ -33,8 +34,8 @@
           "uv": [
             0,
             0,
-            2,
-            0.1
+            16,
+            16
           ]
         },
         "east": {
@@ -42,8 +43,8 @@
           "uv": [
             0,
             0,
-            1.3,
-            0.1
+            16,
+            16
           ]
         },
         "west": {
@@ -51,8 +52,8 @@
           "uv": [
             0,
             0,
-            1.3,
-            0.1
+            16,
+            16
           ]
         },
         "up": {
@@ -60,8 +61,8 @@
           "uv": [
             0,
             0,
-            2,
-            1.3
+            16,
+            16
           ]
         },
         "down": {
@@ -69,8 +70,146 @@
           "uv": [
             0,
             0,
-            2,
-            1.3
+            16,
+            16
+          ]
+        }
+      }
+    },
+    {
+      "name": "front_edge",
+      "from": [
+        -0.95,
+        0.091,
+        -0.55
+      ],
+      "to": [
+        0.95,
+        0.13,
+        -0.48
+      ],
+      "faces": {
+        "north": {
+          "texture": "#edge",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#edge",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "east": {
+          "texture": "#edge",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#edge",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#edge",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "down": {
+          "texture": "#edge",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        }
+      }
+    },
+    {
+      "name": "rear_edge",
+      "from": [
+        -0.95,
+        0.091,
+        0.48
+      ],
+      "to": [
+        0.95,
+        0.13,
+        0.55
+      ],
+      "faces": {
+        "north": {
+          "texture": "#edge",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#edge",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "east": {
+          "texture": "#edge",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#edge",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#edge",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "down": {
+          "texture": "#edge",
+          "uv": [
+            0,
+            0,
+            16,
+            16
           ]
         }
       }

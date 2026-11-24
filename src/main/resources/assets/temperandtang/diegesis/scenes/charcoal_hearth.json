@@ -1,14 +1,14 @@
 {
   "camera": {
     "position": [
-      28,
-      36,
-      -24
+      5.42,
+      23.04,
+      -12.48
     ],
     "target": [
-      8,
-      11,
-      8
+      5.42,
+      7.04,
+      8.0
     ],
     "fov": 50
   },
@@ -28,94 +28,100 @@
   },
   "nodes": [
     {
-      "id": "stock",
+      "id": "hearth_scene",
       "pos": [
-        8,
-        7.5,
-        8
-      ],
-      "slot": {
-        "slot": "stock",
-        "size": 4,
-        "idle_highlight": 0.12
-      },
-      "tooltip": "temperandtang.thermal.slot.stock"
-    },
-    {
-      "id": "fuel",
-      "pos": [
-        8,
-        4.5,
-        1.5
-      ],
-      "slot": {
-        "slot": "fuel",
-        "size": 3,
-        "idle_highlight": 0.12
-      },
-      "tooltip": "temperandtang.thermal.slot.fuel"
-    },
-    {
-      "id": "heat",
-      "pos": [
-        17,
-        6.5,
-        8
-      ],
-      "control": {
-        "control": "heat",
-        "type": "button",
-        "axis": [
-          0,
-          -1,
-          0
-        ],
-        "range": [
-          0,
-          0.3
-        ]
-      },
-      "collider": {
-        "from": [
-          -7,
-          0,
-          -7
-        ],
-        "to": [
-          7,
-          15,
-          9
-        ]
-      },
-      "tooltip": "temperandtang.thermal.action.heat",
-      "scale": 0.4,
-      "rotation": [
+        0.3,
         0,
-        -90,
-        0
+        2.88
       ],
+      "scale": 0.64,
+      "pickable": false,
       "children": [
         {
-          "id": "bellows_lower",
-          "pickable": false
-        },
-        {
-          "id": "bellows_leather",
-          "pickable": false
-        },
-        {
-          "id": "bellows_top",
-          "pos": [
-            0,
-            1.25,
-            7
-          ],
+          "id": "hearth_body",
           "pickable": false,
+          "visual": {
+            "model": "temperandtang:diegesis/charcoal_hearth_body",
+            "anchor": [
+              0,
+              0,
+              0
+            ]
+          },
+          "hidden": true
+        },
+        {
+          "id": "stock",
+          "pos": [
+            8,
+            7.5,
+            8
+          ],
+          "slot": {
+            "slot": "stock",
+            "size": 4,
+            "idle_highlight": 0.12
+          },
+          "tooltip": "temperandtang.thermal.slot.stock"
+        },
+        {
+          "id": "fuel",
+          "pos": [
+            8,
+            4.5,
+            1.5
+          ],
+          "slot": {
+            "slot": "fuel",
+            "size": 3,
+            "idle_highlight": 0.12
+          },
+          "tooltip": "temperandtang.thermal.slot.fuel"
+        },
+        {
+          "id": "heat",
+          "pos": [
+            18.06,
+            8,
+            8
+          ],
+          "control": {
+            "control": "heat",
+            "type": "button",
+            "axis": [
+              0,
+              -1,
+              0
+            ],
+            "range": [
+              0,
+              0.3
+            ]
+          },
+          "collider": {
+            "from": [
+              -16,
+              -9,
+              -12
+            ],
+            "to": [
+              22,
+              7,
+              12
+            ]
+          },
+          "tooltip": "temperandtang.thermal.action.heat",
+          "scale": 0.375,
+          "rotation": [
+            0,
+            0,
+            0
+          ],
           "children": [
             {
-              "id": "bellows_handle",
+              "id": "workshop_six_bellows_base",
               "visual": {
-                "model": "temperandtang:diegesis/bellows_handle",
+                "model": "temperandtang:diegesis/workshop_six_bellows_base",
                 "anchor": [
                   0,
                   0,
@@ -123,87 +129,87 @@
                 ]
               },
               "pickable": false
+            },
+            {
+              "id": "workshop_six_bellows_top",
+              "visual": {
+                "model": "temperandtang:diegesis/workshop_six_bellows_top",
+                "anchor": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "pickable": false
+            },
+            {
+              "id": "workshop_six_bellows_leather",
+              "pickable": false
             }
           ]
         },
         {
-          "id": "bellows_nozzle",
-          "visual": {
-            "model": "temperandtang:diegesis/bellows_nozzle",
-            "anchor": [
-              0,
-              0,
-              0
-            ]
+          "id": "result",
+          "pos": [
+            8,
+            8,
+            8
+          ],
+          "output": {
+            "output": "result",
+            "size": 4.5
           },
-          "pickable": false
+          "tooltip": "temperandtang.scene.result"
         },
         {
-          "id": "bellows_welts",
-          "pickable": false
+          "id": "embers",
+          "pos": [
+            8,
+            6.1,
+            8
+          ],
+          "visual": {
+            "model": "temperandtang:diegesis/hearth_embers",
+            "emissive": true
+          },
+          "hidden": true
+        },
+        {
+          "id": "fire",
+          "pos": [
+            8,
+            6.5,
+            8
+          ],
+          "emitter": {
+            "particle": "diegesis:flame",
+            "rate": 5,
+            "spread": 2,
+            "velocity": [
+              0,
+              2,
+              0
+            ],
+            "scale": 0.75,
+            "enabled": false
+          }
+        },
+        {
+          "id": "additive",
+          "pos": [
+            3.5,
+            4.5,
+            1.5
+          ],
+          "slot": {
+            "slot": "additive",
+            "size": 2.8,
+            "idle_highlight": 0.12
+          },
+          "tooltip": "temperandtang.thermal.slot.additive"
         }
       ]
-    },
-    {
-      "id": "result",
-      "pos": [
-        8,
-        8,
-        8
-      ],
-      "output": {
-        "output": "result",
-        "size": 4.5
-      },
-      "tooltip": "temperandtang.scene.result"
-    },
-    {
-      "id": "embers",
-      "pos": [
-        8,
-        6.1,
-        8
-      ],
-      "visual": {
-        "model": "temperandtang:diegesis/hearth_embers",
-        "emissive": true
-      },
-      "hidden": true
-    },
-    {
-      "id": "fire",
-      "pos": [
-        8,
-        6.5,
-        8
-      ],
-      "emitter": {
-        "particle": "diegesis:flame",
-        "rate": 5,
-        "spread": 2,
-        "velocity": [
-          0,
-          2,
-          0
-        ],
-        "scale": 0.75,
-        "enabled": false
-      }
-    },
-    {
-      "id": "additive",
-      "pos": [
-        3.5,
-        4.5,
-        1.5
-      ],
-      "slot": {
-        "slot": "additive",
-        "size": 2.8,
-        "idle_highlight": 0.12
-      },
-      "tooltip": "temperandtang.thermal.slot.additive"
     }
   ],
-  "work_plane": 6
+  "work_plane": 3.84
 }

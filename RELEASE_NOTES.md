@@ -1,11 +1,13 @@
-# Temper & Tang 0.5.0
+# Temper & Tang 0.5.1
 
 Standalone medieval smithing for Minecraft 1.21.1 Fabric and NeoForge.
 
-This revision adds complete bronze and steel tool/armor families and dagger, spear and warhammer choices in bronze, iron and steel. Material, craftsmanship and a final finish remain separate layers; enchantments can enrich the completed gear.
+Press **F** at the shaping anvil to search patterns by equipment name or recipe identifier, then click a result. Selection works while holding hot stock; Escape returns to the station. A complete placed ingredient layout can choose a matching recipe automatically. Valid stored pattern selections survive reopening. Cooling continues normally, and active work stays protected.
 
-The existing Diegesis hearth now refines raw metal and makes counted alloys. Put stock in the main slot, alloy ingredients in the new small dish and fuel in its own slot. Three copper plus one tin yields four bronze; one iron plus one coal or charcoal yields one steel. Clear stage, yield and fuel guidance appears before starting. Furnace bronze blending remains available, and tongs can be crafted from bronze to avoid an early iron gate.
+The four workstation cameras now face the work directly. The supplied Workshop Six hearth, anvils, hammer, tongs and bellows replace the workshop presentation, with a Mine Furniture pallet stand and matching timber. The complete hearth fits inside one block; collision outlines follow the station models in all four directions. Creator credit and separate artwork rights are retained.
 
-Common tags, vanilla repair/trim behavior and optional Better Combat profiles support other content mods. Simply Swords and Epic Knights retain native item identities and baseline stats. Only Epic Knights' unchanged fast steel shortcut moves to carbon alloying; removed or customized recipes remain respected. Native gilding and forging upgrades preserve external metadata and affixes while preventing workmanship bonuses from stacking.
+Rhythm notes continue along the same path when a phrase advances. Bounded clock correction prevents backward jumps between server updates. The hammer swings from the main-hand side, mirrored for left-handed players, using the supplied model’s proportions. Tool contact positions, dipping acceleration and tong closure are refined; air bursts follow actual bellows compression. Cached leather meshes reduce repeated allocation during pumping. The server still determines timing, quality, costs and item transfers.
 
-Requires Diegesis beta.17, Fzzy Config and your loader's Kotlin runtime. Overgeared is not required. See `docs/METALLURGY.md` for the player route and `docs/VERIFICATION.md` for the tested scope. Live multiplayer latency and long-term balance remain playtesting work.
+The additive dish accepts common tin ingots, coal and charcoal through `temperandtang:alloy_additives`. Finishing materials remain restricted to the finishing-treatment tags. Recipes and the equipment progression are preserved.
+
+Requires Diegesis beta.19, Fzzy Config and the loader's Kotlin runtime. Simply Swords, Simply More and Epic Knights remain optional integrations. Overgeared is not required. Artwork rights are described in THIRD_PARTY_NOTICES.txt.

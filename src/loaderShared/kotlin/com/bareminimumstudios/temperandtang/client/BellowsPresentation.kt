@@ -12,6 +12,7 @@ class BellowsPresentation {
     private var time=0f
     private var opening=3f
     private var gust=0f
+    private var drive=0f
     private fun quad(b:MeshShape.Builder,a:Vector3f,c:Vector3f,d:Vector3f,e:Vector3f) {
         val n=Vector3f(c).sub(a).cross(Vector3f(d).sub(a)).normalize().negate()
         for((p,uv) in listOf(e to (0f to 1f),d to (1f to 1f),c to (1f to 0f),a to (0f to 0f)))b.corner(p.x,p.y,p.z,uv.first,uv.second,n.x,n.y,n.z)
@@ -61,29 +62,37 @@ class BellowsPresentation {
     private val lower=board(false)
     private val upper=board(true)
     fun frame(view:StationView,dt:Float) {
+        view.node("hearth_body").ifPresent {it.setVisible(view.isBlockHidden)}
         time+=dt
         val heating=view.state().data().getString("status")=="heating"
-        val target=if(heating)3.9f+1.9f*sin(time*5f) else 3f
+        drive+=((if(heating)1f else 0f)-drive)*(1-exp(-dt*7f))
+        val target=3f+drive*(.9f+1.9f*sin(time*5f))
+        val previousOpening=opening
         opening+=(target-opening)*(1-exp(-dt*15f))
         val angle=asin(((opening-1.25f)/12f).coerceIn(0f,.8f))
+        if(view.node("workshop_six_bellows_base").isPresent)WorkshopSixBellows.frame(view,opening)
         val wood=ResourceLocation.withDefaultNamespace("block/spruce_planks")
         view.node("bellows_lower").ifPresent {it.setShape(lower,wood)}
         view.node("bellows_top").ifPresent {it.setShape(upper,wood);it.rotateTo(angle*180f/PI.toFloat(),0f,0f,0f)}
         view.node("bellows_leather").ifPresent {it.setShape(leather(angle),ResourceLocation.withDefaultNamespace("block/brown_terracotta"))}
         view.node("bellows_welts").ifPresent {it.setShape(welts(angle),ResourceLocation.withDefaultNamespace("block/dark_oak_planks"))}
-        val pressure=if(heating)((-cos(time*5f)-.45f)/.55f).coerceIn(0f,1f) else 0f
+        val compression=(previousOpening-opening)/dt.coerceAtLeast(.0001f)
+        val pressure=if(heating)((compression/9.5f-.45f)/.55f).coerceIn(0f,1f) else 0f
         view.node("fire").ifPresent {it.setEmitRate(6f+20f*pressure)}
         val r=(216+39*pressure).toInt();val g=(183+72*pressure).toInt();val b=(158+97*pressure).toInt()
         view.node("embers").ifPresent {it.setTint((0xFF000000L or (r.toLong() shl 16) or (g.toLong() shl 8) or b.toLong()).toInt())}
         // Keep distinct compression bursts, but retain sub-frame time instead of resetting the clock per puff.
         gust=if(pressure>0f)gust+dt.coerceIn(0f,.1f) else .065f
+        val fitted=view.node("hearth_scene").isPresent
+        fun position(x:Float,y:Float,z:Float)=if(fitted)Vector3f(.3f+x*.64f,y*.64f,2.88f+z*.64f)else Vector3f(x,y,z)
+        fun velocity(x:Float,y:Float,z:Float)=Vector3f(x,y,z).mul(if(fitted).64f else 1f)
         var emitted=0
         while(pressure>0f && gust>=.065f && emitted++<3) {
             gust-=.065f
             val age=gust.coerceIn(0f,.1f)
-            view.spawnParticles(TemperAndTang.id("bellows_air"),Vector3f(12.5f-11f*age,7.22f+2f*age,8f),Vector3f(-11f,2f,0f),.08f,3,0)
-            view.spawnParticles(DiegesisParticles.FLAME,Vector3f(8.5f,7.25f,8f),Vector3f(0f,5f,0f),.8f,3,0)
-            view.spawnParticles(TemperAndTang.id("forge_spark"),Vector3f(8f,6.5f,8f),Vector3f(0f,10f,0f),1.2f,2,0xFFFFB85C.toInt())
+            view.spawnParticles(TemperAndTang.id("bellows_air"),position(12.5f-11f*age,7.29f-2.4f*age,8f),velocity(-11f,-2.4f,0f),.08f,3,0)
+            view.spawnParticles(DiegesisParticles.FLAME,position(8.5f,7.25f,8f),velocity(0f,5f,0f),.8f,3,0)
+            view.spawnParticles(TemperAndTang.id("forge_spark"),position(8f,6.5f,8f),velocity(0f,10f,0f),1.2f,2,0xFFFFB85C.toInt())
         }
     }
 }

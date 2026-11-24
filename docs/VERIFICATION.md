@@ -110,3 +110,16 @@ The complete pack still logs Small Ships' `getFullPath()` config-unloading excep
 Runtime logs and captures are retained in the isolated verification workspace: `final-050-preservation-metallurgy.log`, `standalone-050.log`, `flags-disabled-050.log`, `normal-pack-progression.log`, `normal-pack-reload.log`, and the bronze/steel progression capture directories. QA probes, hidden-window hooks, supplied fixture resources and video tools are not packaged in the mod.
 
 These checks establish the implemented routes and local preservation behavior. They do not establish arbitrary third-party ability damage, remote-server latency balance, cross-version world migration or long-term economy balance. Worn armor currently deliberately uses vanilla gold/iron visual layers; the distinct item models and workstations use original geometry with Minecraft textures.
+
+
+## 0.5.1 workstation presentation verification
+
+Both Minecraft 1.21.1 loader distributions built and passed resource/artifact verification; 26 unit tests passed. This revision's graphical runtime checks used NeoForge 21.1.267 and Diegesis beta.19 in isolated copies. No live profile or player world was modified.
+
+- Actual survival bronze heating, shaping, quenching and finishing completed with the packaged build. Twelve rendered hammer impacts across both anvils were checked against the workpiece at the clang event, with sparks present. Right-handed and mirrored left-handed presentations completed. Actual submerged tong jaws stayed aligned with the workpiece.
+- A harder diamond workflow completed with triple strikes and three deliberately missed beats. The recorded accuracy was 72.7%; quality remained a server-authoritative random outcome.
+- Server insertion tests rejected invalid alloy additives and finishing materials through left click, right click, shift transfer and invalid swaps, preserving existing stacks. Valid tin, coal, charcoal and treatment insertion passed. All four stations' collision bounds stayed within their block in all four orientations.
+- The copied complete pack passed direct pattern search, reverse-order keyword matching, Escape handling and selection while holding hot stock. The hot-stock timestamp was preserved rather than extended. Recreated shaping logic retained a valid saved pattern. Mouse release did not leak into a neighboring station.
+- Rendered rhythm positions remained on the same track across phrase changes; actual bellows compression produced directed air bursts. Pure clock tests cover jitter at 30, 60 and 144 frames per second. This verifies the implemented interpolation, not every possible hardware frame-time spike.
+
+The final hammer uses the supplied model's proportions and a main-hand side swing, leaving the front-facing workpiece view clearer. Both release JARs exclude test probes and recording hooks. Fabric was built and package-checked for this revision; its graphical runtime was not repeated in this pass.

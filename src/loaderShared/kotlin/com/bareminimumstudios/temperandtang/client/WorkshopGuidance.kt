@@ -68,6 +68,7 @@ object WorkshopGuidance {
                 else->Component.translatable("temperandtang.short.finish_cost",WorkshopText.number(TemperAndTang.config.experienceLevels.get()),state.getItem(FinishingStation.MATERIAL).takeUnless {it.isEmpty}?.hoverName?:Component.translatable("temperandtang.short.treatment"))
             }
             text.append(Component.literal("\n")).append(WorkshopText.style(if(action=="heat" && data.getString("process")!="heat")needs else Component.translatable("temperandtang.short.needs",needs),WorkshopText.MUTED))
+            if(action=="strike" && !data.getBoolean("reforging"))text.append(WorkshopText.style(Component.translatable("temperandtang.patterns.hint"),WorkshopText.STAGE))
         }
         if(help) {
             text.append(Component.literal("\n"))

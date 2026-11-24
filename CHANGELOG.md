@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.5.1
+
+- Add searchable pattern selection with F, automatic layout matching, and restoration of a valid saved pattern.
+- Allow pattern selection while holding hot stock; prevent mouse-release clicks from activating nearby stations.
+- Center the four workstation cameras and align station collision geometry in every horizontal orientation.
+- Adapt the supplied Workshop Six hearth, anvils, hammer, tongs and animated bellows; fit the hearth and bellows inside one block.
+- Add the Mine Furniture pallet support and matching timber surfaces, with retained creator credit.
+- Smooth quenching acceleration and jaw closure, calibrate tool contacts, and synchronize air bursts to actual compression.
+- Keep rhythm notes continuous across phrase changes and bound clock corrections so the marker cannot reverse under jitter.
+- Reuse bellows leather meshes to reduce allocation during animation.
+- Restrict alloy additives to an extendable ingredient tag; retain server-enforced finishing material restrictions.
+- Build against Diegesis beta.19 on Fabric and NeoForge.
 
 ## 0.5.0
 

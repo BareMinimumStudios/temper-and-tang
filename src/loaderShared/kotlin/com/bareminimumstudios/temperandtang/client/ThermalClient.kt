@@ -24,6 +24,7 @@ object ThermalClient {
         private val hammer=HammerPresentation(false)
         private val quench=QuenchPresentation()
         private val bellows=BellowsPresentation()
+        private var patterns:PatternPicker?=null
         override fun onOpen(view:StationView) {if(action=="strike")hammer.sync(view);refresh(view)}
         override fun onStateChanged(view:StationView,changes:StationState.Changes) {if(action=="strike")hammer.sync(view);refresh(view)}
         override fun onEffect(view:StationView,effect:ResourceLocation,node:String?,data:CompoundTag) {
@@ -37,7 +38,13 @@ object ThermalClient {
             if(action=="strike")hammer.frame(view,deltaSeconds)
             if(action=="quench")quench.frame(view,deltaSeconds)
         }
+        override fun onClose(view:StationView) {patterns?.close();patterns=null}
+        override fun onChar(view:StationView,character:Char,modifiers:Int):Boolean = patterns?.type(character)?:false
         override fun onKey(view: StationView, keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
+            patterns?.let {if(it.open)return it.key(keyCode)}
+            if(action=="strike" && keyCode==GLFW.GLFW_KEY_F && view.isFocused && view.state().data().getString("status")!="work" && view.state().getOutput("result").isEmpty && !view.state().data().getBoolean("reforging")) {
+                patterns=PatternPicker(view);view.showOverlay(patterns!!);return true
+            }
             if(keyCode==GLFW.GLFW_KEY_H && view.isFocused){WorkshopGuidance.toggle(view);refresh(view);return true}
             val command=when {
                 keyCode==GLFW.GLFW_KEY_SPACE -> action

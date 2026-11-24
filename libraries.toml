@@ -17,7 +17,7 @@ neoforge-language-kotlin = { module = "thedarkcolour:kotlinforforge-neoforge", v
 fzzy-config-fabric = { module = "me.fzzyhmstrs:fzzy_config", version.ref = "fzzy-fabric" }
 fzzy-config-neoforge = { module = "me.fzzyhmstrs:fzzy_config", version.ref = "fzzy-neoforge" }
 
-diegesis-fabric = { module = "maven.modrinth:diegesis-api", version = "o48OgitR" }
-diegesis-neoforge = { module = "maven.modrinth:diegesis-api", version = "C2opCR7I" }
+diegesis-fabric = { module = "maven.modrinth:diegesis-api", version = "4DO2cQHX" }
+diegesis-neoforge = { module = "maven.modrinth:diegesis-api", version = "NtPfqNAL" }
 
 mixinextras = { module = "io.github.llamalad7:mixinextras-common", version = "0.5.3" }

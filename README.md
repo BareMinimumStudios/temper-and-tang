@@ -4,6 +4,8 @@ Standalone, material-driven medieval smithing for **Minecraft 1.21.1**, written 
 
 The first revision uses **Diegesis charcoal heating, scored hammer work, water quenching and equipment finishing**. Place materials directly on physical workstations, work the metal, then retrieve the result. Its rules and item consumption run on the server. Fzzy Config supplies the configuration interface, validation and synchronization.
 
+Press **F** at the shaping anvil to find a pattern directly. You can select while holding hot stock, and a valid saved pattern is restored when its station state reopens. The workshop cameras face the work directly.
+
 ## Current features
 
 - Standalone heat → shape → quench → finish progression, including metal armor, tools, shields and weapons.
@@ -22,7 +24,7 @@ The first revision uses **Diegesis charcoal heating, scored hammer work, water q
 
 ## Playing
 
-Install the correct loader JAR, Fzzy Config, Diegesis **beta.17** for your loader, and Fabric Language Kotlin or Kotlin for Forge. See `libraries.toml` for exact development dependency pins. Simply Swords, Simply More and Epic Knights are optional equipment integrations. Overgeared is not required or used. The workshop handles weapons, tools, shields and metal armor with server-owned craftsmanship, mastery and reusable blueprints.
+Install the correct loader JAR, Fzzy Config, Diegesis **beta.19** for your loader, and Fabric Language Kotlin or Kotlin for Forge. See `libraries.toml` for exact development dependency pins. Simply Swords, Simply More and Epic Knights are optional equipment integrations. Overgeared is not required or used. The workshop handles weapons, tools, shields and metal armor with server-owned craftsmanship, mastery and reusable blueprints.
 
 See [metals and equipment](docs/METALLURGY.md) for the standalone catalog, bootstrap route and alloy ratios.
 

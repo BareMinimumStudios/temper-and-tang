@@ -176,7 +176,7 @@
   "temperandtang.tooltip.targets.weighted": "Compatible: weapons.",
   "temperandtang.tooltip.targets.lightened": "Compatible: weapons and armor.",
   "temperandtang.tooltip.armor_movement": "On armor: %s movement speed per piece instead of attack speed.",
-  "temperandtang.guide.pattern_keys": "Follow the ghost arrangement · %s patterns · %s filter · %s blueprint · %s reforge",
+  "temperandtang.guide.pattern_keys": "%s Browse · F Search · %s Category · %s Blueprint · %s Reforge",
   "temperandtang.guide.finish_work": "Blows: %s / %s · Accuracy %s%%",
   "temperandtang.guide.finish_commit": "Work ready. With %s experience levels, click the result or press %s to pay and complete.",
   "temperandtang.short.help": "H help",
@@ -281,5 +281,9 @@
   "temperandtang.short.alloy_help": "Bronze: 3 copper + 1 tin · Steel: 1 iron + 1 coal",
   "temperandtang.short.hearth_yield": "Yield: %s · Fuel: %s",
   "temperandtang.short.start_refine": "Press %s to refine.",
-  "temperandtang.short.start_alloy": "Press %s to alloy."
+  "temperandtang.short.start_alloy": "Press %s to alloy.",
+  "temperandtang.patterns.title": "Choose a pattern · Esc to close",
+  "temperandtang.patterns.search": "Search: %s",
+  "temperandtang.patterns.empty": "No matching patterns",
+  "temperandtang.patterns.hint": " · F: Find pattern"
 }

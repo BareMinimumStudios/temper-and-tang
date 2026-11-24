@@ -12,7 +12,9 @@ recipe = json.loads((root / "data/temperandtang/recipe/bronze_ingot.json").read_
 assert [x["tag"] for x in recipe["ingredients"]] == ["c:ingots/copper"] * 3 + ["c:ingots/tin"]
 assert recipe["result"] == {"id": "temperandtang:bronze_blend", "count": 4}
 scene = json.loads((root / "assets/temperandtang/diegesis/scenes/finishing_anvil.json").read_text())
-assert {n["id"] for n in scene["nodes"]} >= {"weapon", "material", "hammer", "strike", "result", "timing_marker"}
+def node_ids(nodes):
+    return {n["id"] for n in nodes} | set().union(*(node_ids(n.get("children", [])) for n in nodes))
+assert node_ids(scene["nodes"]) >= {"weapon", "material", "hammer", "strike", "result", "timing_marker"}
 print("Verified additive common tags, tag-based alloy inputs, conserved material counts and station scene bindings.")
 
 for name in ("charcoal_hearth", "shaping_anvil", "quenching_trough"):
@@ -36,6 +38,10 @@ for path in (assets / "models").rglob("*.json"):
         if any(v < 0 or v > 16 for v in element["from"] + element["to"]):
             assert all("uv" in face and all(0 <= v <= 16 for v in face["uv"]) for face in element["faces"].values()), path
 assert json.loads((assets / "models/item/smithing_hammer.json").read_text())["parent"] == "temperandtang:diegesis/impact_hammer"
+head = json.loads((assets / "models/diegesis/impact_hammer.json").read_text())["elements"][-1]
+width, height, depth = [b - a for a, b in zip(head["from"], head["to"])]
+assert width == depth == 4 and height == 6, "Hammer must strike with its narrow end, not its broad cheek"
+assert head["from"] == [6, 2, 10.5] and head["to"] == [10, 8, 14.5], "Recalibrate the hammer contact offset when moving its head"
 for sound in (assets / "sounds/forge").glob("*.ogg"):
     assert sound.read_bytes()[:4] == b"OggS", sound
 print("Verified overhanging UV bounds, shared hammer geometry and encoded impact audio.")

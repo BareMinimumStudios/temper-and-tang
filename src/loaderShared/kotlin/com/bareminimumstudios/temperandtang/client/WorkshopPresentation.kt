@@ -26,7 +26,7 @@ class HammerPresentation(private val finishing:Boolean) {
     private var anchor=0f
     private var sinceSync=0f
     private var marker=0f
-    private var noteId=-1
+    private var noteId=0L
     private var initialized=false
     private var glow=0f
     private var glowScore=0f
@@ -39,8 +39,10 @@ class HammerPresentation(private val finishing:Boolean) {
         val period=state.getControl("period").coerceAtLeast(1f)
         val until=state.getControl("target").takeIf {it>0f}?:((.5f-state.getControl("phase"))*period)
         if(state.getControl("target")>0f || state.getControl("phase")>0f)beatArmed=true
-        val id=state.getControl("progress").toInt()*4+state.getControl("phrase_step").toInt()
-        if(!initialized || id!=noteId || until>anchor+2f){marker=until;initialized=true;noteId=id}
+        val id=state.data().getLong("rhythm_target")
+        if(!initialized){marker=until;initialized=true}
+        else if(id!=0L && noteId!=0L && id!=noteId)marker+=(id-noteId).toFloat()
+        noteId=id
         anchor=until;sinceSync=0f
     }
 
@@ -58,8 +60,15 @@ class HammerPresentation(private val finishing:Boolean) {
         if(strike==null && pending.isNotEmpty()){strike=pending.removeFirst();elapsed=0f;impacted=false}
         val show=working || busy
         val contactY=surface(view)
-        val grip=Motion.hammerGrip(contactY)
-        view.node("strike").ifPresent {it.setVisible(show);it.moveTo(grip.x-8f,grip.y,grip.z,0f);it.rotateTo(if(strike!=null)Motion.hammerAngle(elapsed) else -42f,0f,0f,0f);it.setTint(0xFFFFFFFF.toInt())}
+        val side=if(net.minecraft.client.Minecraft.getInstance().player?.mainArm==net.minecraft.world.entity.HumanoidArm.LEFT)-1 else 1
+        val pose=view.node("strike_pose")
+        val grip=if(pose.isPresent)Motion.sideHammerGrip(contactY,side)else Motion.hammerGrip(contactY)
+        pose.ifPresent {it.moveTo(grip.x-8f,grip.y,grip.z,0f);it.rotateTo(0f,90f*side,0f,0f)}
+        view.node("strike").ifPresent {
+            it.setVisible(show)
+            if(pose.isPresent)it.moveTo(0f,0f,0f,0f)else it.moveTo(grip.x-8f,grip.y,grip.z,0f)
+            it.rotateTo(if(strike!=null)Motion.hammerAngle(elapsed) else -42f,0f,0f,0f);it.setTint(0xFFFFFFFF.toInt())
+        }
         // Keep the physical tool identical to the held item; no disembodied glove geometry.
         view.node("smith_hand").ifPresent {it.setVisible(false)}
         view.node("hammer").ifPresent {it.setVisible(!show)}
@@ -67,7 +76,7 @@ class HammerPresentation(private val finishing:Boolean) {
         run {
             val reforging=state.data().getBoolean("reforging")
             val progress=state.getControl("progress").toInt()
-            val visibleHits=(progress-if(busy && !impacted)1 else 0).coerceAtLeast(0)
+            val visibleHits=(progress-pending.size-if(strike!=null && !impacted)1 else 0).coerceAtLeast(0)
             val existing=finishing || reforging
             val id=if(existing && !input.isEmpty)BuiltInRegistries.ITEM.getKey(input.item).toString() else if(finishing)cachedItem else state.data().getString("target")
             if(id.isNotEmpty())cachedItem=id
@@ -81,8 +90,8 @@ class HammerPresentation(private val finishing:Boolean) {
                 visual?.let {v->view.node("workpiece_display").ifPresent {it.setVisual(v.withAnchor(Vector3f(8f,8f,8f)));it.rotateTo(if(existing)0f else -90f,0f,0f,0f)}}
                 lastTarget=key
             }
-            view.node("workpiece_display").ifPresent {it.setVisible(show && (existing || visibleHits>0) && (!ready || !impacted));it.moveTo(0f,contactY-0.15f,0f,0f);it.setTint(if(existing)0xFFFFFFFF.toInt() else 0xFFFFA06A.toInt())}
-            if(!finishing)view.node("pattern_board").ifPresent {it.setVisible(!show && !ready && !reforging);it.moveTo(0f,contactY-.35f,0f,0f)}
+            view.node("workpiece_display").ifPresent {it.setVisible(show && (existing || visibleHits>0) && (!ready || pending.isNotEmpty() || !impacted));it.moveTo(0f,contactY-0.15f,0f,0f);it.setTint(if(existing)0xFFFFFFFF.toInt() else 0xFFFFA06A.toInt())}
+            if(!finishing)view.node("pattern_board").ifPresent {it.setVisible(!show && !ready && !reforging);it.moveTo(0f,contactY-.14f,0f,0f)}
             if(!finishing) {
                 val metals=(0..8).filter {com.bareminimumstudios.temperandtang.smithing.WorkshopPlans.metal(state.getItem(com.bareminimumstudios.temperandtang.station.ThermalStations.grid(it)))}
                 val columns=metals.size.coerceIn(1,3);val rows=(metals.size+columns-1)/columns
@@ -94,19 +103,18 @@ class HammerPresentation(private val finishing:Boolean) {
                         val z=9f+(index/columns-(rows-1)/2f)*1.2f
                         it.moveTo(x-(4f+4f*(i%3)),contactY+.1f-13.3f,z-(5f+4f*(i/3)),0f)
                         it.scaleTo(.45f,0f)
-                    } else {it.moveTo(0f,0f,0f,0f);it.scaleTo(1f,0f)}
+                    } else {it.moveTo(0f,contactY-13.4f,0f,0f);it.scaleTo(1f,0f)}
                 }
             }
             if(!finishing)view.node("gear").ifPresent {it.setVisible(!show && !ready && reforging)}
         }
-        view.node("result").ifPresent {it.setVisible(ready && (!busy || impacted))}
+        view.node("result").ifPresent {it.setVisible(ready && pending.isEmpty() && (!busy || impacted))}
         if(finishing)view.node("weapon").ifPresent {it.setVisible(!ready && !show)}
         pulseTime+=dt
         glow=(glow-dt*5f).coerceAtLeast(0f)
         sinceSync+=dt
         val predicted=anchor-sinceSync*20f
-        val advanced=marker-dt*20f
-        marker=if(!working || !beatArmed)anchor else advanced+(predicted-advanced)*(1-exp(-dt*8f))
+        marker=if(!working || !beatArmed)anchor else RhythmTrack.advance(marker,predicted,dt)
         val x=RhythmTrack.position(marker)
         view.node("timing_marker").ifPresent {it.moveTo(x,0f,0f,0f);it.setVisible(working && !ready && beatArmed && RhythmTrack.visible(x))}
         for(id in listOf("timing_rail","timing_band"))view.node(id).ifPresent {it.setVisible(working && !ready)}
@@ -115,6 +123,7 @@ class HammerPresentation(private val finishing:Boolean) {
         val pulse=.5f+.5f*sin(pulseTime*9f)
         val light=(120+proximity*100+pulse*25).toInt().coerceIn(0,255)
         view.node("timing_band").ifPresent {it.setTint((0xFF000000L or (65L shl 16) or (light.toLong() shl 8) or 95L).toInt())}
+        view.node("timing_marker").ifPresent {it.scaleTo(1f+proximity*.07f+glow*.06f,0f)}
         view.node("timing_marker").ifPresent {it.setTint(if(glow>0f)if(glowScore>=.75f)0xFFE8FFD5.toInt()else 0xFFFFAF79.toInt()else if(proximity>.65f)0xFFFFF3C2.toInt()else 0xFFFFCF62.toInt())}
         view.node("impact_flash").ifPresent {
             it.setVisible(glow>0f && show)
@@ -170,10 +179,11 @@ class QuenchPresentation {
         val grip=Motion.tongGrip(u)
         val piece=Motion.quenchPiece(u)
         view.node("quench").ifPresent {it.moveTo(grip.point.x-2.15f,grip.point.y-12.2f,grip.point.z-2.6f,0f);it.rotateTo(grip.angle,0f,0f,0f)}
-        val open=if(u>.20f && u<.93f)0f else 6f
-        view.node("tong_left").ifPresent {it.rotateTo(0f,open,0f,0f)}
-        view.node("tong_right").ifPresent {it.rotateTo(0f,-open,0f,0f)}
-        view.node("quench_hand").ifPresent {it.setVisible(busy)}
+        val closure=when {u<.10f->0f;u<.22f->Motion.ease((u-.10f)/.12f);u<.90f->1f;else->1f-Motion.ease((u-.90f)/.10f)}
+        val open=6f*(1f-closure)
+        view.node("tong_left").ifPresent {it.rotateTo(0f,-open,0f,0f)}
+        view.node("tong_right").ifPresent {it.rotateTo(0f,open,0f,0f)}
+        view.node("quench_hand").ifPresent {it.setVisible(false)}
         val ready=!view.state().getOutput("result").isEmpty
         view.node("stock").ifPresent {it.setVisible(!ready || busy);it.moveTo(piece.x-12.5f,piece.y-12.35f,piece.z-8f,0f)}
         view.node("result").ifPresent {it.setVisible(ready && !busy)}

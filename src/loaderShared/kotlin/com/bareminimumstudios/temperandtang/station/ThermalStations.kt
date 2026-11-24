@@ -43,10 +43,10 @@ object ThermalStations {
             .schema(StationSchema.builder()
                 .slots("stock",1,SlotRules.DEFAULT.maxStack(8).accepts(WorkshopPlans::heatable))
                 .slots("fuel",1,SlotRules.DEFAULT.accepts { it.`is`(ItemTags.COALS) })
-                .slots("additive",1,SlotRules.DEFAULT.maxStack(8).accepts {WorkshopPlans.stock(it) || it.`is`(ItemTags.COALS)})
+                .slots("additive",1,SlotRules.DEFAULT.maxStack(8).accepts {it.`is`(com.bareminimumstudios.temperandtang.api.TemperAndTangApi.ALLOY_ADDITIVES)})
                 .control("heat",ControlSpec.button()).control("progress",ControlSpec.range(0f,100f,0f).locked())
                 .control("fuel_cost",ControlSpec.range(0f,64f,1f).locked()).output("result").build())
-            .exclusive().openWhen { _,_,_ -> active() }.logic { Hearth() }.register()
+            .hidesBlock().exclusive().openWhen { _,_,_ -> active() }.logic { Hearth() }.register()
         Diegesis.station(TemperAndTang.id("shaping_anvil")).block { TemperContent.block("shaping_anvil") }
             .blocks(net.minecraft.world.level.block.Blocks.ANVIL,net.minecraft.world.level.block.Blocks.CHIPPED_ANVIL,net.minecraft.world.level.block.Blocks.DAMAGED_ANVIL)
             .schema(StationSchema.builder()
@@ -182,7 +182,7 @@ object ThermalStations {
             for(key in listOf("progress","clean","accuracy","misses","beat","target","phase","last_score"))s.state().setControl(key,0f)
         }
         private fun refresh(s:StationContext) {
-            val previous=plan()?.id
+            val previous=plan()?.id?:net.minecraft.resources.ResourceLocation.tryParse(s.state().data().getString("pattern_id"))
             plans=WorkshopPlans.forming(s.level())
             index=plans.indexOfFirst {it.id==previous}.takeIf {it>=0}?:plans.indexOfFirst {it.id==TemperAndTang.id("bronze_sword")}.takeIf {it>=0}?:0
             reset(s)
@@ -219,9 +219,23 @@ object ThermalStations {
                 val match=plans.indexOfFirst {it.id.toString()==Blueprints.pattern(s.state().getItem(BLUEPRINT))}
                 if(match>=0) {index=match;category=0}
             }
-            if(s.state().getItem(WORKPIECE).isEmpty)reset(s)
+            if(s.state().getItem(WORKPIECE).isEmpty) {
+                if(work==null && !reforgeMode && s.state().getItem(GEAR).isEmpty && plan()?.matches(stocks(s),s.level())!=true) {
+                    val matching=plans.indexOfFirst {it.matches(stocks(s),s.level())}
+                    if(matching>=0){index=matching;category=0}
+                }
+                reset(s)
+            }
         }
-        override fun onCustomAction(s:StationContext,player:Player,action:String,data:CompoundTag) {if(action in setOf("strike","next","previous","scribe","category","mode"))onButton(s,player,action)}
+        override fun onCustomAction(s:StationContext,player:Player,action:String,data:CompoundTag) {
+            if(action=="select_pattern") {
+                if(s.isClientSide || !active() || player.isSpectator || reforgeMode || work!=null || !s.state().getItem(WORKPIECE).isEmpty)return
+                val chosen=plans.indexOfFirst {it.id.toString()==data.getString("pattern")}
+                if(chosen<0 || !plans[chosen].current(s.level()))return
+                index=chosen;category=0;reset(s);updateOutputs(s);return
+            }
+            if(action in setOf("strike","next","previous","scribe","category","mode"))onButton(s,player,action)
+        }
         override fun onButton(s:StationContext,player:Player,control:String) {
             if(s.isClientSide || !active() || player.isSpectator || !s.state().getItem(WORKPIECE).isEmpty || !player.inventoryMenu.carried.isEmpty)return
             if(plans.isEmpty())refresh(s)

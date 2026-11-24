@@ -16,6 +16,9 @@ object WorkshopRhythm {
             .configureRhythm(if(c.rhythmPhrases.get())profile.doubles else 0,profile.triples,profile.gap,profile.perfect,c.strikeIntervalTicks.get()).also {it.arm(now)}
     }
     fun sync(state:StationState,job:HammerWork?,profile:WorkRhythm) {
+        val data=state.data().copy()
+        data.putLong("rhythm_target",job?.target?:0L)
+        if(data!=state.data())state.setData(data)
         state.setControl("period",(job?.tempo?:profile.period).toFloat())
         state.setControl("perfect_window",(job?.perfectWindow?:profile.perfect).toFloat())
         state.setControl("phrase_size",(job?.phraseSize?:1).toFloat())

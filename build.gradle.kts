@@ -53,7 +53,7 @@ cloche {
                 dependency { modId = "fabric-api"; version(libs.versions.fabric.api.get()) }
                 dependency { modId = "fabric-language-kotlin"; version(libs.versions.fabric.language.kotlin.get()) }
                 dependency { modId = "fzzy_config"; version(libs.versions.fzzy.fabric.get()) }
-                dependency { modId = "diegesis"; version("1.0.0-beta.17") }
+                dependency { modId = "diegesis"; version("1.0.0-beta.19") }
             }
             entrypoint("client") {
                 adapter.set("kotlin")
@@ -83,7 +83,7 @@ cloche {
                 dependency { modId = "neoforge"; version(libs.versions.neoforge.loader.get()) }
                 dependency { modId = "kotlinforforge"; version(libs.versions.neoforge.language.kotlin.get()) }
                 dependency { modId = "fzzy_config"; version(libs.versions.fzzy.neoforge.get()) }
-                dependency { modId = "diegesis"; version("1.0.0-beta.17") }
+                dependency { modId = "diegesis"; version("1.0.0-beta.19") }
             }
         }
     }
