@@ -1,76 +1,97 @@
-# Temper & Tang
+<div align="center">
 
-Standalone, material-driven medieval smithing for **Minecraft 1.21.1**, written in Kotlin for **Fabric and NeoForge**. A Bare Minimum Studios project.
+<img src="docs/branding/banner.png" alt="Temper &amp; Tang" width="100%">
 
-The first revision uses **Diegesis charcoal heating, scored hammer work, water quenching and equipment finishing**. Place materials directly on physical workstations, work the metal, then retrieve the result. Its rules and item consumption run on the server. Fzzy Config supplies the configuration interface, validation and synchronization.
+![Minecraft 1.21.1](https://img.shields.io/badge/MINECRAFT-1.21.1-D7B16A?style=for-the-badge&labelColor=252322)
+![Fabric and NeoForge](https://img.shields.io/badge/LOADERS-Fabric_%2B_NeoForge-91B7BC?style=for-the-badge&labelColor=252322)
+[![License: BML 1.0](https://img.shields.io/badge/LICENSE-BML_1.0-D7B16A?style=for-the-badge&labelColor=252322)](LICENSE)
 
-Press **F** at the shaping anvil to find a pattern directly. You can select while holding hot stock, and a valid saved pattern is restored when its station state reopens. The workshop cameras face the work directly.
+**Work the metal. Make it yours.**
 
-## Current features
+[Getting started](docs/THERMAL_WORKSHOP.md) · [Metals and progression](docs/METALLURGY.md) · [Configuration](docs/CONFIGURATION.md) · [Report an issue](https://github.com/BareMinimumStudios/temper-and-tang/issues)
 
-- Standalone heat → shape → quench → finish progression, including metal armor, tools, shields and weapons.
-- Compact colored station guidance; **H** for help and **Shift** for equipment details.
-- Recorded material trade-offs and one bounded equipment trait, influenced by accuracy and equipment family.
-- Distinct intermediate metal blanks for weapons, tools, shields and armor.
-- Five server-rolled craftsmanship grades, weighted toward strike accuracy, with a smaller random contribution and smithing mastery bonus.
-- Player mastery, maker records, reusable advanced blueprints and paid hot-gear reforging with smithing flux.
-- Optional Simply Swords, Simply More and Epic Knights support using their original item identities and authored recipes.
-- Bronze-before-iron mining, structure-template steel-to-diamond upgrades, and a dedicated precision netherite alloy route.
-- Optional native EMI and JEI workshop recipe categories, with the same synchronized server recipe graph.
-- Tin ore, furnace refining and counted hearth alloys: 3 copper + 1 tin → 4 bronze; iron + carbon → steel.
-- Bronze and steel swords, tools and armor; extra weapon types use installed equipment mods through optional compatibility.
-- Owned Smithing Tongs, bounded contact burns and wear, automatic inventory/cursor cooling and unusable unquenched workpieces.
-- Directional workstations, contextual slots, physical hammer controls, a changing timing gauge, tiny sparks, varied anvil sounds, water and embers.
-- Tempered, Keen, Weighted and Lightened finishes. Precision controls the smaller finish bonus. Armor accepts Tempered or Lightened.
-- Preserved names, enchantments, damage and foreign custom data, including netherite upgrades. Reprocessing replaces bonuses rather than stacking them or repairing gear for free.
+</div>
 
-## Playing
+## A place at the anvil
 
-Install the correct loader JAR, Fzzy Config, Diegesis **beta.19** for your loader, and Fabric Language Kotlin or Kotlin for Forge. See `libraries.toml` for exact development dependency pins. Simply Swords, Simply More and Epic Knights are optional equipment integrations. Overgeared is not required or used. The workshop handles weapons, tools, shields and metal armor with server-owned craftsmanship, mastery and reusable blueprints.
+Temper & Tang brings the work of a blacksmith into the world. Stoke the hearth, lay hot metal on the anvil, strike to the rhythm, then lower the shaped workpiece into water. Finish the cooled equipment to suit the way you use it.
 
-See [metals and equipment](docs/METALLURGY.md) for the standalone catalog, bootstrap route and alloy ratios.
+A good weapon begins with good work. Strike accuracy, material and smithing experience influence its craftsmanship. Luck still plays a part, but a masterwork takes practice. Rough equipment remains usable, and enchantments can add something extra afterward.
 
-See [materials and traits](docs/MATERIALS_AND_TRAITS.md) for the equipment trade-offs.
+For **Minecraft 1.21.1**, on **Fabric and NeoForge**. Install it on the server and every client.
 
-Follow the [thermal workshop guide](docs/THERMAL_WORKSHOP.md) to heat refined stock, shape equipment, quench it, learn blueprints and reforge existing gear.
+## Heat, shape, quench, finish
 
-Craft the Finishing Anvil, hammer and a finishing material. Place one supported equipment item, the material and hammer in their physical slots. Keep the cursor empty, then click the working hammer or press **Space** as the timing marker crosses the central band. Timing varies between blows. The first strike starts the challenge; preparation time is free. Most finishes require six blows and two experience levels. The final accepted blow commits the result and costs once. Closing returns session-owned inputs and completed work.
+### Stoke the hearth
 
-The table shows full-precision finishing bonuses; lower precision reduces their strength. Craftsmanship is a separate, larger equipment-quality layer.
+Refine raw metal or bring ingots back to working heat. The bellows feed the coals as the stock warms. Hold tongs in either hand when moving hot metal.
 
-| Finish | Default benefit | Tradeoff |
+![Heating metal at the charcoal hearth](docs/images/hearth.png)
+
+### Make each strike count
+
+Find a pattern with **F**, check its ingredients, and lay them out on the anvil. Keep your cursor empty, then press **Space** as the marker reaches the green band. Tougher materials have tighter timing and can ask for several strikes in a phrase.
+
+![Drawing out a blade with the smithing hammer](docs/images/shaping.png)
+
+### Keep the pattern
+
+Some advanced equipment needs a matching blueprint. Choose the pattern, insert a blank blueprint and press **B** once you have the required mastery. The finished blueprint is reusable.
+
+![A scribed blueprint ready at the shaping anvil](docs/images/blueprint.png)
+
+### Take the workpiece to water
+
+The result of shaping is an **Unquenched Workpiece**, not a usable weapon. It carries the equipment you are making and the quality you earned. Take it with tongs, add water to the barrel, and quench it. If it cools before you get there, reheat it at the hearth.
+
+![Lowering the workpiece into the quenching barrel](docs/images/quenching.png)
+
+### Give it a finish
+
+Bring the cooled equipment, hammer and a finishing material to the finishing anvil. Choose durability, a sharper edge, heavier blows or quicker handling. Most finishes cost two experience levels. Better timing strengthens the treatment; a new finish replaces the old one.
+
+![A finished sword with its craftsmanship and treatment](docs/images/finishing.png)
+
+## Choose your metal
+
+Tin, bronze and steel each have a sword, four tools and a full armor set. Tin keeps a pale silver-white finish, bronze has warm coppery tones, and steel is darker and stronger.
+
+![Tin armor and its matching tools](docs/images/tin-equipment.png)
+
+Silver has its own ore, raw metal, ingots, nuggets and storage blocks. Its cool color stands apart from tin. Common material tags let compatible equipment recipes use it directly.
+
+The main route is **copper + tin → bronze → iron → steel → diamond → netherite**. Alloy copper and tin for bronze, then iron and coal or charcoal for steel. Diamond gear comes from upgrading steel at a smithing table with a structure-found template. The Nether alloy forge combines gold and scrap into netherite and can also run ordinary alloys.
+
+![The alloy forge and its darker Nether counterpart](docs/images/furnaces.png)
+
+Ore appears in newly generated Overworld chunks. See the [metallurgy guide](docs/METALLURGY.md) for recipes, mining requirements and the full route.
+
+## Five grades of craftsmanship
+
+**Rough · Serviceable · Fine · Superior · Masterwork**
+
+Quality affects durability and the stats that matter to the equipment: damage and handling for weapons, protection for armor, mining speed for tools. The tooltip keeps the grade, finish, material and trait together. Hold **Shift** for the details and maker's mark.
+
+## Install
+
+Use Java 21 and the build for your loader. Both sides need Temper & Tang and its required libraries:
+
+| Both loaders | Fabric also needs | NeoForge also needs |
 | --- | --- | --- |
-| Tempered | +15% maximum durability | Material, work and XP |
-| Keen | +5% attack damage | -10% maximum durability |
-| Weighted | +10% attack damage | -5% attack speed |
-| Lightened | Weapons: +5% attack speed; armor: +1% movement per piece | -10% maximum durability |
+| Diegesis 1.0.0-beta.19 and a matching 1.21.1 build of Fzzy Config | Fabric API and Fabric Language Kotlin | Kotlin for Forge |
 
-The config is `config/temperandtang/config.json5`. Server settings govern results. Reload datapacks after changing recipe integration settings. These finishes do not enable Simply Swords implicits or add armor-piercing effects.
+Required libraries are installed separately. Optional equipment and recipe-viewer integrations do not need extra companion addons. Check the [installation guide](docs/INSTALLATION.md) for the tested versions.
 
-The finishing anvil is crafted with a vanilla anvil, two copper ingots and three planks. Craft the finishing materials in the normal grid; their tooltips list the effects. Both coal and charcoal work for tempering compound. Hold Smithing Tongs in either hand when moving heated stock. Shape and quench a workpiece before applying a finish.
+## Make it fit your pack
 
-![Finishing anvil in a tested survival session](docs/images/finishing-anvil.png)
+Tune timing, mastery, quality, finishing and hot-metal handling in `config/temperandtang/config.json5`. Recipe costs and accepted materials can be changed with datapacks. Common `c:` tags cover metals, ores, tools and armor; workshop tags cover blueprints, finishing materials and stations.
 
-## Development
+[Configuration](docs/CONFIGURATION.md) · [Datapack and API guide](docs/API.md) · [Compatibility](docs/COMPATIBILITY.md)
 
-Use Java 21 and the checked-in **Gradle 9.9.2** wrapper:
+## Project
 
-```powershell
-./scripts/build.ps1 -Clean
-```
+[Source](https://github.com/BareMinimumStudios/temper-and-tang) · [Issues](https://github.com/BareMinimumStudios/temper-and-tang/issues) · [Documentation](docs/README.md) · [Development](DEVELOPMENT.md) · [Changelog](CHANGELOG.md)
 
-```sh
-scripts/build.sh
-```
+[Modrinth page copy](docs/MODRINTH.md) · [CurseForge page copy](docs/CURSEFORGE.md)
 
-The build creates separate Fabric and NeoForge JARs. Verified files, checksums, license notices and release notes are staged in `build/release/`. Nothing is uploaded automatically. GitHub workflows build both targets and can prepare an explicitly requested draft release. Modrinth publishing can be configured when project pages exist.
-
-## Scope
-
-The 0.6.0 refining revision has completed its recorded acceptance checks. Live station sessions return items when closed rather than keeping persistent block inventories. Working heat uses world ticks. Workstation and tool artwork combines independently authored elements with licensed Workshop Six assets supplied by the project owner; adaptations and credits are listed in `THIRD_PARTY_NOTICES.txt` and the workshop asset guide. Several material icons reference vanilla textures. Tin generates only in new chunks. Both loaders have been exercised with real delayed network connections, interrupted sessions and clean server restarts; see the [revision acceptance record](docs/REVISION_060_ACCEPTANCE.md) for exact coverage and limits. Third-party custom combat abilities remain authoritative and are not rewritten by craftsmanship.
-
-See [design](docs/DESIGN.md), [compatibility](docs/COMPATIBILITY.md), [development](DEVELOPMENT.md) and [release checklist](docs/RELEASING.md), [public API](docs/API.md) and [verification record](docs/VERIFICATION.md).
-
-## License
-
-The Bare Minimum License v1.0 applies to this project. See `LICENSE` and `THIRD_PARTY_NOTICES.txt`. External mods retain their own licenses and are not bundled.
+The project uses the [Bare Minimum License](LICENSE). Supplied artwork is credited in [Third-party notices](THIRD_PARTY_NOTICES.txt).

@@ -1,99 +1,66 @@
-# Standalone thermal workshop guide
+# Your first day at the forge
 
-Temper & Tang supplies its own tools, heat, shaping and quenching. It requires Diegesis, Fzzy Config and your loader's Kotlin runtime. It does not require Overgeared.
+## Set up the workshop
 
-The station normally shows only your step, next action and ingredients. **H** opens extra help. Hold **Shift** over forged equipment for detailed stats and maker information. Colors highlight quantities and important actions without replacing the words.
+Start with copper, tin, cobblestone, wood, clay and charcoal. Smelt copper and tin in an ordinary furnace. Three copper ingots and one tin ingot make four bronze blend; smelt the blend for bronze. That gets your hammer, tongs and shaping anvil under way without needing an iron pickaxe.
 
-For the complete bronze/iron/steel equipment route and counted alloys, see [metals and equipment](METALLURGY.md).
+Use your recipe viewer for the station and material recipes. Leave room around the blocks: the hearth uses a 2x2 footprint, and the alloy forges also need the space above them. Both alloy forges have the same shape, with darker colors on the Nether version.
 
-## Make the tools and workstations
+| Key | What it does |
+| --- | --- |
+| F | Find a shaping pattern |
+| Space | Work the open station |
+| B | Scribe the selected pattern onto a blank blueprint |
+| H | Show or hide station help |
+| Shift | Expand an equipment tooltip |
 
-- **Smithing Tongs:** two iron or bronze nuggets in the top corners, two matching ingots beneath them, and a stick in the bottom centre. Common iron and wooden-rod tags work. Repair the tongs with an iron ingot at a vanilla anvil.
-- **Smithing Hammer:** the normal bronze-and-stick recipe shown in your recipe viewer.
-- **Charcoal Hearth:** seven cobblestone around one charcoal; leave the top-middle space empty.
-- **Shaping Anvil:** three bronze ingots above one smooth stone and three planks.
-- **Quenching Trough:** five planks in a boat shape with two sticks beneath its corners.
+## Heat and refine
 
-## Heat → shape → quench → finish
+Put refined ingots or supported raw metal in the charcoal hearth, add furnace fuel and work the bellows with Space. Raw metal uses its smelting recipe and comes out as hot ingots. The hearth accepts raw iron, copper, gold, tin and silver when a matching recipe is available.
 
-The temporary pattern board is a preparation guide. When hammer work starts, the ingredients become a hot billet, then a drawn blank. The completed equipment appears only after the final shaping blow. It still needs quenching before use.
+Hold tongs in either hand when moving hot metal. Working heat fades with time. Choose the shaping pattern before moving your stock if you want more time at the anvil.
 
-1. Hold **Smithing Tongs in your offhand**. Either hand protects you, but the offhand leaves your cursor free to operate the stations.
-2. Put up to eight refined ingots and enough furnace fuel into the hearth. Click the bellows or press **Space** with an empty cursor. Base heating is five seconds per item; steel, diamond and netherite stock take longer. Fuel uses its normal furnace burn duration and is spent once when work starts.
-3. Retrieve the hot stock. It has about **60 seconds** of working heat by default. Its tooltip shows the remaining time. Reheat if it cools before shaping.
-4. Open the shaping anvil. The ghost pattern shows the selected equipment. Use **Left/Right** to change patterns and **Tab** to filter weapons or armor. Advanced Epic Knights patterns require a matching reusable blueprint. Put heated metal and the remaining ingredients in the shown 3×3 arrangement, then insert the hammer.
-5. Click the hammer or press **Space** when the moving timing marker reaches the central target. Timing varies between blows. Take time to prepare: missed-beat penalties begin only after your first strike. Accurate strikes improve the quality odds; missed beats reduce accuracy. Clicking repeatedly cannot accelerate the work. Most basic gear takes six blows; armor and harder materials take more. The final blow rolls quality and one possible equipment trait once on the server.
-6. The final blow commits an **Unquenched Workpiece**. It is not yet a usable weapon. Carry it to the trough with your tongs, add a water bucket, then click the trough tongs or press **Space**. Default quenching takes two seconds, consumes the water and leaves an empty bucket.
-7. Retrieve the usable cooled weapon and empty bucket. You may now finish the equipment at the finishing anvil using a finishing material, paced blows and experience.
+## Make an alloy
 
-The tongs shown at the trough are its control. Your handheld Smithing Tongs protect you while moving hot stock between workstations.
+The regular alloy forge makes bronze and steel. It takes the main metal, a second ingredient and fuel in separate slots. Three copper plus one tin make four bronze; iron plus coal or charcoal makes steel. Carbon is a steel ingredient, separate from the fuel used to run the batch.
 
-## Hot-metal handling
+The Nether alloy forge runs the same ordinary alloys and also combines four scrap with four gold into one netherite ingot. It needs a scrap in its own crafting recipe, so plan for that extra piece. A lava bucket works as fuel and leaves an empty bucket behind.
 
-Without held tongs, carrying hot stock deals **half a heart every two seconds** by default. This is contact damage, not persistent fire. Cursor-held hot stock also counts. Multiple stacks do not multiply damage or tool wear.
+## Choose the pattern
 
-Held tongs take one durability when first handling stock, then at most one per **ten seconds of hot handling**, regardless of stack count. They have 256 durability, can be repaired, and do not wear while carrying only cold items. One tool lasts roughly 42 minutes of active hot handling at the default rate. Creative/spectator players are exempt; Fire Resistance prevents burns.
+At the shaping anvil, press F and search for the equipment you want. The list shows the required ingredients. Place them as the pattern shows, then add your hammer. Extra equipment patterns may also need a matching blueprint.
 
-Hot stock automatically becomes cold in your inventory or on your cursor when its working heat expires. Chest and dropped-item heat also expires with world time; moving it back into your inventory normalizes its saved state. A cold unquenched workpiece stays unusable: reheat it, then quench it. Air cooling cannot skip that step.
+To scribe a blueprint, select the pattern, place a blank blueprint in its slot and press B. The default requirement is mastery level 1. The scribed blueprint can select its pattern and remains reusable after forging. Ordinary standalone tin, bronze and steel patterns do not require it.
 
-## Closing and saving
+## Shape the metal
 
-- Closing returns owned inputs, tools, buckets and completed workpieces. Full-inventory overflow stays at the station, reserved for its owner.
-- Partial shaping loses progress without consuming materials or hammer wear. The final blow consumes both and commits the workpiece, so closing cannot reroll it for free.
-- Fuel and water already spent are not refunded by cancelling.
-- Working heat, encoded workpieces, worn tongs, names and foreign item data survive saving and reloading.
-- Workstations use session inventories rather than unattended persistent block storage. Items are returned on closure, disconnect and clean server shutdown.
+Keep the cursor empty. Press Space when the moving marker meets the green band. Several strikes can arrive in one phrase; strike once for each marker and keep their spacing. Harder metals have tighter timing.
 
-## Settings and compatibility
+The metal changes shape as you work. Accuracy, mastery and luck determine its craftsmanship. The final shaping result is an **Unquenched Workpiece**. It already carries the equipment, quality and trait, but cannot be used yet.
 
-`config/temperandtang/config.json5` exposes heating/cooling time, shaping rhythm, quenching time, contact damage/interval, handling enablement and tongs wear through Fzzy Config. Server values govern gameplay. Turning off contact handling still allows existing stock to cool. Disabling thermal shaping or recipe integration and reloading restores ordinary equipment crafting recipes.
+## Quench the workpiece
 
-Other tool authors can add tongs to `c:tools/tongs` or `temperandtang:tongs`. Refined stock uses additive `temperandtang:heatable_stock`, populated by common iron, gold, copper, tin and bronze ingot tags. `temperandtang:shaping` uses vanilla shaped-recipe fields and is independent of another smithing mod.
+Take the actual workpiece from the anvil and carry it with tongs. Put it in the water barrel, add a water bucket, and press Space. The tongs dip the metal; after quenching, take the equipment. The empty bucket remains.
 
-Simply Swords and Epic Knights equipment use their original item identities and patterns. Supported metal gear recipes are routed into shaping; the mod does not recreate missing third-party recipes or override a pack recipe blacklist. Simply More weapons also support finishing. No external smithing mod supplies the workflow.
+If the workpiece has cooled, reheat it at the hearth first. Reheating and quenching do not reroll the quality.
 
-Operators can run `/temperandtang verify`, `/temperandtang verify_station` and `/temperandtang verify_thermal`. The first includes isolated tongs, cooling and burn checks; the thermal scenarios take about a minute with default settings.
+## Choose a finish
 
-## Workstations
+Use cooled equipment, a hammer and one finishing material at the finishing anvil. Keep the cursor empty and time your strikes. The default cost is two experience levels, paid when the finish completes.
 
-![Charcoal hearth and bellows](images/charcoal-hearth.png)
+| Material | Finish | Main trade-off at full precision |
+| --- | --- | --- |
+| Tempering compound | Tempered | +15% durability |
+| Honing compound | Keen | +5% damage, -10% durability |
+| Balance weight | Weighted | +10% damage, -5% attack speed |
+| Lightweight grip | Lightened | +5% weapon attack speed or +1% armor movement per piece, -10% durability |
 
-![Shaping anvil and working hammer](images/shaping-anvil.png)
+Lower precision reduces the treatment's strength. A new finish replaces the previous one. Craftsmanship is separate and has the larger effect on equipment quality.
 
-![Quenching trough](images/quenching-trough.png)
+## Improve the equipment
 
-## Quality, mastery and blueprints
+Bronze opens iron mining. Iron and carbon become steel. Upgrade steel gear to diamond at a smithing table with a structure-found Diamond Upgrade Template and a diamond. Use a normal Netherite Upgrade Template and the alloyed netherite ingot for the next step.
 
-Craftsmanship has five grades: **Rough, Serviceable, Fine, Superior and Masterwork**. Accuracy provides most of the result, with a smaller server-random contribution and a modest mastery bonus. Perfect play improves the odds rather than guaranteeing the highest grade. Quality changes the gear's own base durability and appropriate damage, armor or toughness attributes. Enchantments remain a separate final enhancement. Repeated processing replaces the previous craftsmanship modifiers rather than stacking them.
+Tin offers a softer, pale equipment set once the workshop is built. Silver is an optional side material mined with an iron-tier pickaxe. Common silver tags make its ingots usable by compatible silver equipment patterns.
 
-Use `/temperandtang mastery` to see your smithing level and experience. Completing new equipment grants more mastery than reforging existing gear. The maximum level is 20. The crafted item records its maker, strike accuracy and the maker's level when it was made.
-
-Craft **Blank Blueprints** from paper and black dye. Select an advanced pattern, insert a blank and press **B** to inscribe it once you reach the configured mastery requirement (level 1 by default). The finished template is reusable and selects its exact recipe when inserted. You still supply every recipe ingredient and a hammer. Templates do not create equipment for free.
-
-To reforge, heat existing supported equipment, press **R** at an empty shaping anvil and insert the gear, hammer and **Smithing Flux**. Flux is made from sand, clay and coal. Complete the timing work and quench the new workpiece. Reforging spends flux and hammer durability, rolls a new grade and never repairs existing damage; heavily worn gear may need repairs first. Closing before the final blow returns inputs without a new quality roll.
-
-Metal armor accepts **Tempered** for durability or **Lightened** for a small movement benefit. **Keen** and **Weighted** require weapons. Finishing precision controls its smaller finishing bonus; it does not reroll craftsmanship. Completed work and paid costs remain committed when the station closes.
-
-Sneak-use an ordinary anvil to open the smithing workshop when enabled. Normal use still opens vanilla repair and enchanting.
-
-Material differences and traits are described in [Materials and workmanship](MATERIALS_AND_TRAITS.md). Mining tools, shields and each armor slot have their own intermediate metal shapes.
-
-## Rhythm forging
-
-Press Space once for each gold strike marker as it crosses the fixed green target. All incoming strikes travel along the same rail. Two markers mean two separate timed presses; three mean three. The green target brightens as the active strike approaches. Later beats in a phrase stay fixed even when the first strike is early or late. A new phrase receives a fresh lead-in. Randomness changes the rhythm, not the required key.
-
-Gold, copper and tin are forgiving. Bronze is a gentler starting material; iron is faster and tighter. Steel is more demanding, and diamond/netherite have the fastest cadence and most frequent multi-hit phrases. The perfect band follows the server's actual scoring window. Waiting before the first strike is free; missed beats after starting reduce accuracy. Pressing repeatedly cannot bypass the strike cooldown.
-
-Each accepted strike drives a physical hammer swing. The exact contact frame triggers its clang, a brief warm surface flash and sparks; perfect strikes produce a brighter spark burst. Timing affects craftsmanship through the existing bounded quality roll, rather than guaranteeing a rarity. A perfect double earns the same quality chance as equally accurate singles; its closer spacing makes accuracy harder to maintain. Missing a beat lowers accuracy and therefore the chance of masterwork.
-
-`materialDifficulty` and `rhythmPhrases` can be disabled independently in the existing Fzzy configuration. These options do not change ingredient costs, equipment preservation, or saved item metadata. The default interface remains short; H opens further guidance and Shift expands equipment details.
-
-
-## Connection interruptions
-
-Anvil timing measures the connection automatically when the station opens. Keep striking against the visible target; no manual ping setting is needed. Compensation is bounded by the server configuration.
-
-Disconnecting returns your station inputs and held items to your saved inventory. If the inventory is full, overflow stays at the station, reserved for you. Precision netherite refinement is committed by the first blow: disconnecting or abandoning it after that returns scrap, just as a failed attempt does.
-
-
-Epic Knights heavy crossbows use their steel pattern and matching blueprint. Work the metal prod, quench and finish the resulting native crossbow. Better craftsmanship improves durability, arrow power and loading speed; Quick Charge still works. Shift shows the combined arrow/loading bonuses. Wooden longbows retain their native crafting recipe.
+Names, enchantments, wear, craftsmanship and finishes follow supported upgrades. An unquenched workpiece and a legacy alloy billet are different items: only the workpiece belongs to the current shaping-to-quenching loop. The old alloy billet remains solely for old-save recovery.

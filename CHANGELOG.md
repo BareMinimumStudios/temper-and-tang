@@ -2,9 +2,13 @@
 
 ## 0.7.1
 
+- Add the original silver-white tin equipment family and a darker steel palette.
+- Add standalone silver resources, ore generation, common tags and Epic Knights silver blueprint integration.
+- Correct world cutout rendering for transparent furnace grates and bellows.
+
 - Color shaping blanks from the selected metal palette while sharing their geometry and retaining wooden/leather details. Steel-core native recipes use the actual steel inputs.
 
-- Give the regular Alloy Forge the compact red-topped supplied furnace, and the Nether Alloy Furnace the wider hooded forge with a muted Nether masonry palette.
+- Use the same compact red-topped forge geometry for both furnaces, with a muted Nether tint and untinted fire on the advanced version.
 - Preserve supplied animated logs, fire and interior textures and interpolate animation frames.
 - Match focused and world models, separate coplanar door faces, and bring the focused camera closer.
 - Remove the blaze-powder control and loose furnace particle effects; place fuel in the firebox and hide its display while burning.
@@ -22,7 +26,7 @@
 - Give hearths and furnaces full workshop proportions, occupied placement space, shared session anchors and single-drop part cleanup. Safely assemble clear space around older station roots.
 - Preserve legacy billet recovery, existing settings, native gear identity and template upgrade progression.
 
-## 0.6.0 — in development
+## 0.6.0 â€” in development
 
 - Use five craftsmanship grades, migrate old Exceptional records, and apply quality to handling and mining speed.
 - Exclude unique/runic Simply Swords families from forging and reforge acceptance.
@@ -106,7 +110,7 @@
 
 
 
-## 0.3.0 — Craftsmanship
+## 0.3.0 â€” Craftsmanship
 
 
 
@@ -122,7 +126,6 @@
 
 - Directional workstations, contextual slots, timing gauges, owned tongs animation, water, embers, tiny strike sparks and varied anvil sounds.
 
-- Removed the legacy external smithing recipe bridge. No Overgeared installation is required.
 
 
 
@@ -134,7 +137,6 @@
 
 - Added standalone server-side contact burns, bounded tongs wear, cursor protection and inventory cooling.
 
-- Made owned heat timestamps independent of external heated components and disabled the legacy Overgeared recipe bridge by default.
 
 - Added handling configuration, tooltips, isolated in-game checks and cooldown tests.
 
@@ -150,7 +152,6 @@
 
 - Added fuel-paid batch heating, working-heat tooltips, ghost patterns, rhythmic hammer work, native quality limits and water-paid quenching.
 
-- Integrated supported stone-tier Overgeared basic recipes without replacing blueprint or advanced forging.
 
 - Added standalone shaping recipes and encoded unquenched workpieces to preserve the quenching progression.
 
@@ -172,9 +173,7 @@
 
 - Added a compact inventory tray, material effect tooltips, worn-tool guidance and XP feedback.
 
-- Accepted native Overgeared hammers and common hammer tags.
 
-- Routed the bronze sword through native Overgeared forging when enabled.
 
 - Expanded common crafting ingredient tags and preserved existing pack recipe overrides.
 

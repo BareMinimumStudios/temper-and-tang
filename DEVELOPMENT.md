@@ -1,9 +1,11 @@
 # Development
 
-Use Java 21 and the wrapper. Shared pure Kotlin rules live in `src/main/kotlin`; Minecraft/API integration shared by both loaders lives in `src/loaderShared/kotlin`. Loader entrypoints live in `src/fabric/1.21.1/kotlin` and `src/neoforge/1.21.1/kotlin`.
+Use Java 21 and the checked-in Gradle wrapper. Shared Kotlin rules live in `src/main/kotlin`. Integration shared by both loaders lives in `src/loaderShared/kotlin`; loader entrypoints live in their corresponding source folders.
 
-The Cloche build and version catalog follow the studio's PlayerEx/DifficultyEx layout. Game compilation targets Kotlin 2.2.20 for the installed loader runtimes; the Gradle Kotlin plugin version follows the sibling projects. Fzzy Config fields use validated values and the same configuration grouping conventions. Do not bundle Simply Swords, Overgeared or Diegesis.
+Run `scripts/build.ps1 -Clean` or `scripts/build.sh` for tests, loader builds, resource verification and local release staging. Dependency versions are pinned in `libraries.toml`. `scripts/update-gradle.ps1` checks the official stable Gradle release and updates the wrapper with its checksum. Review and test dependency updates before committing them.
 
-Run `scripts/build.ps1 -Clean` or `scripts/build.sh` for tests, both loader builds, metadata/license verification and release staging. `scripts/update-gradle.ps1` checks the official current stable Gradle release and updates the wrapper with its checksum. Review and test dependency updates; keep released builds pinned and reproducible.
+The code compiles for the loader's Kotlin runtime. Required libraries remain separate dependencies. Configuration uses validated fields and server-owned gameplay settings.
 
-Dedicated-server and client runs are separate checks. A passing headless server does not establish that the in-world scene is visually correct. Keep graphical testing optional and never launch it on another person's screen without their instruction.
+A passing server does not establish that the stations look or feel right. Check both world and focused views, ingredient slots, taking output, cancellations, interrupted connections and two-player use in a disposable world. Keep automated client runs hidden and capture only their framebuffer and game audio.
+
+Prepare release files locally with `scripts/prepare_release.py`. Publishing and pushing are separate actions. See [verification](docs/VERIFICATION.md) and [release preparation](docs/RELEASING.md).

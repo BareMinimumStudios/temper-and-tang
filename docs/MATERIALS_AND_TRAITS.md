@@ -10,14 +10,14 @@ These are the default additional workshop effects, separate from the original it
 
 | Material | Durability | Damage | Handling | Armor | Movement |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Iron | — | — | — | — | — |
-| Bronze | +10% | -3% | — | — | — |
+| Iron | â€” | â€” | â€” | â€” | â€” |
+| Bronze | +10% | -3% | â€” | â€” | â€” |
 | Steel | +12% | +6% | -4% | +3% | -0.2% |
-| Gold | -12% | — | +6% | -2% | +0.2% |
-| Copper | -8% | — | +5% | -2% | +0.1% |
-| Tin | -10% | — | +3% | -3% | +0.1% |
-| Diamond | +6% | — | -2% | — | -0.1% |
-| Netherite | +8% | — | -3% | +2% | -0.2% |
+| Gold | -12% | â€” | +6% | -2% | +0.2% |
+| Copper | -8% | â€” | +5% | -2% | +0.1% |
+| Tin | -10% | â€” | +3% | -3% | +0.1% |
+| Diamond | +6% | â€” | -2% | â€” | -0.1% |
+| Netherite | +8% | â€” | -3% | +2% | -0.2% |
 
 Material recognition does not add missing third-party equipment or materials. The original equipment recipes determine what is available. Equipment tags and recognizable item material names establish a profile; otherwise the dominant recognized refined input supplies it. Unknown materials keep their authored stats without an extra material adjustment.
 

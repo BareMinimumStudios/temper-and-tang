@@ -1,12 +1,16 @@
-# Release checklist
+# Prepare a release
 
-1. Update the version and release notes.
-2. Run a clean build and tests using `scripts/build.ps1 -Clean -Version 0.6.0` or `scripts/build.sh -Pmod_version=0.6.0`.
-3. Test Fabric and NeoForge servers, optional mods absent/present, recipe reloads and item persistence. Run `verify`, `verify_progression`, `verify_refining`, `verify_station` and `verify_thermal` operator diagnostics.
-4. Test the Diegesis scene on both clients: slot hit boxes, accessibility, cancellation, disconnect, two-player contention and taking output into a full inventory.
-5. Verify existing names, enchantments and craftsmanship survive; verify no free repair, duplicated output or repeated XP charge.
-6. Review `build/release/manifest.json` and `SHA256SUMS.txt`.
-7. Commit and push when ready. The manual workflow can create a draft GitHub release; publishing remains an explicit action.
-8. Once Modrinth pages exist, configure their IDs and token securely. Do not put tokens in source or add an untested automatic publication step.
+1. Review the version and release notes.
+2. Run `scripts/build.ps1 -Clean` or `scripts/build.sh` with Java 21.
+3. Check both servers and clients, with optional integrations present and absent. Include recipe reload, saved equipment, cancellation and simultaneous station use when their code changes.
+4. Review the staged JARs in `build/release`, their manifest and SHA-256 sums.
+5. Check the README and page copy against the current screenshots and behavior.
+6. Keep code and artwork credits with the distribution.
 
-Until the client checks pass, mark uploads as experimental rather than a stable finished smithing overhaul.
+The page drafts are `docs/MODRINTH.md`, `docs/CURSEFORGE.md` and `docs/CURSEFORGE.html`. The banner/icon are in `docs/branding`, and actual gameplay captures are in `docs/images`. Upload the media to the chosen platform or use the committed raw media URLs after pushing the files. There are no invented live project-download links in the drafts.
+
+Publishing and pushing are separate actions. Keep tokens outside the repository. The workflow can prepare a draft release when explicitly requested; local staging never publishes by itself.
+
+## Review package
+
+After building and staging the release, run `python scripts/prepare_review.py`. It bundles both verified loader builds, documentation, branding, screenshots and the completed showcase when available into `build/review/<version>`. The ZIP includes checksums and the source commit. It does not install, upload or publish anything.
