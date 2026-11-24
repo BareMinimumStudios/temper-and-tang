@@ -39,7 +39,7 @@ object GearStats {
             }
         }
         val handling=(grade?.speed?:0.0)*scale+material.speed*materialPower+trait.speed*traitPower
-        if(GearSupport.weapon(input) && handling!=0.0)builder.add(Attributes.ATTACK_SPEED,AttributeModifier(TemperAndTang.id("craft_handling_speed"),handling,AttributeModifier.Operation.ADD_MULTIPLIED_BASE),EquipmentSlotGroup.MAINHAND)
+        if(GearSupport.weapon(input) && !GearSupport.ranged(input) && handling!=0.0)builder.add(Attributes.ATTACK_SPEED,AttributeModifier(TemperAndTang.id("craft_handling_speed"),handling,AttributeModifier.Operation.ADD_MULTIPLIED_BASE),EquipmentSlotGroup.MAINHAND)
         val mining=(grade?.mining?:0.0)*scale+material.speed*materialPower+trait.mining*traitPower
         if(input.item is net.minecraft.world.item.DiggerItem && mining!=0.0)builder.add(Attributes.BLOCK_BREAK_SPEED,AttributeModifier(TemperAndTang.id("craft_mining_speed"),mining,AttributeModifier.Operation.ADD_MULTIPLIED_BASE),EquipmentSlotGroup.MAINHAND)
         val movement=material.movement*materialPower+trait.movement*traitPower
@@ -47,7 +47,7 @@ object GearStats {
             val slot=if(input.item is net.minecraft.world.item.ShieldItem)EquipmentSlotGroup.HAND else when((input.item as ArmorItem).equipmentSlot) {EquipmentSlot.HEAD->EquipmentSlotGroup.HEAD;EquipmentSlot.CHEST->EquipmentSlotGroup.CHEST;EquipmentSlot.LEGS->EquipmentSlotGroup.LEGS;else->EquipmentSlotGroup.FEET}
             builder.add(Attributes.MOVEMENT_SPEED,AttributeModifier(TemperAndTang.id("craft_movement_"+slot.name.lowercase(java.util.Locale.ROOT)),movement,AttributeModifier.Operation.ADD_MULTIPLIED_BASE),slot)
         }
-        if(effect!=null && GearSupport.weapon(input)) {
+        if(effect!=null && GearSupport.weapon(input) && !GearSupport.ranged(input)) {
             if(effect.damage!=0.0)builder.add(Attributes.ATTACK_DAMAGE,AttributeModifier(TemperAndTang.id("finish_damage"),effect.damage,AttributeModifier.Operation.ADD_MULTIPLIED_BASE),EquipmentSlotGroup.MAINHAND)
             if(effect.speed!=0.0)builder.add(Attributes.ATTACK_SPEED,AttributeModifier(TemperAndTang.id("finish_speed"),effect.speed,AttributeModifier.Operation.ADD_MULTIPLIED_BASE),EquipmentSlotGroup.MAINHAND)
         } else if(finish==Finish.LIGHTENED && input.item is ArmorItem) {

@@ -6,7 +6,9 @@
     "RecipeManagerMixin",
     "SmithingUpgradeMixin",
     "SmithingIngredientsAccess",
-    "PlayerListSaveAccess"
+    "PlayerListSaveAccess",
+    "CrossbowQualityMixin",
+    "ArrowQualityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

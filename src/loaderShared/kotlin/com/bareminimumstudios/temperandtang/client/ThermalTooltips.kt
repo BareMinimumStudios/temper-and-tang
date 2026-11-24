@@ -26,6 +26,7 @@ object ThermalTooltips {
         if(material!=ForgeMaterial.NEUTRAL)lines.add(if(details)WorkshopDescriptions.material(shown)else WorkshopText.style(Component.translatable("temperandtang.short.material",WorkshopText.style(Component.translatable("temperandtang.material.name."+material.key),WorkshopText.QUANTITY)),WorkshopText.MUTED))
         val trait=CraftTraits.recorded(shown)
         if(trait!=ForgeTrait.NONE)lines.add(if(details)WorkshopDescriptions.trait(shown)else WorkshopText.style(Component.translatable("temperandtang.short.trait",WorkshopText.style(Component.translatable("temperandtang.trait."+trait.key),WorkshopText.STAGE)),WorkshopText.MUTED))
+        if(details && GearSupport.ranged(shown) && (grade!=null || Craftsmanship.root(shown).contains("finish")))lines.add(WorkshopDescriptions.ranged(shown))
         if(details && grade!=null) {
             val craft=Craftsmanship.data(shown)
             lines.add(Component.translatable("temperandtang.craft.item_accuracy",craft.getInt("accuracy")/10).withStyle(ChatFormatting.GRAY))

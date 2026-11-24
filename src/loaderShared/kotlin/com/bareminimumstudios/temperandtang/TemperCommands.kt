@@ -48,6 +48,7 @@ object TemperCommands {
                     RecipeVerification.verify(context.source)
                     HotHandlingVerification.verify(context.source)
                     CraftVerification.verify(context.source)
+                    RangedVerification.run(context.source)
                     context.source.sendSuccess({ Component.literal("Temper & Tang verification passed: station, materials, finishes, preservation and non-stacking.") }, false)
                     TemperAndTang.logger.info("TEMPER_VERIFY_PASSED")
                     1

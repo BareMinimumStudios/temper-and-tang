@@ -94,3 +94,6 @@ Each accepted strike drives a physical hammer swing. The exact contact frame tri
 Anvil timing measures the connection automatically when the station opens. Keep striking against the visible target; no manual ping setting is needed. Compensation is bounded by the server configuration.
 
 Disconnecting returns your station inputs and held items to your saved inventory. If the inventory is full, overflow stays at the station, reserved for you. Precision netherite refinement is committed by the first blow: disconnecting or abandoning it after that returns scrap, just as a failed attempt does.
+
+
+Epic Knights heavy crossbows use their steel pattern and matching blueprint. Work the metal prod, quench and finish the resulting native crossbow. Better craftsmanship improves durability, arrow power and loading speed; Quick Charge still works. Shift shows the combined arrow/loading bonuses. Wooden longbows retain their native crafting recipe.

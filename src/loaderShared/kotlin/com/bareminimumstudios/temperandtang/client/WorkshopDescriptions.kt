@@ -17,6 +17,7 @@ object WorkshopDescriptions {
         if(text.siblings.isEmpty())text.append(Component.translatable("temperandtang.guide.neutral"))
         return text
     }
+    fun ranged(stack:ItemStack):Component = effects(listOf("projectile" to RangedCraftsmanship.damageMultiplier(stack)-1.0,"loading" to RangedCraftsmanship.loadingMultiplier(stack)-1.0))
     fun material(stack:ItemStack,preview:Boolean=false,inputs:List<ItemStack> = emptyList()):Component {
         val material=if(preview)CraftMaterials.choose(stack,inputs) else CraftMaterials.recorded(stack)
         val power=if(preview)TemperAndTang.config.materialPower.get() else CraftMaterials.power(stack)
@@ -25,7 +26,7 @@ object WorkshopDescriptions {
         else if(GearSupport.weapon(stack))values+=listOf("damage" to material.damage*power,"speed" to material.speed*power)
         if(stack.item is net.minecraft.world.item.DiggerItem)values+="mining" to material.speed*power
         if(stack.item is net.minecraft.world.item.ShieldItem)values+="movement" to material.movement*power
-        return Component.translatable("temperandtang.guide.material",WorkshopText.style(Component.translatable("temperandtang.material.name."+material.key),WorkshopText.QUANTITY),effects(values))
+        return Component.translatable("temperandtang.guide.material",WorkshopText.style(Component.translatable("temperandtang.material.name."+material.key),WorkshopText.QUANTITY),effects(if(GearSupport.ranged(stack))values.map {if(it.first=="speed")"loading" to it.second else if(it.first=="damage")"projectile" to it.second else it} else values))
     }
     fun trait(stack:ItemStack):Component {
         val trait=CraftTraits.recorded(stack);val power=CraftTraits.power(stack)
@@ -35,13 +36,13 @@ object WorkshopDescriptions {
             ForgeFamily.SHIELD->values+="movement" to trait.movement*power
             else->{if(GearSupport.weapon(stack))values+=listOf("damage" to trait.damage*power,"speed" to trait.speed*power);if(stack.item is net.minecraft.world.item.DiggerItem)values+="mining" to trait.mining*power}
         }
-        return Component.translatable("temperandtang.guide.trait",WorkshopText.style(Component.translatable("temperandtang.trait."+trait.key),WorkshopText.STAGE),effects(values))
+        return Component.translatable("temperandtang.guide.trait",WorkshopText.style(Component.translatable("temperandtang.trait."+trait.key),WorkshopText.STAGE),effects(if(GearSupport.ranged(stack))values.map {if(it.first=="speed")"loading" to it.second else if(it.first=="damage")"projectile" to it.second else it} else values))
     }
     fun finish(stack:ItemStack,finish:Finish):Component {
         val effect=FinishRules.effect(finish,TemperAndTang.config.balance())
         val values=mutableListOf("durability" to effect.durability)
         if(GearSupport.armor(stack)) {if(finish==Finish.LIGHTENED)values+="movement" to TemperAndTang.config.lightenedArmorSpeed.get()}
         else values+=listOf("damage" to effect.damage,"speed" to effect.speed)
-        return Component.translatable("temperandtang.guide.finish_effect",effects(values))
+        return Component.translatable("temperandtang.guide.finish_effect",effects(if(GearSupport.ranged(stack))values.map {if(it.first=="speed")"loading" to it.second else if(it.first=="damage")"projectile" to it.second else it} else values))
     }
 }

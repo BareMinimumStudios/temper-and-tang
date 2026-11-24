@@ -11,6 +11,7 @@ object WorkpieceForms {
             EquipmentSlot.HEAD->"helmet_blank";EquipmentSlot.CHEST->"chestplate_blank";EquipmentSlot.LEGS->"leggings_blank";else->"boots_blank"
         }
         if(item is ShieldItem)return "shield_blank"
+        if(item is CrossbowItem)return "crossbow_blank"
         if(item is PickaxeItem)return "pickaxe_blank"
         if(item is AxeItem)return "axe_blank"
         if(item is ShovelItem)return "shovel_blank"

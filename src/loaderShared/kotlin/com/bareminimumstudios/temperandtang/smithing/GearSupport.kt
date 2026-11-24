@@ -13,7 +13,8 @@ object GearSupport {
     val INCLUDED=TagKey.create(Registries.ITEM,TemperAndTang.id("forgeable_equipment"))
     val EXCLUDED=TagKey.create(Registries.ITEM,TemperAndTang.id("excluded_equipment"))
     fun armor(stack:ItemStack)=stack.item is ArmorItem && stack.item !is AnimalArmorItem
-    fun weapon(stack:ItemStack)=stack.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS,net.minecraft.world.item.component.ItemAttributeModifiers.EMPTY).modifiers().any {it.attribute()==Attributes.ATTACK_DAMAGE && it.modifier().amount()>0}
+    fun ranged(stack:ItemStack)=stack.item is CrossbowItem && (BuiltInRegistries.ITEM.getKey(stack.item).toString()=="magistuarmory:heavy_crossbow" || stack.`is`(INCLUDED))
+    fun weapon(stack:ItemStack)=ranged(stack) || stack.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS,net.minecraft.world.item.component.ItemAttributeModifiers.EMPTY).modifiers().any {it.attribute()==Attributes.ATTACK_DAMAGE && it.modifier().amount()>0}
     fun supported(stack:ItemStack):Boolean {
         if(stack.isEmpty || stack.count!=1 || !stack.isDamageableItem || stack.`is`(EXCLUDED) || stack.`is`(TemperAndTangApi.EXCLUDED_WEAPONS))return false
         val id=BuiltInRegistries.ITEM.getKey(stack.item)
@@ -26,7 +27,7 @@ object GearSupport {
         if(item is TieredItem && item.tier in listOf(Tiers.WOOD,Tiers.STONE))return false
         if(item is ArmorItem && item.material==ArmorMaterials.LEATHER)return false
         if(id.toString() in setOf("minecraft:turtle_helmet","minecraft:wolf_armor"))return false
-        return item is TieredItem || armor(stack) || weapon(stack) || item is ShieldItem || stack.`is`(TemperAndTangApi.FINISHABLE_WEAPONS) || TemperAndTangApi.acceptsCustom(stack)
+        return ranged(stack) || item is TieredItem || armor(stack) || weapon(stack) || item is ShieldItem || stack.`is`(TemperAndTangApi.FINISHABLE_WEAPONS) || TemperAndTangApi.acceptsCustom(stack)
     }
     fun steelCore(stack:ItemStack):Boolean {
         val id=BuiltInRegistries.ITEM.getKey(stack.item)
