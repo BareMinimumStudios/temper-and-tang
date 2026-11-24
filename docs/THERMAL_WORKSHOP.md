@@ -38,11 +38,11 @@ Hot stock automatically becomes cold in your inventory or on your cursor when it
 
 ## Closing and saving
 
-- Closing returns owned inputs, tools, buckets and completed workpieces through Diegesis. Keep inventory space available; its normal overflow handling applies.
+- Closing returns owned inputs, tools, buckets and completed workpieces. Full-inventory overflow stays at the station, reserved for its owner.
 - Partial shaping loses progress without consuming materials or hammer wear. The final blow consumes both and commits the workpiece, so closing cannot reroll it for free.
 - Fuel and water already spent are not refunded by cancelling.
 - Working heat, encoded workpieces, worn tongs, names and foreign item data survive saving and reloading.
-- Workstations use session inventories rather than unattended persistent block storage. Close them before leaving.
+- Workstations use session inventories rather than unattended persistent block storage. Items are returned on closure, disconnect and clean server shutdown.
 
 ## Settings and compatibility
 

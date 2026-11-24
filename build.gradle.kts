@@ -58,6 +58,7 @@ cloche {
                 dependency { modId = "diegesis"; version("1.0.0-beta.19") }
             }
             entrypoint("emi") { value.set("com.bareminimumstudios.temperandtang.compat.viewer.TemperEmiPlugin") }
+            entrypoint("jei_mod_plugin") { value.set("com.bareminimumstudios.temperandtang.compat.viewer.TemperJeiPlugin") }
             entrypoint("client") {
                 adapter.set("kotlin")
                 value.set("com.bareminimumstudios.temperandtang.platform.TemperFabricClient")

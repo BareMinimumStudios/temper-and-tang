@@ -1,7 +1,9 @@
 """Verify actual distributable metadata, API payload and license packaging."""
 from pathlib import Path
-import json, zipfile, tomllib
+import json, zipfile, tomllib, re
 ROOT = Path(__file__).resolve().parents[1]
+EXPECTED_VERSION = re.search(r"^mod_version=(.+)$", (ROOT / "gradle.properties").read_text(), re.M)[1].strip()
+
 def artifacts():
     found = {}
     for p in sorted((ROOT / "build/libs").glob("*.jar")):
@@ -12,12 +14,15 @@ def artifacts():
             if "fabric.mod.json" in files:
                 m = json.loads(z.read("fabric.mod.json"))
                 assert m["id"] == "temperandtang"
+                assert m["version"] == EXPECTED_VERSION
                 assert "diegesis" in m["depends"] and "fzzy_config" in m["depends"]
                 assert m["entrypoints"]["main"] and m["entrypoints"]["client"]
+                assert m["entrypoints"]["emi"] and m["entrypoints"]["jei_mod_plugin"]
                 loader = "fabric"
             elif "META-INF/neoforge.mods.toml" in files:
                 m = tomllib.loads(z.read("META-INF/neoforge.mods.toml").decode())
                 assert m["mods"][0]["modId"] == "temperandtang"
+                assert m["mods"][0]["version"] == EXPECTED_VERSION
                 deps = {x["modId"] for x in m["dependencies"]["temperandtang"]}
                 assert {"diegesis", "fzzy_config", "kotlinforforge"} <= deps
                 loader = "neoforge"
@@ -52,6 +57,17 @@ def artifacts():
             assert "com/bareminimumstudios/temperandtang/mixin/WorkpieceRenderMixin.class" in files
             assert "com/bareminimumstudios/temperandtang/compat/NativeSmithing.class" not in files
             assert "temperandtang.mixins.json" in files
+            mixins = json.loads(z.read("temperandtang.mixins.json"))
+            for name in ("ArrowQualityMixin", "CrossbowQualityMixin", "PlayerListSaveAccess", "RecipeManagerMixin"):
+                assert name in mixins["mixins"]
+                assert f"com/bareminimumstudios/temperandtang/mixin/{name}.class" in files
+            for name in ("PrecisionRefiningRecipe", "RangedCraftsmanship", "WorkshopRhythm"):
+                assert f"com/bareminimumstudios/temperandtang/smithing/{name}.class" in files
+            assert "com/bareminimumstudios/temperandtang/station/WorkshopRecovery.class" in files
+            assert "assets/temperandtang/models/diegesis/crossbow_blank.json" in files
+            assert "assets/temperandtang/models/block/alloy_furnace.json" in files
+            assert "assets/temperandtang/textures/block/workshop_six/blacksmith_water_barrel.png" in files
+            assert not any(n.startswith(("com/pockyl/", "net/minecraft/", "net/sweenus/")) and n.endswith(".class") for n in files)
             assert "com/bareminimumstudios/temperandtang/client/TemperClient.class" in files
             for name in ("PatternPicker", "WorkshopSixBellows"):
                 assert f"com/bareminimumstudios/temperandtang/client/{name}.class" in files

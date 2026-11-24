@@ -54,7 +54,7 @@ The current API adds support for existing finish types. Arbitrary new finish def
 
 
 
-Recipe integration uses MixinExtras WrapMethod to compose with the normal recipe reload path. It never adds a global loot blacklist and does not override already-converted forging/assembly recipes.
+Recipe integration uses a MixinExtras WrapOperation at iteration of the final recipe JSON map, after other HEAD recipe modifiers and before parsing. It never adds a global loot blacklist and does not override already-converted forging/assembly recipes.
 
 
 

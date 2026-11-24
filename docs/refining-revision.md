@@ -1,5 +1,7 @@
 # Refining revision
 
+The final [0.6.0 acceptance record](REVISION_060_ACCEPTANCE.md) supersedes the development checkpoints below.
+
 ## Requested progression
 
 Copper + tin → bronze → iron → steel → diamond → netherite. Silver remains a proposed specialist finish, not another required tier.

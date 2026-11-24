@@ -13,6 +13,8 @@ try {
     if ($LASTEXITCODE -ne 0) { throw "Gradle failed ($LASTEXITCODE)." }
     & python scripts/verify_resources.py
     if ($LASTEXITCODE -ne 0) { throw "Resource verification failed." }
+    & python scripts/verify_models.py
+    if ($LASTEXITCODE -ne 0) { throw "Model verification failed." }
     & python scripts/verify_artifacts.py
     if ($LASTEXITCODE -ne 0) { throw "Artifact verification failed." }
     & python scripts/prepare_release.py

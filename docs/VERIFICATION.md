@@ -1,3 +1,7 @@
+# Current revision
+
+See [0.6.0 acceptance](REVISION_060_ACCEPTANCE.md) for the final requirement-by-requirement result and evidence. The records below describe earlier checkpoints.
+
 # Verification — 0.4.2
 
 ## Quality showcase and puff smoothing
