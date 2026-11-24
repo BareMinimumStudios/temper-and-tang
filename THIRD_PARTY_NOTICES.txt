@@ -27,3 +27,11 @@ Workshop Six — Mine Furniture
 Pallet geometry and timber textures adapted for the bellows support from the asset pack supplied by the project owner.
 Creator credit: Made by Workshop Six. Original artwork rights remain with its creator.
 The project code license does not relicense this artwork.
+
+Blossom Studios — Platinum Set v1.02
+Tin resource textures and the bronze/steel inventory and worn armor families are
+adapted from the set supplied by the project owner. Metal palettes and supplemental
+weapon silhouettes were adapted for this project. Original artwork rights remain
+with Blossom Studios; the project code license does not relicense these textures.
+Public distribution must comply with the asset owner's applicable permission.
+Overgeared steel and other bronze mods were color references only.

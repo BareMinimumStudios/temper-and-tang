@@ -84,13 +84,11 @@ object ProgressionVerification {
         val primary=ItemStack(Items.NETHERITE_SCRAP,4);val gold=ItemStack(Items.GOLD_INGOT,4)
         check(WorkshopPlans.heating(primary,level,gold)==null){"Regular hearth allows netherite alloy"}
         val plan=checkNotNull(WorkshopPlans.heating(primary,level,gold,true))
-        check(plan.output.item==TemperContent.item("unrefined_netherite_alloy") && plan.output.count==1 && plan.additiveCost==4)
+        check(plan.output.item==Items.NETHERITE_INGOT && plan.output.count==1 && plan.additiveCost==4)
         check(HearthProcesses.duration(plan,4)==1200)
         check(WorkshopPlans.heating(primary.copyWithCount(3),level,gold,true)==null)
         check(WorkshopPlans.heating(primary,level,gold.copyWithCount(3),true)==null)
-        CraftVerification.verifyRefiningCancellation(source)
-        val refining=plans.single {it.polishing}
-        check(refining.required()>=12 && refining.recipe.getResultItem(registry).item==Items.NETHERITE_INGOT)
+        check(plans.none {it.id==TemperAndTang.id("netherite_refining")}) {"Obsolete billet refinement remains mandatory"}
         check(TemplateLoot.pool(ResourceLocation.withDefaultNamespace("chests/desert_pyramid"))!=null)
         check(TemplateLoot.pool(ResourceLocation.withDefaultNamespace("chests/abandoned_mineshaft"))!=null)
         check(TemplateLoot.pool(ResourceLocation.withDefaultNamespace("blocks/stone"))==null)
@@ -104,6 +102,6 @@ object ProgressionVerification {
             val saved=gear.save(registry);val loaded=ItemStack.parseOptional(registry,saved as net.minecraft.nbt.CompoundTag)
             check(Craftsmanship.grade(loaded)==grade && loaded.maxDamage==gear.maxDamage)
         }
-        TemperAndTang.logger.info("PROGRESSION_VERIFY_PASSED: five grades, bronze mining, {} diamond upgrades ({} native), preserved steel quality, excluded unique/runic gear, counted furnace alloy and refinement pattern",upgrades,native)
+        TemperAndTang.logger.info("PROGRESSION_VERIFY_PASSED: five grades, bronze mining, {} diamond upgrades ({} native), preserved steel quality, excluded unique/runic gear, counted furnace alloy and direct netherite output",upgrades,native)
     }
 }

@@ -28,6 +28,9 @@ class TemperNeoForge(bus: IEventBus) {
     private val recipeTypes = DeferredRegister.create(Registries.RECIPE_TYPE, TemperAndTang.MOD_ID)
     private val recipeSerializers = DeferredRegister.create(Registries.RECIPE_SERIALIZER, TemperAndTang.MOD_ID)
     init {
+        com.bareminimumstudios.temperandtang.smithing.WorkshopFuel.burnTime={ (it as net.neoforged.neoforge.common.extensions.IItemStackExtension).getBurnTime(net.minecraft.world.item.crafting.RecipeType.SMELTING) }
+        com.bareminimumstudios.temperandtang.smithing.WorkshopFuel.remainder={ (it as net.neoforged.neoforge.common.extensions.IItemStackExtension).craftingRemainingItem }
+
         com.bareminimumstudios.temperandtang.content.WorkshopCatalog.armorMaterials.forEach { (name,factory) -> armorMaterials.register(name,java.util.function.Supplier {factory()}) }
         armorMaterials.register(bus)
         recipeTypes.register("shaping", java.util.function.Supplier { com.bareminimumstudios.temperandtang.smithing.ThermalRecipes.TYPE })
@@ -54,7 +57,7 @@ class TemperNeoForge(bus: IEventBus) {
         items.register(bus)
         bus.addListener { event: FMLCommonSetupEvent -> event.enqueueWork { TemperAndTang.initialize { ModList.get().isLoaded(it) } } }
         bus.addListener { event: BuildCreativeModeTabContentsEvent ->
-            (TemperContent.blocks.keys+TemperContent.items.keys).map(TemperContent::item).filter {com.bareminimumstudios.temperandtang.content.WorkshopCatalog.tab(it)==event.tabKey}.forEach {event.accept(it)}
+            (TemperContent.blocks.keys+TemperContent.items.keys).filter {it!="unrefined_netherite_alloy"}.map(TemperContent::item).filter {com.bareminimumstudios.temperandtang.content.WorkshopCatalog.tab(it)==event.tabKey}.forEach {event.accept(it)}
         }
     }
 }

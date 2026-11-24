@@ -27,7 +27,7 @@ import java.util.UUID
 
 /** Explicit isolated diagnostics: no connected player's inventory, mastery, blocks or clock are changed. */
 object CraftVerification {
-    private class Fixture(val source:CommandSourceStack,name:String) {
+    internal class Fixture(val source:CommandSourceStack,name:String) {
         val type=Diegesis.stationType(TemperAndTang.id(name)).orElseThrow()
         val state=StationState(type.schema())
         val player=object:Player(source.level,BlockPos.ZERO,0f,GameProfile(UUID.randomUUID(),"SmithFixture")) {
@@ -56,7 +56,7 @@ object CraftVerification {
         fun aim()=state.getControl("target")==0f
     }
     fun verifyRefiningCancellation(source:CommandSourceStack) {
-        val plan=WorkshopPlans.forming(source.level).single {it.polishing}
+        val plan=WorkshopPlans.forming(source.level).firstOrNull {it.polishing}?:return
         val billet=TemperContent.item("unrefined_netherite_alloy")
         fun prepared():Fixture=Fixture(source,"shaping_anvil").also {f->
             f.press("select_pattern",data=CompoundTag().also {it.putString("pattern",plan.id.toString())})
@@ -240,51 +240,7 @@ object CraftVerification {
         if(routed && TemperAndTang.modLoaded("simplymore") && TemperAndTang.config.simplyMore.get())check(more>0){"Simply More patterns are missing"}
         TemperAndTang.logger.info("TEMPER_CRAFT_STATS_PASSED: {} gear types, five grades, stat/finish/persistence invariants; {} patterns ({} armor, {} Epic Knights, {} Simply Swords, {} Simply More)",stacks.size,patterns,armor,knights,swords,more)
     }
-    fun startRefining(source:CommandSourceStack) {
-        val key=source.server to "refining";check(key !in jobs)
-        val level=source.level;val plan=WorkshopPlans.forming(level).single {it.polishing}
-        val furnace=Fixture(source,"alloy_furnace");val good=Fixture(source,"shaping_anvil");val poor=Fixture(source,"shaping_anvil")
-        furnace.put(T.STOCK,ItemStack(Items.NETHERITE_SCRAP,4));furnace.put(T.ADDITIVE,ItemStack(Items.GOLD_INGOT,4));furnace.put(T.FUEL,ItemStack(Items.COAL,8));furnace.press("heat")
-        val fuel=furnace.state.getItem(T.FUEL).count
-        check(fuel<8 && furnace.take().isEmpty)
-        repeat(5){furnace.press("heat")};check(furnace.state.getItem(T.FUEL).count==fuel)
-        val start=level.gameTime;var stage=0;var nextPoor=start
-        fun prepare(f:Fixture,stock:ItemStack) {
-            f.press("select_pattern",data=CompoundTag().also {it.putString("pattern",plan.id.toString())})
-            plan.ghosts.forEachIndexed {i,it->f.put(T.grid(i),if(it.isEmpty)it else stock.copyWithCount(1))}
-            f.put(T.HAMMER,ItemStack(TemperContent.item("smithing_hammer")))
-        }
-        jobs[key]=Job(source,listOf(furnace,good,poor)) {
-            check(level.gameTime-start<2200){"Netherite scenarios timed out at stage $stage"}
-            if(stage==0 && !furnace.state.getOutput("result").isEmpty) {
-                val billet=furnace.take()
-                check(billet.item==TemperContent.item("unrefined_netherite_alloy") && billet.count==1 && ThermalState.hot(billet,level))
-                check(furnace.state.getItem(T.STOCK).isEmpty && furnace.state.getItem(T.ADDITIVE).isEmpty && furnace.take().isEmpty)
-                check(furnace.state.getItem(T.FUEL).count==fuel)
-                prepare(good,billet);prepare(poor,ThermalState.heated(ItemStack(TemperContent.item("unrefined_netherite_alloy")),level));stage=1
-            }
-            if(stage==1) {
-                if(good.state.getItem(T.WORKPIECE).isEmpty && good.aim())good.press("strike")
-                if(poor.state.getItem(T.WORKPIECE).isEmpty && level.gameTime>=nextPoor && poor.state.getControl("target")>poor.state.getControl("window")+2) {poor.press("strike");nextPoor=level.gameTime+TemperAndTang.config.strikeIntervalTicks.get()}
-                if(!good.state.getItem(T.WORKPIECE).isEmpty && !poor.state.getItem(T.WORKPIECE).isEmpty) {
-                    check(good.state.getControl("accuracy")>=90f && poor.state.getControl("accuracy")<90f)
-                    val ingot=good.take();val scrap=poor.take()
-                    check(ingot.item==Items.NETHERITE_INGOT && ingot.count==1 && scrap.item==Items.NETHERITE_SCRAP && scrap.count==4)
-                    check(good.take().isEmpty && poor.take().isEmpty)
-                    for(f in listOf(good,poor)) {
-                        check((0..8).all {f.state.getItem(T.grid(it)).isEmpty})
-                        check(f.state.getItem(T.HAMMER).damageValue==plan.required())
-                    }
-                    val restored=ItemStack.parseOptional(level.registryAccess(),ingot.save(level.registryAccess()) as CompoundTag)
-                    check(restored.item==Items.NETHERITE_INGOT && restored.count==1)
-                    TemperAndTang.logger.info("NETHERITE_LOOP_PASSED: counted furnace alloy, one fuel charge, timed precision success and failure, exact outputs, consumed inputs, hammer wear and persistence")
-                    stage=2
-                }
-            }
-            stage==2
-        }
-        source.sendSuccess({Component.literal("Running isolated furnace and precision-refining scenarios...")},false)
-    }
+    fun startRefining(source:CommandSourceStack)=WorkshopVerification.start(source)
     fun startFinishing(source:CommandSourceStack) {
         val key=source.server to "finishing";check(key !in jobs)
         val f=Fixture(source,"finishing_anvil");val p=Fixture(source,"finishing_anvil")
@@ -396,7 +352,7 @@ object CraftVerification {
         val key=source.server to "metallurgy";check(key !in jobs)
         val level=source.level
         val fixtures=mutableListOf<Fixture>()
-        fun make()=Fixture(source,"charcoal_hearth").also {fixtures.add(it)}
+        fun make()=Fixture(source,"alloy_furnace").also {fixtures.add(it)}
         val bronze=TemperContent.item("bronze_ingot");val tin=TemperContent.item("tin_ingot");val steel=TemperContent.item("steel_ingot")
         val bridgeId=ResourceLocation.fromNamespaceAndPath("magistuarmory","furnace/steel_ingot_blasting")
         val example=com.google.gson.JsonParser.parseString("""{"type":"minecraft:blasting","ingredient":{"item":"minecraft:iron_ingot"},"result":{"id":"magistuarmory:steel_ingot"},"cookingtime":40,"experience":0.5}""")

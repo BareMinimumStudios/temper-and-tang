@@ -39,16 +39,18 @@ object ThermalStations {
         if (data != before) s.state().setData(data)
     }
     fun register() {
-        for(name in listOf("charcoal_hearth","alloy_furnace")) Diegesis.station(TemperAndTang.id(name)).block { TemperContent.block(name) }
+        for(name in listOf("charcoal_hearth","alloy_furnace","nether_alloy_furnace")) Diegesis.station(TemperAndTang.id(name)).block { TemperContent.block(name) }
+            .anchor(com.bareminimumstudios.temperandtang.content.WorkshopBlock::anchor)
             .schema(StationSchema.builder()
-                .slots("stock",1,SlotRules.DEFAULT.maxStack(8).accepts(WorkshopPlans::heatable))
-                .slots("fuel",1,SlotRules.DEFAULT.accepts { it.`is`(ItemTags.COALS) })
-                .slots("additive",1,SlotRules.DEFAULT.maxStack(8).accepts {it.`is`(com.bareminimumstudios.temperandtang.api.TemperAndTangApi.ALLOY_ADDITIVES)})
+                .slots("stock",1,SlotRules.DEFAULT.maxStack(8).accepts { if(name=="charcoal_hearth")WorkshopPlans.metal(it) || ThermalState.blank(it) else WorkshopPlans.stock(it) })
+                .slots("fuel",1,SlotRules.DEFAULT.accepts(WorkshopFuel::accepts))
+                .slots("additive",1,SlotRules.DEFAULT.maxStack(8).accepts {name!="charcoal_hearth" && it.`is`(com.bareminimumstudios.temperandtang.api.TemperAndTangApi.ALLOY_ADDITIVES)})
                 .control("heat",ControlSpec.button()).control("progress",ControlSpec.range(0f,100f,0f).locked())
                 .control("fuel_cost",ControlSpec.range(0f,64f,1f).locked()).output("result").build())
-            .hidesBlock().exclusive().openWhen { _,_,_ -> active() }.logic { Hearth() }.register()
+            .hidesBlocks(com.bareminimumstudios.temperandtang.content.WorkshopBlock::span).exclusive().openWhen { player,pos,state -> active() && com.bareminimumstudios.temperandtang.content.WorkshopBlock.ensureSpace(player.level(),pos,state,player) }.logic { Hearth() }.register()
         Diegesis.station(TemperAndTang.id("shaping_anvil")).block { TemperContent.block("shaping_anvil") }
             .blocks(net.minecraft.world.level.block.Blocks.ANVIL,net.minecraft.world.level.block.Blocks.CHIPPED_ANVIL,net.minecraft.world.level.block.Blocks.DAMAGED_ANVIL)
+            .anchor(com.bareminimumstudios.temperandtang.content.WorkshopBlock::anchor)
             .schema(StationSchema.builder()
                 .slots("grid",9,SlotRules.DEFAULT.maxStack(1))
                 .slots("hammer",1,SlotRules.DEFAULT.maxStack(1).accepts(FinishingStation::isHammer))
@@ -70,16 +72,21 @@ object ThermalStations {
                 .control("progress",ControlSpec.range(0f,40f,0f).locked()).control("required",ControlSpec.range(1f,40f,6f).locked())
                 .control("clean",ControlSpec.range(0f,40f,0f).locked()).control("beat",ControlSpec.range(0f,1f,0f).locked())
                 .output("result").build())
-            .exclusive().openWhen { player,pos,state -> active() && (state.`is`(TemperContent.block("shaping_anvil")) || TemperAndTang.config.vanillaAnvilWorkshop.get() && player.isShiftKeyDown) }.logic { Shaper() }.register()
+            .exclusive().openWhen { player,pos,state -> active() && com.bareminimumstudios.temperandtang.content.WorkshopBlock.ensureSpace(player.level(),pos,state,player) && (state.`is`(TemperContent.block("shaping_anvil")) || TemperAndTang.config.vanillaAnvilWorkshop.get() && player.isShiftKeyDown) }.logic { Shaper() }.register()
         Diegesis.station(TemperAndTang.id("quenching_trough")).block { TemperContent.block("quenching_trough") }
+            .anchor(com.bareminimumstudios.temperandtang.content.WorkshopBlock::anchor)
             .schema(StationSchema.builder()
                 .slots("stock",1,SlotRules.DEFAULT.maxStack(8).accepts { ThermalState.pending(it) || WorkshopPlans.metal(it) })
                 .slots("water",1,SlotRules.DEFAULT.maxStack(1).accepts { it.`is`(Items.WATER_BUCKET) || it.`is`(Items.BUCKET) })
                 .control("quench",ControlSpec.button()).control("progress",ControlSpec.range(0f,100f,0f).locked())
                 .output("result").build())
-            .exclusive().openWhen { _,_,_ -> active() }.logic { Trough() }.register()
+            .exclusive().openWhen { player,pos,state -> active() && com.bareminimumstudios.temperandtang.content.WorkshopBlock.ensureSpace(player.level(),pos,state,player) }.logic { Trough() }.register()
     }
     private class Hearth : StationLogic {
+        private fun resolve(s:StationContext,stock:ItemStack):WorkshopPlans.Heating? {
+            if(s.blockState().`is`(TemperContent.block("charcoal_hearth")))return if(s.state().getItem(ADDITIVE).isEmpty && (WorkshopPlans.metal(stock) || ThermalState.blank(stock)))WorkshopPlans.heating(stock,s.level())else null
+            return HearthProcesses.alloy(stock,s.state().getItem(ADDITIVE),s.level())?.takeIf {!it.requiresAdvanced || s.blockState().`is`(TemperContent.block("nether_alloy_furnace"))}
+        }
         override fun onOpen(s:StationContext,player:Player)=WorkshopRecovery.opened(s,player)
         override fun onClose(s:StationContext,player:Player)=WorkshopRecovery.closed(s,player)
         private var start = -1L
@@ -109,13 +116,12 @@ object ThermalStations {
             if (s.isClientSide || control != "heat" || !active() || player.isSpectator || start >= 0 || completed) return
             val stock = s.state().getItem(STOCK)
             if (stock.isEmpty || ThermalState.hot(stock,s.level()) && s.state().getItem(ADDITIVE).isEmpty) { updateOutputs(s); return }
-            val candidate = WorkshopPlans.heating(stock,s.level(),s.state().getItem(ADDITIVE),s.blockState().`is`(TemperContent.block("alloy_furnace"))) ?: return
+            val candidate = resolve(s,stock) ?: return
             val duration = HearthProcesses.duration(candidate,stock.count)
-            val cost = ThermalRules.coalCost(duration)
             val fuel = s.state().getItem(FUEL)
-            if (!fuel.`is`(ItemTags.COALS) || fuel.count < cost) { note(s,"fuel"); return }
+            if (!WorkshopFuel.sufficient(fuel,duration) || !WorkshopFuel.remainder(fuel).isEmpty && fuel.count!=1) { note(s,"fuel"); return }
             plan = candidate; input = stock.copy(); supplement=s.state().getItem(ADDITIVE).copy(); start = s.level().gameTime; end = start + duration
-            s.state().setItem(FUEL,fuel.copy().also { it.shrink(cost) })
+            s.state().setItem(FUEL,WorkshopFuel.spend(fuel,duration))
             sound(s,SoundEvents.FIRECHARGE_USE,0.45f,0.85f)
             updateOutputs(s)
         }
@@ -153,12 +159,12 @@ object ThermalStations {
             s.state().setOutput("result",if (ready) stock.copy() else ItemStack.EMPTY)
             val candidate = if (start < 0 && !completed) {
                 if (!snapshot(stock,previewStock) || !snapshot(s.state().getItem(ADDITIVE),previewSupplement) || s.level().gameTime-previewTick >= 20) {
-                    previewStock=stock.copy(); previewSupplement=s.state().getItem(ADDITIVE).copy(); preview=WorkshopPlans.heating(stock,s.level(),s.state().getItem(ADDITIVE),s.blockState().`is`(TemperContent.block("alloy_furnace"))); previewTick=s.level().gameTime
+                    previewStock=stock.copy(); previewSupplement=s.state().getItem(ADDITIVE).copy(); preview=resolve(s,stock); previewTick=s.level().gameTime
                 }
                 preview
             } else plan
-            s.state().setControl("fuel_cost",candidate?.let { ThermalRules.coalCost(HearthProcesses.duration(it,stock.count)).toFloat() } ?: 1f)
-            note(s,when { !active()->"disabled"; ready->"ready"; start>=0->"heating"; stock.isEmpty->"stock"; ThermalState.hot(stock,s.level()) && s.state().getItem(ADDITIVE).isEmpty->"already_hot"; candidate != null && s.state().getItem(FUEL).count < s.state().getControl("fuel_cost").toInt()->"fuel"; candidate==null->"recipe"; else->"idle" },candidate?.output?:stock)
+            s.state().setControl("fuel_cost",candidate?.let { WorkshopFuel.cost(s.state().getItem(FUEL),HearthProcesses.duration(it,stock.count)).toFloat() } ?: 0f)
+            note(s,when { !active()->"disabled"; ready->"ready"; start>=0->"heating"; stock.isEmpty->"stock"; ThermalState.hot(stock,s.level()) && s.state().getItem(ADDITIVE).isEmpty->"already_hot"; candidate != null && !WorkshopFuel.sufficient(s.state().getItem(FUEL),HearthProcesses.duration(candidate,stock.count))->"fuel"; candidate==null->"recipe"; else->"idle" },candidate?.output?:stock)
             val metadata=s.state().data().copy();metadata.putString("process",candidate?.process?:if(!s.state().getItem(ADDITIVE).isEmpty)"alloy"else if(HearthProcesses.refinable(stock))"refine"else"heat");metadata.putInt("yield",candidate?.output?.count?:0);if(metadata!=s.state().data())s.state().setData(metadata)
         }
         override fun takeOutput(s: StationContext, player: Player, output: String): ItemStack {

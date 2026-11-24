@@ -1,24 +1,132 @@
 {
   "variants": {
-    "facing=north": {
+    "facing=north,part=0": {
       "model": "temperandtang:block/quenching_trough",
-      "y": 0,
-      "uvlock": true
+      "y": 0
     },
-    "facing=east": {
-      "model": "temperandtang:block/quenching_trough",
-      "y": 90,
-      "uvlock": true
+    "facing=north,part=1": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 0
     },
-    "facing=south": {
-      "model": "temperandtang:block/quenching_trough",
-      "y": 180,
-      "uvlock": true
+    "facing=north,part=2": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 0
     },
-    "facing=west": {
+    "facing=north,part=3": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 0
+    },
+    "facing=north,part=4": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 0
+    },
+    "facing=north,part=5": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 0
+    },
+    "facing=north,part=6": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 0
+    },
+    "facing=north,part=7": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 0
+    },
+    "facing=east,part=0": {
       "model": "temperandtang:block/quenching_trough",
-      "y": 270,
-      "uvlock": true
+      "y": 90
+    },
+    "facing=east,part=1": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 90
+    },
+    "facing=east,part=2": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 90
+    },
+    "facing=east,part=3": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 90
+    },
+    "facing=east,part=4": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 90
+    },
+    "facing=east,part=5": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 90
+    },
+    "facing=east,part=6": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 90
+    },
+    "facing=east,part=7": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 90
+    },
+    "facing=south,part=0": {
+      "model": "temperandtang:block/quenching_trough",
+      "y": 180
+    },
+    "facing=south,part=1": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 180
+    },
+    "facing=south,part=2": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 180
+    },
+    "facing=south,part=3": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 180
+    },
+    "facing=south,part=4": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 180
+    },
+    "facing=south,part=5": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 180
+    },
+    "facing=south,part=6": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 180
+    },
+    "facing=south,part=7": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 180
+    },
+    "facing=west,part=0": {
+      "model": "temperandtang:block/quenching_trough",
+      "y": 270
+    },
+    "facing=west,part=1": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 270
+    },
+    "facing=west,part=2": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 270
+    },
+    "facing=west,part=3": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 270
+    },
+    "facing=west,part=4": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 270
+    },
+    "facing=west,part=5": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 270
+    },
+    "facing=west,part=6": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 270
+    },
+    "facing=west,part=7": {
+      "model": "temperandtang:block/empty_workshop_part",
+      "y": 270
     }
   }
 }

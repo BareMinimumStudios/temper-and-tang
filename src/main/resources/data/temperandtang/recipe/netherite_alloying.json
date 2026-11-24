@@ -9,7 +9,7 @@
   },
   "additive_count": 4,
   "result": {
-    "id": "temperandtang:unrefined_netherite_alloy"
+    "id": "minecraft:netherite_ingot"
   },
   "cookingtime": 1200,
   "requires_advanced_furnace": true

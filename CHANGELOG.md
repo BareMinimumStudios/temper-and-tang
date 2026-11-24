@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.7.0
+
+- Add dedicated tin resources, bronze/steel equipment and worn armor textures, plus distinct workshop material and blueprint icons.
+- Keep tin as an alloy ingredient and remove the standalone dagger, spear and warhammer families. Extra weapons use installed optional equipment mods.
+- Separate hearth heating, ordinary alloying and Nether alloying; use clay/carbon station recipes and direct scrap-plus-gold netherite output.
+- Accept ordinary furnace fuels, preserve container remainders and keep steel carbon separate from fuel.
+- Give hearths and furnaces full workshop proportions, occupied placement space, shared session anchors and single-drop part cleanup. Safely assemble clear space around older station roots.
+- Preserve legacy billet recovery, existing settings, native gear identity and template upgrade progression.
+
 ## 0.6.0 — in development
 
 - Use five craftsmanship grades, migrate old Exceptional records, and apply quality to handling and mining speed.

@@ -8,6 +8,15 @@
           "type": "minecraft:item",
           "name": "temperandtang:finishing_anvil"
         }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "temperandtang:finishing_anvil",
+          "properties": {
+            "part": "0"
+          }
+        }
       ]
     }
   ]

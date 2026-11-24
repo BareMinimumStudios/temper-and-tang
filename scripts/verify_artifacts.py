@@ -41,11 +41,11 @@ def artifacts():
             for name in ("bronze_alloy", "steel_alloy", "smithing_tongs_from_bronze"):
                 assert f"data/temperandtang/recipe/{name}.json" in files
             for metal in ("bronze", "steel"):
-                for part in ("pickaxe", "helmet", "spear", "warhammer"):
+                for part in ("pickaxe", "helmet", "sword"):
                     assert f"assets/temperandtang/models/item/{metal}_{part}.json" in files
                     assert f"data/temperandtang/recipe/{metal}_{part}.json" in files
             assert "data/minecraft/tags/item/trimmable_armor.json" in files
-            assert "data/temperandtang/weapon_attributes/steel_spear.json" in files
+            assert not any(f"data/temperandtang/recipe/{m}_{w}.json" in files for m in ("bronze","iron","steel") for w in ("dagger","spear","warhammer"))
 
             assert "com/bareminimumstudios/temperandtang/smithing/HotMetalHandling.class" in files
             assert "assets/temperandtang/models/item/smithing_tongs.json" in files

@@ -12,6 +12,13 @@
       "conditions": [
         {
           "condition": "minecraft:survives_explosion"
+        },
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "temperandtang:alloy_furnace",
+          "properties": {
+            "part": "0"
+          }
         }
       ]
     }

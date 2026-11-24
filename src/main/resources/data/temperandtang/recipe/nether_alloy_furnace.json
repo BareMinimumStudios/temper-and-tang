@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CSC",
+    "CFC",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:clay_ball"
+    },
+    "F": {
+      "tag": "minecraft:coals"
+    },
+    "S": {
+      "item": "minecraft:netherite_scrap"
+    }
+  },
+  "result": {
+    "id": "temperandtang:nether_alloy_furnace"
+  }
+}

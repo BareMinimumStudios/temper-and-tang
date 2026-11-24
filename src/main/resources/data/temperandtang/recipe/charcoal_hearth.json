@@ -10,7 +10,7 @@
       "item": "minecraft:cobblestone"
     },
     "C": {
-      "tag": "minecraft:coals"
+      "item": "minecraft:charcoal"
     }
   },
   "result": {

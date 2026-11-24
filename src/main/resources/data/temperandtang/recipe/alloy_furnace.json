@@ -1,19 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "NSN",
-    "NBN",
-    "NNN"
+    "CCC",
+    "CFC",
+    "CCC"
   ],
   "key": {
-    "N": {
-      "item": "minecraft:nether_bricks"
+    "C": {
+      "item": "minecraft:clay_ball"
     },
-    "S": {
-      "tag": "c:ingots/steel"
-    },
-    "B": {
-      "item": "minecraft:blast_furnace"
+    "F": {
+      "tag": "minecraft:coals"
     }
   },
   "result": {

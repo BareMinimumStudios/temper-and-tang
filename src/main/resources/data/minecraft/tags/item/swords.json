@@ -2,15 +2,6 @@
   "replace": false,
   "values": [
     "temperandtang:bronze_sword",
-    "temperandtang:bronze_dagger",
-    "temperandtang:bronze_spear",
-    "temperandtang:bronze_warhammer",
-    "temperandtang:steel_sword",
-    "temperandtang:steel_dagger",
-    "temperandtang:steel_spear",
-    "temperandtang:steel_warhammer",
-    "temperandtang:iron_dagger",
-    "temperandtang:iron_spear",
-    "temperandtang:iron_warhammer"
+    "temperandtang:steel_sword"
   ]
 }

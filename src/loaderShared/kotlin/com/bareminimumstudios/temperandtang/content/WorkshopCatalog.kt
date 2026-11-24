@@ -30,7 +30,7 @@ object WorkshopCatalog {
     private fun armor(name:String,values:List<Int>,texture:String,toughness:Float)=ArmorMaterial(
         mapOf(ArmorItem.Type.HELMET to values[0],ArmorItem.Type.CHESTPLATE to values[1],ArmorItem.Type.LEGGINGS to values[2],ArmorItem.Type.BOOTS to values[3]),
         9,SoundEvents.ARMOR_EQUIP_IRON,{Ingredient.of(TagKey.create(Registries.ITEM,ResourceLocation.fromNamespaceAndPath("c","ingots/$name")))},
-        listOf(ArmorMaterial.Layer(ResourceLocation.withDefaultNamespace(texture))),toughness,0f)
+        listOf(ArmorMaterial.Layer(TemperAndTang.id(name))),toughness,0f)
     private fun material(name:String)=BuiltInRegistries.ARMOR_MATERIAL.getHolderOrThrow(ResourceKey.create(Registries.ARMOR_MATERIAL,TemperAndTang.id(name)))
     fun tab(item:Item)=when(item) {
         is DiggerItem -> CreativeModeTabs.TOOLS_AND_UTILITIES
@@ -48,15 +48,6 @@ object WorkshopCatalog {
             for((part,type) in listOf("helmet" to ArmorItem.Type.HELMET,"chestplate" to ArmorItem.Type.CHESTPLATE,"leggings" to ArmorItem.Type.LEGGINGS,"boots" to ArmorItem.Type.BOOTS)) {
                 put("${name}_$part") {ArmorItem(material(name),type,Item.Properties().durability(type.getDurability(if(name=="bronze")13 else 20)))}
             }
-        }
-        for((name,tier) in listOf("bronze" to BronzeTier,"iron" to Tiers.IRON,"steel" to SteelTier)) {
-            put("${name}_dagger") {SwordItem(tier,Item.Properties().attributes(SwordItem.createAttributes(tier,2,-1.8f)))}
-            put("${name}_spear") {
-                val attrs=SwordItem.createAttributes(tier,3,-2.8f).withModifierAdded(Attributes.ENTITY_INTERACTION_RANGE,
-                    AttributeModifier(TemperAndTang.id("spear_reach"),1.0,AttributeModifier.Operation.ADD_VALUE),EquipmentSlotGroup.MAINHAND)
-                SwordItem(tier,Item.Properties().attributes(attrs))
-            }
-            put("${name}_warhammer") {SwordItem(tier,Item.Properties().attributes(SwordItem.createAttributes(tier,5,-3.2f)))}
         }
     }
 }

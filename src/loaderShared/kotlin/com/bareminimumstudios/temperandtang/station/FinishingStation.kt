@@ -22,6 +22,7 @@ object FinishingStation {
     fun hammerReady(stack:ItemStack)=isHammer(stack) && stack.maxDamage-stack.damageValue>=TemperAndTang.config.requiredStrikes.get()
     fun register() {
         Diegesis.station(TemperAndTang.id("finishing_anvil")).block {TemperContent.block("finishing_anvil")}
+            .anchor(com.bareminimumstudios.temperandtang.content.WorkshopBlock::anchor)
             .schema(StationSchema.builder()
                 .slots("weapon",1,SlotRules.DEFAULT.maxStack(1).accepts(WeaponFinishes::accepts))
                 .slots("material",1,SlotRules.DEFAULT.accepts {WeaponFinishes.ingredient(it)!=null})
@@ -38,7 +39,7 @@ object FinishingStation {
                 .control("beat",ControlSpec.range(0f,1f,0f).locked()).control("accuracy",ControlSpec.range(0f,100f,0f).locked())
                 .control("window",ControlSpec.range(0f,10f,0f).locked())
                 .control("last_score",ControlSpec.range(0f,1f,0f).locked()).output("result").build())
-            .exclusive().openWhen {_,_,_->TemperAndTang.config.enabled.get()}.logic {Logic()}.register()
+            .exclusive().openWhen {player,pos,state->TemperAndTang.config.enabled.get() && com.bareminimumstudios.temperandtang.content.WorkshopBlock.ensureSpace(player.level(),pos,state,player)}.logic {Logic()}.register()
     }
     private class Logic:StationLogic {
         private val timing=WorkshopRhythm.Measurement()

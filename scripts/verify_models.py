@@ -69,3 +69,10 @@ for p in (assets/'diegesis/scenes').glob('*.json'):
             if visual['model'].startswith('temperandtang:'):
                 assert visual['model'].startswith('temperandtang:diegesis/'),(p.name,node['id'],'Scene model needs an auto-loaded diegesis alias or explicit model registration')
 print('Validated every station visual schema and model reference.')
+
+# Duplicate IDs make Diegesis reject an entire scene even when all references resolve.
+for path in (assets/'diegesis/scenes').glob('*.json'):
+    nodes=list(scene_nodes(json.loads(path.read_text())['nodes']))
+    ids=[n['id']for n in nodes]
+    assert len(ids)==len(set(ids)),f'Duplicate scene node ids: {path}'
+print('Validated unique node identities in all station scenes.')

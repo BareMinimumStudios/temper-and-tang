@@ -18,7 +18,7 @@ Press **F** at the shaping anvil to find a pattern directly. You can select whil
 - Bronze-before-iron mining, structure-template steel-to-diamond upgrades, and a dedicated precision netherite alloy route.
 - Optional native EMI and JEI workshop recipe categories, with the same synchronized server recipe graph.
 - Tin ore, furnace refining and counted hearth alloys: 3 copper + 1 tin → 4 bronze; iron + carbon → steel.
-- Bronze and steel tool/armor families, plus bronze/iron/steel daggers, spears and warhammers; additive common tags and optional Better Combat profiles.
+- Bronze and steel swords, tools and armor; extra weapon types use installed equipment mods through optional compatibility.
 - Owned Smithing Tongs, bounded contact burns and wear, automatic inventory/cursor cooling and unusable unquenched workpieces.
 - Directional workstations, contextual slots, physical hammer controls, a changing timing gauge, tiny sparks, varied anvil sounds, water and embers.
 - Tempered, Keen, Weighted and Lightened finishes. Precision controls the smaller finish bonus. Armor accepts Tempered or Lightened.

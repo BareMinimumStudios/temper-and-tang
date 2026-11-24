@@ -9,9 +9,9 @@ import net.minecraft.world.item.*
 import net.minecraft.world.item.crafting.*
 import net.minecraft.world.level.Level
 
-enum class WorkshopCategory(val station:String) { REFINING("charcoal_hearth"),ALLOYING("charcoal_hearth"),FORGING("shaping_anvil"),FINISHING("finishing_anvil"),UPGRADING("minecraft:smithing_table"),BLUEPRINTS("shaping_anvil");
+enum class WorkshopCategory(val station:String) { REFINING("minecraft:furnace"),ALLOYING("alloy_furnace"),FORGING("shaping_anvil"),FINISHING("finishing_anvil"),UPGRADING("minecraft:smithing_table"),BLUEPRINTS("shaping_anvil");
     val key get()=name.lowercase(java.util.Locale.ROOT)
-    fun icon()=if(station.contains(':'))ItemStack(Items.SMITHING_TABLE)else ItemStack(TemperContent.item(station))
+    fun icon()=if(station.contains(':'))ItemStack(if(station=="minecraft:furnace")Items.FURNACE else Items.SMITHING_TABLE)else ItemStack(TemperContent.item(station))
 }
 data class WorkshopDisplay(val id:ResourceLocation,val category:WorkshopCategory,val inputs:List<List<ItemStack>>,val output:ItemStack,val catalysts:List<ItemStack>,val note:String,val detail:String="",val grid:Boolean=false) {
     fun location(index:Int)=if(grid && index<9)(4+index%3*18) to (18+index/3*18)else (if(grid)76 else 4+index*24) to (if(grid)18+(index-9)*20 else 36)
@@ -25,11 +25,11 @@ object WorkshopDisplays {
         for(holder in level.recipeManager.getAllRecipesFor(RecipeType.SMELTING)) {
             val recipe=holder.value();val inputs=recipe.ingredients.firstOrNull()?.items?.filter(HearthProcesses::refinable)?:continue
             if(inputs.isEmpty() || !WorkshopPlans.stock(recipe.getResultItem(registry)))continue
-            out+=WorkshopDisplay(id("refining",holder.id()),WorkshopCategory.REFINING,listOf(inputs,list(Items.CHARCOAL,ThermalRules.coalCost(recipe.cookingTime))),recipe.getResultItem(registry).copy(),emptyList(),"Refine ore; take hot metal.")
+            out+=WorkshopDisplay(id("refining",holder.id()),WorkshopCategory.REFINING,listOf(inputs,list(Items.CHARCOAL,ThermalRules.coalCost(recipe.cookingTime))),recipe.getResultItem(registry).copy(),emptyList(),"Smelt ore normally, then heat the ingots at a hearth.")
         }
         for(holder in level.recipeManager.getAllRecipesFor(AlloyRecipes.TYPE)) {
             val recipe=holder.value();val advanced=recipe.requiresAdvanced
-            out+=WorkshopDisplay(id("alloying",holder.id()),WorkshopCategory.ALLOYING,listOf(recipe.primary.items.map {it.copyWithCount(recipe.primaryCount)},recipe.additive.items.map {it.copyWithCount(recipe.additiveCount)},list(Items.CHARCOAL,ThermalRules.coalCost(recipe.cookingTime))),recipe.result.copy(),listOf(ItemStack(TemperContent.item(if(advanced)"alloy_furnace"else"charcoal_hearth"))),if(advanced)"Nether furnace required."else"Alloy in a hearth or furnace.","Fuel shown for one complete batch.")
+            out+=WorkshopDisplay(id("alloying",holder.id()),WorkshopCategory.ALLOYING,listOf(recipe.primary.items.map {it.copyWithCount(recipe.primaryCount)},recipe.additive.items.map {it.copyWithCount(recipe.additiveCount)},list(Items.CHARCOAL,ThermalRules.coalCost(recipe.cookingTime))),recipe.result.copy(),listOf(ItemStack(TemperContent.item(if(advanced)"nether_alloy_furnace"else"alloy_furnace"))),if(advanced)"Nether furnace required."else"Alloy in either alloy furnace.","Charcoal shown as fuel example; any furnace fuel works. Carbon for steel is separate.")
         }
         for(plan in WorkshopPlans.forming(level)) {
             val result=plan.recipe.getResultItem(registry).copy()

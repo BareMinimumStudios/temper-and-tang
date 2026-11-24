@@ -10,7 +10,7 @@ For the complete bronze/iron/steel equipment route and counted alloys, see [meta
 
 - **Smithing Tongs:** two iron or bronze nuggets in the top corners, two matching ingots beneath them, and a stick in the bottom centre. Common iron and wooden-rod tags work. Repair the tongs with an iron ingot at a vanilla anvil.
 - **Smithing Hammer:** the normal bronze-and-stick recipe shown in your recipe viewer.
-- **Charcoal Hearth:** seven cobblestone around coal or charcoal; leave the top-middle space empty.
+- **Charcoal Hearth:** seven cobblestone around one charcoal; leave the top-middle space empty.
 - **Shaping Anvil:** three bronze ingots above one smooth stone and three planks.
 - **Quenching Trough:** five planks in a boat shape with two sticks beneath its corners.
 
@@ -19,7 +19,7 @@ For the complete bronze/iron/steel equipment route and counted alloys, see [meta
 The temporary pattern board is a preparation guide. When hammer work starts, the ingredients become a hot billet, then a drawn blank. The completed equipment appears only after the final shaping blow. It still needs quenching before use.
 
 1. Hold **Smithing Tongs in your offhand**. Either hand protects you, but the offhand leaves your cursor free to operate the stations.
-2. Put up to eight refined ingots and enough coal or charcoal into the hearth. Click the bellows or press **Space** with an empty cursor. Base heating is five seconds per item; steel, diamond and netherite stock take longer. A coal pays for up to 1,600 heating ticks; fuel is spent when work starts.
+2. Put up to eight refined ingots and enough furnace fuel into the hearth. Click the bellows or press **Space** with an empty cursor. Base heating is five seconds per item; steel, diamond and netherite stock take longer. Fuel uses its normal furnace burn duration and is spent once when work starts.
 3. Retrieve the hot stock. It has about **60 seconds** of working heat by default. Its tooltip shows the remaining time. Reheat if it cools before shaping.
 4. Open the shaping anvil. The ghost pattern shows the selected equipment. Use **Left/Right** to change patterns and **Tab** to filter weapons or armor. Advanced Epic Knights patterns require a matching reusable blueprint. Put heated metal and the remaining ingredients in the shown 3×3 arrangement, then insert the hammer.
 5. Click the hammer or press **Space** when the moving timing marker reaches the central target. Timing varies between blows. Take time to prepare: missed-beat penalties begin only after your first strike. Accurate strikes improve the quality odds; missed beats reduce accuracy. Clicking repeatedly cannot accelerate the work. Most basic gear takes six blows; armor and harder materials take more. The final blow rolls quality and one possible equipment trait once on the server.

@@ -22,6 +22,7 @@ class TemperEmiPlugin:EmiPlugin {
         val categories=WorkshopCategory.entries.associateWith {EmiRecipeCategory(TemperAndTang.id(it.key),EmiStack.of(it.icon()))}
         categories.forEach {(kind,category)->registry.addCategory(category);registry.addWorkstation(category,EmiStack.of(kind.icon()))}
         registry.addWorkstation(categories.getValue(WorkshopCategory.ALLOYING),EmiStack.of(net.minecraft.world.item.ItemStack(com.bareminimumstudios.temperandtang.content.TemperContent.item("alloy_furnace"))))
+        registry.addWorkstation(categories.getValue(WorkshopCategory.ALLOYING),EmiStack.of(net.minecraft.world.item.ItemStack(com.bareminimumstudios.temperandtang.content.TemperContent.item("nether_alloy_furnace"))))
         for(display in WorkshopDisplays.collect(level))registry.addRecipe(DisplayRecipe(display,categories.getValue(display.category)))
         TemperAndTang.logger.info("EMI_WORKSHOP_REGISTERED: synchronized workshop recipes and native weapon upgrades")
     }

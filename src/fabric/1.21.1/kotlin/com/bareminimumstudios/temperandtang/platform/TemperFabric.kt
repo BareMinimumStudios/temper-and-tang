@@ -37,7 +37,7 @@ object TemperFabric : ModInitializer {
         TemperContent.items.forEach { (name, factory) -> Registry.register(BuiltInRegistries.ITEM, TemperAndTang.id(name), factory()) }
         for(tab in listOf(CreativeModeTabs.INGREDIENTS,CreativeModeTabs.TOOLS_AND_UTILITIES,CreativeModeTabs.COMBAT,CreativeModeTabs.FUNCTIONAL_BLOCKS,CreativeModeTabs.BUILDING_BLOCKS))
             ItemGroupEvents.modifyEntriesEvent(tab).register {entries ->
-                (TemperContent.blocks.keys+TemperContent.items.keys).map(TemperContent::item).filter {com.bareminimumstudios.temperandtang.content.WorkshopCatalog.tab(it)==tab}.forEach {entries.accept(it)}
+                (TemperContent.blocks.keys+TemperContent.items.keys).filter {it!="unrefined_netherite_alloy"}.map(TemperContent::item).filter {com.bareminimumstudios.temperandtang.content.WorkshopCatalog.tab(it)==tab}.forEach {entries.accept(it)}
             }
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Decoration.UNDERGROUND_ORES,
             ResourceKey.create(Registries.PLACED_FEATURE, TemperAndTang.id("tin_ore")))
