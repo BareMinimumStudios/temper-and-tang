@@ -56,7 +56,7 @@ object FinishingStation {
             if(!valid(s))return
             val job=work?:return
             if(job.ready) {commit(s,player);updateOutputs(s);return}
-            val score=job.strike(s.level().gameTime,TemperAndTang.config.strikeIntervalTicks.get())?:return
+            val score=job.strike(WorkshopRhythm.evaluationTick(s.level().gameTime,player),TemperAndTang.config.strikeIntervalTicks.get(),s.level().gameTime)?:return
             SmithingFeedback.strike(s,"weapon",score)
             if(job.ready)commit(s,player)
             updateOutputs(s)
@@ -82,7 +82,7 @@ object FinishingStation {
         override fun tick(s:StationContext) {
             if(s.isClientSide)return
             if(!valid(s) && s.state().getItem(FINISHED).isEmpty)work=null
-            work?.tick(s.level().gameTime);updateOutputs(s)
+            work?.tick(WorkshopRhythm.evaluationTick(s.level().gameTime,s.users().firstOrNull()));updateOutputs(s)
         }
         override fun updateOutputs(s:StationContext) {
             val state=s.state();val actual=state.getItem(FINISHED)

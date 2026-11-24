@@ -167,6 +167,8 @@ object ThermalStations {
         }
     }
     private class Shaper : StationLogic {
+        private data class RefiningAttempt(val plan:WorkshopPlans.Forming,val inputs:List<ItemStack>)
+        private var refiningAttempt:RefiningAttempt?=null
         private var plans=emptyList<WorkshopPlans.Forming>()
         private var index=0
         private var category=0
@@ -178,6 +180,18 @@ object ThermalStations {
         private fun player(s:StationContext)=s.users().firstOrNull()
         private fun plan()=plans.getOrNull(index)
         private fun reset(s:StationContext) {
+            val attempt=refiningAttempt
+            refiningAttempt=null
+            if(attempt!=null && s.state().getItem(WORKPIECE).isEmpty && attempt.inputs.zip(stocks(s)).all {(before,current)->snapshot(before,current)}) {
+                val recipe=attempt.plan.recipe as PrecisionRefiningRecipe
+                val remaining=attempt.plan.remainders(attempt.inputs)
+                val wear=work?.hits?:0
+                for(i in 0..8)s.state().setItem(grid(i),remaining.getOrNull(i)?.copy()?:ItemStack.EMPTY)
+                val hammer=s.state().getItem(HAMMER).copy().also {it.damageValue+=wear}
+                s.state().setItem(HAMMER,if(hammer.damageValue>=hammer.maxDamage)ItemStack.EMPTY else hammer)
+                s.state().setItem(WORKPIECE,recipe.failure.copy())
+                committedTarget=recipe.failure.copy();committedCost=wear
+            }
             work=null
             for(key in listOf("progress","clean","accuracy","misses","beat","target","phase","last_score"))s.state().setControl(key,0f)
         }
@@ -212,6 +226,9 @@ object ThermalStations {
             if(!FinishingStation.isHammer(hammer) || hammer.maxDamage-hammer.damageValue<required(s))return "hammer"
             return "work"
         }
+        override fun mayPlace(s:StationContext,player:Player,slot:SlotRef,stack:ItemStack)=refiningAttempt==null
+        override fun mayTake(s:StationContext,player:Player,slot:SlotRef)=refiningAttempt==null
+        override fun onClose(s:StationContext,player:Player) {if(!s.isClientSide)reset(s)}
         override fun onOpen(s:StationContext,player:Player) {refresh(s);updateOutputs(s)}
         override fun onSlotChanged(s:StationContext,slot:SlotRef) {
             if(slot==GEAR && !s.state().getItem(GEAR).isEmpty)reforgeMode=true
@@ -238,6 +255,7 @@ object ThermalStations {
         }
         override fun onButton(s:StationContext,player:Player,control:String) {
             if(s.isClientSide || !active() || player.isSpectator || !s.state().getItem(WORKPIECE).isEmpty || !player.inventoryMenu.carried.isEmpty)return
+            if(refiningAttempt!=null && control!="strike")return
             if(plans.isEmpty())refresh(s)
             if(control=="mode") {
                 if(stocks(s).any {!it.isEmpty} || !s.state().getItem(GEAR).isEmpty) {
@@ -272,7 +290,8 @@ object ThermalStations {
             updateOutputs(s)
             if(status(s)!="work")return
             val job=work?:return
-            val score=job.strike(s.level().gameTime,TemperAndTang.config.strikeIntervalTicks.get())?:return
+            val score=job.strike(WorkshopRhythm.evaluationTick(s.level().gameTime,player),TemperAndTang.config.strikeIntervalTicks.get(),s.level().gameTime)?:return
+            if(plan()?.polishing==true && refiningAttempt==null)refiningAttempt=RefiningAttempt(plan()!!,stocks(s).map(ItemStack::copy))
             SmithingFeedback.strike(s,"grid_4",score)
             if(job.ready) {
                 val gear=s.state().getItem(GEAR)
@@ -284,6 +303,7 @@ object ThermalStations {
                     if(forged.isEmpty)forged else ThermalState.unquenched(forged,s.level())
                 } else plan()?.output(stocks(s),s.level(),player,job.perfect,job.accuracy)?:ItemStack.EMPTY
                 if(result.isEmpty || result.count !in 1..(if(plan()?.polishing==true)8 else 1))return
+                refiningAttempt=null
                 if(reforging) {
                     s.state().setItem(GEAR,ItemStack.EMPTY)
                     s.state().setItem(FLUX,s.state().getItem(FLUX).copy().also {it.shrink(1)})
@@ -293,7 +313,7 @@ object ThermalStations {
                 }
                 val worn=s.state().getItem(HAMMER).copy().also {it.damageValue+=hammerCost}
                 s.state().setItem(HAMMER,if(worn.damageValue>=worn.maxDamage)ItemStack.EMPTY else worn)
-                committedTarget=resultTarget;committedCost=hammerCost
+                committedTarget=if(plan()?.polishing==true)result.copy()else resultTarget;committedCost=hammerCost
                 s.state().setItem(WORKPIECE,result)
                 player.server?.let {SmithingProgress.get(it).award(player.uuid,CraftRules.earnedXp(job.accuracy,reforging))}
 
@@ -303,12 +323,13 @@ object ThermalStations {
         override fun tick(s:StationContext) {
             if(s.isClientSide)return
             if(plans.isNotEmpty() && s.level().gameTime%20L==0L && plan()?.current(s.level())==false)refresh(s)
+            if(refiningAttempt!=null && stocks(s).filter(WorkshopPlans::metal).any {!ThermalState.hot(it,s.level())})reset(s)
             for(slot in (0..8).map(::grid)+GEAR) {
                 val stack=s.state().getItem(slot)
                 if(ThermalState.data(stack).getLong("hot_until")>0 && !ThermalState.hot(stack,s.level())) {s.state().setItem(slot,ThermalState.airCooled(stack,s.level()));reset(s)}
             }
             if(status(s)!="work" && s.state().getItem(WORKPIECE).isEmpty && work!=null)reset(s)
-            work?.tick(s.level().gameTime)
+            work?.tick(WorkshopRhythm.evaluationTick(s.level().gameTime,player(s)))
             updateOutputs(s)
         }
         override fun updateOutputs(s:StationContext) {
@@ -330,6 +351,10 @@ object ThermalStations {
             note(s,status,target,if(!state.getItem(GEAR).isEmpty || !actual.isEmpty)List(9){ItemStack.EMPTY}else plan()?.ghosts)
             val data=state.data().copy();val before=data.copy()
             data.putInt("category",category);data.putString("pattern_id",plan()?.id.toString());data.putBoolean("reforging",reforgeMode)
+            val refining=plan()?.recipe as? PrecisionRefiningRecipe
+            data.putBoolean("precision_refining",refining!=null)
+            data.putInt("refining_accuracy",((refining?.minimumAccuracy?:0.0)*100).toInt())
+            data.putBoolean("refining_failed",refining!=null && !actual.isEmpty && actual.item!=refining.getResultItem(s.level().registryAccess()).item)
             player(s)?.let {p->p.server?.let {server->val mastery=SmithingProgress.get(server);data.putInt("mastery",mastery.level(p.uuid));data.putLong("mastery_xp",mastery.xp(p.uuid))}}
             if(data!=before)state.setData(data)
         }

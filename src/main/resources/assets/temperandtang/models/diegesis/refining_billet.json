@@ -1,0 +1,77 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "textures": {
+    "metal": "minecraft:block/iron_block"
+  },
+  "elements": [
+    {
+      "from": [
+        3,
+        7,
+        5
+      ],
+      "to": [
+        13,
+        10,
+        11
+      ],
+      "faces": {
+        "north": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            3,
+            14,
+            11
+          ]
+        },
+        "south": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            3,
+            14,
+            11
+          ]
+        },
+        "west": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            3,
+            14,
+            11
+          ]
+        },
+        "east": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            3,
+            14,
+            11
+          ]
+        },
+        "up": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            3,
+            14,
+            11
+          ]
+        },
+        "down": {
+          "texture": "#metal",
+          "uv": [
+            2,
+            3,
+            14,
+            11
+          ]
+        }
+      }
+    }
+  ]
+}

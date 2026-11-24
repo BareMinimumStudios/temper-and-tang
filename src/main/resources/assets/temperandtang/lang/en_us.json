@@ -299,5 +299,8 @@
   "temperandtang.template.addition": "Diamond",
   "temperandtang.template.title": "Diamond Upgrade",
   "temperandtang.template.base_slot": "Add steel gear or a steel-forged weapon",
-  "temperandtang.template.addition_slot": "Add a diamond"
+  "temperandtang.template.addition_slot": "Add a diamond",
+  "temperandtang.short.refining_failed": "Refinement failed. Take the recovered scrap.",
+  "temperandtang.short.refining_accuracy": "%s%% accuracy needed for success.",
+  "emi.category.temperandtang.blueprints": "Blueprint Scribing"
 }

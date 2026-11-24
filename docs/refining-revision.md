@@ -4,7 +4,7 @@
 
 Copper + tin → bronze → iron → steel → diamond → netherite. Silver remains a proposed specialist finish, not another required tier.
 
-Five craftsmanship grades: Rough, Serviceable, Fine, Superior and Masterwork. Durability, attack damage/speed, armor and mining speed depend on workmanship. Material and one finishing treatment provide separate trade-offs. Existing Exceptional pieces migrate to Masterwork.
+Five craftsmanship grades: Rough, Serviceable, Fine, Superior and Masterwork. Durability, attack damage/speed, armor and mining speed depend on workmanship. Material and one finishing treatment provide separate trade-offs. Existing Exceptional records are read as Masterwork; their stored attributes are rebuilt when the equipment is next processed.
 
 Normal Simply Swords and Epic Knights equipment should retain its own item identity and abilities. Unique and runic weapons are excluded from forging/reforging. Diamond equipment upgrades from steel at a smithing table, using a structure-found template. Netherite requires demanding alloying and precision refinement before the normal diamond upgrade.
 
@@ -35,3 +35,23 @@ Both loader builds and 27 pure-rule tests pass. All 107 models were baked/render
 The recipe-graph audit passed 62 steel-to-diamond upgrades, including 53 native mod equipment routes, with quality/name/wear preservation and unique/runic exclusions. That audit predates the generalized precision-refining serializer and must be repeated on the final artifacts. Independent EMI, JEI and combined-viewer runtime tests, full mining progression, the new furnace's actual controls, failure/recovery, save/reload and multiplayer acceptance remain open.
 
 Recipe extension contracts: `temperandtang:alloying` accepts `requires_advanced_furnace`; `temperandtang:precision_refining` extends shaped recipe data with `minimum_accuracy`, `failure_result` and `strikes`. Add secondary ingredients to `temperandtang:alloy_additives`, and metal/billet inputs to `temperandtang:heatable_stock`. The normal count limit is eight items per workstation stock slot.
+
+Precision attempts commit on the first accepted blow. Inputs and the hammer are locked during that attempt. Closing or allowing the stock to cool after starting returns the failure output and charges only accepted hammer blows; closing before the first blow returns the untouched billet. This prevents free retries by cancelling a poor attempt.
+
+
+## Runtime checkpoint — refinement and recipe viewers
+
+Both-loader builds and 29 pure-rule tests pass. All 108 models were baked and rendered; all nine gallery pages were inspected, with 36 additional multi-angle tool/station views. Hammer handle bands were replaced with continuous wood grain in a separate model-fix commit.
+
+The current recipe-graph and real station-logic checks passed 62 steel-to-diamond upgrades (53 native), exact upgrade preservation, bronze mining eligibility, unique/runic exclusions and furnace-only netherite alloying. A full-duration furnace diagnostic consumed four scraps and four gold with one fuel charge. Twelve accurate blows produced one ingot; deliberately poor blows produced four scrap. Both paths consumed their input once, charged the hammer correctly, refused a second collection, and preserved outputs through item serialization.
+
+Cancellation was verified through the station close/item-return sequence: preparation returns the billet unchanged; after the first blow, inputs and controls lock and closure recovers exactly four scrap with accepted hammer wear. Repeated closure cannot duplicate the billet or scrap.
+
+JEI alone rendered all six workshop categories, including blueprint scribing, steel-core upgrades and precision refinement. Actual JEI item equivalence distinguishes ordinary iron from a steel-forged native weapon and distinguishes blueprint patterns, while custom names/wear do not split recipe lookup. EMI alone and with JEI rendered the categories. EMI alone also passed the same steel-core, blueprint, name and wear comparison checks.
+
+Station-manager checks cover all five stations using two simulated connections: exclusive ownership, unauthorized and stale actions, logout/cursor return, subsequent owner access and full-inventory overflow. This is not real remote-client coverage. Actual network latency, interrupted connections with real clients, both-loader saved-world testing, full-pack-copy startup and the final mining-through-finishing walkthrough remain acceptance work.
+
+
+The standalone dedicated NeoForge server passed the equipment/catalog checks (367 forging patterns: 246 Epic Knights, 30 Simply Swords, 20 Simply More, and remaining standalone/vanilla patterns), progression checks and the timed netherite success/failure loop, then saved and shut down normally.
+
+The isolated GUI bronze walkthrough now starts with actual survival block destruction and generated tin/copper loot. It completed refining, bronze alloying, six shaping strikes, barrel quenching and six finishing strikes, with exact fuel/leftover accounting and no hot-metal damage while tongs were equipped. Both anvil contact probes and the airflow/track probes passed. Six crafted/worn equipment records and mastery were checked after an actual saved-world restart. The iron-to-steel GUI route and fresh full-pack copy remain in progress.

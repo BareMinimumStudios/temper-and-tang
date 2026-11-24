@@ -51,9 +51,38 @@ object CraftVerification {
         fun press(key:String,custom:Boolean=true,data:CompoundTag=CompoundTag()) {ActionHandler.apply(context,logic,player,if(custom)StationAction.Custom(key,data)else StationAction.Press(key))}
         fun tick()=logic.tick(context)
         fun take()=logic.takeOutput(context,player,"result")
-        fun close()=ActionHandler.returnItems(context,logic,player,true)
+        fun close() {logic.onClose(context,player);ActionHandler.returnItems(context,logic,player,true)}
         fun count(item:Item)=player.inventory.items.filter {it.item==item}.sumOf {it.count}
         fun aim()=state.getControl("target")==0f
+    }
+    fun verifyRefiningCancellation(source:CommandSourceStack) {
+        val plan=WorkshopPlans.forming(source.level).single {it.polishing}
+        val billet=TemperContent.item("unrefined_netherite_alloy")
+        fun prepared():Fixture=Fixture(source,"shaping_anvil").also {f->
+            f.press("select_pattern",data=CompoundTag().also {it.putString("pattern",plan.id.toString())})
+            plan.ghosts.forEachIndexed {i,stack->f.put(T.grid(i),if(WorkshopPlans.metal(stack))ThermalState.heated(stack,source.level)else stack)}
+            f.put(T.HAMMER,ItemStack(TemperContent.item("smithing_hammer")))
+            check(f.state.data().getString("status")=="work") {"Refinement fixture not ready: ${f.state.data()}"}
+        }
+        val untouched=prepared()
+        untouched.close()
+        check(untouched.count(billet)==1 && untouched.count(Items.NETHERITE_SCRAP)==0)
+        check(untouched.player.inventory.items.single {it.item==TemperContent.item("smithing_hammer")}.damageValue==0)
+        val started=prepared()
+        started.press("strike")
+        check(started.state.getControl("progress")==1f) {"First refinement strike was rejected"}
+        val pattern=started.state.data().getString("pattern_id")
+        started.press("next");started.press("mode")
+        check(started.state.data().getString("pattern_id")==pattern)
+        check(!started.logic.mayTake(started.context,started.player,T.grid(1)))
+        check(!started.logic.mayPlace(started.context,started.player,T.HAMMER,ItemStack(Items.STICK)))
+        started.close()
+        check(started.count(billet)==0 && started.count(Items.NETHERITE_INGOT)==0 && started.count(Items.NETHERITE_SCRAP)==4) {"Cancelled refinement did not recover exactly four scrap"}
+        check(started.player.inventory.items.single {it.item==TemperContent.item("smithing_hammer")}.damageValue==1)
+        started.close()
+        check(started.count(Items.NETHERITE_SCRAP)==4 && started.count(billet)==0) {"Repeated closure duplicated refinement inputs"}
+        for(f in listOf(untouched,started))SmithingProgress.get(source.server).forgetFixture(f.player.uuid)
+        TemperAndTang.logger.info("REFINING_CANCELLATION_PASSED: reversible preparation, committed first strike, locked inputs and pattern, exact scrap recovery, hammer wear, idempotent item return")
     }
     private data class Job(val source:CommandSourceStack,val fixtures:List<Fixture>,val step:()->Boolean)
     private val jobs=mutableMapOf<Pair<MinecraftServer,String>,Job>()
@@ -204,7 +233,52 @@ object CraftVerification {
         if(routed && TemperAndTang.modLoaded("magistuarmory") && TemperAndTang.config.epicKnights.get())check(knights>0) {"Epic Knights patterns are missing"}
         if(routed && TemperAndTang.modLoaded("simplyswords") && TemperAndTang.config.simplySwords.get())check(swords>0) {"Simply Swords patterns are missing"}
         if(routed && TemperAndTang.modLoaded("simplymore") && TemperAndTang.config.simplyMore.get())check(more>0){"Simply More patterns are missing"}
-        TemperAndTang.logger.info("TEMPER_CRAFT_STATS_PASSED: {} gear types, six grades, stat/finish/persistence invariants; {} patterns ({} armor, {} Epic Knights, {} Simply Swords, {} Simply More)",stacks.size,patterns,armor,knights,swords,more)
+        TemperAndTang.logger.info("TEMPER_CRAFT_STATS_PASSED: {} gear types, five grades, stat/finish/persistence invariants; {} patterns ({} armor, {} Epic Knights, {} Simply Swords, {} Simply More)",stacks.size,patterns,armor,knights,swords,more)
+    }
+    fun startRefining(source:CommandSourceStack) {
+        val key=source.server to "refining";check(key !in jobs)
+        val level=source.level;val plan=WorkshopPlans.forming(level).single {it.polishing}
+        val furnace=Fixture(source,"alloy_furnace");val good=Fixture(source,"shaping_anvil");val poor=Fixture(source,"shaping_anvil")
+        furnace.put(T.STOCK,ItemStack(Items.NETHERITE_SCRAP,4));furnace.put(T.ADDITIVE,ItemStack(Items.GOLD_INGOT,4));furnace.put(T.FUEL,ItemStack(Items.COAL,8));furnace.press("heat")
+        val fuel=furnace.state.getItem(T.FUEL).count
+        check(fuel<8 && furnace.take().isEmpty)
+        repeat(5){furnace.press("heat")};check(furnace.state.getItem(T.FUEL).count==fuel)
+        val start=level.gameTime;var stage=0;var nextPoor=start
+        fun prepare(f:Fixture,stock:ItemStack) {
+            f.press("select_pattern",data=CompoundTag().also {it.putString("pattern",plan.id.toString())})
+            plan.ghosts.forEachIndexed {i,it->f.put(T.grid(i),if(it.isEmpty)it else stock.copyWithCount(1))}
+            f.put(T.HAMMER,ItemStack(TemperContent.item("smithing_hammer")))
+        }
+        jobs[key]=Job(source,listOf(furnace,good,poor)) {
+            check(level.gameTime-start<2200){"Netherite scenarios timed out at stage $stage"}
+            if(stage==0 && !furnace.state.getOutput("result").isEmpty) {
+                val billet=furnace.take()
+                check(billet.item==TemperContent.item("unrefined_netherite_alloy") && billet.count==1 && ThermalState.hot(billet,level))
+                check(furnace.state.getItem(T.STOCK).isEmpty && furnace.state.getItem(T.ADDITIVE).isEmpty && furnace.take().isEmpty)
+                check(furnace.state.getItem(T.FUEL).count==fuel)
+                prepare(good,billet);prepare(poor,ThermalState.heated(ItemStack(TemperContent.item("unrefined_netherite_alloy")),level));stage=1
+            }
+            if(stage==1) {
+                if(good.state.getItem(T.WORKPIECE).isEmpty && good.aim())good.press("strike")
+                if(poor.state.getItem(T.WORKPIECE).isEmpty && level.gameTime>=nextPoor && poor.state.getControl("target")>poor.state.getControl("window")+2) {poor.press("strike");nextPoor=level.gameTime+TemperAndTang.config.strikeIntervalTicks.get()}
+                if(!good.state.getItem(T.WORKPIECE).isEmpty && !poor.state.getItem(T.WORKPIECE).isEmpty) {
+                    check(good.state.getControl("accuracy")>=90f && poor.state.getControl("accuracy")<90f)
+                    val ingot=good.take();val scrap=poor.take()
+                    check(ingot.item==Items.NETHERITE_INGOT && ingot.count==1 && scrap.item==Items.NETHERITE_SCRAP && scrap.count==4)
+                    check(good.take().isEmpty && poor.take().isEmpty)
+                    for(f in listOf(good,poor)) {
+                        check((0..8).all {f.state.getItem(T.grid(it)).isEmpty})
+                        check(f.state.getItem(T.HAMMER).damageValue==plan.required())
+                    }
+                    val restored=ItemStack.parseOptional(level.registryAccess(),ingot.save(level.registryAccess()) as CompoundTag)
+                    check(restored.item==Items.NETHERITE_INGOT && restored.count==1)
+                    TemperAndTang.logger.info("NETHERITE_LOOP_PASSED: counted furnace alloy, one fuel charge, timed precision success and failure, exact outputs, consumed inputs, hammer wear and persistence")
+                    stage=2
+                }
+            }
+            stage==2
+        }
+        source.sendSuccess({Component.literal("Running isolated furnace and precision-refining scenarios...")},false)
     }
     fun startFinishing(source:CommandSourceStack) {
         val key=source.server to "finishing";check(key !in jobs)

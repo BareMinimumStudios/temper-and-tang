@@ -45,6 +45,7 @@ class HammerWork(private val required:Int,private val period:Int,private val bas
     var lastOffset=0;private set
     private var points=0.0
     private var lastHit=Long.MIN_VALUE
+    private var lastArrival=Long.MIN_VALUE
     private var minimumGap=8
     private var phraseChance=0
     private var tripleChance=0
@@ -90,14 +91,15 @@ class HammerWork(private val required:Int,private val period:Int,private val bas
         }
         return changed
     }
-    fun strike(now:Long,minGap:Int=8):Double? {
+    @JvmOverloads fun strike(now:Long,minGap:Int=8,arrivalTick:Long=now):Double? {
         if(!armed || ready || now<0 || lastHit!=Long.MIN_VALUE && (now<lastHit || now-lastHit<minGap.coerceAtLeast(1)))return null
+        if(arrivalTick<0 || lastArrival!=Long.MIN_VALUE && (arrivalTick<lastArrival || arrivalTick-lastArrival<minGap.coerceAtLeast(1)))return null
         tick(now)
         val delta=abs(now-target)
         val score=when {delta<=perfectWindow.toLong()->1.0;delta<=window->.75;delta<=window*2L->.40;else->.10}
         lastOffset=(now-target).coerceIn(-120,120).toInt()
         minimumGap=minGap.coerceIn(1,40)
-        lastHit=now;lastScore=score;hits++;points+=score;if(score==1.0)perfect++
+        lastHit=now;lastArrival=arrivalTick;lastScore=score;hits++;points+=score;if(score==1.0)perfect++
         combo=if(score>=.75)combo+1 else 0
         if(!ready)advance(now)
         return score

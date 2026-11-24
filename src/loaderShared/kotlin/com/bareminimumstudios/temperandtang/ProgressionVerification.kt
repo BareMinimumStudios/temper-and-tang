@@ -63,6 +63,7 @@ object ProgressionVerification {
         check(HearthProcesses.duration(plan,4)==1200)
         check(WorkshopPlans.heating(primary.copyWithCount(3),level,gold,true)==null)
         check(WorkshopPlans.heating(primary,level,gold.copyWithCount(3),true)==null)
+        CraftVerification.verifyRefiningCancellation(source)
         val refining=plans.single {it.polishing}
         check(refining.required()>=12 && refining.recipe.getResultItem(registry).item==Items.NETHERITE_INGOT)
         check(TemplateLoot.pool(ResourceLocation.withDefaultNamespace("chests/desert_pyramid"))!=null)

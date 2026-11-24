@@ -5,6 +5,11 @@ import com.pockyl.diegesis.api.state.StationState
 import net.minecraft.world.item.ItemStack
 
 object WorkshopRhythm {
+    fun evaluationTick(now:Long,player:net.minecraft.world.entity.player.Player?):Long {
+        val ping=(player as? net.minecraft.server.level.ServerPlayer)?.connection?.latency()?:0
+        return RhythmLatency.evaluationTick(now,ping,TemperAndTang.config.latencyCompensationTicks.get())
+    }
+
     fun material(gear:ItemStack,inputs:List<ItemStack> = emptyList())=CraftMaterials.recorded(gear).takeUnless {it==ForgeMaterial.NEUTRAL}?:CraftMaterials.choose(gear,inputs)
     fun profile(gear:ItemStack,inputs:List<ItemStack> = emptyList()):WorkRhythm {
         val c=TemperAndTang.config

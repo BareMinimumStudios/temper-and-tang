@@ -35,6 +35,7 @@ object TemperCommands {
                 context.source.sendSuccess({if(level>=20) Component.translatable("temperandtang.craft.mastery_max",level,data.xp(player.uuid)) else Component.translatable("temperandtang.craft.mastery_status",level,data.xp(player.uuid),com.bareminimumstudios.temperandtang.smithing.CraftRules.nextLevelXp(level))},false)
                 1
             })
+            .then(Commands.literal("verify_refining").requires {it.hasPermission(2)}.executes {context -> CraftVerification.startRefining(context.source);1})
             .then(Commands.literal("verify_metallurgy").requires {it.hasPermission(2)}.executes {context -> CraftVerification.startMetallurgy(context.source);1})
             .then(Commands.literal("verify_thermal").requires {it.hasPermission(2)}.executes { context -> ThermalVerification.start(context.source); 1 })
             .then(Commands.literal("verify_station").requires {it.hasPermission(2)}.executes { context ->

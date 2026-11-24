@@ -17,6 +17,16 @@ class TemperJeiPlugin:IModPlugin {
     companion object {val types=WorkshopCategory.entries.associateWith {RecipeType.create("temperandtang",it.key,WorkshopDisplay::class.java)}}
     override fun getPluginUid()=TemperAndTang.id("jei")
     private fun enabled()=!TemperAndTang.modLoaded("emi")
+    override fun registerItemSubtypes(registration:ISubtypeRegistration) {
+        if(!enabled())return
+        val interpreter=object:mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter<net.minecraft.world.item.ItemStack> {
+            override fun getSubtypeData(stack:net.minecraft.world.item.ItemStack,context:mezz.jei.api.ingredients.subtypes.UidContext):Any=WorkshopVariants.key(stack)
+            override fun getLegacyStringSubtypeInfo(stack:net.minecraft.world.item.ItemStack,context:mezz.jei.api.ingredients.subtypes.UidContext)=WorkshopVariants.key(stack)
+        }
+        for(example in WorkshopVariants.examples())registration.registerSubtypeInterpreter(example.item,interpreter)
+        registration.registerSubtypeInterpreter(com.bareminimumstudios.temperandtang.content.TemperContent.item("smithing_blueprint"),interpreter)
+    }
+    override fun registerExtraIngredients(registration:IExtraIngredientRegistration) {if(enabled())registration.addExtraItemStacks(WorkshopVariants.examples())}
     override fun registerCategories(registration:IRecipeCategoryRegistration) {
         if(!enabled())return
         for(kind in WorkshopCategory.entries)registration.addRecipeCategories(Category(kind,registration.jeiHelpers.guiHelper.createDrawableItemStack(kind.icon())))
@@ -47,8 +57,8 @@ class TemperJeiPlugin:IModPlugin {
         }
         override fun draw(recipe:WorkshopDisplay,slots:IRecipeSlotsView,graphics:GuiGraphics,mouseX:Double,mouseY:Double) {
             val font=Minecraft.getInstance().font
-            graphics.drawString(font,"→",110,39,0xB8A17A,false)
-            font.split(Component.literal(recipe.note),168).take(2).forEachIndexed {i,line->graphics.drawString(font,line,4,94+i*9,0x9EBE9B,false)}
+            graphics.drawString(font,"→",110,39,0x72532F,false)
+            font.split(Component.literal(recipe.note),168).take(2).forEachIndexed {i,line->graphics.drawString(font,line,4,94+i*9,0x35543B,false)}
         }
         override fun getTooltipStrings(recipe:WorkshopDisplay,slots:IRecipeSlotsView,mouseX:Double,mouseY:Double)=if(recipe.detail.isEmpty() || mouseY<90)emptyList()else listOf(Component.literal(recipe.detail))
     }

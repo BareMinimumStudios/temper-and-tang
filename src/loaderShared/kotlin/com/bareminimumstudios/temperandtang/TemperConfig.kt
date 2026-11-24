@@ -52,6 +52,8 @@ class TemperConfig : Config(TemperAndTang.id("config")) {
     var qualityMastery = ValidatedDouble(0.10,0.20,0.0)
     var qualityPower = ValidatedDouble(1.0,2.0,0.0)
     var timingJitter = ValidatedInt(6,12,0)
+    @Translatable.Desc("Maximum one-way ping allowance for server-graded strikes; raw click cooldowns still apply. 0 disables it.")
+    var latencyCompensationTicks = ValidatedInt(3,6,0)
     var sparks = ValidatedBoolean(true)
     var vanillaAnvilWorkshop = ValidatedBoolean(true)
     @ConfigGroup.Pop var blueprintMastery = ValidatedInt(1,20,0)

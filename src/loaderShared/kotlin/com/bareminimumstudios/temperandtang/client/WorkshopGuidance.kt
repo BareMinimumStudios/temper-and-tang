@@ -48,6 +48,7 @@ object WorkshopGuidance {
             waiting->Component.translatable(if(status=="need_experience")"temperandtang.short.xp_missing" else "temperandtang.short.pay",WorkshopText.number(TemperAndTang.config.experienceLevels.get()))
             working->Component.translatable("temperandtang.short.strike",key("SPACE"),WorkshopText.style(Component.translatable("temperandtang.guide.green"),WorkshopText.BENEFIT),WorkshopText.number(state.getControl("progress").toInt()),WorkshopText.number(required),WorkshopText.accuracy(state.getControl("accuracy").toInt()))
             action=="heat" && status=="heating" || action=="quench" && status=="quenching"->Component.translatable("temperandtang.short.progress",WorkshopText.number(state.getControl("progress").toInt()))
+            status=="ready" && data.getBoolean("refining_failed")->Component.translatable("temperandtang.short.refining_failed")
             status=="ready"->Component.translatable("temperandtang.short.ready_"+action)
             action=="quench" && status=="stock"->Component.translatable("temperandtang.short.workpiece")
             action=="finish"->Component.translatable("temperandtang.short.finish_"+status)
@@ -56,9 +57,10 @@ object WorkshopGuidance {
             status=="water"->Component.translatable("temperandtang.short.water_needed")
             else->Component.translatable("temperandtang.short."+status)
         }
-        val color=when {paid || status=="ready"->WorkshopText.BENEFIT;status in listOf("repair","reload","disabled","invalid_weapon")->WorkshopText.COST;else->WorkshopText.TEXT}
+        val color=when {data.getBoolean("refining_failed")->WorkshopText.COST;paid || status=="ready"->WorkshopText.BENEFIT;status in listOf("repair","reload","disabled","invalid_weapon")->WorkshopText.COST;else->WorkshopText.TEXT}
         val text=Component.empty().append(WorkshopText.style(header,WorkshopText.MUTED)).append(Component.literal("\n")).append(WorkshopText.style(message,color))
         val busy=working || status in listOf("heating","quenching","ready") || paid || waiting
+        if(working && action=="strike" && data.getBoolean("precision_refining"))text.append(Component.literal("\n")).append(WorkshopText.style(Component.translatable("temperandtang.short.refining_accuracy",WorkshopText.number(data.getInt("refining_accuracy"))),WorkshopText.MUTED))
         if(working && action=="finish")text.append(Component.literal("\n")).append(WorkshopText.style(Component.translatable("temperandtang.short.cost",WorkshopText.number(TemperAndTang.config.experienceLevels.get())),WorkshopText.MUTED))
         if(!busy) {
             val needs:Component=when(action) {

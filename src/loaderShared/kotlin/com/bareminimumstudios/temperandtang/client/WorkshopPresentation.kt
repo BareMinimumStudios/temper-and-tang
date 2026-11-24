@@ -37,7 +37,10 @@ class HammerPresentation(private val finishing:Boolean) {
     fun sync(view:StationView) {
         val state=view.state()
         val period=state.getControl("period").coerceAtLeast(1f)
-        val until=state.getControl("target").takeIf {it>0f}?:((.5f-state.getControl("phase"))*period)
+        val rawUntil=state.getControl("target").takeIf {it>0f}?:((.5f-state.getControl("phase"))*period)
+        val mc=net.minecraft.client.Minecraft.getInstance()
+        val ping=mc.player?.uuid?.let {mc.connection?.getPlayerInfo(it)?.latency}?:0
+        val until=rawUntil-com.bareminimumstudios.temperandtang.smithing.RhythmLatency.ticks(ping,TemperAndTang.config.latencyCompensationTicks.get())
         if(state.getControl("target")>0f || state.getControl("phase")>0f)beatArmed=true
         val id=state.data().getLong("rhythm_target")
         if(!initialized){marker=until;initialized=true}
@@ -59,7 +62,10 @@ class HammerPresentation(private val finishing:Boolean) {
         wasWorking=working
         if(strike==null && pending.isNotEmpty()){strike=pending.removeFirst();elapsed=0f;impacted=false}
         val show=working || busy
-        val contactY=surface(view)
+        val refining=!finishing && state.data().getBoolean("precision_refining")
+        val refiningBed=if(view.level().getBlockState(view.pos()).`is`(com.bareminimumstudios.temperandtang.content.TemperContent.block("shaping_anvil")))13.25f else 16f
+        val contactY=if(refining)refiningBed+3f*.42f else surface(view)
+        val workpieceY=if(refining)refiningBed+.42f else contactY-.15f
         val side=if(net.minecraft.client.Minecraft.getInstance().player?.mainArm==net.minecraft.world.entity.HumanoidArm.LEFT)-1 else 1
         val pose=view.node("strike_pose")
         val grip=if(pose.isPresent)Motion.sideHammerGrip(contactY,side)else Motion.hammerGrip(contactY)
@@ -83,14 +89,14 @@ class HammerPresentation(private val finishing:Boolean) {
             val targetItem=ResourceLocation.tryParse(id)?.let {BuiltInRegistries.ITEM.get(it)}?:net.minecraft.world.item.Items.AIR
             val required=if(finishing)TemperAndTang.config.requiredStrikes.get()else state.getControl("required").toInt().coerceAtLeast(1)
             val ratio=visibleHits.toFloat()/required
-            val stage=if(existing)id else when {ratio<.35f->"shaping_billet";ratio<.7f->if(WorkpieceForms.plate(targetItem))"armor_plate" else "drawn_stock";else->WorkpieceForms.model(targetItem)}
+            val stage=if(existing)id else if(state.data().getBoolean("precision_refining"))"refining_billet" else when {ratio<.35f->"shaping_billet";ratio<.7f->if(WorkpieceForms.plate(targetItem))"armor_plate" else "drawn_stock";else->WorkpieceForms.model(targetItem)}
             val key=(if(existing)"item:" else "stock:")+stage
             if(key!=lastTarget){
                 val visual=if(existing)ResourceLocation.tryParse(id)?.let {Visual.ofItem(BuiltInRegistries.ITEM.get(it))} else Visual.ofModel(TemperAndTang.id("diegesis/"+stage)).asEmissive()
                 visual?.let {v->view.node("workpiece_display").ifPresent {it.setVisual(v.withAnchor(Vector3f(8f,8f,8f)));it.rotateTo(if(existing)0f else -90f,0f,0f,0f)}}
                 lastTarget=key
             }
-            view.node("workpiece_display").ifPresent {it.setVisible(show && (existing || visibleHits>0) && (!ready || pending.isNotEmpty() || !impacted));it.moveTo(0f,contactY-0.15f,0f,0f);it.setTint(if(existing)0xFFFFFFFF.toInt() else 0xFFFFA06A.toInt())}
+            view.node("workpiece_display").ifPresent {it.setVisible(show && (existing || visibleHits>0) && (!ready || pending.isNotEmpty() || !impacted));it.moveTo(0f,workpieceY,0f,0f);it.setTint(if(existing)0xFFFFFFFF.toInt() else 0xFFFFA06A.toInt())}
             if(!finishing)view.node("pattern_board").ifPresent {it.setVisible(!show && !ready && !reforging);it.moveTo(0f,contactY-.14f,0f,0f)}
             if(!finishing) {
                 val metals=(0..8).filter {com.bareminimumstudios.temperandtang.smithing.WorkshopPlans.metal(state.getItem(com.bareminimumstudios.temperandtang.station.ThermalStations.grid(it)))}
