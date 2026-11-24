@@ -16,3 +16,5 @@ This presentation pass keeps the 0.7.0 survival recipes and equipment progressio
 Supplied animated fire textures interpolate between their original frames. Required dependencies and configuration settings are unchanged. See THIRD_PARTY_NOTICES.txt for supplied artwork credits.
 
 Common tool, melee-weapon, mining-tool, armor and enchantable tags cover both equipment families on both loaders. Workshop sorting tags cover stations, blueprints, compounds, finishing materials, workpieces and templates without changing slot restrictions or recipe eligibility.
+
+Tooltip polish: craftsmanship progresses through muted gray, ivory, green, light blue and gold. Finish labels are capitalized, non-italic and grouped under craftsmanship. Only the mod-owned legacy finish lore is hidden from the rendered tooltip; saved components and foreign lore are preserved. Finishing-material/flux item models use closed texel-aligned edges while retaining their native 16px sprites.

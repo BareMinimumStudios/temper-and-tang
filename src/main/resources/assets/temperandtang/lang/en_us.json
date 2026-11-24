@@ -298,5 +298,14 @@
   "temperandtang.guide.stat_loading": "loading speed",
   "temperandtang.guide.stat_projectile": "arrow damage",
   "block.temperandtang.nether_alloy_furnace": "Nether Alloy Furnace",
-  "temperandtang.station.clear_space": "Clear space around the workshop before using it."
+  "temperandtang.station.clear_space": "Clear space around the workshop before using it.",
+  "temperandtang.tooltip.finish": "%s \u00b7 %s",
+  "temperandtang.finish_name.tempered": "Tempered",
+  "temperandtang.finish_benefit.tempered": "Greater Durability",
+  "temperandtang.finish_name.keen": "Keen",
+  "temperandtang.finish_benefit.keen": "More Damage, Less Durability",
+  "temperandtang.finish_name.weighted": "Weighted",
+  "temperandtang.finish_benefit.weighted": "More Damage, Slower Attacks",
+  "temperandtang.finish_name.lightened": "Lightened",
+  "temperandtang.finish_benefit.lightened": "Faster Attacks, Less Durability"
 }

@@ -4,11 +4,14 @@ import com.bareminimumstudios.temperandtang.smithing.*
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.contents.TranslatableContents
 import net.minecraft.world.item.ItemStack
 import net.minecraft.ChatFormatting
 
 object ThermalTooltips {
     fun append(stack:ItemStack,lines:MutableList<Component>,details:Boolean=Screen.hasShiftDown()) {
+        // Replace only our legacy lore display; leave foreign lore and saved components intact.
+        lines.removeAll {(it.contents as? TranslatableContents)?.key?.startsWith("temperandtang.finish.")==true}
         val level=Minecraft.getInstance().level?:return
         if(ThermalState.hot(stack,level)) {
             val seconds=((ThermalState.data(stack).getLong("hot_until")-level.gameTime+19)/20).coerceAtLeast(0)
@@ -19,9 +22,13 @@ object ThermalTooltips {
         val shown=if(ThermalState.blank(stack))ItemStack.parseOptional(level.registryAccess(),ThermalState.data(stack).getCompound("weapon"))else stack
         val grade=Craftsmanship.grade(shown)
         if(grade!=null) {
-            val color=when(grade) {CraftGrade.ROUGH->ChatFormatting.GRAY;CraftGrade.SERVICEABLE->ChatFormatting.WHITE;CraftGrade.FINE->ChatFormatting.GREEN;CraftGrade.SUPERIOR->ChatFormatting.BLUE;CraftGrade.MASTERWORK->ChatFormatting.LIGHT_PURPLE}
-            lines.add(Component.translatable("temperandtang.quality."+grade.key).withStyle(color))
+            val color=when(grade) {CraftGrade.ROUGH->0xA29A91;CraftGrade.SERVICEABLE->0xE4E2DB;CraftGrade.FINE->0x7FC78C;CraftGrade.SUPERIOR->0x69B8EB;CraftGrade.MASTERWORK->0xE6BC63}
+            lines.add(WorkshopText.style(Component.translatable("temperandtang.quality."+grade.key),color))
         }else if(GearSupport.supported(stack))lines.add(Component.translatable("temperandtang.craft.unworked").withStyle(ChatFormatting.DARK_GRAY))
+        val finish=Finish.entries.firstOrNull {it.key==Craftsmanship.root(shown).getString("finish")}
+        if(finish!=null)lines.add(WorkshopText.style(Component.translatable("temperandtang.tooltip.finish",
+            WorkshopText.style(Component.translatable("temperandtang.finish_name."+finish.key),WorkshopText.QUANTITY),
+            Component.translatable("temperandtang.finish_benefit."+finish.key)),WorkshopText.MUTED).withStyle {it.withItalic(false)})
         val material=CraftMaterials.recorded(shown)
         if(material!=ForgeMaterial.NEUTRAL)lines.add(if(details)WorkshopDescriptions.material(shown)else WorkshopText.style(Component.translatable("temperandtang.short.material",WorkshopText.style(Component.translatable("temperandtang.material.name."+material.key),WorkshopText.QUANTITY)),WorkshopText.MUTED))
         val trait=CraftTraits.recorded(shown)

@@ -13,3 +13,5 @@ Verified November 24, 2026 in separate hidden test environments. The live New Te
 - The full workshop capture recorded 6,598 frames at 30 fps: 6,589 unique captures and nine inserted duplicates (99.86% unique). It is a real renderer capture, not a desktop recording. Source game audio is captured silently to a file.
 
 The full timeline keeps normal playback speed, including the one-minute netherite alloy wait. It ends with material-color comparisons and the separate staged equipment/item catalog. The video demonstrates the base mod in a dependency/compatibility test copy; it is not a full modpack stress or network-load certification. Station interactions, inventory layouts and assets were checked in game; arbitrary resource packs and third-party equipment rendering may vary.
+
+Additional presentation checks: all five craftsmanship tiers were captured through the normal in-game item tooltip with the revised colors and clean finish line. The five material/flux PNGs have only alpha 0/255; the replacement item edge models pass the model audit. No saved item statistics or lore components are rewritten by tooltip display.
