@@ -9,8 +9,18 @@ import net.minecraft.world.item.ItemStack
 
 /** Preserve workshop custody on connection loss, after station-specific cancellation settles its costs. */
 object WorkshopRecovery {
-    fun disconnected(station:StationContext,player:Player) {
+    private val active=java.util.WeakHashMap<ServerPlayer,Unit>()
+    fun opened(station:StationContext,player:Player) {
+        if(!station.isClientSide && player is ServerPlayer)active[player]=Unit
+    }
+    fun stopping(server:net.minecraft.server.MinecraftServer) {
+        for(player in active.keys.filter {it.server===server}.toList())
+            com.pockyl.diegesis.impl.server.StationManager.get(server).close(player,false)
+    }
+    fun clear(server:net.minecraft.server.MinecraftServer) {active.keys.removeIf {it.server===server}}
+    fun closed(station:StationContext,player:Player) {
         val owner=player as? ServerPlayer?:return
+        active.remove(owner)
         if(station.isClientSide || !owner.hasDisconnected() || owner.isDeadOrDying)return
         val items=mutableListOf<ItemStack>()
         val cursor=owner.inventoryMenu.carried

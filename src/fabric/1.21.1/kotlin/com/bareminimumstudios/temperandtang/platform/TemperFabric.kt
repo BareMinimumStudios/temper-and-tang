@@ -44,7 +44,8 @@ object TemperFabric : ModInitializer {
         TemperAndTang.initialize { FabricLoader.getInstance().isModLoaded(it) }
         net.fabricmc.fabric.api.loot.v3.LootTableEvents.MODIFY.register {key,builder,_,_->com.bareminimumstudios.temperandtang.compat.TemplateLoot.pool(key.location())?.let {builder.withPool(it)} }
         ServerTickEvents.END_SERVER_TICK.register { server -> com.bareminimumstudios.temperandtang.smithing.HotMetalHandling.tick(server); StationVerification.tick(server) }
-        ServerLifecycleEvents.SERVER_STOPPED.register { server -> StationVerification.stop(server); com.bareminimumstudios.temperandtang.smithing.HotMetalHandling.clear() }
+        ServerLifecycleEvents.SERVER_STOPPING.register { server -> com.bareminimumstudios.temperandtang.station.WorkshopRecovery.stopping(server) }
+        ServerLifecycleEvents.SERVER_STOPPED.register { server -> StationVerification.stop(server); com.bareminimumstudios.temperandtang.station.WorkshopRecovery.clear(server); com.bareminimumstudios.temperandtang.smithing.HotMetalHandling.clear() }
         CommandRegistrationCallback.EVENT.register { dispatcher, _, _ -> TemperCommands.register(dispatcher) }
     }
 }

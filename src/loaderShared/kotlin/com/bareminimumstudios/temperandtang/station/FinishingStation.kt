@@ -42,8 +42,8 @@ object FinishingStation {
     }
     private class Logic:StationLogic {
         private val timing=WorkshopRhythm.Measurement()
-        override fun onOpen(s:StationContext,player:Player)=timing.begin(s)
-        override fun onClose(s:StationContext,player:Player)=WorkshopRecovery.disconnected(s,player)
+        override fun onOpen(s:StationContext,player:Player) {WorkshopRecovery.opened(s,player);timing.begin(s)}
+        override fun onClose(s:StationContext,player:Player)=WorkshopRecovery.closed(s,player)
         private var work:HammerWork?=null
         private fun valid(s:StationContext):Boolean {
             val state=s.state();val finish=WeaponFinishes.ingredient(state.getItem(MATERIAL))?:return false

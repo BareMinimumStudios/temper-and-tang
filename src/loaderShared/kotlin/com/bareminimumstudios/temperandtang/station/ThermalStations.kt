@@ -80,7 +80,8 @@ object ThermalStations {
             .exclusive().openWhen { _,_,_ -> active() }.logic { Trough() }.register()
     }
     private class Hearth : StationLogic {
-        override fun onClose(s:StationContext,player:Player)=WorkshopRecovery.disconnected(s,player)
+        override fun onOpen(s:StationContext,player:Player)=WorkshopRecovery.opened(s,player)
+        override fun onClose(s:StationContext,player:Player)=WorkshopRecovery.closed(s,player)
         private var start = -1L
         private var end = -1L
         private var plan: WorkshopPlans.Heating? = null
@@ -230,8 +231,8 @@ object ThermalStations {
         }
         override fun mayPlace(s:StationContext,player:Player,slot:SlotRef,stack:ItemStack)=refiningAttempt==null
         override fun mayTake(s:StationContext,player:Player,slot:SlotRef)=refiningAttempt==null
-        override fun onClose(s:StationContext,player:Player) {if(!s.isClientSide){reset(s);WorkshopRecovery.disconnected(s,player)}}
-        override fun onOpen(s:StationContext,player:Player) {refresh(s);timing.begin(s);updateOutputs(s)}
+        override fun onClose(s:StationContext,player:Player) {if(!s.isClientSide){reset(s);WorkshopRecovery.closed(s,player)}}
+        override fun onOpen(s:StationContext,player:Player) {WorkshopRecovery.opened(s,player);refresh(s);timing.begin(s);updateOutputs(s)}
         override fun onSlotChanged(s:StationContext,slot:SlotRef) {
             if(slot==GEAR && !s.state().getItem(GEAR).isEmpty)reforgeMode=true
             if(slot==BLUEPRINT) {
@@ -369,7 +370,8 @@ object ThermalStations {
         }
     }
     private class Trough : StationLogic {
-        override fun onClose(s:StationContext,player:Player)=WorkshopRecovery.disconnected(s,player)
+        override fun onOpen(s:StationContext,player:Player)=WorkshopRecovery.opened(s,player)
+        override fun onClose(s:StationContext,player:Player)=WorkshopRecovery.closed(s,player)
         private var start = -1L
         private var end = -1L
         private var input = ItemStack.EMPTY

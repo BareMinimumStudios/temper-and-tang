@@ -47,7 +47,8 @@ class TemperNeoForge(bus: IEventBus) {
         NeoForge.EVENT_BUS.addListener { event: net.neoforged.neoforge.event.LootTableLoadEvent -> com.bareminimumstudios.temperandtang.compat.TemplateLoot.pool(event.name)?.let {event.table.addPool(it.build())} }
         NeoForge.EVENT_BUS.addListener { event: RegisterCommandsEvent -> TemperCommands.register(event.dispatcher) }
         NeoForge.EVENT_BUS.addListener { event: ServerTickEvent.Post -> com.bareminimumstudios.temperandtang.smithing.HotMetalHandling.tick(event.server); StationVerification.tick(event.server) }
-        NeoForge.EVENT_BUS.addListener { event: ServerStoppedEvent -> StationVerification.stop(event.server); com.bareminimumstudios.temperandtang.smithing.HotMetalHandling.clear() }
+        NeoForge.EVENT_BUS.addListener { event: net.neoforged.neoforge.event.server.ServerStoppingEvent -> com.bareminimumstudios.temperandtang.station.WorkshopRecovery.stopping(event.server) }
+        NeoForge.EVENT_BUS.addListener { event: ServerStoppedEvent -> StationVerification.stop(event.server); com.bareminimumstudios.temperandtang.station.WorkshopRecovery.clear(event.server); com.bareminimumstudios.temperandtang.smithing.HotMetalHandling.clear() }
         bus.addListener { event: FMLClientSetupEvent -> event.enqueueWork { com.bareminimumstudios.temperandtang.client.TemperClient.initialize(); NeoForge.EVENT_BUS.addListener { tooltip: net.neoforged.neoforge.event.entity.player.ItemTooltipEvent -> com.bareminimumstudios.temperandtang.client.ThermalTooltips.append(tooltip.itemStack,tooltip.toolTip) } } }
         blocks.register(bus)
         items.register(bus)
