@@ -20,6 +20,8 @@ A good weapon begins with good work. Strike accuracy, material and smithing expe
 
 For **Minecraft 1.21.1**, on **Fabric and NeoForge**. Install it on the server and every client.
 
+**Current revision: 0.7.1, in playtesting.** See the [playtest guide](docs/PLAYTESTING.md) for what to try and the [release notes](RELEASE_NOTES.md) for this revision.
+
 ## Heat, shape, quench, finish
 
 ### Stoke the hearth
@@ -42,7 +44,7 @@ Some advanced equipment needs a matching blueprint. Choose the pattern, insert a
 
 ### Take the workpiece to water
 
-The result of shaping is an **Unquenched Workpiece**, not a usable weapon. It carries the equipment you are making and the quality you earned. Take it with tongs, add water to the barrel, and quench it. If it cools before you get there, reheat it at the hearth.
+The result of shaping is an **Unquenched Workpiece**, not usable equipment. It carries the equipment you are making and the quality you earned. Take it with tongs, add water to the barrel, and quench it. If it cools before you get there, reheat it at the hearth.
 
 ![Lowering the workpiece into the quenching barrel](docs/images/quenching.png)
 
@@ -71,6 +73,18 @@ Ore appears in newly generated Overworld chunks. See the [metallurgy guide](docs
 **Rough · Serviceable · Fine · Superior · Masterwork**
 
 Quality affects durability and the stats that matter to the equipment: damage and handling for weapons, protection for armor, mining speed for tools. The tooltip keeps the grade, finish, material and trait together. Hold **Shift** for the details and maker's mark.
+
+## Forge your armor
+
+Helmets, chestplates, leggings and boots use the same heating, shaping, quenching and finishing loop. Armor patterns take more strikes than a basic sword. Craftsmanship changes durability and protection, with toughness bonuses where the base armor has toughness. Material and traits can add movement trade-offs.
+
+Armor accepts **Tempered** for more durability or **Lightened** for quicker movement at a durability cost. Keen and Weighted are weapon finishes. Existing unstamped armor stays unchanged until you process it.
+
+![Steel armor and its matching tools](docs/images/steel-equipment.png)
+
+Supported Epic Knights armor uses its native item and a matching reusable blueprint. Ordinary supported Simply Swords and Simply More weapons use their native patterns; unique and legendary weapons are excluded. These are optional integrations: the workshop has its own tin, bronze and steel equipment and does not require another smithing mod.
+
+Supported steel-to-diamond and diamond-to-netherite upgrades carry workmanship and finishing forward. Enchantments remain an extra enhancement. See [compatibility](docs/COMPATIBILITY.md) for the supported scope.
 
 ## Install
 

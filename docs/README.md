@@ -1,5 +1,7 @@
 # Temper & Tang guides
 
+For revision **0.7.1**, Minecraft **1.21.1**, Fabric and NeoForge.
+
 - [Start at the workshop](THERMAL_WORKSHOP.md)
 - [Metals, ores and equipment](METALLURGY.md)
 - [Craftsmanship, materials and traits](MATERIALS_AND_TRAITS.md)
@@ -8,6 +10,7 @@
 - [Datapacks and integrations](API.md)
 - [Compatibility](COMPATIBILITY.md)
 - [Artwork](ASSETS.md)
+- [Playtesting and reporting problems](PLAYTESTING.md)
 - [Verification](VERIFICATION.md)
 - [Release preparation](RELEASING.md)
 

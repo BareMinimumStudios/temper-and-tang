@@ -57,6 +57,16 @@ Use cooled equipment, a hammer and one finishing material at the finishing anvil
 
 Lower precision reduces the treatment's strength. A new finish replaces the previous one. Craftsmanship is separate and has the larger effect on equipment quality.
 
+## Make armor
+
+Search for the helmet, chestplate, leggings or boots you want at the shaping anvil. Check the ingredients before heating the metal. Armor takes extra shaping strikes, then returns an unquenched workpiece just like a weapon. Quench it before wearing or finishing it.
+
+Craftsmanship affects durability, armor protection and existing toughness. Armor traits can favor durability, protection or movement, with a trade-off. Hold Shift over the finished piece to read its effects.
+
+Use Tempering Compound for a **Tempered** durability finish, or a Lightweight Grip for **Lightened** movement at a durability cost. Honing Compound and Balance Weight are for weapons. Finishing does not reroll craftsmanship.
+
+Epic Knights armor needs its matching reusable blueprint. Ordinary standalone tin, bronze and steel armor does not. Your existing unprocessed armor is not automatically given a new quality grade when you install the mod.
+
 ## Improve the equipment
 
 Bronze opens iron mining. Iron and carbon become steel. Upgrade steel gear to diamond at a smithing table with a structure-found Diamond Upgrade Template and a diamond. Use a normal Netherite Upgrade Template and the alloyed netherite ingot for the next step.

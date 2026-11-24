@@ -36,6 +36,12 @@ Tin, bronze and steel have their own tools, swords and armor. Silver adds a dist
 
 ![Tin equipment](https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/tin-equipment.png)
 
+## Armor belongs at the anvil too
+
+Forge helmets, chestplates, leggings and boots through the same workshop stages. Armor takes extra strikes; craftsmanship affects durability, protection and existing toughness. Temper it for durability or lighten it for movement at a durability cost.
+
+Optional Simply Swords and Simply More support covers ordinary weapons. Epic Knights equipment uses its native patterns and a matching reusable blueprint. Unique and legendary weapons stay outside the normal forging route. Supported smithing upgrades preserve craftsmanship and finishing.
+
 ## Getting started
 
 Install the matching build on the server and every client. Both loaders need **Diegesis 1.0.0-beta.19** and **Fzzy Config**. Fabric also needs **Fabric API** and **Fabric Language Kotlin**; NeoForge needs **Kotlin for Forge**. Use **Java 21**.
