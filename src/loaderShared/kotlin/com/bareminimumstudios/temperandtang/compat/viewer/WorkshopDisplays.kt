@@ -29,7 +29,7 @@ object WorkshopDisplays {
         }
         for(holder in level.recipeManager.getAllRecipesFor(AlloyRecipes.TYPE)) {
             val recipe=holder.value();val advanced=recipe.requiresAdvanced
-            out+=WorkshopDisplay(id("alloying",holder.id()),WorkshopCategory.ALLOYING,listOf(recipe.primary.items.map {it.copyWithCount(recipe.primaryCount)},recipe.additive.items.map {it.copyWithCount(recipe.additiveCount)},list(Items.CHARCOAL,ThermalRules.coalCost(recipe.cookingTime))),recipe.result.copy(),listOf(ItemStack(TemperContent.item(if(advanced)"nether_alloy_forge"else"alloy_forge"))),if(advanced)"Nether furnace required."else"Alloy in either alloy furnace.","Charcoal shown as fuel example; any furnace fuel works. Carbon for steel is separate.")
+            out+=WorkshopDisplay(id("alloying",holder.id()),WorkshopCategory.ALLOYING,listOf(recipe.primary.items.map {it.copyWithCount(recipe.primaryCount)},recipe.additive.items.map {it.copyWithCount(recipe.additiveCount)},list(Items.CHARCOAL,ThermalRules.coalCost(recipe.cookingTime))),recipe.result.copy(),listOf(ItemStack(TemperContent.item(if(advanced)"nether_alloy_forge"else"alloy_forge"))),if(advanced)"Requires the Nether Alloy Forge."else"Works in either forge.","Charcoal shown as fuel example; any furnace fuel works. Carbon for steel is separate.")
         }
         for(plan in WorkshopPlans.forming(level)) {
             val result=plan.recipe.getResultItem(registry).copy()
