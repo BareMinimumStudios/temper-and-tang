@@ -5,6 +5,7 @@
     64
   ],
   "textures": {
+    "particle": "minecraft:block/spruce_planks",
     "2": "temperandtang:block/workshop_six/blacksmith_water_barrel",
     "inside": "minecraft:block/stripped_spruce_log",
     "floor": "minecraft:block/spruce_planks",
