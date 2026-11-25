@@ -58,7 +58,7 @@ class TemperJeiPlugin:IModPlugin {
         }
         override fun draw(recipe:WorkshopDisplay,slots:IRecipeSlotsView,graphics:GuiGraphics,mouseX:Double,mouseY:Double) {
             val font=Minecraft.getInstance().font
-            graphics.drawString(font,"→",110,39,0x72532F,false)
+            WorkshopProgress.draw(graphics, kind)
             font.split(Component.literal(recipe.note),168).take(2).forEachIndexed {i,line->graphics.drawString(font,line,4,94+i*9,0x35543B,false)}
         }
         override fun getTooltipStrings(recipe:WorkshopDisplay,slots:IRecipeSlotsView,mouseX:Double,mouseY:Double)=if(recipe.detail.isEmpty() || mouseY<90)emptyList()else listOf(Component.literal(recipe.detail))

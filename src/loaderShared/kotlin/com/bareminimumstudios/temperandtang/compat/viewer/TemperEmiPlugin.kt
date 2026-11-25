@@ -41,7 +41,7 @@ class TemperEmiPlugin:EmiPlugin {
         override fun addWidgets(widgets:WidgetHolder) {
             display.inputs.forEachIndexed {i,items->if(items.isNotEmpty()){val (x,y)=display.location(i);widgets.addSlot(EmiIngredient.of(items.map(::ingredientStack)),x,y)}}
             display.catalysts.forEachIndexed {i,item->widgets.addSlot(EmiStack.of(item),4+i*20,72).catalyst(true)}
-            widgets.addText(Component.literal("→"),110,39,0x72532F,false)
+            widgets.addDrawable(0, 0, 176, 112) { graphics, _, _, _ -> WorkshopProgress.draw(graphics, display.category) }
             widgets.addSlot(EmiStack.of(display.output),142,34).large(true).recipeContext(this)
             Minecraft.getInstance().font.split(Component.literal(display.note),168).take(2).forEachIndexed {i,line->widgets.addText(line,4,94+i*9,0x35543B,false)}
             if(display.detail.isNotEmpty())widgets.addTooltipText(listOf(Component.literal(display.detail)),0,92,176,20)
