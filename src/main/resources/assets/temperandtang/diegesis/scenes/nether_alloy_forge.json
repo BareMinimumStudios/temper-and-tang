@@ -48,7 +48,7 @@
             0
           ],
           "visual": {
-            "model": "temperandtang:diegesis/nether_alloy_furnace_body",
+            "model": "temperandtang:diegesis/nether_alloy_forge_body",
             "anchor": [
               0,
               0,
@@ -152,7 +152,7 @@
             0
           ],
           "visual": {
-            "model": "temperandtang:diegesis/nether_alloy_furnace_fire",
+            "model": "temperandtang:diegesis/nether_alloy_forge_fire",
             "anchor": [
               0,
               0,

@@ -1,7 +1,7 @@
 {
   "variants": {
     "facing=north,part=0": {
-      "model": "temperandtang:block/nether_alloy_furnace",
+      "model": "temperandtang:block/alloy_forge",
       "y": 0
     },
     "facing=north,part=1": {
@@ -33,7 +33,7 @@
       "y": 0
     },
     "facing=east,part=0": {
-      "model": "temperandtang:block/nether_alloy_furnace",
+      "model": "temperandtang:block/alloy_forge",
       "y": 90
     },
     "facing=east,part=1": {
@@ -65,7 +65,7 @@
       "y": 90
     },
     "facing=south,part=0": {
-      "model": "temperandtang:block/nether_alloy_furnace",
+      "model": "temperandtang:block/alloy_forge",
       "y": 180
     },
     "facing=south,part=1": {
@@ -97,7 +97,7 @@
       "y": 180
     },
     "facing=west,part=0": {
-      "model": "temperandtang:block/nether_alloy_furnace",
+      "model": "temperandtang:block/alloy_forge",
       "y": 270
     },
     "facing=west,part=1": {

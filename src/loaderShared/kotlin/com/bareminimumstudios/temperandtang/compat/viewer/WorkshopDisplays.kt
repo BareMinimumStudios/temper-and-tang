@@ -9,7 +9,7 @@ import net.minecraft.world.item.*
 import net.minecraft.world.item.crafting.*
 import net.minecraft.world.level.Level
 
-enum class WorkshopCategory(val station:String) { REFINING("minecraft:furnace"),ALLOYING("alloy_furnace"),FORGING("shaping_anvil"),FINISHING("finishing_anvil"),UPGRADING("minecraft:smithing_table"),BLUEPRINTS("shaping_anvil");
+enum class WorkshopCategory(val station:String) { REFINING("minecraft:furnace"),ALLOYING("alloy_forge"),FORGING("shaping_anvil"),FINISHING("finishing_anvil"),UPGRADING("minecraft:smithing_table"),BLUEPRINTS("shaping_anvil");
     val key get()=name.lowercase(java.util.Locale.ROOT)
     fun icon()=if(station.contains(':'))ItemStack(if(station=="minecraft:furnace")Items.FURNACE else Items.SMITHING_TABLE)else ItemStack(TemperContent.item(station))
 }
@@ -29,7 +29,7 @@ object WorkshopDisplays {
         }
         for(holder in level.recipeManager.getAllRecipesFor(AlloyRecipes.TYPE)) {
             val recipe=holder.value();val advanced=recipe.requiresAdvanced
-            out+=WorkshopDisplay(id("alloying",holder.id()),WorkshopCategory.ALLOYING,listOf(recipe.primary.items.map {it.copyWithCount(recipe.primaryCount)},recipe.additive.items.map {it.copyWithCount(recipe.additiveCount)},list(Items.CHARCOAL,ThermalRules.coalCost(recipe.cookingTime))),recipe.result.copy(),listOf(ItemStack(TemperContent.item(if(advanced)"nether_alloy_furnace"else"alloy_furnace"))),if(advanced)"Nether furnace required."else"Alloy in either alloy furnace.","Charcoal shown as fuel example; any furnace fuel works. Carbon for steel is separate.")
+            out+=WorkshopDisplay(id("alloying",holder.id()),WorkshopCategory.ALLOYING,listOf(recipe.primary.items.map {it.copyWithCount(recipe.primaryCount)},recipe.additive.items.map {it.copyWithCount(recipe.additiveCount)},list(Items.CHARCOAL,ThermalRules.coalCost(recipe.cookingTime))),recipe.result.copy(),listOf(ItemStack(TemperContent.item(if(advanced)"nether_alloy_forge"else"alloy_forge"))),if(advanced)"Nether furnace required."else"Alloy in either alloy furnace.","Charcoal shown as fuel example; any furnace fuel works. Carbon for steel is separate.")
         }
         for(plan in WorkshopPlans.forming(level)) {
             val result=plan.recipe.getResultItem(registry).copy()

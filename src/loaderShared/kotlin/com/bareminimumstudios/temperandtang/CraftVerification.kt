@@ -352,7 +352,7 @@ object CraftVerification {
         val key=source.server to "metallurgy";check(key !in jobs)
         val level=source.level
         val fixtures=mutableListOf<Fixture>()
-        fun make()=Fixture(source,"alloy_furnace").also {fixtures.add(it)}
+        fun make()=Fixture(source,"alloy_forge").also {fixtures.add(it)}
         val bronze=TemperContent.item("bronze_ingot");val tin=TemperContent.item("tin_ingot");val steel=TemperContent.item("steel_ingot")
         val bridgeId=ResourceLocation.fromNamespaceAndPath("magistuarmory","furnace/steel_ingot_blasting")
         val example=com.google.gson.JsonParser.parseString("""{"type":"minecraft:blasting","ingredient":{"item":"minecraft:iron_ingot"},"result":{"id":"magistuarmory:steel_ingot"},"cookingtime":40,"experience":0.5}""")

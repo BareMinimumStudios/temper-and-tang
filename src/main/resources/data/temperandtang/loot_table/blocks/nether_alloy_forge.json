@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "temperandtang:alloy_furnace"
+          "name": "temperandtang:nether_alloy_forge"
         }
       ],
       "conditions": [
@@ -15,7 +15,7 @@
         },
         {
           "condition": "minecraft:block_state_property",
-          "block": "temperandtang:alloy_furnace",
+          "block": "temperandtang:nether_alloy_forge",
           "properties": {
             "part": "0"
           }

@@ -84,7 +84,7 @@ print('Validated output bindings against the Diegesis output schema.')
 
 # Focused bodies and world meshes must differ only by their uniform workshop transform.
 import copy
-for station,scale in [('alloy_furnace',2.0),('nether_alloy_furnace',2.0)]:
+for station,scale in [('alloy_forge',2.0),('nether_alloy_forge',2.0)]:
     source=models['diegesis/'+station+'_unscaled']
     expected=copy.deepcopy(source)
     for element in expected['elements']:

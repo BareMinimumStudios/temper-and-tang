@@ -38,7 +38,7 @@ object ThermalStations {
         if (data != before) s.state().setData(data)
     }
     fun register() {
-        for(name in listOf("charcoal_hearth","alloy_furnace","nether_alloy_furnace")) Diegesis.station(TemperAndTang.id(name)).block { TemperContent.block(name) }
+        for(name in listOf("charcoal_hearth","alloy_forge","nether_alloy_forge")) Diegesis.station(TemperAndTang.id(name)).block { TemperContent.block(name) }
             .anchor(com.bareminimumstudios.temperandtang.content.WorkshopBlock::anchor)
             .schema(StationSchema.builder()
                 .slots("stock",1,SlotRules.DEFAULT.maxStack(8).accepts { if(name=="charcoal_hearth")WorkshopPlans.heatable(it) else WorkshopPlans.stock(it) })
@@ -84,7 +84,7 @@ object ThermalStations {
     private class Hearth : StationLogic {
         private fun resolve(s:StationContext,stock:ItemStack):WorkshopPlans.Heating? {
             if(s.blockState().`is`(TemperContent.block("charcoal_hearth")))return if(s.state().getItem(ADDITIVE).isEmpty)WorkshopPlans.heating(stock,s.level())else null
-            return HearthProcesses.alloy(stock,s.state().getItem(ADDITIVE),s.level())?.takeIf {!it.requiresAdvanced || s.blockState().`is`(TemperContent.block("nether_alloy_furnace"))}
+            return HearthProcesses.alloy(stock,s.state().getItem(ADDITIVE),s.level())?.takeIf {!it.requiresAdvanced || s.blockState().`is`(TemperContent.block("nether_alloy_forge"))}
         }
         override fun onOpen(s:StationContext,player:Player)=WorkshopRecovery.opened(s,player)
         override fun onClose(s:StationContext,player:Player)=WorkshopRecovery.closed(s,player)

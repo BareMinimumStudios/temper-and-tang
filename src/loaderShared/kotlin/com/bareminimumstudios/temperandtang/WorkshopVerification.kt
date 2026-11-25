@@ -56,15 +56,15 @@ object WorkshopVerification {
                 val input=ItemStack(raw)
                 add("charcoal_hearth",input,ItemStack.EMPTY,ItemStack(Items.COAL),ingot,1,HearthProcesses.duration(checkNotNull(WorkshopPlans.heating(input,source.level)),1))
             }
-            add("alloy_furnace",ItemStack(Items.COPPER_INGOT,3),ItemStack(tin),ItemStack(Items.OAK_PLANKS,2),bronze,4,200)
-            add("alloy_furnace",ItemStack(Items.IRON_INGOT),ItemStack(Items.COAL),ItemStack(Items.STICK,4),steel,1,240)
-            add("alloy_furnace",ItemStack(Items.IRON_INGOT),ItemStack(Items.CHARCOAL),ItemStack(Items.COAL_BLOCK),steel,1,240)
-            add("nether_alloy_furnace",ItemStack(Items.IRON_INGOT),ItemStack(Items.CHARCOAL),ItemStack(Items.LAVA_BUCKET),steel,1,240)
-            add("nether_alloy_furnace",ItemStack(Items.COPPER_INGOT,3),ItemStack(tin),ItemStack(Items.BLAZE_ROD),bronze,4,200)
-            add("nether_alloy_furnace",ItemStack(Items.NETHERITE_SCRAP,4),ItemStack(Items.GOLD_INGOT,4),ItemStack(Items.CHARCOAL),Items.NETHERITE_INGOT,1,1200)
-            val reject=CraftVerification.Fixture(source,"alloy_furnace")
+            add("alloy_forge",ItemStack(Items.COPPER_INGOT,3),ItemStack(tin),ItemStack(Items.OAK_PLANKS,2),bronze,4,200)
+            add("alloy_forge",ItemStack(Items.IRON_INGOT),ItemStack(Items.COAL),ItemStack(Items.STICK,4),steel,1,240)
+            add("alloy_forge",ItemStack(Items.IRON_INGOT),ItemStack(Items.CHARCOAL),ItemStack(Items.COAL_BLOCK),steel,1,240)
+            add("nether_alloy_forge",ItemStack(Items.IRON_INGOT),ItemStack(Items.CHARCOAL),ItemStack(Items.LAVA_BUCKET),steel,1,240)
+            add("nether_alloy_forge",ItemStack(Items.COPPER_INGOT,3),ItemStack(tin),ItemStack(Items.BLAZE_ROD),bronze,4,200)
+            add("nether_alloy_forge",ItemStack(Items.NETHERITE_SCRAP,4),ItemStack(Items.GOLD_INGOT,4),ItemStack(Items.CHARCOAL),Items.NETHERITE_INGOT,1,1200)
+            val reject=CraftVerification.Fixture(source,"alloy_forge")
             try {reject.put(T.STOCK,ItemStack(Items.NETHERITE_SCRAP,4));reject.put(T.ADDITIVE,ItemStack(Items.GOLD_INGOT,4));reject.put(T.FUEL,ItemStack(Items.COAL));reject.press("heat");check(reject.state.getControl("progress")==0f && reject.state.getItem(T.FUEL).count==1 && reject.take().isEmpty)}finally{reject.close()}
-            val cancel=CraftVerification.Fixture(source,"alloy_furnace")
+            val cancel=CraftVerification.Fixture(source,"alloy_forge")
             cancel.put(T.STOCK,ItemStack(Items.IRON_INGOT));cancel.put(T.ADDITIVE,ItemStack(Items.CHARCOAL));cancel.put(T.FUEL,ItemStack(Items.OAK_PLANKS));cancel.press("heat");cancel.close()
             check(cancel.count(Items.IRON_INGOT)==1 && cancel.count(Items.CHARCOAL)==1 && cancel.count(steel)==0){"Cancel created metal or lost inputs"}
             val hearth=CraftVerification.Fixture(source,"charcoal_hearth")
@@ -88,7 +88,7 @@ object WorkshopVerification {
     fun stop(server:MinecraftServer){release(server);warming.remove(server);jobs.remove(server)?.cases?.forEach {it.fixture.close()}}
     private fun geometry(source:CommandSourceStack){
         val level=source.level;val origin=BlockPos.containing(source.position).offset(2048,0,2048).atY(280)
-        for((number,name)in listOf("charcoal_hearth","alloy_furnace","nether_alloy_furnace").withIndex())for(facing in Direction.Plane.HORIZONTAL){
+        for((number,name)in listOf("charcoal_hearth","alloy_forge","nether_alloy_forge").withIndex())for(facing in Direction.Plane.HORIZONTAL){
             val block=TemperContent.block(name) as WorkshopBlock;val state=block.defaultBlockState().setValue(WorkshopBlock.FACING,facing);val root=origin.offset(number*12,0,facing.ordinal*12)
             val occupied=block.occupied(root,state);check(occupied.all {level.getBlockState(it).isAir}){"Diagnostic region occupied"}
             try {

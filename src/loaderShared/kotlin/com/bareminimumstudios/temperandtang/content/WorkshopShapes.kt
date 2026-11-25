@@ -22,7 +22,7 @@ internal object WorkshopShapes {
             doubleArrayOf(0.0,8.015625,3.45,2.5,14.25,12.55),
             doubleArrayOf(2.5,5.34375,2.15,13.5,14.25,13.85)
         )
-        "alloy_furnace", "nether_alloy_furnace" -> listOf(
+        "alloy_forge", "nether_alloy_forge" -> listOf(
             doubleArrayOf(4.0,0.0,5.625,12.0,10.0,13.625), // Body
             doubleArrayOf(4.75,0.0,2.375,11.25,2.75,5.625), // Basin
             doubleArrayOf(4.5,10.0,6.125,11.5,11.0,13.125), // Hood

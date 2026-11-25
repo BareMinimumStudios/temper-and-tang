@@ -41,8 +41,8 @@ class TemperJeiPlugin:IModPlugin {
     override fun registerRecipeCatalysts(registration:IRecipeCatalystRegistration) {
         if(!enabled())return
         for(kind in WorkshopCategory.entries)registration.addRecipeCatalyst(kind.icon(),types.getValue(kind))
-        registration.addRecipeCatalyst(net.minecraft.world.item.ItemStack(com.bareminimumstudios.temperandtang.content.TemperContent.item("alloy_furnace")),types.getValue(WorkshopCategory.ALLOYING))
-        registration.addRecipeCatalyst(net.minecraft.world.item.ItemStack(com.bareminimumstudios.temperandtang.content.TemperContent.item("nether_alloy_furnace")),types.getValue(WorkshopCategory.ALLOYING))
+        registration.addRecipeCatalyst(net.minecraft.world.item.ItemStack(com.bareminimumstudios.temperandtang.content.TemperContent.item("alloy_forge")),types.getValue(WorkshopCategory.ALLOYING))
+        registration.addRecipeCatalyst(net.minecraft.world.item.ItemStack(com.bareminimumstudios.temperandtang.content.TemperContent.item("nether_alloy_forge")),types.getValue(WorkshopCategory.ALLOYING))
     }
     private class Category(val kind:WorkshopCategory,val categoryIcon:IDrawable):IRecipeCategory<WorkshopDisplay> {
         override fun getRecipeType()=types.getValue(kind)
