@@ -10,6 +10,10 @@ import net.minecraft.core.Direction
 import net.minecraft.network.chat.Component
 import net.minecraft.server.MinecraftServer
 import net.minecraft.world.item.*
+import net.minecraft.world.item.context.BlockPlaceContext
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.Vec3
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.entity.item.ItemEntity
@@ -89,8 +93,17 @@ object WorkshopVerification {
             val occupied=block.occupied(root,state);check(occupied.all {level.getBlockState(it).isAir}){"Diagnostic region occupied"}
             try {
                 level.getEntitiesOfClass(ItemEntity::class.java,AABB(root).inflate(5.0)).forEach {it.discard()}
+                val context = object : BlockPlaceContext(level, null, InteractionHand.MAIN_HAND, ItemStack(block),
+                    BlockHitResult(Vec3.atCenterOf(root), Direction.UP, root, false)) {
+                    override fun getHorizontalDirection() = facing.opposite
+                }
+                val blocked = occupied.last()
+                level.setBlock(blocked, Blocks.STONE.defaultBlockState(), 3)
+                check(block.getStateForPlacement(context) == null) { "Placement accepted a blocked station footprint" }
+                level.removeBlock(blocked, false)
+                check(block.getStateForPlacement(context) == state) { "Clear station footprint refused placement" }
                 level.setBlock(root,state,3)
-                val blocked=occupied.last();level.setBlock(blocked,Blocks.STONE.defaultBlockState(),3)
+                level.setBlock(blocked,Blocks.STONE.defaultBlockState(),3)
                 check(!WorkshopBlock.ensureSpace(level,root,state) && level.getBlockState(blocked).`is`(Blocks.STONE)){"Legacy assembly overwrote a neighbor"}
                 level.removeBlock(blocked,false)
                 check(WorkshopBlock.ensureSpace(level,root,state)){"Legacy root could not reserve clear space"}

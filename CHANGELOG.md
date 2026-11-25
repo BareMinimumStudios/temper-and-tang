@@ -2,6 +2,11 @@
 
 ## 0.7.1
 
+- Add independent tin and silver generation toggles and concentrate veins at distinct Overworld heights.
+- Align forge collision with the visible basin, body and chimney. Check the complete footprint before placing a station.
+- Use the names Alloy Forge and Nether Alloy Forge and render the Nether palette consistently in the world, inventory and workshop view.
+- Animate refining and alloying progress in EMI and JEI, and restore wooden quenching-barrel particles.
+
 - Add the original silver-white tin equipment family and a darker steel palette.
 - Add standalone silver resources, ore generation, common tags and Epic Knights silver blueprint integration.
 - Correct world cutout rendering for transparent furnace grates and bellows.

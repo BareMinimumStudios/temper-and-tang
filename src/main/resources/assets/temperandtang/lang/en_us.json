@@ -296,7 +296,7 @@
   "temperandtang.short.finish_empty_cursor": "Put the held item away.",
   "temperandtang.guide.stat_loading": "loading speed",
   "temperandtang.guide.stat_projectile": "arrow damage",
-  "block.temperandtang.nether_alloy_furnace": "Nether Alloy Furnace",
+  "block.temperandtang.nether_alloy_furnace": "Nether Alloy Forge",
   "temperandtang.station.clear_space": "Clear space around the workshop before using it.",
   "temperandtang.tooltip.finish": "%s \u00b7 %s",
   "temperandtang.finish_name.tempered": "Tempered",

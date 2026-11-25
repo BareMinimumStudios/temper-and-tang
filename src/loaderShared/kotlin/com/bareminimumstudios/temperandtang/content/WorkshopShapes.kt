@@ -22,8 +22,17 @@ internal object WorkshopShapes {
             doubleArrayOf(0.0,8.015625,3.45,2.5,14.25,12.55),
             doubleArrayOf(2.5,5.34375,2.15,13.5,14.25,13.85)
         )
-        "alloy_furnace" -> listOf(doubleArrayOf(4.0,0.0,2.375,12.0,15.0,13.625))
-        "nether_alloy_furnace" -> listOf(doubleArrayOf(4.0,0.0,2.375,12.0,15.0,13.625))
+        "alloy_furnace", "nether_alloy_furnace" -> listOf(
+            doubleArrayOf(4.0,0.0,5.625,12.0,10.0,13.625), // Body
+            doubleArrayOf(4.75,0.0,2.375,11.25,2.75,5.625), // Basin
+            doubleArrayOf(4.5,10.0,6.125,11.5,11.0,13.125), // Hood
+            doubleArrayOf(4.5,9.75,3.5,11.5,10.25,6.5), // Awning
+            doubleArrayOf(5.5,5.25,5.1125,10.5,8.75,5.625), // Door
+            doubleArrayOf(7.0,1.75,4.8375,9.0,3.75,5.8375), // Spout
+            doubleArrayOf(6.125,11.0,7.75,9.875,12.0,11.5), // Chimney base
+            doubleArrayOf(6.375,12.0,8.0,9.625,14.0,11.25),
+            doubleArrayOf(6.125,14.0,7.75,9.875,15.0,11.5)
+        )
         "trough" -> listOf(
             doubleArrayOf(11.8,15.2,5.5,13.7,15.95,5.9),
             doubleArrayOf(11.8,15.2,10.1,13.7,15.95,10.5),
@@ -39,7 +48,6 @@ internal object WorkshopShapes {
             doubleArrayOf(1.196,3.7952,10.56,9.644,4.4096,11.584),
             doubleArrayOf(1.196,3.7952,5.44,1.964,4.4096,10.56),
             doubleArrayOf(8.876,3.7952,5.44,9.644,4.4096,10.56),
-            doubleArrayOf(2.156,4.4096,4.928,8.684,4.7168,11.072),
             doubleArrayOf(2.156,4.4096,4.928,8.684,4.7168,11.072),
             doubleArrayOf(10.989635,4.568298,6.944,14.253635,6.296298,9.056),
             doubleArrayOf(13.869635,3.032298,5.888,14.445635,4.760298,6.464),

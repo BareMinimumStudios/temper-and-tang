@@ -5,6 +5,7 @@ import com.bareminimumstudios.temperandtang.StationVerification
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
+import com.bareminimumstudios.temperandtang.content.OreGenerationFilter
 import com.bareminimumstudios.temperandtang.content.TemperContent
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.loader.api.FabricLoader
@@ -22,6 +23,8 @@ import net.minecraft.world.level.levelgen.GenerationStep
 
 object TemperFabric : ModInitializer {
     override fun onInitialize() {
+        Registry.register(BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, TemperAndTang.id("tin_enabled"), OreGenerationFilter.TIN)
+        Registry.register(BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, TemperAndTang.id("silver_enabled"), OreGenerationFilter.SILVER)
         Registry.register(BuiltInRegistries.RECIPE_TYPE, TemperAndTang.id("shaping"), com.bareminimumstudios.temperandtang.smithing.ThermalRecipes.TYPE)
         Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, TemperAndTang.id("shaping_shapeless"), com.bareminimumstudios.temperandtang.smithing.ThermalRecipes.SHAPELESS)
         Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, TemperAndTang.id("shaping"), com.bareminimumstudios.temperandtang.smithing.ThermalRecipes.SERIALIZER)

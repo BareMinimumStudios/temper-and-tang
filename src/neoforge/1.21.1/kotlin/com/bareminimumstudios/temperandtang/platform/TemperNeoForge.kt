@@ -6,6 +6,7 @@ import net.neoforged.neoforge.event.tick.ServerTickEvent
 import net.neoforged.neoforge.event.server.ServerStoppedEvent
 import net.neoforged.neoforge.common.NeoForge
 import net.neoforged.neoforge.event.RegisterCommandsEvent
+import com.bareminimumstudios.temperandtang.content.OreGenerationFilter
 import com.bareminimumstudios.temperandtang.content.TemperContent
 import net.minecraft.core.registries.Registries
 import net.minecraft.world.item.BlockItem
@@ -28,6 +29,10 @@ class TemperNeoForge(bus: IEventBus) {
     private val recipeTypes = DeferredRegister.create(Registries.RECIPE_TYPE, TemperAndTang.MOD_ID)
     private val recipeSerializers = DeferredRegister.create(Registries.RECIPE_SERIALIZER, TemperAndTang.MOD_ID)
     init {
+        val placementModifiers = DeferredRegister.create(Registries.PLACEMENT_MODIFIER_TYPE, TemperAndTang.MOD_ID)
+        placementModifiers.register("tin_enabled", java.util.function.Supplier { OreGenerationFilter.TIN })
+        placementModifiers.register("silver_enabled", java.util.function.Supplier { OreGenerationFilter.SILVER })
+        placementModifiers.register(bus)
         com.bareminimumstudios.temperandtang.smithing.WorkshopFuel.burnTime={ (it as net.neoforged.neoforge.common.extensions.IItemStackExtension).getBurnTime(net.minecraft.world.item.crafting.RecipeType.SMELTING) }
         com.bareminimumstudios.temperandtang.smithing.WorkshopFuel.remainder={ (it as net.neoforged.neoforge.common.extensions.IItemStackExtension).craftingRemainingItem }
 
@@ -52,8 +57,6 @@ class TemperNeoForge(bus: IEventBus) {
         NeoForge.EVENT_BUS.addListener { event: ServerTickEvent.Post -> com.bareminimumstudios.temperandtang.smithing.HotMetalHandling.tick(event.server); StationVerification.tick(event.server) }
         NeoForge.EVENT_BUS.addListener { event: net.neoforged.neoforge.event.server.ServerStoppingEvent -> com.bareminimumstudios.temperandtang.station.WorkshopRecovery.stopping(event.server) }
         NeoForge.EVENT_BUS.addListener { event: ServerStoppedEvent -> StationVerification.stop(event.server); com.bareminimumstudios.temperandtang.station.WorkshopRecovery.clear(event.server); com.bareminimumstudios.temperandtang.smithing.HotMetalHandling.clear() }
-        bus.addListener { event: net.neoforged.neoforge.client.event.RegisterColorHandlersEvent.Block -> event.register({_,_,_,_->0xB39DA8},TemperContent.block("nether_alloy_furnace")) }
-        bus.addListener { event: net.neoforged.neoforge.client.event.RegisterColorHandlersEvent.Item -> event.register({_,_->0xB39DA8},TemperContent.item("nether_alloy_furnace")) }
         bus.addListener { event: FMLClientSetupEvent -> event.enqueueWork { com.bareminimumstudios.temperandtang.client.TemperClient.initialize(); NeoForge.EVENT_BUS.addListener { tooltip: net.neoforged.neoforge.event.entity.player.ItemTooltipEvent -> com.bareminimumstudios.temperandtang.client.ThermalTooltips.append(tooltip.itemStack,tooltip.toolTip) } } }
         blocks.register(bus)
         items.register(bus)

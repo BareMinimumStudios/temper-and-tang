@@ -5,9 +5,9 @@
     128
   ],
   "textures": {
-    "2": "temperandtang:block/workshop_six/blacksmith_furnace",
+    "2": "temperandtang:block/workshop_six/nether_forge",
     "4": "temperandtang:block/workshop_six/blacksmith_forge_lava",
-    "particle": "temperandtang:block/workshop_six/blacksmith_furnace"
+    "particle": "temperandtang:block/workshop_six/nether_forge"
   },
   "elements": [
     {

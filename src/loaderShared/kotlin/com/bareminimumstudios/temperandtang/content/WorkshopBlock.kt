@@ -14,12 +14,12 @@ import net.minecraft.world.level.block.state.properties.*
 import net.minecraft.world.phys.shapes.*
 
 /** A single owned station spanning real occupied cells; every part anchors to the same session. */
-class WorkshopBlock(properties:BlockBehaviour.Properties,val kind:String):Block(properties.pushReaction(net.minecraft.world.level.material.PushReaction.BLOCK)) {
-    val scale=when(kind){"hearth","alloy_furnace","nether_alloy_furnace"->2.0;else->1.0}
+class WorkshopBlock(properties:BlockBehaviour.Properties,kind:String):Block(properties.pushReaction(net.minecraft.world.level.material.PushReaction.BLOCK)) {
+    private val scale=when(kind){"hearth","alloy_furnace","nether_alloy_furnace"->2.0;else->1.0}
     val width=if(scale>1)2 else 1
     val height=if(kind.endsWith("alloy_furnace"))2 else 1
     private val cells=buildList {for(y in 0 until height)for(z in 0 until width)for(x in 0 until width)add(BlockPos(x,y,z))}
-    private val parts=WorkshopShapes.parts(kind).map {box->DoubleArray(6){i->box[i]*scale+if(i%3!=1)(width*8-8*scale)else 0.0}}
+    private val parts=WorkshopShapes.parts(kind).map { box -> box.map { it * scale }.toDoubleArray() }
     private fun turns(facing:Direction)=when(facing){Direction.EAST->1;Direction.SOUTH->2;Direction.WEST->3;else->0}
     private fun offset(index:Int,facing:Direction):BlockPos {var p=cells.getOrElse(index){BlockPos.ZERO};repeat(turns(facing)){p=BlockPos(-p.z,p.y,p.x)};return p}
     private val shapes=Direction.Plane.HORIZONTAL.associateWith {facing->cells.indices.map {index->
@@ -34,7 +34,12 @@ class WorkshopBlock(properties:BlockBehaviour.Properties,val kind:String):Block(
     fun occupied(pos:BlockPos,state:BlockState)=cells.indices.map {pos.offset(offset(it,state.getValue(FACING)))}
     override fun getStateForPlacement(context:BlockPlaceContext):BlockState? {
         val state=defaultBlockState().setValue(FACING,context.horizontalDirection.opposite)
-        if(occupied(context.clickedPos,state).any {p->!context.level.isInWorldBounds(p) || !context.level.getBlockState(p).canBeReplaced(context)})return null
+        val level = context.level
+        for ((index, pos) in occupied(context.clickedPos, state).withIndex()) {
+            if (!level.isInWorldBounds(pos) || !level.worldBorder.isWithinBounds(pos) ||
+                !level.hasChunkAt(pos) || !level.getBlockState(pos).canBeReplaced(context)) return null
+            if (index != 0 && !level.isUnobstructed(state.setValue(PART, index), pos, CollisionContext.empty())) return null
+        }
         return state
     }
     override fun setPlacedBy(level:Level,pos:BlockPos,state:BlockState,placer:LivingEntity?,stack:ItemStack){
