@@ -1,223 +1,278 @@
 # Changelog
 
-## 0.7.1
+Notable changes to Temper & Tang are recorded here. Dates for earlier playtests reflect their development milestones.
+
+This changelog follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and version numbers follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### Changed
+
+- Reuse shaping-anvil slots between ticks and check the grid for cold metal in one pass.
+- Select the highest-priority alloy recipe without sorting the full recipe list.
+
+## [0.7.1] - 2026-11-27
+
+### Added
 
 - Add independent tin and silver generation toggles and concentrate veins at distinct Overworld heights.
-- Align forge collision with the visible basin, body and chimney. Check the complete footprint before placing a station.
-- Use the names Alloy Forge and Nether Alloy Forge and render the Nether palette consistently in the world, inventory and workshop view.
-- Animate refining and alloying progress in EMI and JEI, and restore wooden quenching-barrel particles.
-
 - Add the original silver-white tin equipment family and a darker steel palette.
 - Add standalone silver resources, ore generation, common tags and Epic Knights silver blueprint integration.
-- Correct world cutout rendering for transparent furnace grates and bellows.
+- Add a small supported quench rest and a vertical-first, steeper tong path that clears the barrel.
 
+### Changed
+
+- Use the names Alloy Forge and Nether Alloy Forge and render the Nether palette consistently in the world, inventory and workshop view.
+- Animate refining and alloying progress in EMI and JEI, and restore wooden quenching-barrel particles.
 - Color shaping blanks from the selected metal palette while sharing their geometry and retaining wooden/leather details. Steel-core native recipes use the actual steel inputs.
-
 - Use the same compact red-topped forge geometry for both furnaces, with a muted Nether tint and untinted fire on the advanced version.
 - Preserve supplied animated logs, fire and interior textures and interpolate animation frames.
-- Match focused and world models, separate coplanar door faces, and bring the focused camera closer.
-- Remove the blaze-powder control and loose furnace particle effects; place fuel in the firebox and hide its display while burning.
-- Anchor hearth gusts to the actual bellows nozzle and route them toward the coals through the complete scene transform.
-- Correct front-view recipe row/column orientation, ground output displays, and separate the finishing compound from the timing track.
-- Add a small supported quench rest and a vertical-first, steeper tong path that clears the barrel.
 - Use title case for craftsmanship grade labels.
 
-## 0.7.0
+### Removed
+
+- Remove the blaze-powder control and loose furnace particle effects; place fuel in the firebox and hide its display while burning.
+
+### Fixed
+
+- Align forge collision with the visible basin, body and chimney. Check the complete footprint before placing a station.
+- Correct world cutout rendering for transparent furnace grates and bellows.
+- Match focused and world models, separate coplanar door faces, and bring the focused camera closer.
+- Anchor hearth gusts to the actual bellows nozzle and route them toward the coals through the complete scene transform.
+- Correct front-view recipe row/column orientation, ground output displays, and separate the finishing compound from the timing track.
+
+## [0.7.0] - 2026-11-24
+
+### Added
 
 - Add dedicated tin resources, bronze/steel equipment and worn armor textures, plus distinct workshop material and blueprint icons.
-- Keep tin as an alloy ingredient and remove the standalone dagger, spear and warhammer families. Extra weapons use installed optional equipment mods.
+
+### Changed
+
 - Separate hearth heating, ordinary alloying and Nether alloying; use clay/carbon station recipes and direct scrap-plus-gold netherite output.
 - Accept ordinary furnace fuels, preserve container remainders and keep steel carbon separate from fuel.
 - Give hearths and furnaces full workshop proportions, occupied placement space, shared session anchors and single-drop part cleanup. Safely assemble clear space around older station roots.
 - Preserve legacy billet recovery, existing settings, native gear identity and template upgrade progression.
 
-## 0.6.0 â€” in development
+### Removed
 
-- Use five craftsmanship grades, migrate old Exceptional records, and apply quality to handling and mining speed.
-- Exclude unique/runic Simply Swords families from forging and reforge acceptance.
-- Preserve normal optional weapon identities, including steel-core recipes and template-gated diamond upgrades.
+- Keep tin as an alloy ingredient and remove the standalone dagger, spear and warhammer families. Extra weapons use installed optional equipment mods.
+
+## [0.6.0] - 2026-11-24
+
+### Added
+
 - Add structure-found diamond templates and route Epic Knights diamond equipment through native steel counterparts.
 - Add bronze-before-iron mining and bronze-compatible tongs for a reachable early workshop.
 - Add the supplied water barrel and furnace, restore uniform tong thickness, and preserve tool UVs through rotation.
 - Add counted high-temperature netherite alloying and data-driven precision refinement with scrap recovery.
 - Add optional EMI/JEI workshop recipe categories and a complete model/scene resource audit.
+
+### Changed
+
+- Use five craftsmanship grades, migrate old Exceptional records, and apply quality to handling and mining speed.
+- Exclude unique/runic Simply Swords families from forging and reforge acceptance.
+- Preserve normal optional weapon identities, including steel-core recipes and template-gated diamond upgrades.
 - Preserve workshop inputs through disconnect/reconnect and calibrate bounded rhythm timing from server-measured connection round trips.
 - Verify actual two-client custody, cancellation and precision refinement under delayed TCP on both loaders; remaining acceptance stays in progress.
 
-## 0.5.1
+## [0.5.1] - 2026-11-24
+
+### Added
 
 - Add searchable pattern selection with F, automatic layout matching, and restoration of a valid saved pattern.
+- Add the Mine Furniture pallet support and matching timber surfaces, with retained creator credit.
+
+### Changed
+
 - Allow pattern selection while holding hot stock; prevent mouse-release clicks from activating nearby stations.
 - Center the four workstation cameras and align station collision geometry in every horizontal orientation.
 - Adapt the supplied Workshop Six hearth, anvils, hammer, tongs and animated bellows; fit the hearth and bellows inside one block.
-- Add the Mine Furniture pallet support and matching timber surfaces, with retained creator credit.
 - Smooth quenching acceleration and jaw closure, calibrate tool contacts, and synchronize air bursts to actual compression.
 - Keep rhythm notes continuous across phrase changes and bound clock corrections so the marker cannot reverse under jitter.
 - Reuse bellows leather meshes to reduce allocation during animation.
 - Restrict alloy additives to an extendable ingredient tag; retain server-enforced finishing material restrictions.
 - Build against Diegesis beta.19 on Fabric and NeoForge.
 
-## 0.5.0
+## [0.5.0] - 2026-11-23
+
+### Added
 
 - Added standalone bronze/steel tools and armor, plus bronze/iron/steel daggers, spears and warhammers (27 owned equipment items total).
 - Added counted, data-driven hearth refining and alloying with a separate additive dish, concise yield/fuel guidance and exact input consumption.
 - Added steel ingots, nuggets and storage blocks; retained the furnace bronze bootstrap and added bronze tongs crafting.
 - Added common tags, vanilla armor trims, appropriate creative tabs and optional Better Combat profiles.
-- Bridged only Epic Knights' unchanged fast steel shortcut into carbon alloying. Removed/custom recipes remain authoritative.
-- Preserved native gilding material records and external upgrade components, raw durability adjustments and foreign affixes without quality stacking.
 - Added codec, batch, survival-route, cancellation, preservation and actual workstation client checks on both loaders.
 
-## 0.4.2
+### Changed
+
+- Bridged only Epic Knights' unchanged fast steel shortcut into carbon alloying. Removed/custom recipes remain authoritative.
+- Preserved native gilding material records and external upgrade components, raw durability adjustments and foreign affixes without quality stacking.
+
+## [0.4.2] - 2026-11-23
+
+### Changed
 
 - Preserved separate bellows compression puffs while smoothing their timing, texture, fade-in and the coals' brightness response.
 - Gathered heated ingredients onto the anvil face before the first strike, then retained the existing shaping sequence.
 - Recorded accurate bronze, accurate expert diamond triples, missed-note recovery and deliberately poor forging, using actual survival actions and unchanged random quality rolls.
 
-## 0.4.1
+## [0.4.1] - 2026-11-23
+
+### Added
+
+- Added visible, directed air streaks at the bellows nozzle, timed to compression, plus a brief flame and ember response.
+
+### Changed
 
 - Replaced separate phrase lights with incoming gold strike markers on the same timing rail. Every note crosses one fixed green target; upcoming notes keep their spacing as the active strike changes.
 - Made the perfect band match its actual time window on a shared track scale. Added full-bright target and note visuals for readability.
-- Added visible, directed air streaks at the bellows nozzle, timed to compression, plus a brief flame and ember response.
 - Kept quality based on accuracy: doubles and triples do not grant a separate rarity bonus. Missed notes reduce accuracy as before.
 
-## 0.4.0
+## [0.4.0] - 2026-11-23
+
+### Added
 
 - Added compact stage, action and ingredient guidance, with muted color cues, H for optional help and Shift for detailed equipment tooltips.
 - Added recorded material trade-offs, with additive common tags and neutral behavior for unrecognized materials.
 - Added one accuracy-influenced, server-rolled equipment trait; material and equipment family influence its pool. Finishing preserves traits and paid reforging replaces them.
 - Added distinct intermediate blanks for tools, polearms, shields and all armor slots, scaled to each recipe's required blow count.
 - Added practical tool rests and blueprint clips without retiming the hammer, bellows or quenching motions.
-- Closed the metal-tool filter gap, including low-damage hoes. Verified complete cross-mod pattern routes rather than only their recipe matches.
+
+### Changed
+
 - Preserved raw durability baselines, wear, names, enchantments, foreign data, material/trait strengths and netherite upgrade behavior.
 
+### Fixed
 
-## 0.3.2
+- Closed the metal-tool filter gap, including low-damage hoes. Verified complete cross-mod pattern routes rather than only their recipe matches.
+
+## [0.3.2] - 2026-11-23
+
+### Added
 
 - Added fitted bench planks, joinery pegs, foot bindings and anvil holdfasts.
-- Recessed the anvil tooling holes while preserving both striking surfaces.
-- Wrapped the finishing stump with continuous iron bands and added fine end-grain checks.
 - Added soot lining, an ash-pan pull, nozzle collar and braced bellows support to the hearth.
 - Added separate trough staves, band rivets and a timber drain plug.
+
+### Changed
+
+- Recessed the anvil tooling holes while preserving both striking surfaces.
+- Wrapped the finishing stump with continuous iron bands and added fine end-grain checks.
 - Detailed the bellows with lid tacks, handle fittings and leather welts that follow the existing folds.
 - Preserved the simpler hammer, strike/dip motions, timing, sounds, particles, recipes and configuration.
 
+## [0.3.1] - 2026-11-23
 
-## 0.3.1
+### Changed
 
 - Matched the inventory and animated hammer, with exact workpiece contact, metallic impact sounds and visible sparks on both anvils.
 - Shaping now progresses from ingredients through a billet and blade blank; completed equipment appears after the final blow.
-- Added folding leather bellows with a hinged lid, handle, airflow and responsive embers. Corrected overhanging model UVs.
 - Tongs grip and dip the workpiece below the water, with steam and a hiss at immersion.
 - Refined workstation frames, metal bands and fasteners; separated timing gauge layers and smoothed motion between server updates.
-- Kept changing progress captions fully visible instead of restarting their fade on every strike.
 - Preserved recipes, progression, costs and existing configuration settings.
 
+### Fixed
 
+- Added folding leather bellows with a hinged lid, handle, airflow and responsive embers. Corrected overhanging model UVs.
+- Kept changing progress captions fully visible instead of restarting their fade on every strike.
 
+## [0.3.0] - 2026-11-23
 
-## 0.3.0 â€” Craftsmanship
-
-
+### Added
 
 - Standalone shaping for supported shaped and shapeless equipment recipes, including metal armor, tools, shields, Simply Swords and Epic Knights.
-
 - Variable hammer timing with scored accuracy, missed-beat penalties, latency tolerance and server-owned random quality rolls.
-
 - Six craftsmanship grades, maker and accuracy records, player smithing mastery and reusable advanced blueprints.
-
 - Heated gear reforging with consumable flux, bounded mastery gains and safeguards against free repair or repeated bonuses.
+- Directional workstations, contextual slots, timing gauges, owned tongs animation, water, embers, tiny strike sparks and varied anvil sounds.
+
+### Changed
 
 - Precision finishing complements craftsmanship; names, enchantments, foreign data and damage survive the workflow and netherite upgrades.
 
-- Directional workstations, contextual slots, timing gauges, owned tongs animation, water, embers, tiny strike sparks and varied anvil sounds.
+## [0.2.1] - 2026-11-22
 
-
-
-
-## 0.2.1
-
-
+### Added
 
 - Added owned, craftable and iron-repairable Smithing Tongs with additive common tool tags.
-
 - Added standalone server-side contact burns, bounded tongs wear, cursor protection and inventory cooling.
-
-
 - Added handling configuration, tooltips, isolated in-game checks and cooldown tests.
+
+### Changed
 
 - Updated the workshop guide around a complete standalone workflow.
 
+## [0.2.0] - 2026-11-22
 
-
-## 0.2.0
-
-
+### Added
 
 - Added Diegesis charcoal hearth, shaping anvil and quenching trough with original block/control geometry.
-
 - Added fuel-paid batch heating, working-heat tooltips, ghost patterns, rhythmic hammer work, native quality limits and water-paid quenching.
-
-
 - Added standalone shaping recipes and encoded unquenched workpieces to preserve the quenching progression.
-
-- Preserved native heat/cooling, names, enchantments, damage, quality, batch counts and foreign data.
-
-- Committed results on the final strike, guarded repeated actions, and kept cancellation costs explicit.
-
 - Added thermal operator diagnostics, timing tests and a survival workshop guide.
 
+### Changed
 
+- Preserved native heat/cooling, names, enchantments, damage, quality, batch counts and foreign data.
+- Committed results on the final strike, guarded repeated actions, and kept cancellation costs explicit.
 
-## 0.1.2
+## [0.1.2] - 2026-11-22
 
-
-
-- Replaced the red control with a working hammer, swing animation, metallic strikes and a completion sound.
+### Added
 
 - Added a wood-and-copper finishing anvil model with matching collision and no vanilla repair menu.
-
 - Added a compact inventory tray, material effect tooltips, worn-tool guidance and XP feedback.
-
-
-
-- Expanded common crafting ingredient tags and preserved existing pack recipe overrides.
-
 - Added recipe matching/assembly and station cancellation/restriction diagnostics.
 
+### Changed
+
+- Replaced the red control with a working hammer, swing animation, metallic strikes and a completion sound.
+- Expanded common crafting ingredient tags and preserved existing pack recipe overrides.
 - Verified packaged NeoForge client interaction, item preservation, native quality, save/reload, cancellation and restrictions; both loader servers passed with and without optional integration mods.
 
+## [0.1.1] - 2026-11-22
 
+### Added
 
-## 0.1.1
+- Added a Space-key strike route with the same server validation as button clicks.
+- Added persistent workstation instructions, synchronized strike progress and output guidance.
+- Added an operator-only, isolated station-action verification command.
 
-
+### Changed
 
 - Enlarged the finishing strike control and gave it an explicit hitbox.
 
-- Added a Space-key strike route with the same server validation as button clicks.
+## [0.1.0] - 2026-11-22
 
-- Added persistent workstation instructions, synchronized strike progress and output guidance.
-
-- Added an operator-only, isolated station-action verification command.
-
-
-
-## 0.1.0
-
-
-
-- Established the studio Kotlin/Cloche cross-loader layout and BML license.
-
-- Pinned Gradle 9.9.2 with a verified distribution checksum.
+### Added
 
 - Added Diegesis finishing-anvil logic and scene, validated Fzzy Config settings and survival material content.
-
 - Added optional weapon integration, bounded non-stacking finish rules and server tick-based work validation.
-
 - Added CI, local build scripts, artifact verification and opt-in draft-release staging.
-
-### Rhythm forging
-
 - Material-dependent tempo and precision, fixed-beat double/triple phrases, pulsing targets and note lights.
 - Contact-synchronized warm flashes, stronger perfect sparks and faster hammer response.
 - Independent difficulty and rhythm configuration switches; ingredient and preservation rules retained.
+
+### Changed
+
+- Established the studio Kotlin/Cloche cross-loader layout and BML license.
+- Pinned Gradle 9.9.2 with a verified distribution checksum.
+
+[Unreleased]: https://github.com/BareMinimumStudios/temper-and-tang/compare/6353020...main
+[0.7.1]: https://github.com/BareMinimumStudios/temper-and-tang/compare/c3e08b9...6353020
+[0.7.0]: https://github.com/BareMinimumStudios/temper-and-tang/compare/bdf5f37...c3e08b9
+[0.6.0]: https://github.com/BareMinimumStudios/temper-and-tang/compare/1c9d0f5...bdf5f37
+[0.5.1]: https://github.com/BareMinimumStudios/temper-and-tang/compare/14482d0...1c9d0f5
+[0.5.0]: https://github.com/BareMinimumStudios/temper-and-tang/compare/4a801bf...14482d0
+[0.4.2]: https://github.com/BareMinimumStudios/temper-and-tang/compare/51dcc71...4a801bf
+[0.4.1]: https://github.com/BareMinimumStudios/temper-and-tang/compare/a7e66cf...51dcc71
+[0.4.0]: https://github.com/BareMinimumStudios/temper-and-tang/compare/1b4ec58...a7e66cf
+[0.3.2]: https://github.com/BareMinimumStudios/temper-and-tang/compare/dc761c0...1b4ec58
+[0.3.1]: https://github.com/BareMinimumStudios/temper-and-tang/compare/d52b233...dc761c0
+[0.3.0]: https://github.com/BareMinimumStudios/temper-and-tang/compare/b774aad...d52b233
+[0.2.1]: https://github.com/BareMinimumStudios/temper-and-tang/compare/c4060c7...b774aad
+[0.2.0]: https://github.com/BareMinimumStudios/temper-and-tang/compare/ab56ffa...c4060c7
+[0.1.2]: https://github.com/BareMinimumStudios/temper-and-tang/compare/9134f93...ab56ffa
+[0.1.1]: https://github.com/BareMinimumStudios/temper-and-tang/compare/3f6cf8b...9134f93
+[0.1.0]: https://github.com/BareMinimumStudios/temper-and-tang/commit/3f6cf8b

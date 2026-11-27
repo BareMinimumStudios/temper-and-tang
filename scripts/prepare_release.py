@@ -7,7 +7,7 @@ changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
 heading = re.search(rf"^## (?:{re.escape(EXPECTED_VERSION)}|\[{re.escape(EXPECTED_VERSION)}\])(?:[ \t]+[-—][^\n]*)?[ \t]*$", changelog, re.M)
 if heading is None:
     raise SystemExit(f"Missing changelog section for {EXPECTED_VERSION}")
-notes = re.split(r"^## ", changelog[heading.end():], maxsplit=1, flags=re.M)[0].strip()
+notes = re.split(r"^## |^\[[^\n]+\]:", changelog[heading.end():], maxsplit=1, flags=re.M)[0].strip()
 if not notes:
     raise SystemExit(f"Empty changelog section for {EXPECTED_VERSION}")
 out = ROOT / "build/release"
