@@ -32,6 +32,8 @@ object ThermalStations {
     val FLUX = SlotRef.of("flux")
     val BLUEPRINT = SlotRef.of("blueprint")
     fun grid(index: Int) = SlotRef.of("grid", index)
+    private val gridSlots = (0..8).map(::grid)
+    private val shapingStockSlots = gridSlots + GEAR
     private fun active() = TemperAndTang.config.thermalEnabled.get()
     private fun snapshot(a: ItemStack, b: ItemStack) = a.count == b.count && ItemStack.isSameItemSameComponents(a,b)
     private fun sound(s: StationContext, event: SoundEvent, volume: Float, pitch: Float) =
@@ -199,7 +201,7 @@ object ThermalStations {
         private var committedTarget=ItemStack.EMPTY
         private var committedCost=0
         private var work:HammerWork?=null
-        private fun stocks(s:StationContext)=(0..8).map {s.state().getItem(grid(it))}
+        private fun stocks(s: StationContext) = gridSlots.map { s.state().getItem(it) }
         private fun player(s:StationContext)=s.users().firstOrNull()
         private fun plan()=plans.getOrNull(index)
         private fun reset(s:StationContext) {
@@ -347,8 +349,11 @@ object ThermalStations {
         override fun tick(s:StationContext) {
             if(s.isClientSide)return
             if(plans.isNotEmpty() && s.level().gameTime%20L==0L && plan()?.current(s.level())==false)refresh(s)
-            if(refiningAttempt!=null && stocks(s).filter(WorkshopPlans::metal).any {!ThermalState.hot(it,s.level())})reset(s)
-            for(slot in (0..8).map(::grid)+GEAR) {
+            if(refiningAttempt!=null && gridSlots.any { slot ->
+                val stack = s.state().getItem(slot)
+                WorkshopPlans.metal(stack) && !ThermalState.hot(stack, s.level())
+            })reset(s)
+            for (slot in shapingStockSlots) {
                 val stack=s.state().getItem(slot)
                 if(ThermalState.data(stack).getLong("hot_until")>0 && !ThermalState.hot(stack,s.level())) {s.state().setItem(slot,ThermalState.airCooled(stack,s.level()));reset(s)}
             }

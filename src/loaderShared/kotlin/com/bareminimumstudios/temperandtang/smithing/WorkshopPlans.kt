@@ -36,7 +36,15 @@ object WorkshopPlans {
         }
         fun remainders(grid:List<ItemStack>)=(recipe as CraftingRecipe).getRemainingItems(CraftingInput.of(3,3,grid)).toList()
         fun current(level:Level)=level.recipeManager.byKey(id).orElse(null)?.value()===recipe
-        fun hot(grid:List<ItemStack>,level:Level)=grid.any(::metal) && grid.filter(::metal).all {ThermalState.hot(it,level)}
+        fun hot(grid: List<ItemStack>, level: Level): Boolean {
+            var foundMetal = false
+            for (stack in grid) {
+                if (!metal(stack)) continue
+                if (!ThermalState.hot(stack, level)) return false
+                foundMetal = true
+            }
+            return foundMetal
+        }
         fun required()=maxOf(hits,TemperAndTang.config.shapingStrikes.get()).coerceAtMost(40)
         fun output(grid:List<ItemStack>,level:Level,player:Player,clean:Int,accuracy:Double=clean.toDouble()/required()):ItemStack {
             if(recipe is PrecisionRefiningRecipe)return if(accuracy>=recipe.minimumAccuracy)assemble(grid,level) else recipe.failure.copy()
