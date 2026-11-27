@@ -6,8 +6,6 @@
 ![Fabric and NeoForge](https://img.shields.io/badge/LOADERS-Fabric_%2B_NeoForge-91B7BC?style=for-the-badge&labelColor=252322)
 [![License: BML 1.0](https://img.shields.io/badge/LICENSE-BML_1.0-D7B16A?style=for-the-badge&labelColor=252322)](LICENSE)
 
-**Work the metal. Make it yours.**
-
 [Getting started](docs/THERMAL_WORKSHOP.md) · [Metals and progression](docs/METALLURGY.md) · [Configuration](docs/CONFIGURATION.md) · [Report an issue](https://github.com/BareMinimumStudios/temper-and-tang/issues)
 
 </div>
@@ -62,11 +60,11 @@ Tin, bronze and steel each have a sword, four tools and a full armor set. Tin ke
 
 Silver has its own ore, raw metal, ingots, nuggets and storage blocks. Its cool color stands apart from tin. Common material tags let compatible equipment recipes use it directly.
 
-The main route is **copper + tin → bronze → iron → steel → diamond → netherite**. Alloy copper and tin for bronze, then iron and coal or charcoal for steel. Diamond gear comes from upgrading steel at a smithing table with a structure-found template. The Nether alloy forge combines gold and scrap into netherite and can also run ordinary alloys.
+The main route is **copper + tin → bronze → iron → steel → diamond → netherite**. Alloy copper and tin for bronze, then iron and coal or charcoal for steel. Diamond gear comes from upgrading steel at a smithing table with a structure-found template. The Nether Alloy Forge combines gold ingots and netherite scraps into netherite and can also run ordinary alloys.
 
 ![The alloy forge and its darker Nether counterpart](docs/images/furnaces.png)
 
-Ore appears in newly generated Overworld chunks. See the [metallurgy guide](docs/METALLURGY.md) for recipes, mining requirements and the full route.
+Tin veins start from Y 20 to 80 and peak near Y 50. Silver veins start from Y −16 to 30 and are most common around Y −1 to 15. Both appear in new Overworld chunks and have separate World Generation toggles. See the [metallurgy guide](docs/METALLURGY.md) for recipes, mining requirements and the full route.
 
 ## Five grades of craftsmanship
 
@@ -94,7 +92,7 @@ Use Java 21 and the build for your loader. Both sides need Temper & Tang and its
 | --- | --- | --- |
 | Diegesis 1.0.0-beta.19 and a matching 1.21.1 build of Fzzy Config | Fabric API and Fabric Language Kotlin | Kotlin for Forge |
 
-Required libraries are installed separately. Optional equipment and recipe-viewer integrations do not need extra companion addons. Check the [installation guide](docs/INSTALLATION.md) for the tested versions.
+Required libraries are installed separately. EMI and JEI show workshop recipes, blueprints and smithing upgrades, including animated refining and alloying previews. Equipment integrations are optional. Check the [installation guide](docs/INSTALLATION.md) for the tested versions.
 
 ## Make it fit your pack
 
