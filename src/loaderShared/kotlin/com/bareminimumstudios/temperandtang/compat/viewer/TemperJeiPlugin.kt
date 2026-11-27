@@ -1,16 +1,18 @@
 package com.bareminimumstudios.temperandtang.compat.viewer
 
 import com.bareminimumstudios.temperandtang.TemperAndTang
+import com.bareminimumstudios.temperandtang.content.TemperContent
 import mezz.jei.api.*
-import mezz.jei.api.registration.*
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder
+import mezz.jei.api.gui.drawable.IDrawable
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView
 import mezz.jei.api.recipe.*
 import mezz.jei.api.recipe.category.IRecipeCategory
-import mezz.jei.api.gui.builder.IRecipeLayoutBuilder
-import mezz.jei.api.gui.ingredient.IRecipeSlotsView
-import mezz.jei.api.gui.drawable.IDrawable
+import mezz.jei.api.registration.*
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Component
+import net.minecraft.world.item.ItemStack
 
 @JeiPlugin
 class TemperJeiPlugin:IModPlugin {
@@ -19,12 +21,12 @@ class TemperJeiPlugin:IModPlugin {
     private fun enabled()=!TemperAndTang.modLoaded("emi")
     override fun registerItemSubtypes(registration:ISubtypeRegistration) {
         if(!enabled())return
-        val interpreter=object:mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter<net.minecraft.world.item.ItemStack> {
-            override fun getSubtypeData(stack:net.minecraft.world.item.ItemStack,context:mezz.jei.api.ingredients.subtypes.UidContext):Any=WorkshopVariants.key(stack)
-            override fun getLegacyStringSubtypeInfo(stack:net.minecraft.world.item.ItemStack,context:mezz.jei.api.ingredients.subtypes.UidContext)=WorkshopVariants.key(stack)
+        val interpreter=object:mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter<ItemStack> {
+            override fun getSubtypeData(stack:ItemStack,context:mezz.jei.api.ingredients.subtypes.UidContext):Any=WorkshopVariants.key(stack)
+            override fun getLegacyStringSubtypeInfo(stack:ItemStack,context:mezz.jei.api.ingredients.subtypes.UidContext)=WorkshopVariants.key(stack)
         }
         for(example in WorkshopVariants.examples())registration.registerSubtypeInterpreter(example.item,interpreter)
-        registration.registerSubtypeInterpreter(com.bareminimumstudios.temperandtang.content.TemperContent.item("smithing_blueprint"),interpreter)
+        registration.registerSubtypeInterpreter(TemperContent.item("smithing_blueprint"),interpreter)
     }
     override fun registerExtraIngredients(registration:IExtraIngredientRegistration) {if(enabled())registration.addExtraItemStacks(WorkshopVariants.examples())}
     override fun registerCategories(registration:IRecipeCategoryRegistration) {
@@ -35,14 +37,14 @@ class TemperJeiPlugin:IModPlugin {
         if(!enabled())return
         val level=Minecraft.getInstance().level?:return
         for((kind,recipes) in WorkshopDisplays.collect(level).groupBy {it.category})registration.addRecipes(types.getValue(kind),recipes)
-        registration.addItemStackInfo(net.minecraft.world.item.ItemStack(com.bareminimumstudios.temperandtang.content.TemperContent.item("diamond_upgrade_smithing_template")),Component.literal("Found in Overworld structure chests: strongholds, temples, treasure, mansions and ancient cities; rarer in mineshafts and dungeons."))
+        registration.addItemStackInfo(ItemStack(TemperContent.item("diamond_upgrade_smithing_template")),Component.literal("Found in Overworld structure chests: strongholds, temples, treasure, mansions and ancient cities; rarer in mineshafts and dungeons."))
         TemperAndTang.logger.info("JEI_WORKSHOP_REGISTERED: synchronized workshop recipes and native weapon upgrades")
     }
     override fun registerRecipeCatalysts(registration:IRecipeCatalystRegistration) {
         if(!enabled())return
         for(kind in WorkshopCategory.entries)registration.addRecipeCatalyst(kind.icon(),types.getValue(kind))
-        registration.addRecipeCatalyst(net.minecraft.world.item.ItemStack(com.bareminimumstudios.temperandtang.content.TemperContent.item("alloy_forge")),types.getValue(WorkshopCategory.ALLOYING))
-        registration.addRecipeCatalyst(net.minecraft.world.item.ItemStack(com.bareminimumstudios.temperandtang.content.TemperContent.item("nether_alloy_forge")),types.getValue(WorkshopCategory.ALLOYING))
+        registration.addRecipeCatalyst(ItemStack(TemperContent.item("alloy_forge")),types.getValue(WorkshopCategory.ALLOYING))
+        registration.addRecipeCatalyst(ItemStack(TemperContent.item("nether_alloy_forge")),types.getValue(WorkshopCategory.ALLOYING))
     }
     private class Category(val kind:WorkshopCategory,val categoryIcon:IDrawable):IRecipeCategory<WorkshopDisplay> {
         override fun getRecipeType()=types.getValue(kind)

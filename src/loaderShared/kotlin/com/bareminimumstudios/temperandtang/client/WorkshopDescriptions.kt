@@ -2,15 +2,18 @@ package com.bareminimumstudios.temperandtang.client
 
 import com.bareminimumstudios.temperandtang.TemperAndTang
 import com.bareminimumstudios.temperandtang.smithing.*
+import java.util.Locale
+import kotlin.math.abs
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
+import net.minecraft.world.item.DiggerItem
 import net.minecraft.world.item.ItemStack
-import java.util.Locale
+import net.minecraft.world.item.ShieldItem
 
 object WorkshopDescriptions {
     private fun effects(values:List<Pair<String,Double>>):MutableComponent {
         val text=Component.empty()
-        for((key,value) in values.filter {kotlin.math.abs(it.second)>.000001}) {
+        for((key,value) in values.filter {abs(it.second)>.000001}) {
             if(text.siblings.isNotEmpty())text.append(Component.literal(", "))
             text.append(Component.translatable("temperandtang.guide.stat",WorkshopText.style(Component.literal(String.format(Locale.ROOT,"%+.1f%%",value*100)),if(value>0)WorkshopText.BENEFIT else WorkshopText.COST),WorkshopText.style(Component.translatable("temperandtang.guide.stat_"+key),WorkshopText.MUTED)))
         }
@@ -24,8 +27,8 @@ object WorkshopDescriptions {
         val values=mutableListOf("durability" to material.durability*power)
         if(GearSupport.armor(stack))values+=listOf("armor" to material.armor*power,"movement" to material.movement*power)
         else if(GearSupport.weapon(stack))values+=listOf("damage" to material.damage*power,"speed" to material.speed*power)
-        if(stack.item is net.minecraft.world.item.DiggerItem)values+="mining" to material.speed*power
-        if(stack.item is net.minecraft.world.item.ShieldItem)values+="movement" to material.movement*power
+        if(stack.item is DiggerItem)values+="mining" to material.speed*power
+        if(stack.item is ShieldItem)values+="movement" to material.movement*power
         return Component.translatable("temperandtang.guide.material",WorkshopText.style(Component.translatable("temperandtang.material.name."+material.key),WorkshopText.QUANTITY),effects(if(GearSupport.ranged(stack))values.map {if(it.first=="speed")"loading" to it.second else if(it.first=="damage")"projectile" to it.second else it} else values))
     }
     fun trait(stack:ItemStack):Component {
@@ -34,7 +37,7 @@ object WorkshopDescriptions {
         when(CraftTraits.family(stack)) {
             ForgeFamily.ARMOR->values+=listOf("armor" to trait.armor*power,"movement" to trait.movement*power)
             ForgeFamily.SHIELD->values+="movement" to trait.movement*power
-            else->{if(GearSupport.weapon(stack))values+=listOf("damage" to trait.damage*power,"speed" to trait.speed*power);if(stack.item is net.minecraft.world.item.DiggerItem)values+="mining" to trait.mining*power}
+            else->{if(GearSupport.weapon(stack))values+=listOf("damage" to trait.damage*power,"speed" to trait.speed*power);if(stack.item is DiggerItem)values+="mining" to trait.mining*power}
         }
         return Component.translatable("temperandtang.guide.trait",WorkshopText.style(Component.translatable("temperandtang.trait."+trait.key),WorkshopText.STAGE),effects(if(GearSupport.ranged(stack))values.map {if(it.first=="speed")"loading" to it.second else if(it.first=="damage")"projectile" to it.second else it} else values))
     }

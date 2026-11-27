@@ -1,5 +1,7 @@
 package com.bareminimumstudios.temperandtang.smithing
 
+import kotlin.math.exp
+
 /** One time scale for every incoming strike; changing the active note never moves its successors. */
 object RhythmTrack {
     const val HORIZON=60f
@@ -11,7 +13,7 @@ object RhythmTrack {
     fun advance(rendered:Float,estimate:Float,seconds:Float):Float {
         val dt=seconds.coerceAtLeast(0f)
         val advanced=rendered-20f*dt
-        val correction=((estimate-advanced)*(1f-kotlin.math.exp(-dt*8f))).coerceIn(-6f*dt,6f*dt)
+        val correction=((estimate-advanced)*(1f-exp(-dt*8f))).coerceIn(-6f*dt,6f*dt)
         return advanced+correction
     }
     fun visible(x:Float)=x in -6f..6f

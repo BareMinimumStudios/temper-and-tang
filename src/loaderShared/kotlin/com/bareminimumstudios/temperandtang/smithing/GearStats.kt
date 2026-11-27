@@ -1,13 +1,16 @@
 package com.bareminimumstudios.temperandtang.smithing
 
 import com.bareminimumstudios.temperandtang.TemperAndTang
+import java.util.Locale
 import net.minecraft.core.component.DataComponents
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.EquipmentSlotGroup
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.item.ArmorItem
+import net.minecraft.world.item.DiggerItem
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.ShieldItem
 import net.minecraft.world.item.component.ItemAttributeModifiers
 
 /** Rebuild owned bonuses from a raw durability baseline and untouched foreign attribute entries. */
@@ -35,24 +38,24 @@ object GearStats {
                 val (attribute,slot)=key
                 val boost=when(attribute) {Attributes.ATTACK_DAMAGE->(grade?.damage?:0.0);Attributes.ARMOR->(grade?.armor?:0.0);Attributes.ARMOR_TOUGHNESS->(grade?.toughness?:0.0);else->0.0}*scale + when(attribute) {Attributes.ATTACK_DAMAGE->material.damage;Attributes.ARMOR->material.armor;else->0.0}*materialPower + when(attribute) {Attributes.ATTACK_DAMAGE->trait.damage;Attributes.ARMOR->trait.armor;else->0.0}*traitPower
                 val amount=entries.sumOf {it.modifier().amount()}*boost
-                if(amount!=0.0 && amount.isFinite())builder.add(attribute,AttributeModifier(TemperAndTang.id("craft_"+when(attribute) {Attributes.ATTACK_DAMAGE->"damage";Attributes.ARMOR->"armor";else->"toughness"}+"_"+slot.name.lowercase(java.util.Locale.ROOT)),amount,AttributeModifier.Operation.ADD_VALUE),slot)
+                if(amount!=0.0 && amount.isFinite())builder.add(attribute,AttributeModifier(TemperAndTang.id("craft_"+when(attribute) {Attributes.ATTACK_DAMAGE->"damage";Attributes.ARMOR->"armor";else->"toughness"}+"_"+slot.name.lowercase(Locale.ROOT)),amount,AttributeModifier.Operation.ADD_VALUE),slot)
             }
         }
         val handling=(grade?.speed?:0.0)*scale+material.speed*materialPower+trait.speed*traitPower
         if(GearSupport.weapon(input) && !GearSupport.ranged(input) && handling!=0.0)builder.add(Attributes.ATTACK_SPEED,AttributeModifier(TemperAndTang.id("craft_handling_speed"),handling,AttributeModifier.Operation.ADD_MULTIPLIED_BASE),EquipmentSlotGroup.MAINHAND)
         val mining=(grade?.mining?:0.0)*scale+material.speed*materialPower+trait.mining*traitPower
-        if(input.item is net.minecraft.world.item.DiggerItem && mining!=0.0)builder.add(Attributes.BLOCK_BREAK_SPEED,AttributeModifier(TemperAndTang.id("craft_mining_speed"),mining,AttributeModifier.Operation.ADD_MULTIPLIED_BASE),EquipmentSlotGroup.MAINHAND)
+        if(input.item is DiggerItem && mining!=0.0)builder.add(Attributes.BLOCK_BREAK_SPEED,AttributeModifier(TemperAndTang.id("craft_mining_speed"),mining,AttributeModifier.Operation.ADD_MULTIPLIED_BASE),EquipmentSlotGroup.MAINHAND)
         val movement=material.movement*materialPower+trait.movement*traitPower
-        if(movement!=0.0 && (input.item is ArmorItem || input.item is net.minecraft.world.item.ShieldItem)) {
-            val slot=if(input.item is net.minecraft.world.item.ShieldItem)EquipmentSlotGroup.HAND else when((input.item as ArmorItem).equipmentSlot) {EquipmentSlot.HEAD->EquipmentSlotGroup.HEAD;EquipmentSlot.CHEST->EquipmentSlotGroup.CHEST;EquipmentSlot.LEGS->EquipmentSlotGroup.LEGS;else->EquipmentSlotGroup.FEET}
-            builder.add(Attributes.MOVEMENT_SPEED,AttributeModifier(TemperAndTang.id("craft_movement_"+slot.name.lowercase(java.util.Locale.ROOT)),movement,AttributeModifier.Operation.ADD_MULTIPLIED_BASE),slot)
+        if(movement!=0.0 && (input.item is ArmorItem || input.item is ShieldItem)) {
+            val slot=if(input.item is ShieldItem)EquipmentSlotGroup.HAND else when((input.item as ArmorItem).equipmentSlot) {EquipmentSlot.HEAD->EquipmentSlotGroup.HEAD;EquipmentSlot.CHEST->EquipmentSlotGroup.CHEST;EquipmentSlot.LEGS->EquipmentSlotGroup.LEGS;else->EquipmentSlotGroup.FEET}
+            builder.add(Attributes.MOVEMENT_SPEED,AttributeModifier(TemperAndTang.id("craft_movement_"+slot.name.lowercase(Locale.ROOT)),movement,AttributeModifier.Operation.ADD_MULTIPLIED_BASE),slot)
         }
         if(effect!=null && GearSupport.weapon(input) && !GearSupport.ranged(input)) {
             if(effect.damage!=0.0)builder.add(Attributes.ATTACK_DAMAGE,AttributeModifier(TemperAndTang.id("finish_damage"),effect.damage,AttributeModifier.Operation.ADD_MULTIPLIED_BASE),EquipmentSlotGroup.MAINHAND)
             if(effect.speed!=0.0)builder.add(Attributes.ATTACK_SPEED,AttributeModifier(TemperAndTang.id("finish_speed"),effect.speed,AttributeModifier.Operation.ADD_MULTIPLIED_BASE),EquipmentSlotGroup.MAINHAND)
         } else if(finish==Finish.LIGHTENED && input.item is ArmorItem) {
             val slot=when((input.item as ArmorItem).equipmentSlot) {EquipmentSlot.HEAD->EquipmentSlotGroup.HEAD;EquipmentSlot.CHEST->EquipmentSlotGroup.CHEST;EquipmentSlot.LEGS->EquipmentSlotGroup.LEGS;else->EquipmentSlotGroup.FEET}
-            builder.add(Attributes.MOVEMENT_SPEED,AttributeModifier(TemperAndTang.id("finish_movement_"+slot.name.lowercase(java.util.Locale.ROOT)),TemperAndTang.config.lightenedArmorSpeed.get()*strength,AttributeModifier.Operation.ADD_MULTIPLIED_BASE),slot)
+            builder.add(Attributes.MOVEMENT_SPEED,AttributeModifier(TemperAndTang.id("finish_movement_"+slot.name.lowercase(Locale.ROOT)),TemperAndTang.config.lightenedArmorSpeed.get()*strength,AttributeModifier.Operation.ADD_MULTIPLIED_BASE),slot)
         }
         result.set(DataComponents.ATTRIBUTE_MODIFIERS,builder.build().withTooltip(old.showInTooltip()))
         return result

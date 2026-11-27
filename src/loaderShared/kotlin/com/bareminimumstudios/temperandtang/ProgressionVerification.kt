@@ -2,14 +2,19 @@ package com.bareminimumstudios.temperandtang
 
 import com.bareminimumstudios.temperandtang.compat.TemplateLoot
 import com.bareminimumstudios.temperandtang.content.TemperContent
+import com.bareminimumstudios.temperandtang.mixin.SmithingIngredientsAccess
 import com.bareminimumstudios.temperandtang.smithing.*
+import kotlin.math.abs
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.core.component.DataComponents
 import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.*
+import net.minecraft.world.item.component.ItemAttributeModifiers
 import net.minecraft.world.item.crafting.*
-import net.minecraft.network.chat.Component
+import net.minecraft.world.level.block.Blocks
 
 /** Read-only recipe/quality checks; all stacks are local and no player inventory or world clock is modified. */
 object ProgressionVerification {
@@ -18,9 +23,9 @@ object ProgressionVerification {
         check(CraftGrade.entries.size==5)
         check(CraftGrade.parse("EXCEPTIONAL")==CraftGrade.MASTERWORK)
         val stone=ItemStack(Items.STONE_PICKAXE);val bronze=ItemStack(TemperContent.item("bronze_pickaxe"))
-        check(!stone.isCorrectToolForDrops(net.minecraft.world.level.block.Blocks.IRON_ORE.defaultBlockState()))
-        check(bronze.isCorrectToolForDrops(net.minecraft.world.level.block.Blocks.IRON_ORE.defaultBlockState()))
-        check(!bronze.isCorrectToolForDrops(net.minecraft.world.level.block.Blocks.DIAMOND_ORE.defaultBlockState()))
+        check(!stone.isCorrectToolForDrops(Blocks.IRON_ORE.defaultBlockState()))
+        check(bronze.isCorrectToolForDrops(Blocks.IRON_ORE.defaultBlockState()))
+        check(!bronze.isCorrectToolForDrops(Blocks.DIAMOND_ORE.defaultBlockState()))
         val diamondCraft=manager.getAllRecipesFor(RecipeType.CRAFTING).filter {holder->
             val id=BuiltInRegistries.ITEM.getKey(holder.value().getResultItem(registry).item)
             id.path.startsWith("diamond_") && GearSupport.supported(holder.value().getResultItem(registry))
@@ -34,12 +39,12 @@ object ProgressionVerification {
             check(plans.any {it.recipe.getResultItem(registry).item==item}) {"Missing tin shaping recipe: $part"}
             val refined=Craftsmanship.apply(CraftMaterials.stamp(stack,ForgeMaterial.TIN),CraftRoll(CraftGrade.FINE,.8,.8,.5,10),"TinFixture","temperandtang:tin_"+part)
             check(!refined.isEmpty && Craftsmanship.grade(refined)==CraftGrade.FINE)
-            val restored=ItemStack.parseOptional(registry,refined.save(registry) as net.minecraft.nbt.CompoundTag)
+            val restored=ItemStack.parseOptional(registry,refined.save(registry) as CompoundTag)
             check(CraftMaterials.recorded(restored)==ForgeMaterial.TIN && restored.maxDamage==refined.maxDamage)
         }
         val tinPick=ItemStack(TemperContent.item("tin_pickaxe"))
         check(tinPick.isCorrectToolForDrops(TemperContent.block("tin_ore").defaultBlockState()))
-        check(!tinPick.isCorrectToolForDrops(net.minecraft.world.level.block.Blocks.IRON_ORE.defaultBlockState())) {"Tin bypasses bronze mining progression"}
+        check(!tinPick.isCorrectToolForDrops(Blocks.IRON_ORE.defaultBlockState())) {"Tin bypasses bronze mining progression"}
         TemperAndTang.logger.info("TIN_CATALOG_PASSED: all nine native recipes, forging, saved material/quality and lower-tier mining restrictions")
         val silver=ItemStack(TemperContent.item("silver_ingot"))
         check(WorkshopPlans.stock(silver) && CraftMaterials.identify(silver)==ForgeMaterial.SILVER){"Silver tag mismatch: stock=${WorkshopPlans.stock(silver)} material=${CraftMaterials.identify(silver)} tags=${silver.tags.toList()}"}
@@ -63,7 +68,7 @@ object ProgressionVerification {
             val recipe=holder.value();val output=recipe.getResultItem(registry);val id=BuiltInRegistries.ITEM.getKey(output.item)
             if(!id.path.startsWith("diamond_") || !GearSupport.supported(output) || !recipe.isTemplateIngredient(template))continue
             val transform=when(recipe) {is SteelUpgradeRecipe->recipe.base;is SmithingTransformRecipe->recipe;else->error("Unknown template recipe: ${holder.id()}")}
-            val ingredient=(transform as com.bareminimumstudios.temperandtang.mixin.SmithingIngredientsAccess).temperBase()
+            val ingredient=(transform as SmithingIngredientsAccess).temperBase()
             val base=ingredient.items.firstOrNull()?.copy()?:error("Empty upgrade base: ${holder.id()}")
             if(id.namespace!="minecraft")native++
             if(base.isEmpty)continue
@@ -95,7 +100,7 @@ object ProgressionVerification {
             val recipe=holder.value();val output=recipe.getResultItem(registry)
             if(!BuiltInRegistries.ITEM.getKey(output.item).path.startsWith("netherite_") || !GearSupport.supported(output) || !recipe.isTemplateIngredient(netheriteTemplate))continue
             val transform=recipe as? SmithingTransformRecipe?:continue
-            val base=(transform as com.bareminimumstudios.temperandtang.mixin.SmithingIngredientsAccess).temperBase().items.firstOrNull()?.copy()?:error("Empty netherite base: ${holder.id()}")
+            val base=(transform as SmithingIngredientsAccess).temperBase().items.firstOrNull()?.copy()?:error("Empty netherite base: ${holder.id()}")
             check(BuiltInRegistries.ITEM.getKey(base.item).path.startsWith("diamond_")){"Netherite skips diamond: ${holder.id()}"}
             val marked=Craftsmanship.apply(CraftMaterials.stamp(base,ForgeMaterial.DIAMOND),CraftRoll(CraftGrade.SUPERIOR,.9,.85,.5,10),"NetheriteFixture","fixture")
             marked.damageValue=7;marked.set(DataComponents.CUSTOM_NAME,Component.literal("Preserved diamond core"))
@@ -124,10 +129,10 @@ object ProgressionVerification {
         val values=CraftGrade.entries.map {grade->Craftsmanship.apply(CraftMaterials.stamp(sample,ForgeMaterial.IRON),CraftRoll(grade,.9,.8,.5,10),"QualityFixture","fixture")}
         check(values.zipWithNext().all {(lo,hi)->lo.maxDamage<hi.maxDamage})
         for((grade,gear) in CraftGrade.entries.zip(values)) {
-            val mods=gear.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS,net.minecraft.world.item.component.ItemAttributeModifiers.EMPTY).modifiers()
+            val mods=gear.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS,ItemAttributeModifiers.EMPTY).modifiers()
             val mining=mods.firstOrNull {it.modifier().id()==TemperAndTang.id("craft_mining_speed")}?.modifier()?.amount()?:0.0
-            check(kotlin.math.abs(mining-(grade.mining*TemperAndTang.config.qualityPower.get()+ForgeMaterial.IRON.speed*TemperAndTang.config.materialPower.get()))<.00001)
-            val saved=gear.save(registry);val loaded=ItemStack.parseOptional(registry,saved as net.minecraft.nbt.CompoundTag)
+            check(abs(mining-(grade.mining*TemperAndTang.config.qualityPower.get()+ForgeMaterial.IRON.speed*TemperAndTang.config.materialPower.get()))<.00001)
+            val saved=gear.save(registry);val loaded=ItemStack.parseOptional(registry,saved as CompoundTag)
             check(Craftsmanship.grade(loaded)==grade && loaded.maxDamage==gear.maxDamage)
         }
         TemperAndTang.logger.info("PROGRESSION_VERIFY_PASSED: five grades, bronze mining, {} diamond upgrades ({} native), preserved steel quality, excluded unique/runic gear, counted furnace alloy and direct netherite output",upgrades,native)

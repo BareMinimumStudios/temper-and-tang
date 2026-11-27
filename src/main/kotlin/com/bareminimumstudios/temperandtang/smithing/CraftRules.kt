@@ -1,5 +1,6 @@
 package com.bareminimumstudios.temperandtang.smithing
 
+import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.sqrt
 
@@ -7,7 +8,7 @@ enum class CraftGrade(val durability:Double,val damage:Double,val armor:Double,v
     ROUGH(-0.20,-0.10,-0.10,0.0,-0.04,-0.12), SERVICEABLE(0.0,0.0,0.0,0.0,0.0,0.0),
     FINE(0.15,0.06,0.05,0.0,0.02,0.08), SUPERIOR(0.30,0.12,0.10,0.08,0.04,0.16),
     MASTERWORK(0.50,0.20,0.16,0.15,0.06,0.25);
-    val key get()=name.lowercase(java.util.Locale.ROOT)
+    val key get()=name.lowercase(Locale.ROOT)
     companion object {
         /** Existing exceptional pieces migrate to the highest of the five grades. */
         fun parse(value:String)=if(value=="EXCEPTIONAL") MASTERWORK else entries.firstOrNull {it.name==value}

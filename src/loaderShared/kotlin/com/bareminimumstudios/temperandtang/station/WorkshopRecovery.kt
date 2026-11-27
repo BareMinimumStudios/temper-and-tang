@@ -2,22 +2,25 @@ package com.bareminimumstudios.temperandtang.station
 
 import com.bareminimumstudios.temperandtang.mixin.PlayerListSaveAccess
 import com.pockyl.diegesis.api.station.StationContext
+import com.pockyl.diegesis.impl.server.StationManager
+import java.util.WeakHashMap
+import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.world.entity.player.Player
 import net.minecraft.world.entity.item.ItemEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 
 /** Return owned session items before library fallback, after station-specific cancellation settles its costs. */
 object WorkshopRecovery {
-    private val active=java.util.WeakHashMap<ServerPlayer,Unit>()
+    private val active=WeakHashMap<ServerPlayer,Unit>()
     fun opened(station:StationContext,player:Player) {
         if(!station.isClientSide && player is ServerPlayer)active[player]=Unit
     }
-    fun stopping(server:net.minecraft.server.MinecraftServer) {
+    fun stopping(server:MinecraftServer) {
         for(player in active.keys.filter {it.server===server}.toList())
-            com.pockyl.diegesis.impl.server.StationManager.get(server).close(player,false)
+            StationManager.get(server).close(player,false)
     }
-    fun clear(server:net.minecraft.server.MinecraftServer) {active.keys.removeIf {it.server===server}}
+    fun clear(server:MinecraftServer) {active.keys.removeIf {it.server===server}}
     fun closed(station:StationContext,player:Player) {
         val owner=player as? ServerPlayer?:return
         active.remove(owner)

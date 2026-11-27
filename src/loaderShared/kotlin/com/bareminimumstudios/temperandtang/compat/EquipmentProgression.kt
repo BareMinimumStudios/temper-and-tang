@@ -1,8 +1,11 @@
 package com.bareminimumstudios.temperandtang.compat
 
 import com.bareminimumstudios.temperandtang.TemperAndTang
+import com.bareminimumstudios.temperandtang.smithing.GearSupport
 import com.google.gson.*
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.item.ItemStack
 
 /** Transform only recipes actually present after datapacks; never restore a removed native pattern. */
 object EquipmentProgression {
@@ -23,16 +26,16 @@ object EquipmentProgression {
             if((output.get("count")?.asInt?:1)!=1)continue
             if(item.path.startsWith("netherite_") && supported(item) && enabled(item.namespace)) {
                 val base=ResourceLocation.fromNamespaceAndPath(item.namespace,"diamond_"+item.path.removePrefix("netherite_"))
-                if(net.minecraft.core.registries.BuiltInRegistries.ITEM.containsKey(base))recipes[id]=upgrade(base.toString(),output,false,true)
+                if(BuiltInRegistries.ITEM.containsKey(base))recipes[id]=upgrade(base.toString(),output,false,true)
                 continue
             }
             if(item.namespace=="minecraft" && item.path.startsWith("diamond_") &&
-                com.bareminimumstudios.temperandtang.smithing.GearSupport.supported(net.minecraft.world.item.ItemStack(net.minecraft.core.registries.BuiltInRegistries.ITEM.get(item))) &&
-                net.minecraft.core.registries.BuiltInRegistries.ITEM.containsKey(TemperAndTang.id("steel_"+item.path.removePrefix("diamond_")))) {
+                GearSupport.supported(ItemStack(BuiltInRegistries.ITEM.get(item))) &&
+                BuiltInRegistries.ITEM.containsKey(TemperAndTang.id("steel_"+item.path.removePrefix("diamond_")))) {
                 recipes[id]=upgrade("temperandtang:steel_"+item.path.removePrefix("diamond_"),output,false)
             } else if(item.namespace!="minecraft" && item.path.startsWith("diamond_") && enabled(item.namespace) && supported(item)) {
                 val base=ResourceLocation.fromNamespaceAndPath(item.namespace,(if(nativeSteel(item))"steel_"else"iron_")+item.path.removePrefix("diamond_"))
-                if(net.minecraft.core.registries.BuiltInRegistries.ITEM.containsKey(base))recipes[id]=upgrade(base.toString(),output,!nativeSteel(item))
+                if(BuiltInRegistries.ITEM.containsKey(base))recipes[id]=upgrade(base.toString(),output,!nativeSteel(item))
             }
             if(item.namespace!="minecraft" && item.path.startsWith("iron_") && enabled(item.namespace) && supported(item) && !nativeSteel(item)) {
                 val copy=recipe.deepCopy();var replaced=false
@@ -53,7 +56,7 @@ object EquipmentProgression {
             }
         }
     }
-    private fun supported(id:ResourceLocation)=com.bareminimumstudios.temperandtang.smithing.GearSupport.supported(net.minecraft.world.item.ItemStack(net.minecraft.core.registries.BuiltInRegistries.ITEM.get(id)))
-    private fun nativeSteel(id:ResourceLocation)=net.minecraft.core.registries.BuiltInRegistries.ITEM.containsKey(ResourceLocation.fromNamespaceAndPath(id.namespace,"steel_"+id.path.substringAfter('_')))
+    private fun supported(id:ResourceLocation)=GearSupport.supported(ItemStack(BuiltInRegistries.ITEM.get(id)))
+    private fun nativeSteel(id:ResourceLocation)=BuiltInRegistries.ITEM.containsKey(ResourceLocation.fromNamespaceAndPath(id.namespace,"steel_"+id.path.substringAfter('_')))
     private fun enabled(namespace:String)=when(namespace){"simplyswords"->TemperAndTang.config.simplySwords.get();"magistuarmory"->TemperAndTang.config.epicKnights.get();"simplymore"->TemperAndTang.config.simplyMore.get();else->true}
 }

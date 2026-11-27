@@ -2,6 +2,9 @@ package com.bareminimumstudios.temperandtang
 
 import com.bareminimumstudios.temperandtang.smithing.*
 import com.mojang.authlib.GameProfile
+import java.util.UUID
+import kotlin.math.abs
+import kotlin.math.floor
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.core.BlockPos
 import net.minecraft.core.component.DataComponents
@@ -10,12 +13,13 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.entity.projectile.Arrow
 import net.minecraft.world.item.*
+import net.minecraft.world.item.component.ItemAttributeModifiers
 import net.minecraft.world.item.enchantment.Enchantments
-import java.util.UUID
-import kotlin.math.abs
 
 /** Local unattached projectiles only; no connected player or world inventory is changed. */
 object RangedVerification {
@@ -33,17 +37,17 @@ object RangedVerification {
             override fun isSpectator()=false
             override fun isCreative()=false
         }
-        val pull=raw.item.javaClass.getMethod("getPullTime",ItemStack::class.java,net.minecraft.world.entity.LivingEntity::class.java)
+        val pull=raw.item.javaClass.getMethod("getPullTime",ItemStack::class.java,LivingEntity::class.java)
         val values=mutableListOf<Double>();val timings=mutableListOf<Int>()
         for(grade in CraftGrade.entries) {
             val gear=Craftsmanship.apply(CraftMaterials.stamp(raw,ForgeMaterial.STEEL),CraftRoll(grade,.9,.85,.5,10),"RangedFixture","fixture")
             check(!gear.isEmpty && gear.item===raw.item)
-            val mods=gear.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS,net.minecraft.world.item.component.ItemAttributeModifiers.EMPTY).modifiers()
-            check(mods.none {it.modifier().id().namespace==TemperAndTang.MOD_ID && it.attribute() in listOf(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE,net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_SPEED)})
+            val mods=gear.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS,ItemAttributeModifiers.EMPTY).modifiers()
+            check(mods.none {it.modifier().id().namespace==TemperAndTang.MOD_ID && it.attribute() in listOf(Attributes.ATTACK_DAMAGE,Attributes.ATTACK_SPEED)})
             val multiplier=RangedCraftsmanship.damageMultiplier(gear);values+=multiplier
             val duration=pull.invoke(raw.item,gear,owner) as Int;timings+=duration
             val original=pull.invoke(raw.item,raw,owner) as Int
-            check(duration==kotlin.math.floor(RangedCraftsmanship.chargingSeconds(original/20f,gear)*20).toInt())
+            check(duration==floor(RangedCraftsmanship.chargingSeconds(original/20f,gear)*20).toInt())
             val enchanted=gear.copy();enchanted.enchant(level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.QUICK_CHARGE),1)
             check((pull.invoke(raw.item,enchanted,owner) as Int)<duration)
             val arrow=Arrow(level,0.0,500.0,0.0,ItemStack(Items.ARROW),gear)

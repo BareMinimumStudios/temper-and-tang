@@ -2,10 +2,12 @@ package com.bareminimumstudios.temperandtang.station
 
 import com.bareminimumstudios.temperandtang.TemperAndTang
 import com.bareminimumstudios.temperandtang.content.TemperContent
+import com.bareminimumstudios.temperandtang.content.WorkshopBlock
 import com.bareminimumstudios.temperandtang.smithing.*
 import com.pockyl.diegesis.api.Diegesis
 import com.pockyl.diegesis.api.state.*
 import com.pockyl.diegesis.api.station.*
+import kotlin.math.abs
 import net.minecraft.core.registries.Registries
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
@@ -22,7 +24,7 @@ object FinishingStation {
     fun hammerReady(stack:ItemStack)=isHammer(stack) && stack.maxDamage-stack.damageValue>=TemperAndTang.config.requiredStrikes.get()
     fun register() {
         Diegesis.station(TemperAndTang.id("finishing_anvil")).block {TemperContent.block("finishing_anvil")}
-            .anchor(com.bareminimumstudios.temperandtang.content.WorkshopBlock::anchor)
+            .anchor(WorkshopBlock::anchor)
             .schema(StationSchema.builder()
                 .slots("weapon",1,SlotRules.DEFAULT.maxStack(1).accepts(WeaponFinishes::accepts))
                 .slots("material",1,SlotRules.DEFAULT.accepts {WeaponFinishes.ingredient(it)!=null})
@@ -39,7 +41,7 @@ object FinishingStation {
                 .control("beat",ControlSpec.range(0f,1f,0f).locked()).control("accuracy",ControlSpec.range(0f,100f,0f).locked())
                 .control("window",ControlSpec.range(0f,10f,0f).locked())
                 .control("last_score",ControlSpec.range(0f,1f,0f).locked()).output("result").build())
-            .exclusive().openWhen {player,pos,state->TemperAndTang.config.enabled.get() && com.bareminimumstudios.temperandtang.content.WorkshopBlock.ensureSpace(player.level(),pos,state,player)}.logic {Logic()}.register()
+            .exclusive().openWhen {player,pos,state->TemperAndTang.config.enabled.get() && WorkshopBlock.ensureSpace(player.level(),pos,state,player)}.logic {Logic()}.register()
     }
     private class Logic:StationLogic {
         private val timing=WorkshopRhythm.Measurement()
@@ -100,7 +102,7 @@ object FinishingStation {
             state.setControl("window",job?.window?.toFloat()?:0f)
             state.setControl("target",((job?.target?:s.level().gameTime)-s.level().gameTime).toFloat().coerceIn(0f,120f))
             state.setControl("phase",job?.phase(s.level().gameTime)?:0f);state.setControl("last_score",job?.lastScore?.toFloat()?:0f)
-            state.setControl("beat",if(job!=null && kotlin.math.abs(s.level().gameTime-job.target)<=job.perfectWindow)1f else 0f)
+            state.setControl("beat",if(job!=null && abs(s.level().gameTime-job.target)<=job.perfectWindow)1f else 0f)
         }
         override fun takeOutput(s:StationContext,player:Player,output:String):ItemStack {
             if(s.isClientSide || output!="result" || player.isSpectator || !TemperAndTang.config.enabled.get())return ItemStack.EMPTY

@@ -1,18 +1,25 @@
 package com.bareminimumstudios.temperandtang.station
 
 import com.bareminimumstudios.temperandtang.TemperAndTang
+import com.bareminimumstudios.temperandtang.api.TemperAndTangApi
 import com.bareminimumstudios.temperandtang.content.TemperContent
+import com.bareminimumstudios.temperandtang.content.WorkshopBlock
 import com.bareminimumstudios.temperandtang.smithing.*
 import com.pockyl.diegesis.api.Diegesis
 import com.pockyl.diegesis.api.state.*
 import com.pockyl.diegesis.api.station.*
+import kotlin.math.abs
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
+import net.minecraft.world.level.block.Blocks
 
 object ThermalStations {
     val STOCK = SlotRef.of("stock")
@@ -27,7 +34,7 @@ object ThermalStations {
     fun grid(index: Int) = SlotRef.of("grid", index)
     private fun active() = TemperAndTang.config.thermalEnabled.get()
     private fun snapshot(a: ItemStack, b: ItemStack) = a.count == b.count && ItemStack.isSameItemSameComponents(a,b)
-    private fun sound(s: StationContext, event: net.minecraft.sounds.SoundEvent, volume: Float, pitch: Float) =
+    private fun sound(s: StationContext, event: SoundEvent, volume: Float, pitch: Float) =
         s.level().playSound(null,s.pos(),event,SoundSource.BLOCKS,volume,pitch)
     private fun note(s: StationContext, status: String, target: ItemStack = ItemStack.EMPTY, ghosts: List<ItemStack>? = null) {
         val before = s.state().data()
@@ -39,17 +46,17 @@ object ThermalStations {
     }
     fun register() {
         for(name in listOf("charcoal_hearth","alloy_forge","nether_alloy_forge")) Diegesis.station(TemperAndTang.id(name)).block { TemperContent.block(name) }
-            .anchor(com.bareminimumstudios.temperandtang.content.WorkshopBlock::anchor)
+            .anchor(WorkshopBlock::anchor)
             .schema(StationSchema.builder()
                 .slots("stock",1,SlotRules.DEFAULT.maxStack(8).accepts { if(name=="charcoal_hearth")WorkshopPlans.heatable(it) else WorkshopPlans.stock(it) })
                 .slots("fuel",1,SlotRules.DEFAULT.accepts(WorkshopFuel::accepts))
-                .slots("additive",1,SlotRules.DEFAULT.maxStack(8).accepts {name!="charcoal_hearth" && it.`is`(com.bareminimumstudios.temperandtang.api.TemperAndTangApi.ALLOY_ADDITIVES)})
+                .slots("additive",1,SlotRules.DEFAULT.maxStack(8).accepts {name!="charcoal_hearth" && it.`is`(TemperAndTangApi.ALLOY_ADDITIVES)})
                 .control("heat",ControlSpec.button()).control("progress",ControlSpec.range(0f,100f,0f).locked())
                 .control("fuel_cost",ControlSpec.range(0f,64f,1f).locked()).output("result").build())
-            .hidesBlocks(com.bareminimumstudios.temperandtang.content.WorkshopBlock::span).exclusive().openWhen { player,pos,state -> active() && com.bareminimumstudios.temperandtang.content.WorkshopBlock.ensureSpace(player.level(),pos,state,player) }.logic { Hearth() }.register()
+            .hidesBlocks(WorkshopBlock::span).exclusive().openWhen { player,pos,state -> active() && WorkshopBlock.ensureSpace(player.level(),pos,state,player) }.logic { Hearth() }.register()
         Diegesis.station(TemperAndTang.id("shaping_anvil")).block { TemperContent.block("shaping_anvil") }
-            .blocks(net.minecraft.world.level.block.Blocks.ANVIL,net.minecraft.world.level.block.Blocks.CHIPPED_ANVIL,net.minecraft.world.level.block.Blocks.DAMAGED_ANVIL)
-            .anchor(com.bareminimumstudios.temperandtang.content.WorkshopBlock::anchor)
+            .blocks(Blocks.ANVIL,Blocks.CHIPPED_ANVIL,Blocks.DAMAGED_ANVIL)
+            .anchor(WorkshopBlock::anchor)
             .schema(StationSchema.builder()
                 .slots("grid",9,SlotRules.DEFAULT.maxStack(1))
                 .slots("hammer",1,SlotRules.DEFAULT.maxStack(1).accepts(FinishingStation::isHammer))
@@ -71,15 +78,15 @@ object ThermalStations {
                 .control("progress",ControlSpec.range(0f,40f,0f).locked()).control("required",ControlSpec.range(1f,40f,6f).locked())
                 .control("clean",ControlSpec.range(0f,40f,0f).locked()).control("beat",ControlSpec.range(0f,1f,0f).locked())
                 .output("result").build())
-            .exclusive().openWhen { player,pos,state -> active() && com.bareminimumstudios.temperandtang.content.WorkshopBlock.ensureSpace(player.level(),pos,state,player) && (state.`is`(TemperContent.block("shaping_anvil")) || TemperAndTang.config.vanillaAnvilWorkshop.get() && player.isShiftKeyDown) }.logic { Shaper() }.register()
+            .exclusive().openWhen { player,pos,state -> active() && WorkshopBlock.ensureSpace(player.level(),pos,state,player) && (state.`is`(TemperContent.block("shaping_anvil")) || TemperAndTang.config.vanillaAnvilWorkshop.get() && player.isShiftKeyDown) }.logic { Shaper() }.register()
         Diegesis.station(TemperAndTang.id("quenching_trough")).block { TemperContent.block("quenching_trough") }
-            .anchor(com.bareminimumstudios.temperandtang.content.WorkshopBlock::anchor)
+            .anchor(WorkshopBlock::anchor)
             .schema(StationSchema.builder()
                 .slots("stock",1,SlotRules.DEFAULT.maxStack(8).accepts { ThermalState.pending(it) || WorkshopPlans.metal(it) })
                 .slots("water",1,SlotRules.DEFAULT.maxStack(1).accepts { it.`is`(Items.WATER_BUCKET) || it.`is`(Items.BUCKET) })
                 .control("quench",ControlSpec.button()).control("progress",ControlSpec.range(0f,100f,0f).locked())
                 .output("result").build())
-            .exclusive().openWhen { player,pos,state -> active() && com.bareminimumstudios.temperandtang.content.WorkshopBlock.ensureSpace(player.level(),pos,state,player) }.logic { Trough() }.register()
+            .exclusive().openWhen { player,pos,state -> active() && WorkshopBlock.ensureSpace(player.level(),pos,state,player) }.logic { Trough() }.register()
     }
     private class Hearth : StationLogic {
         private fun resolve(s:StationContext,stock:ItemStack):WorkshopPlans.Heating? {
@@ -212,7 +219,7 @@ object ThermalStations {
             for(key in listOf("progress","clean","accuracy","misses","beat","target","phase","last_score"))s.state().setControl(key,0f)
         }
         private fun refresh(s:StationContext) {
-            val previous=plan()?.id?:net.minecraft.resources.ResourceLocation.tryParse(s.state().data().getString("pattern_id"))
+            val previous=plan()?.id?:ResourceLocation.tryParse(s.state().data().getString("pattern_id"))
             plans=WorkshopPlans.forming(s.level())
             index=plans.indexOfFirst {it.id==previous}.takeIf {it>=0}?:plans.indexOfFirst {it.id==TemperAndTang.id("bronze_sword")}.takeIf {it>=0}?:0
             reset(s)
@@ -276,7 +283,7 @@ object ThermalStations {
             if(plans.isEmpty())refresh(s)
             if(control=="mode") {
                 if(stocks(s).any {!it.isEmpty} || !s.state().getItem(GEAR).isEmpty) {
-                    player.displayClientMessage(net.minecraft.network.chat.Component.translatable("temperandtang.craft.clear_mode"),true);return
+                    player.displayClientMessage(Component.translatable("temperandtang.craft.clear_mode"),true);return
                 }
                 reforgeMode=!reforgeMode;reset(s);updateOutputs(s);return
             }
@@ -298,7 +305,7 @@ object ThermalStations {
                 if(!Blueprints.blank(s.state().getItem(BLUEPRINT)))return
                 val mastery=player.server?.let {SmithingProgress.get(it).level(player.uuid)}?:0
                 if(mastery<TemperAndTang.config.blueprintMastery.get()) {
-                    player.displayClientMessage(net.minecraft.network.chat.Component.translatable("temperandtang.thermal.blueprint_mastery",TemperAndTang.config.blueprintMastery.get()),true);return
+                    player.displayClientMessage(Component.translatable("temperandtang.thermal.blueprint_mastery",TemperAndTang.config.blueprintMastery.get()),true);return
                 }
                 s.state().setItem(BLUEPRINT,Blueprints.make(selected.id.toString(),selected.recipe.getResultItem(s.level().registryAccess()).hoverName))
                 sound(s,SoundEvents.BOOK_PAGE_TURN,0.6f,1f);reset(s);updateOutputs(s);return
@@ -363,7 +370,7 @@ object ThermalStations {
             state.setControl("accuracy",((job?.accuracy?:0.0)*100).toFloat());state.setControl("misses",job?.misses?.toFloat()?:0f)
             state.setControl("target",((job?.target?:s.level().gameTime)-s.level().gameTime).toFloat().coerceIn(0f,120f))
             state.setControl("window",job?.window?.toFloat()?:0f);state.setControl("phase",job?.phase(s.level().gameTime)?:0f)
-            state.setControl("beat",if(job!=null && kotlin.math.abs(s.level().gameTime-job.target)<=job.perfectWindow)1f else 0f)
+            state.setControl("beat",if(job!=null && abs(s.level().gameTime-job.target)<=job.perfectWindow)1f else 0f)
             state.setControl("last_score",job?.lastScore?.toFloat()?:0f)
             note(s,status,target,if(!state.getItem(GEAR).isEmpty || !actual.isEmpty)List(9){ItemStack.EMPTY}else plan()?.ghosts)
             val data=state.data().copy();val before=data.copy()

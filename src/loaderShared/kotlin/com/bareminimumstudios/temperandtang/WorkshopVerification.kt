@@ -9,27 +9,30 @@ import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.network.chat.Component
 import net.minecraft.server.MinecraftServer
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.item.*
 import net.minecraft.world.item.context.BlockPlaceContext
-import net.minecraft.world.InteractionHand
-import net.minecraft.world.phys.BlockHitResult
-import net.minecraft.world.phys.Vec3
+import net.minecraft.world.level.ChunkPos
+import net.minecraft.world.level.GameRules
+import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.phys.AABB
-import net.minecraft.world.entity.item.ItemEntity
+import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.Vec3
 
 /** Explicit isolated workshop checks; run in a disposable verification world. */
 object WorkshopVerification {
     private data class Case(val fixture:CraftVerification.Fixture,val expected:Item,val count:Int,val duration:Int,val fuel:ItemStack)
     private data class Job(val source:CommandSourceStack,val started:Long,val cases:List<Case>)
     private val jobs=mutableMapOf<MinecraftServer,Job>()
-    private val forced=mutableMapOf<MinecraftServer,List<net.minecraft.world.level.ChunkPos>>()
+    private val forced=mutableMapOf<MinecraftServer,List<ChunkPos>>()
     private fun release(server:MinecraftServer){forced.remove(server)?.forEach {server.overworld().setChunkForced(it.x,it.z,false)}}
     private val warming=mutableMapOf<MinecraftServer,Pair<CommandSourceStack,Long>>()
     fun start(source:CommandSourceStack) {
         check(source.server !in jobs && source.server !in warming)
         val origin=BlockPos.containing(source.position).offset(2048,0,2048).atY(280)
-        val chunks=(0..2).flatMap {n->Direction.Plane.HORIZONTAL.map {f->net.minecraft.world.level.ChunkPos(origin.offset(n*12,0,f.ordinal*12))}}.distinct()
+        val chunks=(0..2).flatMap {n->Direction.Plane.HORIZONTAL.map {f->ChunkPos(origin.offset(n*12,0,f.ordinal*12))}}.distinct()
         forced[source.server]=chunks.filter {!source.level.forcedChunks.contains(it.toLong())}
         forced.getValue(source.server).forEach {source.level.setChunkForced(it.x,it.z,true)}
         warming[source.server]=source to (source.level.gameTime+40)
@@ -111,11 +114,11 @@ object WorkshopVerification {
                 check(occupied.size==block.width*block.width*block.height)
                 for(pos in occupied){val part=level.getBlockState(pos);check(part.`is`(block) && block.root(pos,part)==root);val type=Diegesis.stationFor(part).orElseThrow();check(type.anchor().resolve(level,pos,part)==root);val shape=part.getShape(level,pos);if(!shape.isEmpty){val b=shape.bounds();check(b.minX>=0 && b.minY>=0 && b.minZ>=0 && b.maxX<=1 && b.maxY<=1 && b.maxZ<=1)}}
                 val region=AABB(root).inflate(5.0);check(level.getEntitiesOfClass(ItemEntity::class.java,region).isEmpty())
-                val loot=net.minecraft.world.level.block.Block.getDrops(state,level,root,null)
+                val loot=Block.getDrops(state,level,root,null)
                 check(loot.sumOf {if(it.item==Item.byBlock(block))it.count else 0}==1){"Root loot invalid for $name: $loot table=${block.lootTable}"}
                 level.destroyBlock(occupied.last(),true)
                 check(occupied.all {level.getBlockState(it).isAir}){"Orphaned station part"}
-                val drops=level.getEntitiesOfClass(ItemEntity::class.java,region);check(drops.sumOf {if(it.item.item==Item.byBlock(block))it.item.count else 0}==1){"Station did not drop exactly once: $name $facing drops=$drops tileDrops=${level.gameRules.getBoolean(net.minecraft.world.level.GameRules.RULE_DOBLOCKDROPS)}"};drops.forEach {it.discard()}
+                val drops=level.getEntitiesOfClass(ItemEntity::class.java,region);check(drops.sumOf {if(it.item.item==Item.byBlock(block))it.item.count else 0}==1){"Station did not drop exactly once: $name $facing drops=$drops tileDrops=${level.gameRules.getBoolean(GameRules.RULE_DOBLOCKDROPS)}"};drops.forEach {it.discard()}
             }finally{occupied.forEach {if(level.getBlockState(it).`is`(block))level.removeBlock(it,false)}}
         }
     }

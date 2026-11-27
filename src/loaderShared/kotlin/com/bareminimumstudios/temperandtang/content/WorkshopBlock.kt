@@ -2,6 +2,7 @@ package com.bareminimumstudios.temperandtang.content
 
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
@@ -11,10 +12,12 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.state.*
 import net.minecraft.world.level.block.state.properties.*
+import net.minecraft.world.level.material.PushReaction
 import net.minecraft.world.phys.shapes.*
+import net.minecraft.world.phys.shapes.BooleanOp
 
 /** A single owned station spanning real occupied cells; every part anchors to the same session. */
-class WorkshopBlock(properties:BlockBehaviour.Properties,kind:String):Block(properties.pushReaction(net.minecraft.world.level.material.PushReaction.BLOCK)) {
+class WorkshopBlock(properties:BlockBehaviour.Properties,kind:String):Block(properties.pushReaction(PushReaction.BLOCK)) {
     private val scale=when(kind){"hearth","alloy_forge","nether_alloy_forge"->2.0;else->1.0}
     val width=if(scale>1)2 else 1
     val height=if(kind == "alloy_forge" || kind == "nether_alloy_forge")2 else 1
@@ -25,7 +28,7 @@ class WorkshopBlock(properties:BlockBehaviour.Properties,kind:String):Block(prop
     private val shapes=Direction.Plane.HORIZONTAL.associateWith {facing->cells.indices.map {index->
         val off=offset(index,facing)
         parts.map {box->var b=box.copyOf();repeat(turns(facing)){b=doubleArrayOf(16-b[5],b[1],b[0],16-b[2],b[4],b[3])};
-            Shapes.joinUnoptimized(Block.box(b[0]-off.x*16,b[1]-off.y*16,b[2]-off.z*16,b[3]-off.x*16,b[4]-off.y*16,b[5]-off.z*16),Shapes.block(),net.minecraft.world.phys.shapes.BooleanOp.AND)
+            Shapes.joinUnoptimized(Block.box(b[0]-off.x*16,b[1]-off.y*16,b[2]-off.z*16,b[3]-off.x*16,b[4]-off.y*16,b[5]-off.z*16),Shapes.block(),BooleanOp.AND)
         }.fold(Shapes.empty(),Shapes::or)
     }}
     init {registerDefaultState(stateDefinition.any().setValue(FACING,Direction.NORTH).setValue(PART,0))}
@@ -72,7 +75,7 @@ class WorkshopBlock(properties:BlockBehaviour.Properties,kind:String):Block(prop
             val root=block.root(pos,state);val facing=state.getValue(FACING)
             val missing=block.cells.indices.drop(1).filter {i->val p=root.offset(block.offset(i,facing));val current=level.getBlockState(p);!(current.`is`(block) && current.getValue(PART)==i && current.getValue(FACING)==facing)}
             if(missing.any {i->val p=root.offset(block.offset(i,facing));!level.isInWorldBounds(p) || !level.getBlockState(p).canBeReplaced()}){
-                if(!level.isClientSide)player?.displayClientMessage(net.minecraft.network.chat.Component.translatable("temperandtang.station.clear_space"),true)
+                if(!level.isClientSide)player?.displayClientMessage(Component.translatable("temperandtang.station.clear_space"),true)
                 return false
             }
             if(!level.isClientSide)for(i in missing)level.setBlock(root.offset(block.offset(i,facing)),state.setValue(PART,i),3)

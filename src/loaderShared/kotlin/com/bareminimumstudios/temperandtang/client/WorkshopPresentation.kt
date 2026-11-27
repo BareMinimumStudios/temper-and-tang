@@ -1,17 +1,29 @@
 package com.bareminimumstudios.temperandtang.client
 
 import com.bareminimumstudios.temperandtang.TemperAndTang
+import com.bareminimumstudios.temperandtang.content.TemperContent
+import com.bareminimumstudios.temperandtang.smithing.CraftMaterials
+import com.bareminimumstudios.temperandtang.smithing.ForgeMaterial
+import com.bareminimumstudios.temperandtang.smithing.RhythmLatency
 import com.bareminimumstudios.temperandtang.smithing.RhythmTrack
+import com.bareminimumstudios.temperandtang.smithing.WeaponFinishes
 import com.bareminimumstudios.temperandtang.smithing.WorkshopMotion as Motion
+import com.bareminimumstudios.temperandtang.smithing.WorkshopPlans
+import com.bareminimumstudios.temperandtang.station.FinishingStation
+import com.bareminimumstudios.temperandtang.station.ThermalStations
 import com.pockyl.diegesis.api.client.*
 import com.pockyl.diegesis.api.scene.Visual
+import kotlin.math.*
+import net.minecraft.client.Minecraft
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
+import net.minecraft.world.entity.HumanoidArm
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
 import org.joml.Vector3f
-import kotlin.math.*
 
 /** One accepted server event drives the contact pose, particles and local sound together. */
 class HammerPresentation(private val finishing:Boolean) {
@@ -20,7 +32,7 @@ class HammerPresentation(private val finishing:Boolean) {
     private var strike:Strike?=null
     private var elapsed=0f
     private var impacted=false
-    private var workMaterial=com.bareminimumstudios.temperandtang.smithing.ForgeMaterial.NEUTRAL
+    private var workMaterial=ForgeMaterial.NEUTRAL
     private var colorTarget=""
     private var lastTarget=""
     private var cachedItem=""
@@ -35,7 +47,7 @@ class HammerPresentation(private val finishing:Boolean) {
     private var pulseTime=0f
     private var wasWorking=false
     private var beatArmed=false
-    private fun surface(view:StationView):Float=if(finishing)14.4f else if(view.level().getBlockState(view.pos()).`is`(com.bareminimumstudios.temperandtang.content.TemperContent.block("shaping_anvil")))13.4f else 16.4f
+    private fun surface(view:StationView):Float=if(finishing)14.4f else if(view.level().getBlockState(view.pos()).`is`(TemperContent.block("shaping_anvil")))13.4f else 16.4f
     private var lastTimingProbe=0
     private fun acknowledgeTiming(view:StationView) {
         val nonce=view.state().data().getInt("timing_probe")
@@ -49,9 +61,9 @@ class HammerPresentation(private val finishing:Boolean) {
         val state=view.state()
         val period=state.getControl("period").coerceAtLeast(1f)
         val rawUntil=state.getControl("target").takeIf {it>0f}?:((.5f-state.getControl("phase"))*period)
-        val mc=net.minecraft.client.Minecraft.getInstance()
+        val mc=Minecraft.getInstance()
         val ping=if(state.data().contains("rhythm_ping"))state.data().getInt("rhythm_ping")else mc.player?.uuid?.let {mc.connection?.getPlayerInfo(it)?.latency}?:0
-        val until=rawUntil-com.bareminimumstudios.temperandtang.smithing.RhythmLatency.ticks(ping,TemperAndTang.config.latencyCompensationTicks.get())
+        val until=rawUntil-RhythmLatency.ticks(ping,TemperAndTang.config.latencyCompensationTicks.get())
         if(state.getControl("target")>0f || state.getControl("phase")>0f)beatArmed=true
         val id=state.data().getLong("rhythm_target")
         if(!initialized){marker=until;initialized=true}
@@ -67,18 +79,18 @@ class HammerPresentation(private val finishing:Boolean) {
     fun frame(view:StationView,dt:Float) {
         acknowledgeTiming(view)
         val state=view.state();val ready=!state.getOutput("result").isEmpty
-        val input=if(finishing)state.getItem(com.bareminimumstudios.temperandtang.station.FinishingStation.WEAPON) else state.getItem(com.bareminimumstudios.temperandtang.station.ThermalStations.GEAR)
-        val working=if(finishing)!input.isEmpty && !state.getItem(com.bareminimumstudios.temperandtang.station.FinishingStation.HAMMER).isEmpty && com.bareminimumstudios.temperandtang.smithing.WeaponFinishes.ingredient(state.getItem(com.bareminimumstudios.temperandtang.station.FinishingStation.MATERIAL))!=null else state.data().getString("status")=="work"
+        val input=if(finishing)state.getItem(FinishingStation.WEAPON) else state.getItem(ThermalStations.GEAR)
+        val working=if(finishing)!input.isEmpty && !state.getItem(FinishingStation.HAMMER).isEmpty && WeaponFinishes.ingredient(state.getItem(FinishingStation.MATERIAL))!=null else state.data().getString("status")=="work"
         if(working && !wasWorking){initialized=false;sync(view)}
         if(!working){marker=0f;initialized=false;beatArmed=false}
         wasWorking=working
         if(strike==null && pending.isNotEmpty()){strike=pending.removeFirst();elapsed=0f;impacted=false}
         val show=working || busy
         val refining=!finishing && state.data().getBoolean("precision_refining")
-        val refiningBed=if(view.level().getBlockState(view.pos()).`is`(com.bareminimumstudios.temperandtang.content.TemperContent.block("shaping_anvil")))13.25f else 16f
+        val refiningBed=if(view.level().getBlockState(view.pos()).`is`(TemperContent.block("shaping_anvil")))13.25f else 16f
         val contactY=if(refining)refiningBed+3f*.42f else surface(view)
         val workpieceY=if(refining)refiningBed+.42f else contactY-.15f
-        val side=if(net.minecraft.client.Minecraft.getInstance().player?.mainArm==net.minecraft.world.entity.HumanoidArm.LEFT)-1 else 1
+        val side=if(Minecraft.getInstance().player?.mainArm==HumanoidArm.LEFT)-1 else 1
         val pose=view.node("strike_pose")
         val grip=if(pose.isPresent)Motion.sideHammerGrip(contactY,side)else Motion.hammerGrip(contactY)
         pose.ifPresent {it.moveTo(grip.x-8f,grip.y,grip.z,0f);it.rotateTo(0f,90f*side,0f,0f)}
@@ -98,14 +110,14 @@ class HammerPresentation(private val finishing:Boolean) {
             val existing=finishing || reforging
             val id=if(existing && !input.isEmpty)BuiltInRegistries.ITEM.getKey(input.item).toString() else if(finishing)cachedItem else state.data().getString("target")
             if(id.isNotEmpty())cachedItem=id
-            val targetItem=ResourceLocation.tryParse(id)?.let {BuiltInRegistries.ITEM.get(it)}?:net.minecraft.world.item.Items.AIR
+            val targetItem=ResourceLocation.tryParse(id)?.let {BuiltInRegistries.ITEM.get(it)}?:Items.AIR
             val required=if(finishing)TemperAndTang.config.requiredStrikes.get()else state.getControl("required").toInt().coerceAtLeast(1)
             val ratio=visibleHits.toFloat()/required
             val stage=if(existing)id else if(state.data().getBoolean("precision_refining"))"refining_billet" else when {ratio<.35f->"shaping_billet";ratio<.7f->if(WorkpieceForms.plate(targetItem))"armor_plate" else "drawn_stock";else->WorkpieceForms.model(targetItem)}
             if(!existing) {
-                val stocks=(0..8).map {state.getItem(com.bareminimumstudios.temperandtang.station.ThermalStations.grid(it))}.filter(com.bareminimumstudios.temperandtang.smithing.WorkshopPlans::metal)
-                if(stocks.isNotEmpty())workMaterial=com.bareminimumstudios.temperandtang.smithing.CraftMaterials.choose(net.minecraft.world.item.ItemStack(targetItem),stocks)
-                else if(colorTarget!=id)workMaterial=com.bareminimumstudios.temperandtang.smithing.CraftMaterials.identify(net.minecraft.world.item.ItemStack(targetItem))
+                val stocks=(0..8).map {state.getItem(ThermalStations.grid(it))}.filter(WorkshopPlans::metal)
+                if(stocks.isNotEmpty())workMaterial=CraftMaterials.choose(ItemStack(targetItem),stocks)
+                else if(colorTarget!=id)workMaterial=CraftMaterials.identify(ItemStack(targetItem))
                 colorTarget=id
             }
             val key=(if(existing)"item:" else "stock:"+workMaterial.key+":")+stage
@@ -117,7 +129,7 @@ class HammerPresentation(private val finishing:Boolean) {
             view.node("workpiece_display").ifPresent {it.setVisible(show && (existing || visibleHits>0) && (!ready || pending.isNotEmpty() || !impacted));it.moveTo(0f,workpieceY,0f,0f);it.setTint(if(existing)0xFFFFFFFF.toInt() else 0xFFFFF3E8.toInt())}
             if(!finishing)view.node("pattern_board").ifPresent {it.setVisible(!show && !ready && !reforging);it.moveTo(0f,refiningBed,0f,0f)}
             if(!finishing) {
-                val metals=(0..8).filter {com.bareminimumstudios.temperandtang.smithing.WorkshopPlans.metal(state.getItem(com.bareminimumstudios.temperandtang.station.ThermalStations.grid(it)))}
+                val metals=(0..8).filter {WorkshopPlans.metal(state.getItem(ThermalStations.grid(it)))}
                 val columns=metals.size.coerceIn(1,3);val rows=(metals.size+columns-1)/columns
                 for(i in 0..8)view.node("grid_$i").ifPresent {
                     val index=metals.indexOf(i)

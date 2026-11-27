@@ -1,3 +1,4 @@
+import net.msrandom.stubs.GenerateStubApi
 import org.jetbrains.kotlin.buildtools.api.ExperimentalBuildToolsApi
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 plugins {
@@ -109,7 +110,7 @@ kotlin {
     compilerVersion.set("2.2.20")
     coreLibrariesVersion = "2.2.20"
 }
-tasks.withType<net.msrandom.stubs.GenerateStubApi>().configureEach {
+tasks.withType<GenerateStubApi>().configureEach {
     outputDirectory.set(layout.buildDirectory.dir("generated/$name"))
 }
 dependencies {

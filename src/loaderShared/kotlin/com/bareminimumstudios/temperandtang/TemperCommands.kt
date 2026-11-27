@@ -1,25 +1,28 @@
 package com.bareminimumstudios.temperandtang
 
 import com.bareminimumstudios.temperandtang.content.TemperContent
+import com.bareminimumstudios.temperandtang.smithing.CraftRules
 import com.bareminimumstudios.temperandtang.smithing.Finish
 import com.bareminimumstudios.temperandtang.smithing.FinishRules
+import com.bareminimumstudios.temperandtang.smithing.SmithingProgress
 import com.bareminimumstudios.temperandtang.smithing.WeaponFinishes
 import com.mojang.brigadier.CommandDispatcher
+import com.mojang.serialization.JsonOps
 import com.pockyl.diegesis.api.Diegesis
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
-import net.minecraft.core.component.DataComponents
 import net.minecraft.core.component.DataComponentType
+import net.minecraft.core.component.DataComponents
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.tags.TagKey
-import net.minecraft.world.item.enchantment.Enchantments
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.tags.TagKey
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.component.CustomData
+import net.minecraft.world.item.enchantment.Enchantments
 
 object TemperCommands {
     fun register(dispatcher: CommandDispatcher<CommandSourceStack>) {
@@ -30,9 +33,9 @@ object TemperCommands {
         dispatcher.register(Commands.literal("temperandtang")
             .then(Commands.literal("mastery").executes { context ->
                 val player=context.source.playerOrException
-                val data=com.bareminimumstudios.temperandtang.smithing.SmithingProgress.get(context.source.server)
+                val data=SmithingProgress.get(context.source.server)
                 val level=data.level(player.uuid)
-                context.source.sendSuccess({if(level>=20) Component.translatable("temperandtang.craft.mastery_max",level,data.xp(player.uuid)) else Component.translatable("temperandtang.craft.mastery_status",level,data.xp(player.uuid),com.bareminimumstudios.temperandtang.smithing.CraftRules.nextLevelXp(level))},false)
+                context.source.sendSuccess({if(level>=20) Component.translatable("temperandtang.craft.mastery_max",level,data.xp(player.uuid)) else Component.translatable("temperandtang.craft.mastery_status",level,data.xp(player.uuid),CraftRules.nextLevelXp(level))},false)
                 1
             })
             .then(Commands.literal("verify_workshops").requires {it.hasPermission(2)}.executes {context -> WorkshopVerification.start(context.source);1})
@@ -77,7 +80,7 @@ object TemperCommands {
             check(result.get(DataComponents.CUSTOM_DATA)?.copyTag()?.getString("other_mod") == "preserved") { "Foreign data lost" }
             check(result.get(DataComponents.ENCHANTMENTS) == original.get(DataComponents.ENCHANTMENTS)) { "Enchantment lost" }
             check(result.get(DataComponents.MAX_DAMAGE) == FinishRules.maximumDurability(original.getOrDefault(DataComponents.MAX_DAMAGE, original.maxDamage), FinishRules.effect(finish, TemperAndTang.config.balance())))
-            val ops = source.server.registryAccess().createSerializationContext(com.mojang.serialization.JsonOps.INSTANCE)
+            val ops = source.server.registryAccess().createSerializationContext(JsonOps.INSTANCE)
             val saved = ItemStack.CODEC.encodeStart(ops, result).getOrThrow()
             val restored = ItemStack.CODEC.parse(ops, saved).getOrThrow()
             // Codecs normalize default components; compare the persisted representation.

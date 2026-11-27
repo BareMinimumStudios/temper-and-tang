@@ -1,6 +1,7 @@
 package com.bareminimumstudios.temperandtang.compat.viewer
 
 import com.bareminimumstudios.temperandtang.TemperAndTang
+import com.bareminimumstudios.temperandtang.content.TemperContent
 import com.bareminimumstudios.temperandtang.smithing.Blueprints
 import dev.emi.emi.api.*
 import dev.emi.emi.api.recipe.*
@@ -8,6 +9,8 @@ import dev.emi.emi.api.stack.*
 import dev.emi.emi.api.widget.WidgetHolder
 import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.Component
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
 
 @EmiEntrypoint
 class TemperEmiPlugin:EmiPlugin {
@@ -18,17 +21,17 @@ class TemperEmiPlugin:EmiPlugin {
             registry.addEmiStack(EmiStack.of(example))
             registry.addAlias(EmiStack.of(example),Component.literal("Steel-forged ").append(example.hoverName))
         }
-        registry.setDefaultComparison(com.bareminimumstudios.temperandtang.content.TemperContent.item("smithing_blueprint"),Comparison.compareData {Blueprints.pattern(it.itemStack)})
+        registry.setDefaultComparison(TemperContent.item("smithing_blueprint"),Comparison.compareData {Blueprints.pattern(it.itemStack)})
         val categories=WorkshopCategory.entries.associateWith {EmiRecipeCategory(TemperAndTang.id(it.key),EmiStack.of(it.icon()))}
         categories.forEach {(kind,category)->registry.addCategory(category);registry.addWorkstation(category,EmiStack.of(kind.icon()))}
-        registry.addWorkstation(categories.getValue(WorkshopCategory.ALLOYING),EmiStack.of(net.minecraft.world.item.ItemStack(com.bareminimumstudios.temperandtang.content.TemperContent.item("alloy_forge"))))
-        registry.addWorkstation(categories.getValue(WorkshopCategory.ALLOYING),EmiStack.of(net.minecraft.world.item.ItemStack(com.bareminimumstudios.temperandtang.content.TemperContent.item("nether_alloy_forge"))))
+        registry.addWorkstation(categories.getValue(WorkshopCategory.ALLOYING),EmiStack.of(ItemStack(TemperContent.item("alloy_forge"))))
+        registry.addWorkstation(categories.getValue(WorkshopCategory.ALLOYING),EmiStack.of(ItemStack(TemperContent.item("nether_alloy_forge"))))
         for(display in WorkshopDisplays.collect(level))registry.addRecipe(DisplayRecipe(display,categories.getValue(display.category)))
         TemperAndTang.logger.info("EMI_WORKSHOP_REGISTERED: synchronized workshop recipes and native weapon upgrades")
     }
     private class DisplayRecipe(val display:WorkshopDisplay,val kind:EmiRecipeCategory):EmiRecipe {
-        private fun ingredientStack(stack:net.minecraft.world.item.ItemStack)=EmiStack.of(stack).also {
-            if(stack.item==net.minecraft.world.item.Items.WATER_BUCKET)it.setRemainder(EmiStack.of(net.minecraft.world.item.Items.BUCKET))
+        private fun ingredientStack(stack:ItemStack)=EmiStack.of(stack).also {
+            if(stack.item==Items.WATER_BUCKET)it.setRemainder(EmiStack.of(Items.BUCKET))
         }
         override fun getCategory()=kind
         override fun getId()=display.id

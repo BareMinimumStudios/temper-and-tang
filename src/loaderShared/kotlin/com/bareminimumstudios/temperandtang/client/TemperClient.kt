@@ -1,8 +1,9 @@
 package com.bareminimumstudios.temperandtang.client
 
 import com.bareminimumstudios.temperandtang.TemperAndTang
-import com.bareminimumstudios.temperandtang.station.FinishingStation
+import com.bareminimumstudios.temperandtang.smithing.RhythmTrack
 import com.bareminimumstudios.temperandtang.smithing.WeaponFinishes
+import com.bareminimumstudios.temperandtang.station.FinishingStation
 import com.pockyl.diegesis.api.client.DiegesisClient
 import com.pockyl.diegesis.api.client.StationBehavior
 import com.pockyl.diegesis.api.client.StationView
@@ -10,6 +11,7 @@ import com.pockyl.diegesis.api.state.StationState
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 import org.lwjgl.glfw.GLFW
 
 /** Client feedback only. Both input routes use the same server-authoritative strike checks. */
@@ -28,7 +30,7 @@ object TemperClient {
             refresh(view)
         }
         override fun onStateChanged(view:StationView,changes:StationState.Changes) {hammer.sync(view);refresh(view)}
-        override fun onEffect(view:StationView,effect:net.minecraft.resources.ResourceLocation,node:String?,data:CompoundTag) {hammer.effect(effect,data)}
+        override fun onEffect(view:StationView,effect:ResourceLocation,node:String?,data:CompoundTag) {hammer.effect(effect,data)}
         override fun frame(view:StationView,deltaSeconds:Float) {hammer.frame(view,deltaSeconds)}
         override fun tick(view: StationView) {
             if (!view.isFocused) return
@@ -73,7 +75,7 @@ object TemperClient {
             }
             for(id in listOf("timing_rail","timing_band","timing_marker"))view.node(id).ifPresent {it.setVisible(key=="instructions" && !ready)}
             val perfect=(state.getControl("window").toInt()/2+1).toFloat()
-            view.node("timing_band").ifPresent {it.scaleTo(com.bareminimumstudios.temperandtang.smithing.RhythmTrack.bandWidth(view.state().getControl("perfect_window").coerceAtLeast(1f))/2f,0.05f)}
+            view.node("timing_band").ifPresent {it.scaleTo(RhythmTrack.bandWidth(view.state().getControl("perfect_window").coerceAtLeast(1f))/2f,0.05f)}
             view.showCaption(WorkshopGuidance.caption(view,"finish",key),0f)
         }
     }

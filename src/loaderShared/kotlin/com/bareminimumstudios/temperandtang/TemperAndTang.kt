@@ -1,5 +1,6 @@
 package com.bareminimumstudios.temperandtang
 import com.bareminimumstudios.temperandtang.station.FinishingStation
+import com.bareminimumstudios.temperandtang.station.ThermalStations
 import me.fzzyhmstrs.fzzy_config.api.ConfigApi
 import net.minecraft.resources.ResourceLocation
 import org.slf4j.LoggerFactory
@@ -15,7 +16,7 @@ object TemperAndTang {
         modLoaded = presence
         config = ConfigApi.registerAndLoadConfig(::TemperConfig)
         FinishingStation.register()
-        com.bareminimumstudios.temperandtang.station.ThermalStations.register()
+        ThermalStations.register()
         logger.info("Temper & Tang ready: standalone craftsmanship workshop; Simply Swords={}, Epic Knights={}",
             presence("simplyswords"), presence("magistuarmory"))
     }

@@ -1,5 +1,8 @@
 package com.bareminimumstudios.temperandtang.smithing
 
+import java.util.Locale
+
+
 enum class ForgeTrait(val durability:Double,val damage:Double,val speed:Double,val armor:Double,val movement:Double,val mining:Double) {
     NONE(0.0,0.0,0.0,0.0,0.0,0.0),
     STURDY(.10,-.02,-.01,0.0,-.001,-.02),
@@ -8,7 +11,7 @@ enum class ForgeTrait(val durability:Double,val damage:Double,val speed:Double,v
     REINFORCED(.04,0.0,0.0,.035,-.003,0.0),
     SUPPLE(-.05,0.0,0.0,0.0,.004,0.0),
     INDUSTRIOUS(-.06,0.0,-.01,0.0,0.0,.06);
-    val key get()=name.lowercase(java.util.Locale.ROOT)
+    val key get()=name.lowercase(Locale.ROOT)
     companion object {fun parse(key:String)=entries.firstOrNull {it.key==key}?:NONE}
 }
 enum class ForgeFamily {WEAPON,TOOL,ARMOR,SHIELD}

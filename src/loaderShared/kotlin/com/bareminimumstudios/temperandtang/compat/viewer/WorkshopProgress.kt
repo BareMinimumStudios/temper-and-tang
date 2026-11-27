@@ -1,5 +1,6 @@
 package com.bareminimumstudios.temperandtang.compat.viewer
 
+import kotlin.math.abs
 import net.minecraft.Util
 import net.minecraft.client.gui.GuiGraphics
 
@@ -17,7 +18,7 @@ internal object WorkshopProgress {
         graphics.fill(109, 41, 130, 46, 0xFF554737.toInt())
         graphics.fill(110, 42, 110 + progress, 45, accent)
         for (row in -4..4) {
-            graphics.fill(130, 43 + row, 135 - kotlin.math.abs(row), 44 + row, accent)
+            graphics.fill(130, 43 + row, 135 - abs(row), 44 + row, accent)
         }
         if (category == WorkshopCategory.REFINING || category == WorkshopCategory.ALLOYING) {
             for (ember in 0..2) {

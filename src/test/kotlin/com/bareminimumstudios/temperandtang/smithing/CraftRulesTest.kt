@@ -1,8 +1,9 @@
 package com.bareminimumstudios.temperandtang.smithing
+import java.util.Random
 import kotlin.test.*
 class CraftRulesTest {
     @Test fun `quality is randomized but accuracy and mastery dominate its distribution`() {
-        val rng=java.util.Random(144L)
+        val rng=Random(144L)
         var poor=0.0;var good=0.0;var master=0.0;var masterworks=0
         repeat(20000) {
             val roll=rng.nextDouble()

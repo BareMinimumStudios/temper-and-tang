@@ -1,6 +1,9 @@
 package com.bareminimumstudios.temperandtang.client
 
 import com.bareminimumstudios.temperandtang.TemperAndTang
+import com.bareminimumstudios.temperandtang.content.TemperContent
+import com.bareminimumstudios.temperandtang.smithing.RhythmTrack
+import com.bareminimumstudios.temperandtang.station.ThermalStations
 import com.pockyl.diegesis.api.client.*
 import com.pockyl.diegesis.api.state.StationState
 import net.minecraft.client.Minecraft
@@ -9,6 +12,7 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
 import org.lwjgl.glfw.GLFW
 
 object ThermalClient {
@@ -75,11 +79,11 @@ object ThermalClient {
                 val working=visibleState.data().getString("status")=="work"
                 for(key in listOf("previous","next","category","scribe","mode"))view.node(key).ifPresent {it.setVisible(!ready && !working && (key=="mode" || !reforging))}
                 for(key in listOf("timing_rail","timing_band","timing_marker"))view.node(key).ifPresent {it.setVisible(working && !ready)}
-                view.node("timing_band").ifPresent {it.scaleTo(com.bareminimumstudios.temperandtang.smithing.RhythmTrack.bandWidth(view.state().getControl("perfect_window").coerceAtLeast(1f))/2f,0.05f)}
+                view.node("timing_band").ifPresent {it.scaleTo(RhythmTrack.bandWidth(view.state().getControl("perfect_window").coerceAtLeast(1f))/2f,0.05f)}
                 view.node("strike").ifPresent {it.setVisible(!ready)}
-                view.node("gear").ifPresent {it.setGhostItems(listOf(ItemStack(net.minecraft.world.item.Items.IRON_CHESTPLATE)))}
-                view.node("flux").ifPresent {it.setGhostItems(listOf(ItemStack(com.bareminimumstudios.temperandtang.content.TemperContent.item("smithing_flux"))))}
-                view.node("blueprint").ifPresent {it.setGhostItems(listOf(ItemStack(com.bareminimumstudios.temperandtang.content.TemperContent.item("blank_blueprint"))))}
+                view.node("gear").ifPresent {it.setGhostItems(listOf(ItemStack(Items.IRON_CHESTPLATE)))}
+                view.node("flux").ifPresent {it.setGhostItems(listOf(ItemStack(TemperContent.item("smithing_flux"))))}
+                view.node("blueprint").ifPresent {it.setGhostItems(listOf(ItemStack(TemperContent.item("blank_blueprint"))))}
             } else {
                 view.node("stock").ifPresent {it.setVisible(!ready)}
                 val status=visibleState.data().getString("status")
@@ -87,12 +91,12 @@ object ThermalClient {
                     val furnace=view.node("furnace_body").isPresent
                     view.node("fuel").ifPresent {it.setVisible(!furnace || status!="heating")}
 
-                    view.node("additive").ifPresent {it.setGhostItems(listOf(ItemStack(com.bareminimumstudios.temperandtang.content.TemperContent.item("tin_ingot")),ItemStack(net.minecraft.world.item.Items.CHARCOAL)))}
+                    view.node("additive").ifPresent {it.setGhostItems(listOf(ItemStack(TemperContent.item("tin_ingot")),ItemStack(Items.CHARCOAL)))}
                     view.node("embers").ifPresent {it.setVisible(status in listOf("heating","ready"))}
                     view.node("fire").ifPresent {it.setEmitting(status=="heating")}
                 } else {
-                    val water=visibleState.getItem(com.bareminimumstudios.temperandtang.station.ThermalStations.WATER)
-                    view.node("water_surface").ifPresent {it.setVisible(water.`is`(net.minecraft.world.item.Items.WATER_BUCKET) || status in listOf("quenching","ready"))}
+                    val water=visibleState.getItem(ThermalStations.WATER)
+                    view.node("water_surface").ifPresent {it.setVisible(water.`is`(Items.WATER_BUCKET) || status in listOf("quenching","ready"))}
 
 
                 }

@@ -1,29 +1,45 @@
 package com.bareminimumstudios.temperandtang
 
+import com.bareminimumstudios.temperandtang.compat.WorkshopRecipes
 import com.bareminimumstudios.temperandtang.content.TemperContent
+import com.bareminimumstudios.temperandtang.content.WorkshopCatalog
 import com.bareminimumstudios.temperandtang.smithing.*
-import com.bareminimumstudios.temperandtang.station.ThermalStations as T
 import com.bareminimumstudios.temperandtang.station.FinishingStation as F
+import com.bareminimumstudios.temperandtang.station.ThermalStations as T
+import com.google.gson.JsonParser
 import com.mojang.authlib.GameProfile
+import com.mojang.serialization.JsonOps
 import com.pockyl.diegesis.api.Diegesis
 import com.pockyl.diegesis.api.state.*
 import com.pockyl.diegesis.api.station.StationContext
 import com.pockyl.diegesis.impl.action.ActionHandler
 import com.pockyl.diegesis.impl.action.StationAction
+import io.netty.buffer.Unpooled
+import java.util.UUID
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.core.*
 import net.minecraft.core.component.DataComponents
 import net.minecraft.core.registries.*
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
-import net.minecraft.world.entity.player.Player
+import net.minecraft.world.entity.EquipmentSlotGroup
 import net.minecraft.world.entity.ai.attributes.*
+import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.*
+import net.minecraft.world.item.DyeColor
 import net.minecraft.world.item.component.*
+import net.minecraft.world.item.crafting.CraftingInput
+import net.minecraft.world.item.crafting.CraftingRecipe
+import net.minecraft.world.item.crafting.RecipeType
+import net.minecraft.world.item.crafting.ShapedRecipe
+import net.minecraft.world.item.crafting.SmithingRecipeInput
+import net.minecraft.world.item.crafting.SmithingTransformRecipe
 import net.minecraft.world.item.enchantment.Enchantments
-import java.util.UUID
+import net.minecraft.world.level.block.Blocks
 
 /** Explicit isolated diagnostics: no connected player's inventory, mastery, blocks or clock are changed. */
 object CraftVerification {
@@ -151,8 +167,8 @@ object CraftVerification {
         check(!GearSupport.supported(ItemStack(Items.WOODEN_SWORD)) && !GearSupport.supported(ItemStack(Items.LEATHER_CHESTPLATE)))
         val diamond=Craftsmanship.apply(CraftTraits.stamp(CraftMaterials.stamp(ItemStack(Items.DIAMOND_SWORD),ForgeMaterial.DIAMOND),ForgeTrait.STURDY),CraftRoll(CraftGrade.MASTERWORK,1.0,0.9,0.5,10),"SmithFixture","fixture")
         val finished=WeaponFinishes.preview(diamond,Finish.TEMPERED)
-        val recipe=source.server.recipeManager.byKey(ResourceLocation.parse("minecraft:netherite_sword_smithing")).orElseThrow().value() as net.minecraft.world.item.crafting.SmithingTransformRecipe
-        val upgrade=recipe.assemble(net.minecraft.world.item.crafting.SmithingRecipeInput(ItemStack(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE),finished,ItemStack(Items.NETHERITE_INGOT)),source.registryAccess())
+        val recipe=source.server.recipeManager.byKey(ResourceLocation.parse("minecraft:netherite_sword_smithing")).orElseThrow().value() as SmithingTransformRecipe
+        val upgrade=recipe.assemble(SmithingRecipeInput(ItemStack(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE),finished,ItemStack(Items.NETHERITE_INGOT)),source.registryAccess())
         check(upgrade.item==Items.NETHERITE_SWORD && Craftsmanship.grade(upgrade)==CraftGrade.MASTERWORK)
         check(CraftMaterials.recorded(upgrade)==ForgeMaterial.NETHERITE && CraftTraits.recorded(upgrade)==ForgeTrait.STURDY){"Upgrade lost or retained the wrong material/trait"}
         check(Craftsmanship.root(upgrade).getInt("origin_durability")==Items.NETHERITE_SWORD.defaultInstance.maxDamage) {"Upgrade retained the old material baseline"}
@@ -164,8 +180,8 @@ object CraftVerification {
                 val made=Craftsmanship.apply(CraftTraits.stamp(CraftMaterials.stamp(helmet,ForgeMaterial.STEEL),ForgeTrait.REINFORCED),CraftRoll(CraftGrade.MASTERWORK,1.0,.9,.5,10),"SmithFixture","native-upgrade")
                 val base=WeaponFinishes.preview(made,Finish.TEMPERED)
                 val holder=source.server.recipeManager.byKey(ResourceLocation.parse("magistuarmory:ceremonialarmet")).orElseThrow()
-                val native=holder.value() as net.minecraft.world.item.crafting.SmithingTransformRecipe
-                val input=net.minecraft.world.item.crafting.SmithingRecipeInput(ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("magistuarmory:gilding_template"))),base,ItemStack(Items.GOLD_INGOT))
+                val native=holder.value() as SmithingTransformRecipe
+                val input=SmithingRecipeInput(ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("magistuarmory:gilding_template"))),base,ItemStack(Items.GOLD_INGOT))
                 check(native.matches(input,source.level))
                 val gilded=native.assemble(input,source.registryAccess())
                 check(Craftsmanship.root(gilded).getInt("origin_durability")==gilded.item.defaultInstance.maxDamage){"Native gilding used the old armor baseline"}
@@ -178,17 +194,17 @@ object CraftVerification {
             }
         }
         val external=ItemStack(Items.IRON_SWORD).also {
-            it.set(DataComponents.MAX_DAMAGE,300);it.set(DataComponents.BASE_COLOR,net.minecraft.world.item.DyeColor.RED)
+            it.set(DataComponents.MAX_DAMAGE,300);it.set(DataComponents.BASE_COLOR,DyeColor.RED)
             it.set(DataComponents.CUSTOM_NAME,Component.literal("Inherited equipment"));it.damageValue=3
             it.set(DataComponents.CUSTOM_DATA,CustomData.of(CompoundTag().also {data->data.putString("foreign_fixture","preserved");data.putString("authored_priority","old")}))
         }
         val old=Craftsmanship.apply(CraftMaterials.stamp(external,ForgeMaterial.IRON),CraftRoll(CraftGrade.MASTERWORK,1.0,.9,.5,10),"SmithFixture","transfer-fixture")
         val foreignId=ResourceLocation.parse("fixture:portable_damage")
-        old.set(DataComponents.ATTRIBUTE_MODIFIERS,old.get(DataComponents.ATTRIBUTE_MODIFIERS)!!.withModifierAdded(Attributes.ATTACK_DAMAGE,AttributeModifier(foreignId,1.25,AttributeModifier.Operation.ADD_VALUE),net.minecraft.world.entity.EquipmentSlotGroup.MAINHAND))
+        old.set(DataComponents.ATTRIBUTE_MODIFIERS,old.get(DataComponents.ATTRIBUTE_MODIFIERS)!!.withModifierAdded(Attributes.ATTACK_DAMAGE,AttributeModifier(foreignId,1.25,AttributeModifier.Operation.ADD_VALUE),EquipmentSlotGroup.MAINHAND))
         val authored=ItemStack(TemperContent.item("steel_sword")).also {it.set(DataComponents.CUSTOM_DATA,CustomData.of(CompoundTag().also {tag->tag.putString("authored_priority","new")}))}
         val transferred=GearTransfer.inherit(authored,old)
         check(transferred.maxDamage==450 && transferred.damageValue==3){"Crafting upgrade baked in old quality or lost external durability"}
-        check(transferred.get(DataComponents.BASE_COLOR)==net.minecraft.world.item.DyeColor.RED && transferred.hoverName.string=="Inherited equipment")
+        check(transferred.get(DataComponents.BASE_COLOR)==DyeColor.RED && transferred.hoverName.string=="Inherited equipment")
         check(transferred.get(DataComponents.CUSTOM_DATA)!!.copyTag().getString("authored_priority")=="new" && transferred.get(DataComponents.CUSTOM_DATA)!!.copyTag().getString("foreign_fixture")=="preserved")
         check(transferred.get(DataComponents.ATTRIBUTE_MODIFIERS)!!.modifiers().count {it.modifier().id()==foreignId}==1)
         check(transferred.get(DataComponents.ATTRIBUTE_MODIFIERS)!!.modifiers().none {it.modifier().id().namespace=="temperandtang" && it.modifier().id().path.startsWith("craft_")})
@@ -199,7 +215,7 @@ object CraftVerification {
         check(loaded.xp(uuid)==30L && loaded.level(uuid)==1)
         val movementIds=listOf(Items.IRON_HELMET,Items.IRON_CHESTPLATE,Items.IRON_LEGGINGS,Items.IRON_BOOTS).map {item->
             val light=WeaponFinishes.preview(ItemStack(item),Finish.LIGHTENED)
-            light.get(DataComponents.ATTRIBUTE_MODIFIERS)!!.modifiers().single {it.attribute()==net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED}.modifier().id()
+            light.get(DataComponents.ATTRIBUTE_MODIFIERS)!!.modifiers().single {it.attribute()==Attributes.MOVEMENT_SPEED}.modifier().id()
         }
         check(movementIds.toSet().size==4) {"Armor movement modifiers collide across equipment slots"}
         check(GearSupport.supported(ItemStack(Items.IRON_HOE)) && GearSupport.supported(ItemStack(Items.GOLDEN_HOE))){"Metal tools bypass the workshop filter"}
@@ -232,8 +248,8 @@ object CraftVerification {
         val routed=TemperAndTang.config.thermalEnabled.get() && TemperAndTang.config.recipeIntegration.get()
         if(routed)check(patterns>0 && armor>0)
         else {
-            check(source.server.recipeManager.byKey(ResourceLocation.parse("minecraft:iron_sword")).orElseThrow().value().type==net.minecraft.world.item.crafting.RecipeType.CRAFTING)
-            check(source.server.recipeManager.byKey(TemperAndTang.id("bronze_sword")).orElseThrow().value().type==net.minecraft.world.item.crafting.RecipeType.CRAFTING)
+            check(source.server.recipeManager.byKey(ResourceLocation.parse("minecraft:iron_sword")).orElseThrow().value().type==RecipeType.CRAFTING)
+            check(source.server.recipeManager.byKey(TemperAndTang.id("bronze_sword")).orElseThrow().value().type==RecipeType.CRAFTING)
         }
         if(routed && TemperAndTang.modLoaded("magistuarmory") && TemperAndTang.config.epicKnights.get())check(knights>0) {"Epic Knights patterns are missing"}
         if(routed && TemperAndTang.modLoaded("simplyswords") && TemperAndTang.config.simplySwords.get())check(swords>0) {"Simply Swords patterns are missing"}
@@ -355,22 +371,22 @@ object CraftVerification {
         fun make()=Fixture(source,"alloy_forge").also {fixtures.add(it)}
         val bronze=TemperContent.item("bronze_ingot");val tin=TemperContent.item("tin_ingot");val steel=TemperContent.item("steel_ingot")
         val bridgeId=ResourceLocation.fromNamespaceAndPath("magistuarmory","furnace/steel_ingot_blasting")
-        val example=com.google.gson.JsonParser.parseString("""{"type":"minecraft:blasting","ingredient":{"item":"minecraft:iron_ingot"},"result":{"id":"magistuarmory:steel_ingot"},"cookingtime":40,"experience":0.5}""")
+        val example=JsonParser.parseString("""{"type":"minecraft:blasting","ingredient":{"item":"minecraft:iron_ingot"},"result":{"id":"magistuarmory:steel_ingot"},"cookingtime":40,"experience":0.5}""")
         val original=example.deepCopy()
-        val applied=com.bareminimumstudios.temperandtang.compat.WorkshopRecipes.apply(mapOf(bridgeId to example))
+        val applied=WorkshopRecipes.apply(mapOf(bridgeId to example))
         check(example==original){"Integration mutated authored source data"}
         if(TemperAndTang.config.recipeIntegration.get() && TemperAndTang.config.thermalEnabled.get() && TemperAndTang.config.epicKnights.get())check(applied[bridgeId]!!.asJsonObject.get("type").asString=="temperandtang:alloying")
-        val alternative=example.deepCopy().asJsonObject.also {it.add("ingredient",com.google.gson.JsonParser.parseString("""[{"item":"minecraft:iron_ingot"},{"tag":"c:ingots/iron"}]"""))}
-        check(com.bareminimumstudios.temperandtang.compat.WorkshopRecipes.apply(mapOf(bridgeId to alternative))[bridgeId]==alternative){"Alternative ingredient recipe was overwritten"}
+        val alternative=example.deepCopy().asJsonObject.also {it.add("ingredient",JsonParser.parseString("""[{"item":"minecraft:iron_ingot"},{"tag":"c:ingots/iron"}]"""))}
+        check(WorkshopRecipes.apply(mapOf(bridgeId to alternative))[bridgeId]==alternative){"Alternative ingredient recipe was overwritten"}
         val custom=example.deepCopy().asJsonObject.also {it.addProperty("cookingtime",800)}
-        check(com.bareminimumstudios.temperandtang.compat.WorkshopRecipes.apply(mapOf(bridgeId to custom))[bridgeId]==custom){"Custom steel recipe was overwritten"}
-        check(bridgeId !in com.bareminimumstudios.temperandtang.compat.WorkshopRecipes.apply(emptyMap())){"Removed steel recipe was recreated"}
+        check(WorkshopRecipes.apply(mapOf(bridgeId to custom))[bridgeId]==custom){"Custom steel recipe was overwritten"}
+        check(bridgeId !in WorkshopRecipes.apply(emptyMap())){"Removed steel recipe was recreated"}
         var nativeSteelUses=0
         for(holder in level.recipeManager.recipes) {
             if(holder.id().namespace!="magistuarmory")continue
-            val recipe=holder.value() as? net.minecraft.world.item.crafting.CraftingRecipe?:continue
+            val recipe=holder.value() as? CraftingRecipe?:continue
             val base=if(recipe is ShapingRecipe)recipe.base else recipe
-            val shaped=base as? net.minecraft.world.item.crafting.ShapedRecipe
+            val shaped=base as? ShapedRecipe
             val width=shaped?.width?:3;val height=shaped?.height?:3
             var replaced=false
             val grid=recipe.ingredients.map {ingredient ->
@@ -383,7 +399,7 @@ object CraftVerification {
             }.toMutableList()
             if(!replaced)continue
             while(grid.size<width*height)grid.add(ItemStack.EMPTY)
-            val input=net.minecraft.world.item.crafting.CraftingInput.of(width,height,grid)
+            val input=CraftingInput.of(width,height,grid)
             check(recipe.matches(input,level) && !recipe.assemble(input,source.registryAccess()).isEmpty){"Native steel recipe rejects common workshop metal: ${holder.id()}"}
             nativeSteelUses++
         }
@@ -392,11 +408,11 @@ object CraftVerification {
         val plans=level.recipeManager.getAllRecipesFor(AlloyRecipes.TYPE)
         check(plans.any {it.id()==TemperAndTang.id("bronze_alloy")} && plans.any {it.id()==TemperAndTang.id("steel_alloy")})
         for(holder in plans) {
-            val r=holder.value();val ops=source.registryAccess().createSerializationContext(com.mojang.serialization.JsonOps.INSTANCE)
+            val r=holder.value();val ops=source.registryAccess().createSerializationContext(JsonOps.INSTANCE)
             val json=AlloyRecipes.SERIALIZER.codec().codec().encodeStart(ops,r).getOrThrow()
             val restored=AlloyRecipes.SERIALIZER.codec().codec().parse(ops,json).getOrThrow()
             check(ItemStack.isSameItemSameComponents(r.result,restored.result) && r.primaryCount==restored.primaryCount)
-            val buffer=net.minecraft.network.RegistryFriendlyByteBuf(io.netty.buffer.Unpooled.buffer(),source.registryAccess())
+            val buffer=RegistryFriendlyByteBuf(Unpooled.buffer(),source.registryAccess())
             try {
                 AlloyRecipes.SERIALIZER.streamCodec().encode(buffer,r)
                 val decoded=AlloyRecipes.SERIALIZER.streamCodec().decode(buffer)
@@ -404,9 +420,9 @@ object CraftVerification {
             } finally {buffer.release()}
         }
         val pick=ItemStack(TemperContent.item("bronze_pickaxe"));val steelPick=ItemStack(TemperContent.item("steel_pickaxe"))
-        check(pick.isCorrectToolForDrops(net.minecraft.world.level.block.Blocks.IRON_ORE.defaultBlockState()) && !pick.isCorrectToolForDrops(net.minecraft.world.level.block.Blocks.DIAMOND_ORE.defaultBlockState()))
-        check(steelPick.isCorrectToolForDrops(net.minecraft.world.level.block.Blocks.DIAMOND_ORE.defaultBlockState()) && !steelPick.isCorrectToolForDrops(net.minecraft.world.level.block.Blocks.OBSIDIAN.defaultBlockState()))
-        for(name in com.bareminimumstudios.temperandtang.content.WorkshopCatalog.items.keys) {
+        check(pick.isCorrectToolForDrops(Blocks.IRON_ORE.defaultBlockState()) && !pick.isCorrectToolForDrops(Blocks.DIAMOND_ORE.defaultBlockState()))
+        check(steelPick.isCorrectToolForDrops(Blocks.DIAMOND_ORE.defaultBlockState()) && !steelPick.isCorrectToolForDrops(Blocks.OBSIDIAN.defaultBlockState()))
+        for(name in WorkshopCatalog.items.keys) {
             val gear=ItemStack(TemperContent.item(name));check(GearSupport.supported(gear)) {"Unsupported catalog item $name"}
             val metal=name.substringBefore('_');check(gear.item.isValidRepairItem(gear,ItemStack(if(metal=="iron")Items.IRON_INGOT else TemperContent.item(metal+"_ingot")))) {"No common-tag repair for $name"}
         }

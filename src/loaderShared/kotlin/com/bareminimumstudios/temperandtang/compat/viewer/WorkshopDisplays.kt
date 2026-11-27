@@ -2,7 +2,9 @@ package com.bareminimumstudios.temperandtang.compat.viewer
 
 import com.bareminimumstudios.temperandtang.TemperAndTang
 import com.bareminimumstudios.temperandtang.content.TemperContent
+import com.bareminimumstudios.temperandtang.mixin.SmithingIngredientsAccess
 import com.bareminimumstudios.temperandtang.smithing.*
+import java.util.Locale
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.*
@@ -10,7 +12,7 @@ import net.minecraft.world.item.crafting.*
 import net.minecraft.world.level.Level
 
 enum class WorkshopCategory(val station:String) { REFINING("minecraft:furnace"),ALLOYING("alloy_forge"),FORGING("shaping_anvil"),FINISHING("finishing_anvil"),UPGRADING("minecraft:smithing_table"),BLUEPRINTS("shaping_anvil");
-    val key get()=name.lowercase(java.util.Locale.ROOT)
+    val key get()=name.lowercase(Locale.ROOT)
     fun icon()=if(station.contains(':'))ItemStack(if(station=="minecraft:furnace")Items.FURNACE else Items.SMITHING_TABLE)else ItemStack(TemperContent.item(station))
 }
 data class WorkshopDisplay(val id:ResourceLocation,val category:WorkshopCategory,val inputs:List<List<ItemStack>>,val output:ItemStack,val catalysts:List<ItemStack>,val note:String,val detail:String="",val grid:Boolean=false) {
@@ -54,7 +56,7 @@ object WorkshopDisplays {
         }
         for(holder in level.recipeManager.getAllRecipesFor(RecipeType.SMITHING)) {
             val recipe=holder.value() as? SteelUpgradeRecipe?:continue
-            val native=recipe.base as com.bareminimumstudios.temperandtang.mixin.SmithingIngredientsAccess
+            val native=recipe.base as SmithingIngredientsAccess
             out+=WorkshopDisplay(id("upgrading",holder.id()),WorkshopCategory.UPGRADING,listOf(native.temperTemplate().items.toList(),native.temperBase().items.map {WorkshopVariants.steel(it)},native.temperAddition().items.toList()),recipe.getResultItem(registry).copy(),emptyList(),"Requires a steel-forged weapon.","Keeps quality, name, enchantments and wear.")
         }
         return out

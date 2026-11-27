@@ -1,5 +1,7 @@
 package com.bareminimumstudios.temperandtang.smithing
 
+import kotlin.math.abs
+
 /** Pure rules shared by the server stations and verification fixtures. */
 object ThermalRules {
     fun heatingTicks(perItem: Int, count: Int): Int = (perItem.toLong().coerceAtLeast(1) * count.coerceIn(1, 8)).coerceAtMost(96000).toInt()
@@ -8,6 +10,6 @@ object ThermalRules {
         if (tick < origin) return false
         val cycle = period.coerceIn(16, 60)
         val phase = ((tick - origin) % cycle).toInt()
-        return kotlin.math.abs(phase - cycle / 2) <= window.coerceIn(1, 4)
+        return abs(phase - cycle / 2) <= window.coerceIn(1, 4)
     }
 }

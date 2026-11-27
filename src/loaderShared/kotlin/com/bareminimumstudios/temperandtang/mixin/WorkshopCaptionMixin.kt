@@ -2,6 +2,7 @@ package com.bareminimumstudios.temperandtang.mixin
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation
+import com.pockyl.diegesis.api.scene.CaptionOptions
 import com.pockyl.diegesis.impl.client.focus.FocusController
 import com.pockyl.diegesis.impl.client.focus.FocusScreen
 import net.minecraft.client.Minecraft
@@ -23,7 +24,7 @@ abstract class WorkshopCaptionMixin {
         val alpha=255
         if(alpha<8)return
         val lines=font.split(text,(mc.window.guiScaledWidth-28).coerceAtLeast(80))
-        var y=if(look.edge()==com.pockyl.diegesis.api.scene.CaptionOptions.Edge.TOP) 8 else mc.window.guiScaledHeight-8-lines.size*(font.lineHeight+2)
+        var y=if(look.edge()==CaptionOptions.Edge.TOP) 8 else mc.window.guiScaledHeight-8-lines.size*(font.lineHeight+2)
         for(line in lines) {
             val width=font.width(line);val x=(mc.window.guiScaledWidth-width)/2
             val background=(look.background() ushr 24)*alpha/255

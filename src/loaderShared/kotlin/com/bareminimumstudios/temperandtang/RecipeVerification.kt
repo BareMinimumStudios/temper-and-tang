@@ -1,5 +1,6 @@
 package com.bareminimumstudios.temperandtang
 
+import com.bareminimumstudios.temperandtang.smithing.ShapingRecipe
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.AbstractCookingRecipe
@@ -23,7 +24,7 @@ object RecipeVerification {
             if (holder.id().namespace != TemperAndTang.MOD_ID) continue
             val recipe = holder.value()
             if (recipe is CraftingRecipe) {
-                val shaped = if (recipe is com.bareminimumstudios.temperandtang.smithing.ShapingRecipe) recipe.base as? ShapedRecipe else recipe as? ShapedRecipe
+                val shaped = if (recipe is ShapingRecipe) recipe.base as? ShapedRecipe else recipe as? ShapedRecipe
                 val width = shaped?.width ?: 3
                 val height = shaped?.height ?: 3
                 val items = recipe.ingredients.map(::sample).toMutableList()

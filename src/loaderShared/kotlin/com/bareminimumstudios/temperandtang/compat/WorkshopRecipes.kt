@@ -1,7 +1,9 @@
 package com.bareminimumstudios.temperandtang.compat
 import com.bareminimumstudios.temperandtang.TemperAndTang
 import com.bareminimumstudios.temperandtang.smithing.GearSupport
+import com.bareminimumstudios.temperandtang.smithing.WorkshopPlans
 import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.ItemStack
@@ -22,8 +24,8 @@ object WorkshopRecipes {
             if(raw?.get("type")?.asString=="minecraft:blasting" && (raw.get("cookingtime")?.asInt?:200)==40 && (raw.get("experience")?.asFloat?:0f)==.5f && raw.get("temperandtang:keep_native")?.asBoolean!=true && ingredient?.entrySet()?.size==1 && ingredient?.get("item")?.asString=="minecraft:iron_ingot" && output?.get("id")?.asString=="magistuarmory:steel_ingot" && (output?.get("count")?.asInt?:1)==1) {
                 result[id]=raw.deepCopy().also {r->
                     r.addProperty("type","temperandtang:alloying");r.remove("ingredient")
-                    r.add("primary",com.google.gson.JsonObject().also {it.addProperty("tag","c:ingots/iron")});r.addProperty("primary_count",1)
-                    r.add("additive",com.google.gson.JsonObject().also {it.addProperty("tag","minecraft:coals")});r.addProperty("additive_count",1);r.addProperty("cookingtime",240)
+                    r.add("primary",JsonObject().also {it.addProperty("tag","c:ingots/iron")});r.addProperty("primary_count",1)
+                    r.add("additive",JsonObject().also {it.addProperty("tag","minecraft:coals")});r.addProperty("additive_count",1);r.addProperty("cookingtime",240)
                 }
             }
         }
@@ -52,6 +54,6 @@ object WorkshopRecipes {
         if(tag!=null)return tag.startsWith("c:ingots/") || tag.startsWith("c:plates/") || tag.startsWith("c:nuggets/") || tag=="c:gems/diamond" || tag=="temperandtang:heatable_stock" || tag in setOf("magistuarmory:small_plates/steel","magistuarmory:chains/steel","magistuarmory:chainmails/steel","magistuarmory:rings/steel","magistuarmory:lamellar_rows/steel")
         val id=ResourceLocation.tryParse(obj.get("item")?.asString?:return false)?:return false
         val stack=ItemStack(BuiltInRegistries.ITEM.get(id))
-        return GearSupport.supported(stack) || com.bareminimumstudios.temperandtang.smithing.WorkshopPlans.stock(stack) || id.toString() in setOf("minecraft:iron_ingot","minecraft:gold_ingot","minecraft:diamond","minecraft:netherite_ingot")
+        return GearSupport.supported(stack) || WorkshopPlans.stock(stack) || id.toString() in setOf("minecraft:iron_ingot","minecraft:gold_ingot","minecraft:diamond","minecraft:netherite_ingot")
     }
 }

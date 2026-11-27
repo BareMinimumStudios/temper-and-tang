@@ -1,6 +1,7 @@
 package com.bareminimumstudios.temperandtang.smithing
 
 import com.bareminimumstudios.temperandtang.TemperAndTang
+import net.minecraft.core.RegistryAccess
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
@@ -8,6 +9,7 @@ import net.minecraft.tags.TagKey
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.*
+import net.minecraft.world.level.Level
 
 object WorkshopPlans {
     private val STOCK=TagKey.create(Registries.ITEM,TemperAndTang.id("heatable_stock"))
@@ -16,7 +18,7 @@ object WorkshopPlans {
     fun basicWeapon(stack:ItemStack)=GearSupport.supported(stack)
     fun heatable(stack:ItemStack)=HearthProcesses.refinable(stack) || stock(stack) || ThermalState.blank(stack) || GearSupport.supported(stack)
     data class Heating(val output:ItemStack,val perItem:Int,val nativeRecipe:RecipeHolder<*>?=null,val additiveCost:Int=0,val process:String="heat",val totalTicks:Int=0,val requiresAdvanced:Boolean=false)
-    fun heating(stack:ItemStack,level:net.minecraft.world.level.Level,additive:ItemStack=ItemStack.EMPTY,advanced:Boolean=false):Heating? {
+    fun heating(stack:ItemStack,level:Level,additive:ItemStack=ItemStack.EMPTY,advanced:Boolean=false):Heating? {
         if(!additive.isEmpty)return HearthProcesses.alloy(stack,additive,level)?.takeIf {advanced || !it.requiresAdvanced}
         if(HearthProcesses.refinable(stack))return HearthProcesses.refine(stack,level)
         if(!heatable(stack))return null
@@ -25,24 +27,24 @@ object WorkshopPlans {
         return Heating(stack.copy(),(TemperAndTang.config.heatingTicks.get()*factor).toInt())
     }
     data class Forming(val id:ResourceLocation,val recipe:Recipe<*>,val native:Boolean,val ghosts:List<ItemStack>,val hits:Int,val polishing:Boolean=false) {
-        val requiresBlueprint get()=GearSupport.blueprint(recipe.getResultItem(net.minecraft.core.RegistryAccess.EMPTY))
+        val requiresBlueprint get()=GearSupport.blueprint(recipe.getResultItem(RegistryAccess.EMPTY))
         @Suppress("UNCHECKED_CAST")
-        fun matches(grid:List<ItemStack>,level:net.minecraft.world.level.Level)=(recipe as CraftingRecipe).matches(CraftingInput.of(3,3,grid),level)
-        fun assemble(grid:List<ItemStack>,level:net.minecraft.world.level.Level):ItemStack {
+        fun matches(grid:List<ItemStack>,level:Level)=(recipe as CraftingRecipe).matches(CraftingInput.of(3,3,grid),level)
+        fun assemble(grid:List<ItemStack>,level:Level):ItemStack {
             val result=(recipe as CraftingRecipe).assemble(CraftingInput.of(3,3,grid),level.registryAccess())
             return GearTransfer.inherit(result,grid.filter(GearSupport::supported).singleOrNull())
         }
         fun remainders(grid:List<ItemStack>)=(recipe as CraftingRecipe).getRemainingItems(CraftingInput.of(3,3,grid)).toList()
-        fun current(level:net.minecraft.world.level.Level)=level.recipeManager.byKey(id).orElse(null)?.value()===recipe
-        fun hot(grid:List<ItemStack>,level:net.minecraft.world.level.Level)=grid.any(::metal) && grid.filter(::metal).all {ThermalState.hot(it,level)}
+        fun current(level:Level)=level.recipeManager.byKey(id).orElse(null)?.value()===recipe
+        fun hot(grid:List<ItemStack>,level:Level)=grid.any(::metal) && grid.filter(::metal).all {ThermalState.hot(it,level)}
         fun required()=maxOf(hits,TemperAndTang.config.shapingStrikes.get()).coerceAtMost(40)
-        fun output(grid:List<ItemStack>,level:net.minecraft.world.level.Level,player:Player,clean:Int,accuracy:Double=clean.toDouble()/required()):ItemStack {
+        fun output(grid:List<ItemStack>,level:Level,player:Player,clean:Int,accuracy:Double=clean.toDouble()/required()):ItemStack {
             if(recipe is PrecisionRefiningRecipe)return if(accuracy>=recipe.minimumAccuracy)assemble(grid,level) else recipe.failure.copy()
             val gear=Craftsmanship.forge(assemble(grid,level),accuracy,player,id.toString(),grid)
             return if(gear.isEmpty)gear else ThermalState.unquenched(gear,level)
         }
     }
-    fun forming(level:net.minecraft.world.level.Level):List<Forming> {
+    fun forming(level:Level):List<Forming> {
         val result=mutableListOf<Forming>()
         for(holder in level.recipeManager.getAllRecipesFor(ThermalRecipes.TYPE)) {
             val recipe=holder.value();val output=recipe.getResultItem(level.registryAccess())
