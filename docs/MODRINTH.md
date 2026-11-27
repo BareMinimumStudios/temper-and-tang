@@ -1,61 +1,32 @@
 ![Temper & Tang](https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/branding/banner.png)
 
-Build a workshop, bring the hearth to life, and make equipment with your own hands. Temper & Tang takes metal through heating, shaping, quenching and finishing, with the work laid out on the stations in front of you.
+Minecraft 1.21.1 · Fabric + NeoForge · Java 21 · Client & Server
 
-For **Minecraft 1.21.1 · Fabric and NeoForge · Client and server**.
+[Source code](https://github.com/BareMinimumStudios/temper-and-tang) · [Player guide](https://github.com/BareMinimumStudios/temper-and-tang/blob/main/docs/THERMAL_WORKSHOP.md) · [Report an issue](https://github.com/BareMinimumStudios/temper-and-tang/issues) · [Discord community](https://discord.gg/pcRw79hwey) · [Ko-fi](https://ko-fi.com/pokesmells)
 
-## At the hearth
+## Temper & Tang
 
-Refine raw metal or heat your ingots, work the bellows, and carry hot stock with tongs.
+Build a smithy and make your own weapons, tools, and armor. Heat metal at the Charcoal Hearth, carry it with tongs, then time your hammer strikes at the shaping anvil. Quench the workpiece in a water-filled barrel and give the finished gear a treatment that suits how you play.
 
-![The charcoal hearth](https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/hearth.png)
+## Craftsmanship
 
-## At the anvil
+- Five grades run from **Rough** to **Masterwork**. Strike accuracy matters most, with mastery and luck also contributing.
+- Harder metals have tighter timing and can call for several strikes in a row.
+- Quality can improve durability, weapon damage and handling, armor protection, or mining speed. Enchantments can still add to the equipment afterward.
+- Reusable blueprints unlock advanced patterns. Finishing can improve durability, damage, or handling, with trade-offs depending on the treatment.
 
-Search for a pattern, lay out its ingredients, and time your hammer blows as the marker crosses the green band. Some materials are forgiving; others need a steadier hand. Advanced patterns use reusable blueprints.
+## Metals and progression
 
-![Shaping a blade](https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/shaping.png)
+Tin, bronze, and steel each have a sword, tools, and a full armor set. Bronze unlocks iron mining. The **Alloy Forge** makes bronze from copper and tin, and steel from iron and coal or charcoal.
 
-## Into the water
+Find a Diamond Upgrade Smithing Template in a structure chest to upgrade steel gear at a smithing table. The **Nether Alloy Forge** makes netherite ingots from gold and netherite scraps for the final upgrade. Supported upgrades carry workmanship and finishing forward.
 
-Take the shaped workpiece to the quenching barrel. It becomes usable equipment only after quenching, carrying the craftsmanship you earned at the anvil.
+Tin and silver generate in new Overworld chunks and can be toggled separately. Silver also works with compatible recipes through common tags.
 
-![Quenching a workpiece](https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/quenching.png)
+## Installation and compatibility
 
-## The finishing touches
+Install the mod and its required libraries on the server and every client. Both loaders need **Diegesis** and **Fzzy Config**. Fabric also needs **Fabric API** and **Fabric Language Kotlin**. NeoForge needs **Kotlin for Forge**.
 
-Temper it for durability, hone it for a sharper edge, add weight for harder hits, or lighten it for quicker handling. Craftsmanship ranges from Rough through Serviceable, Fine, and Superior to Masterwork. Strike accuracy matters most, with smaller contributions from mastery and luck. Tool quality affects mining speed and durability. Weapon quality affects damage and handling.
+EMI and JEI show workshop recipes, blueprints, and upgrades, with animated progress for refining and alloying. Optional Simply Swords, Simply More, and Epic Knights integrations cover supported ordinary equipment. Supported gear keeps its original item identity.
 
-![Finished equipment and its quality](https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/finishing.png)
-
-## A workshop that grows with you
-
-Tin, bronze and steel each have a sword, tools and a full set of armor. Tin is a soft early option. Bronze unlocks iron mining, and the Alloy Forge makes bronze from copper and tin and steel from iron and coal or charcoal.
-
-Find a Diamond Upgrade Smithing Template in a structure chest, then upgrade steel gear with a diamond at the smithing table. The Nether Alloy Forge makes netherite ingots from gold ingots and netherite scraps. Upgrade diamond gear with the ingot and a Netherite Upgrade Smithing Template.
-
-![The Alloy Forge and Nether Alloy Forge](https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/furnaces.png)
-
-Silver has its own ore and works with compatible equipment recipes, including supported Epic Knights patterns.
-
-![Tin equipment](https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/tin-equipment.png)
-
-## Armor belongs at the anvil too
-
-Forge helmets, chestplates, leggings and boots through the same workshop stages. Armor takes extra strikes; craftsmanship affects durability, protection and existing toughness. Temper it for durability or lighten it for movement at a durability cost.
-
-Optional Simply Swords and Simply More support covers ordinary weapons. Epic Knights equipment uses its native patterns and a matching reusable blueprint. Unique and legendary weapons stay outside the normal forging route. Supported smithing upgrades preserve craftsmanship and finishing.
-
-## Getting started
-
-Install the matching build on the server and every client. Both loaders need **Diegesis 1.0.0-beta.19** and **Fzzy Config**. Fabric also needs **Fabric API** and **Fabric Language Kotlin**; NeoForge needs **Kotlin for Forge**. Use **Java 21**.
-
-Start with copper and tin. Smelt them, combine three copper ingots and one tin ingot into bronze blend, then smelt the blend. Bronze gets your first hammer and shaping anvil under way. EMI and JEI show station recipes, blueprints and upgrades. Refining and alloying have animated progress previews.
-
-At a station, **H** opens help. **F** finds a shaping pattern, **Space** works the station, **B** scribes a blueprint, and **Shift** expands equipment details. Keep the cursor empty while striking.
-
-## For your modpack
-
-Common material tags and datapack recipes make it easy to fit the workshop around your pack. Timing, quality, mastery and finishes are configurable. Tin veins start from Y 20 to 80 and peak near Y 50. Silver veins start from Y −16 to 30 and are most common around Y −1 to 15. Both generate in new Overworld chunks and can be disabled separately. Equipment keeps its name, enchantments and wear as it moves through the workshop and its upgrades.
-
-[Player guide](https://github.com/BareMinimumStudios/temper-and-tang/blob/main/docs/THERMAL_WORKSHOP.md) · [Source](https://github.com/BareMinimumStudios/temper-and-tang) · [Report an issue](https://github.com/BareMinimumStudios/temper-and-tang/issues)
+Maintained by [Bare Minimum Studios](https://github.com/BareMinimumStudios) under the [Bare Minimum License](https://github.com/BareMinimumStudios/temper-and-tang/blob/main/LICENSE).
