@@ -15,9 +15,9 @@ Publishing and pushing are separate actions. Keep tokens outside the repository.
 
 After building and staging the release, run `python scripts/prepare_review.py`. It bundles both verified loader builds, documentation, branding, screenshots and the completed showcase when available into `build/review/<version>`. The ZIP includes checksums and the source commit. It does not install, upload or publish anything.
 
-## Modrinth and CurseForge
+## GitHub, Modrinth, and CurseForge
 
-The **Build and publish** workflow is manual. Select **prepare** to build, test and stage both Minecraft 1.21.1 jars as a GitHub Actions artifact. To upload, select Modrinth, CurseForge, or both, then choose the channel and loader. Leaving the channel at **beta** marks the files as playtest builds. Use the destination and loader filters to retry only failed uploads.
+The **Build and publish** workflow is manual. Select **prepare** to build, test and stage both Minecraft 1.21.1 jars as a GitHub Actions artifact. To upload, select GitHub, Modrinth, CurseForge, or all three. Choose the release channel and the storefront loader. GitHub publishes a single `v<mod version>` release with both jars, like the other studio projects. It uses the built-in GitHub Actions token. Leaving the channel at **beta** marks the files as playtest builds. Use the destination and loader filters to retry only failed uploads.
 
 - Modrinth project slug is `temper-and-tang`. Set the `MODRINTH_TOKEN` Actions secret before uploading there.
 - CurseForge project ID is `1834462`. Set the `CURSEFORGE_TOKEN` Actions secret before uploading there.

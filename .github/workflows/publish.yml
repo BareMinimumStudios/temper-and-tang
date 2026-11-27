@@ -6,11 +6,11 @@ on:
       target:
         description: Destination (prepare only builds and stages the jars)
         type: choice
-        options: [prepare, modrinth, curseforge, all]
+        options: [prepare, github, modrinth, curseforge, all]
         default: prepare
         required: true
       loader:
-        description: Loader to publish
+        description: Storefront loader to publish (GitHub includes both jars)
         type: choice
         options: [all, fabric, neoforge]
         default: all
@@ -70,7 +70,7 @@ jobs:
           if-no-files-found: error
 
   publish:
-    if: inputs.target != 'prepare'
+    if: inputs.target == 'modrinth' || inputs.target == 'curseforge' || inputs.target == 'all'
     needs: build
     runs-on: ubuntu-latest
     strategy:
@@ -122,4 +122,34 @@ jobs:
             fzzy-config(required){modrinth:fzzy-config}{curseforge:fzzy-config}
             ${{ matrix.loader == 'fabric' && 'fabric-api(required){modrinth:fabric-api}{curseforge:fabric-api}' || 'kotlin-for-forge(required){modrinth:kotlin-for-forge}{curseforge:kotlin-for-forge}' }}
             ${{ matrix.loader == 'fabric' && 'fabric-language-kotlin(required){modrinth:fabric-language-kotlin}{curseforge:fabric-language-kotlin}' || '' }}
+          fail-mode: fail
+
+  github:
+    if: inputs.target == 'github' || inputs.target == 'all'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: temper-and-tang-release
+          path: build/release
+      - name: Verify release files
+        working-directory: build/release
+        run: |
+          sha256sum --check SHA256SUMS.txt
+          test -s CHANGELOG.md
+      - name: Publish GitHub release
+        uses: Kira-NT/mc-publish@52307b03863581dec6b652b83e597aec02ebb075
+        with:
+          github-token: ${{ github.token }}
+          github-tag: v${{ needs.build.outputs.version }}
+          github-commitish: ${{ github.sha }}
+          github-prerelease: ${{ inputs.channel != 'release' }}
+          name: Temper & Tang ${{ needs.build.outputs.version }}
+          version: ${{ needs.build.outputs.version }}
+          version-type: ${{ inputs.channel }}
+          files: build/release/TemperAndTang-${{ needs.build.outputs.version }}-*-1.21.1.jar
+          changelog-file: build/release/CHANGELOG.md
           fail-mode: fail

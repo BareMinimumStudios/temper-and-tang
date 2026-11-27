@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [ValidateSet("prepare", "modrinth", "curseforge", "all")]
+    [ValidateSet("prepare", "github", "modrinth", "curseforge", "all")]
     [string]$Target = "prepare",
 
     [ValidateSet("all", "fabric", "neoforge")]
@@ -17,7 +17,7 @@ if ($Target -ne "prepare" -and -not $Upload) {
     throw "Pass -Upload to dispatch a publishing run, or use -Target prepare."
 }
 if ($Target -eq "prepare" -and $Upload) {
-    throw "Choose modrinth, curseforge, or all with -Upload."
+    throw "Choose github, modrinth, curseforge, or all with -Upload."
 }
 if (-not (Get-Command gh -ErrorAction SilentlyContinue)) {
     throw "Install GitHub CLI and sign in, or dispatch Build and publish from GitHub Actions."
