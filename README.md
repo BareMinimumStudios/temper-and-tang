@@ -4,7 +4,7 @@
 
 ![Minecraft 1.21.1](https://img.shields.io/badge/MINECRAFT-1.21.1-D7B16A?style=for-the-badge&labelColor=252322)
 ![Fabric and NeoForge](https://img.shields.io/badge/LOADERS-Fabric_%2B_NeoForge-91B7BC?style=for-the-badge&labelColor=252322)
-[![License: BML 1.0](https://img.shields.io/badge/LICENSE-BML_1.0-D7B16A?style=for-the-badge&labelColor=252322)](LICENSE)
+[![License: BML 1.1](https://img.shields.io/badge/LICENSE-BML_1.1-D7B16A?style=for-the-badge&labelColor=252322)](LICENSE)
 
 Minecraft 1.21.1 · Fabric + NeoForge · Java 21 · Client & Server
 
@@ -94,4 +94,4 @@ Tune timing, mastery, quality, finishing and hot-metal handling in `config/tempe
 
 [Modrinth page copy](docs/MODRINTH.md) · [CurseForge page copy](docs/CURSEFORGE.md)
 
-The project uses the [Bare Minimum License](LICENSE). Supplied artwork is credited in [Third-party notices](THIRD_PARTY_NOTICES.txt).
+The project uses the [Bare Minimum License v1.1](LICENSE). Supplied artwork is credited in [Third-party notices](THIRD_PARTY_NOTICES.txt).

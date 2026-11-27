@@ -29,7 +29,7 @@ Install the mod and its required libraries on the server and every client. Both 
 
 EMI and JEI show workshop recipes, blueprints, and upgrades, with animated progress for refining and alloying. Optional Simply Swords, Simply More, and Epic Knights integrations cover supported ordinary equipment. Supported gear keeps its original item identity.
 
-Maintained by [Bare Minimum Studios](https://github.com/BareMinimumStudios) under the [Bare Minimum License](https://github.com/BareMinimumStudios/temper-and-tang/blob/main/LICENSE).
+Maintained by [Bare Minimum Studios](https://github.com/BareMinimumStudios) under the [Bare Minimum License v1.1](https://github.com/BareMinimumStudios/temper-and-tang/blob/main/LICENSE).
 
 ## Workshop screenshots
 

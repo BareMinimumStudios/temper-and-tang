@@ -6,6 +6,10 @@ This changelog follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- Update the project license to Bare Minimum License v1.1.
+
 ## [0.7.2] - 2026-11-27
 
 ### Changed

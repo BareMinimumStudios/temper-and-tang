@@ -22,7 +22,7 @@ cloche {
         name = "Temper & Tang"
         icon = "assets/temperandtang/icon.png"
         description = "Standalone medieval blacksmithing, skill-influenced equipment quality, and hands-on forging."
-        license = "BML-1.0"
+        license = "BML-1.1"
         author("Bare Minimum Studios")
         contributor("pokesmells")
         url = "https://github.com/BareMinimumStudios/temper-and-tang"

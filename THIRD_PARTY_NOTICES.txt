@@ -1,4 +1,4 @@
-Temper & Tang is provided under the Bare Minimum License v1.0.
+Temper & Tang is provided under the Bare Minimum License v1.1.
 
 Workshop Six - Blacksmith Furniture
 Hearth, furnace, water barrel, anvil, hammer, tongs and bellows models/textures are adapted from the supplied Blacksmith Furniture asset pack.
