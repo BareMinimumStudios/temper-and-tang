@@ -9,7 +9,7 @@ Settings live in `config/temperandtang/config.json5`. Use the supplied configura
 | Craftsmanship | Accuracy, mastery and luck contributions, and overall quality strength |
 | Finishing | Experience cost, treatment strength and refinishing |
 | Equipment | Recipe routing and optional equipment integrations |
-| Presentation | Short guidance and expanded help |
+| World Generation | Toggle tin and silver ore independently in new Overworld chunks |
 
 Use recipe and item/block tags in datapacks for material costs and accepted ingredients. Reload datapacks after changing recipe integration. A changed setting does not silently rewrite every existing item; recorded workmanship stays with the equipment.
 

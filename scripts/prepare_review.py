@@ -38,9 +38,14 @@ def main():
             copy(source, Path("showcase") / name)
 
     start = out / "START-HERE.md"
-    start.write_text("""# Temper & Tang: review package
-
-Start with the [full showcase](showcase/Temper-and-Tang-Complete-Showcase.mp4) and its [chapter guide](showcase/COMPLETE-TIMELINE.md).
+    showcase_links = []
+    for name, label in (("Temper-and-Tang-Complete-Showcase.mp4", "Full showcase"),
+                        ("COMPLETE-TIMELINE.md", "Chapter guide")):
+        relative = Path("showcase") / name
+        if out / relative in included:
+            showcase_links.append(f"[{label}]({relative.as_posix()})")
+    showcase_header = "\n" + " · ".join(showcase_links) + "\n" if showcase_links else ""
+    start.write_text("# Temper & Tang: review package\n" + showcase_header + """
 
 ## Try the build
 
