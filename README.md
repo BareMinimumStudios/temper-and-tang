@@ -20,7 +20,7 @@ A good weapon begins with good work. Strike accuracy, material and smithing expe
 
 For **Minecraft 1.21.1**, on **Fabric and NeoForge**. Install it on the server and every client.
 
-**Current revision: 0.7.1, in playtesting.** See the [playtest guide](docs/PLAYTESTING.md) for what to try and the [release notes](RELEASE_NOTES.md) for this revision.
+**Current revision: 0.7.2, in playtesting.** See the [playtest guide](docs/PLAYTESTING.md) for what to try and the [release notes](RELEASE_NOTES.md) for this revision.
 
 ## Heat, shape, quench, finish
 

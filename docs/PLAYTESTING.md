@@ -1,4 +1,4 @@
-# Playtesting 0.7.1
+# Playtesting 0.7.2
 
 Use a backed-up test profile and world. Install the matching loader build and the libraries in [Installation](INSTALLATION.md). Keep your existing configuration; the numbers in the guides describe the defaults, which a pack may override.
 

@@ -1,6 +1,6 @@
 # Temper & Tang guides
 
-For revision **0.7.1**, Minecraft **1.21.1**, Fabric and NeoForge.
+For revision **0.7.2**, Minecraft **1.21.1**, Fabric and NeoForge.
 
 - [Start at the workshop](THERMAL_WORKSHOP.md)
 - [Metals, ores and equipment](METALLURGY.md)

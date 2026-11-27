@@ -6,6 +6,8 @@ This changelog follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.7.2] - 2026-11-27
+
 ### Changed
 
 - Reuse shaping-anvil slots between ticks and check the grid for cold metal in one pass.
@@ -259,7 +261,8 @@ This changelog follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Established the studio Kotlin/Cloche cross-loader layout and BML license.
 - Pinned Gradle 9.9.2 with a verified distribution checksum.
 
-[Unreleased]: https://github.com/BareMinimumStudios/temper-and-tang/compare/6353020...main
+[Unreleased]: https://github.com/BareMinimumStudios/temper-and-tang/compare/v0.7.2...main
+[0.7.2]: https://github.com/BareMinimumStudios/temper-and-tang/compare/6353020...v0.7.2
 [0.7.1]: https://github.com/BareMinimumStudios/temper-and-tang/compare/c3e08b9...6353020
 [0.7.0]: https://github.com/BareMinimumStudios/temper-and-tang/compare/bdf5f37...c3e08b9
 [0.6.0]: https://github.com/BareMinimumStudios/temper-and-tang/compare/1c9d0f5...bdf5f37
