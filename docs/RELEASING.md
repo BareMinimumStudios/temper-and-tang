@@ -21,7 +21,7 @@ The **Build and publish** workflow is manual. Select **prepare** to build, test 
 
 - Modrinth project slug is `temper-and-tang`. Set the `MODRINTH_TOKEN` Actions secret before uploading there.
 - CurseForge project ID is `1834462`. Set the `CURSEFORGE_TOKEN` Actions secret before uploading there.
-- Set `mod_version` in `gradle.properties` and update the heading and content in `RELEASE_NOTES.md` before dispatching a new version.
+- Set `mod_version` in `gradle.properties` and update `RELEASE_NOTES.md` and add a matching section in `CHANGELOG.md` before dispatching a new version. Both storefronts receive that changelog section and use the version format `<mod version>+1.21.1-<loader>`.
 
 From PowerShell with GitHub CLI signed in:
 

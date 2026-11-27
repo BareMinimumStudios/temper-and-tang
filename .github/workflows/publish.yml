@@ -100,6 +100,7 @@ jobs:
           fi
           cd build/release
           sha256sum --check SHA256SUMS.txt
+          test -s CHANGELOG.md
           test -s "TemperAndTang-$VERSION-$LOADER-1.21.1.jar"
       - name: Publish ${{ matrix.loader }} for Minecraft 1.21.1
         uses: Kira-NT/mc-publish@52307b03863581dec6b652b83e597aec02ebb075
@@ -108,11 +109,11 @@ jobs:
           modrinth-token: ${{ inputs.target != 'curseforge' && secrets.MODRINTH_TOKEN || '' }}
           curseforge-id: ${{ inputs.target != 'modrinth' && '1834462' || '' }}
           curseforge-token: ${{ inputs.target != 'modrinth' && secrets.CURSEFORGE_TOKEN || '' }}
-          name: Temper & Tang ${{ needs.build.outputs.version }} (${{ matrix.loader }})
-          version: ${{ needs.build.outputs.version }}-${{ matrix.loader }}
+          name: ${{ needs.build.outputs.version }}+1.21.1-${{ matrix.loader }}
+          version: ${{ needs.build.outputs.version }}+1.21.1-${{ matrix.loader }}
           version-type: ${{ inputs.channel }}
           files: build/release/TemperAndTang-${{ needs.build.outputs.version }}-${{ matrix.loader }}-1.21.1.jar
-          changelog-file: build/release/RELEASE_NOTES.md
+          changelog-file: build/release/CHANGELOG.md
           loaders: ${{ matrix.loader }}
           game-versions: '1.21.1'
           java: '21'
