@@ -1,5 +1,5 @@
 <p align="center" style="text-align: center;">
-<img src="https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/branding/banner.png" alt="Temper &amp; Tang" width="1080">
+<img src="https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/0191f498b37d81a4130700e47ab74a471e845b71/docs/branding/banner.png" alt="Temper &amp; Tang" width="1080">
 </p>
 
 <p align="center" style="text-align: center;">
