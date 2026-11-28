@@ -1,46 +1,74 @@
-![Temper & Tang](https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/branding/banner.png)
+<p align="center" style="text-align: center;">
+<img src="https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/branding/banner.png" alt="Temper &amp; Tang" width="1080">
+</p>
 
-Minecraft 1.21.1 · Fabric + NeoForge · Java 21 · Client & Server
+<p align="center" style="text-align: center;">
+<a href="https://modrinth.com/mod/temper-and-tang"><img src="https://img.shields.io/badge/Modrinth-133329?logo=modrinth&amp;logoColor=8CFFCF&amp;style=for-the-badge" alt="Modrinth" height="28"></a>
+<a href="https://www.curseforge.com/minecraft/mc-mods/temper-tang"><img src="https://img.shields.io/badge/CurseForge-39232B?logo=curseforge&amp;logoColor=FFA880&amp;style=for-the-badge" alt="CurseForge" height="28"></a>
+<a href="https://github.com/BareMinimumStudios/temper-and-tang"><img src="https://img.shields.io/badge/Source-242B49?logo=github&amp;logoColor=EAF0FF&amp;style=for-the-badge" alt="GitHub source" height="28"></a>
+<a href="https://github.com/BareMinimumStudios/temper-and-tang/issues?q=is%3Aissue%20state%3Aopen"><img src="https://img.shields.io/github/issues/BareMinimumStudios/temper-and-tang?style=for-the-badge&amp;labelColor=242B49&amp;color=364775" alt="Report an issue" height="28"></a>
+<a href="https://github.com/BareMinimumStudios/temper-and-tang/forks"><img src="https://img.shields.io/github/forks/BareMinimumStudios/temper-and-tang?style=for-the-badge&amp;labelColor=242B49&amp;color=364775" alt="Forks" height="28"></a>
+<a href="https://github.com/BareMinimumStudios/temper-and-tang/stargazers"><img src="https://img.shields.io/github/stars/BareMinimumStudios/temper-and-tang?style=for-the-badge&amp;labelColor=242B49&amp;color=364775" alt="Stars" height="28"></a>
+</p>
 
-[Source code](https://github.com/BareMinimumStudios/temper-and-tang) · [Player guide](https://github.com/BareMinimumStudios/temper-and-tang/blob/main/docs/THERMAL_WORKSHOP.md) · [Report an issue](https://github.com/BareMinimumStudios/temper-and-tang/issues) · [Discord community](https://discord.gg/pcRw79hwey) · [Ko-fi](https://ko-fi.com/pokesmells)
+<p align="center" style="text-align: center;"><strong>Minecraft 1.21.1 · Fabric + NeoForge · Java 21 · Client &amp; Server</strong></p>
 
-## Temper & Tang
+Heat an ingot at the Charcoal Hearth, carry it with tongs, and shape it one hammer blow at a time. **Temper & Tang** gives smithing its own workshop, from your first bronze pickaxe to the netherite gear you carry into the End.
 
-Build a smithy and make your own weapons, tools, and armor. Heat metal at the Charcoal Hearth, carry it with tongs, then time your hammer strikes at the shaping anvil. Quench the workpiece in a water-filled barrel and give the finished gear a treatment that suits how you play.
+## From hot metal to finished gear
 
-## Craftsmanship
+**Heat and shape.** Refine ore or bring ingots to working heat at the Charcoal Hearth. Carry hot stock with tongs.
 
-- Five grades run from **Rough** to **Masterwork**. Strike accuracy matters most, with mastery and luck also contributing.
-- Harder metals have tighter timing and can call for several strikes in a row.
-- Quality can improve durability, weapon damage and handling, armor protection, or mining speed. Enchantments can still add to the equipment afterward.
-- Reusable blueprints unlock advanced patterns. Finishing can improve durability, damage, or handling, with trade-offs depending on the treatment.
+<p align="center" style="text-align: center;">
+<img src="https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/hearth.png" alt="Heating stock at the Charcoal Hearth" width="1080">
+</p>
 
-## Metals and progression
+Choose a pattern at the shaping anvil and strike as the marker crosses the green band. Harder materials have tighter timing and can call for several strikes in a row. Advanced patterns can require a reusable blueprint.
 
-Tin, bronze, and steel each have a sword, tools, and a full armor set. Bronze unlocks iron mining. The **Alloy Forge** makes bronze from copper and tin, and steel from iron and coal or charcoal.
+<p align="center" style="text-align: center;">
+<img src="https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/shaping.png" alt="Timing a hammer strike at the shaping anvil" width="1080">
+</p>
 
-Find a Diamond Upgrade Smithing Template in a structure chest to upgrade steel gear at a smithing table. The **Nether Alloy Forge** makes netherite ingots from gold and netherite scraps for the final upgrade. Supported upgrades carry workmanship and finishing forward.
+**Quench and finish.** Dip the hot workpiece in a water-filled barrel. Finish it for more durability, harder hits, or quicker handling. Armor can be tempered for durability or lightened for movement at a durability cost.
 
-Tin and silver generate in new Overworld chunks and can be toggled separately. Silver also works with compatible recipes through common tags.
+<p align="center" style="text-align: center;">
+<img src="https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/quenching.png" alt="Quenching a hot workpiece in the water barrel" width="1080">
+</p>
+
+Craftsmanship runs from **Rough** to **Masterwork**. Strike accuracy matters most, with smithing mastery and luck also playing a part. Quality can affect durability, mining speed, weapon damage and handling, or armor protection.
+
+<p align="center" style="text-align: center;">
+<img src="https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/finishing.png" alt="Finished equipment and its craftsmanship grade" width="1080">
+</p>
+
+## From bronze to netherite
+
+Tin, bronze, and steel have their own swords, tools, and armor. Bronze lets you mine iron. Use the **Alloy Forge** to combine copper and tin for bronze or iron and coal or charcoal for steel. Silver is available for compatible recipes, and new Overworld generation for tin and silver can be toggled separately.
+
+Find a Diamond Upgrade Smithing Template in a structure chest to upgrade steel gear. The **Nether Alloy Forge** makes netherite ingots from gold and netherite scraps for the final smithing upgrade. Supported upgrades carry craftsmanship and finishing forward.
+
+<p align="center" style="text-align: center;">
+<img src="https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/furnaces.png" alt="The Alloy Forge and the Nether Alloy Forge" width="1080">
+</p>
+
+<p align="center" style="text-align: center;">
+<img src="https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/tin-equipment.png" alt="Tin armor and tools" width="1080">
+</p>
 
 ## Installation and compatibility
 
-Install the mod and its required libraries on the server and every client. Both loaders need **Diegesis** and **Fzzy Config**. Fabric also needs **Fabric API** and **Fabric Language Kotlin**. NeoForge needs **Kotlin for Forge**.
+Install the matching mod and libraries on every client and the server. Both loaders require **Diegesis** and **Fzzy Config**. Fabric also needs **Fabric API** and **Fabric Language Kotlin**. NeoForge needs **Kotlin for Forge**.
 
-EMI and JEI show workshop recipes, blueprints, and upgrades, with animated progress for refining and alloying. Optional Simply Swords, Simply More, and Epic Knights integrations cover supported ordinary equipment. Supported gear keeps its original item identity.
+EMI and JEI show recipes, blueprints, and upgrades, with animated previews for refining and alloying. Optional Simply Swords, Simply More, and Epic Knights integrations let you forge supported equipment as its original item.
 
-Maintained by [Bare Minimum Studios](https://github.com/BareMinimumStudios) under the [Bare Minimum License v1.1](https://github.com/BareMinimumStudios/temper-and-tang/blob/main/LICENSE).
+## Links and support
 
-## Workshop screenshots
+[Player guide](https://github.com/BareMinimumStudios/temper-and-tang/blob/main/docs/THERMAL_WORKSHOP.md) · [Pack configuration](https://github.com/BareMinimumStudios/temper-and-tang/blob/main/docs/CONFIGURATION.md) · [Discord community](https://discord.com/invite/pcRw79hwey) · [Ko-fi](https://ko-fi.com/pokesmells) · [Bare Minimum License v1.1](https://github.com/BareMinimumStudios/temper-and-tang/blob/main/LICENSE)
 
-![The charcoal hearth](https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/hearth.png)
+## Sponsor
 
-![Shaping a blade](https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/shaping.png)
+<p align="center" style="text-align: center;">
+<a href="https://bisecthosting.com/bareminimum"><img src="https://www.bisecthosting.com/partners/custom-banners/db76a74a-a111-4660-98b7-5a75c15a5951.png" alt="BisectHosting sponsor banner" width="1080"></a>
+</p>
 
-![Quenching a workpiece](https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/quenching.png)
-
-![Finished equipment and its quality](https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/finishing.png)
-
-![The Alloy Forge and Nether Alloy Forge](https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/furnaces.png)
-
-![Tin equipment](https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/tin-equipment.png)
+<p align="center" style="text-align: center;">Use code <strong><code>bareminimum</code></strong> to get <strong>25% off your first month</strong>!</p>
