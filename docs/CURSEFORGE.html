@@ -3,12 +3,12 @@
 </p>
 
 <p align="center" style="text-align: center;">
-<a href="https://modrinth.com/mod/temper-and-tang"><img src="https://img.shields.io/badge/Modrinth-133329?logo=modrinth&amp;logoColor=8CFFCF&amp;style=for-the-badge" alt="Modrinth" height="28"></a>
-<a href="https://www.curseforge.com/minecraft/mc-mods/temper-tang"><img src="https://img.shields.io/badge/CurseForge-39232B?logo=curseforge&amp;logoColor=FFA880&amp;style=for-the-badge" alt="CurseForge" height="28"></a>
-<a href="https://github.com/BareMinimumStudios/temper-and-tang"><img src="https://img.shields.io/badge/Source-242B49?logo=github&amp;logoColor=EAF0FF&amp;style=for-the-badge" alt="GitHub source" height="28"></a>
-<a href="https://github.com/BareMinimumStudios/temper-and-tang/issues?q=is%3Aissue%20state%3Aopen"><img src="https://img.shields.io/github/issues/BareMinimumStudios/temper-and-tang?style=for-the-badge&amp;labelColor=242B49&amp;color=364775" alt="Report an issue" height="28"></a>
-<a href="https://github.com/BareMinimumStudios/temper-and-tang/forks"><img src="https://img.shields.io/github/forks/BareMinimumStudios/temper-and-tang?style=for-the-badge&amp;labelColor=242B49&amp;color=364775" alt="Forks" height="28"></a>
-<a href="https://github.com/BareMinimumStudios/temper-and-tang/stargazers"><img src="https://img.shields.io/github/stars/BareMinimumStudios/temper-and-tang?style=for-the-badge&amp;labelColor=242B49&amp;color=364775" alt="Stars" height="28"></a>
+<a href="https://modrinth.com/mod/temper-and-tang"><img src="https://img.shields.io/badge/Modrinth-252322?logo=modrinth&amp;logoColor=EBD9B9&amp;style=for-the-badge" alt="Modrinth" height="28"></a>
+<a href="https://www.curseforge.com/minecraft/mc-mods/temper-tang"><img src="https://img.shields.io/badge/CurseForge-252322?logo=curseforge&amp;logoColor=D69D79&amp;style=for-the-badge" alt="CurseForge" height="28"></a>
+<a href="https://github.com/BareMinimumStudios/temper-and-tang"><img src="https://img.shields.io/badge/Source-252322?logo=github&amp;logoColor=EBD9B9&amp;style=for-the-badge" alt="GitHub source" height="28"></a>
+<a href="https://github.com/BareMinimumStudios/temper-and-tang/issues?q=is%3Aissue%20state%3Aopen"><img src="https://img.shields.io/github/issues/BareMinimumStudios/temper-and-tang?style=for-the-badge&amp;labelColor=252322&amp;color=805036" alt="Report an issue" height="28"></a>
+<a href="https://github.com/BareMinimumStudios/temper-and-tang/forks"><img src="https://img.shields.io/github/forks/BareMinimumStudios/temper-and-tang?style=for-the-badge&amp;labelColor=252322&amp;color=805036" alt="Forks" height="28"></a>
+<a href="https://github.com/BareMinimumStudios/temper-and-tang/stargazers"><img src="https://img.shields.io/github/stars/BareMinimumStudios/temper-and-tang?style=for-the-badge&amp;labelColor=252322&amp;color=805036" alt="Stars" height="28"></a>
 </p>
 
 <p align="center" style="text-align: center;"><strong>Minecraft 1.21.1 · Fabric + NeoForge · Java 21 · Client &amp; Server</strong></p>
