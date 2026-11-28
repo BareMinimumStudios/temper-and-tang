@@ -19,26 +19,18 @@ Heat an ingot at the Charcoal Hearth, carry it with tongs, and shape it one hamm
 
 **Heat and shape.** Refine ore or bring ingots to working heat at the Charcoal Hearth. Carry hot stock with tongs.
 
-<p align="center" style="text-align: center;">
-<img src="https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/hearth.png" alt="Heating stock at the Charcoal Hearth" width="1080">
-</p>
-
 Choose a pattern at the shaping anvil and strike as the marker crosses the green band. Harder materials have tighter timing and can call for several strikes in a row. Advanced patterns can require a reusable blueprint.
 
 <p align="center" style="text-align: center;">
-<img src="https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/shaping.png" alt="Timing a hammer strike at the shaping anvil" width="1080">
+<img src="https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/heat-and-shape.gif" alt="Heating metal at the hearth and landing timed anvil strikes" width="864">
 </p>
 
 **Quench and finish.** Dip the hot workpiece in a water-filled barrel. Finish it for more durability, harder hits, or quicker handling. Armor can be tempered for durability or lightened for movement at a durability cost.
 
-<p align="center" style="text-align: center;">
-<img src="https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/quenching.png" alt="Quenching a hot workpiece in the water barrel" width="1080">
-</p>
-
 Craftsmanship runs from **Rough** to **Masterwork**. Strike accuracy matters most, with smithing mastery and luck also playing a part. Quality can affect durability, mining speed, weapon damage and handling, or armor protection.
 
 <p align="center" style="text-align: center;">
-<img src="https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/finishing.png" alt="Finished equipment and its craftsmanship grade" width="1080">
+<img src="https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/quench-and-finish.gif" alt="Quenching the hot workpiece, finishing the sword, and checking its craftsmanship" width="864">
 </p>
 
 ## From bronze to netherite
@@ -48,11 +40,7 @@ Tin, bronze, and steel have their own swords, tools, and armor. Bronze lets you 
 Find a Diamond Upgrade Smithing Template in a structure chest to upgrade steel gear. The **Nether Alloy Forge** makes netherite ingots from gold and netherite scraps for the final smithing upgrade. Supported upgrades carry craftsmanship and finishing forward.
 
 <p align="center" style="text-align: center;">
-<img src="https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/furnaces.png" alt="The Alloy Forge and the Nether Alloy Forge" width="1080">
-</p>
-
-<p align="center" style="text-align: center;">
-<img src="https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/tin-equipment.png" alt="Tin armor and tools" width="1080">
+<img src="https://raw.githubusercontent.com/BareMinimumStudios/temper-and-tang/main/docs/images/alloy-and-upgrade.gif" alt="Completing an alloy batch and upgrading a steel sword at the smithing table" width="864">
 </p>
 
 ## Installation and compatibility
